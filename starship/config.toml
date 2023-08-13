@@ -58,16 +58,12 @@ tag_symbol = '🔖 '
 format = '[\($hash$tag\)]($style) '
 
 [git_status]
-conflicted = "💥"
-ahead = "🏎💨"
-behind = "😰"
-diverged = "😵"
-untracked = "🌚"
-stashed = "📦"
-modified = "📝"
-staged = '🔦'
-renamed = "🏷"
-deleted = "🗑"
+untracked = " "
+staged = "✓ "
+modified = " "
+conflicted = " "
+deleted = " "
+renamed = "➜ "
 
 [golang]
 symbol = " "
