@@ -35,7 +35,7 @@ set PATH $HOME/.cargo/bin $PATH
 # Rust end
 
 # Go
-set PATH $HOME/go/bin $PATH
+set PATH /usr/local/go/bin $PATH
 # Go end
 
 # NodeJS
