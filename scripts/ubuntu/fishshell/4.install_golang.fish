@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # Download the Golang binary archive
-curl -0 https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 
 # Extract the archive to /usr/local
 sudo tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
