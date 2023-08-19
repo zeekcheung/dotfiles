@@ -25,7 +25,6 @@ function unproxy
 end
 # Proxy end
 
-
 # Starship
 set -gx STARSHIP_CONFIG ~/.config/starship/config.toml
 starship init fish | source
@@ -38,3 +37,27 @@ set PATH $HOME/.cargo/bin $PATH
 # Go
 set PATH $HOME/go/bin $PATH
 # Go end
+
+# NodeJS
+set -U nvm_default_version v18.17.1
+# NodeJS end
+
+# pnpm
+set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+alias pn=pnpm
+# pnpm end
+
+# Deno
+set -gx DENO_INSTALL "$HOME/.deno"
+set PATH $DENO_INSTALL/bin $PATH
+# Deno end
+
+# acme.sh
+set -gx LE_WORKING_DIR "$HOME/.acme.sh"
+function acme.sh
+  $HOME/.acme.sh/acme.sh $argv;
+end
+# acme.sh end
