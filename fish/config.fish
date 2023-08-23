@@ -36,6 +36,9 @@ set PATH $HOME/.cargo/bin $PATH
 
 # Go
 set PATH /usr/local/go/bin $PATH
+set -gx GOPATH $HOME/code/go
+set -gx GOBIN $GOPATH/bin
+set PATH $GOBIN $PATH
 # Go end
 
 # NodeJS
