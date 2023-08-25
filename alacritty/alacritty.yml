@@ -749,7 +749,8 @@ key_bindings:
 - { key: NumpadSubtract, mods: Control,                         action: DecreaseFontSize }
 
 # (Windows only)
-- { key: F11,   mods: None,           action: ToggleFullscreen }
+- { key: F11,            mods: None,                            action: ToggleFullscreen }
+- { key: N,              mods: Control|Shift,                   action: CreateNewWindow }
 
 # (macOS only)
 #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
