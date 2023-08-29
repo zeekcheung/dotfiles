@@ -1,10 +1,10 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions":
+    "actions": 
     [
         {
-            "command":
+            "command": 
             {
                 "action": "copy",
                 "singleLine": false
@@ -20,7 +20,7 @@
             "keys": "ctrl+shift+f"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "splitPane",
                 "split": "auto",
@@ -36,32 +36,34 @@
     "initialCols": 70,
     "initialRows": 20,
     "language": "zh-Hans",
-    "newTabMenu":
+    "newTabMenu": 
     [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles":
+    "profiles": 
     {
-        "defaults":
+        "defaults": 
         {
+            "antialiasingMode": "cleartype",
             "colorScheme": "Catppuccin Mocha",
             "experimental.retroTerminalEffect": false,
-            "font":
+            "font": 
             {
-                "face": "JetBrainsMono Nerd Font",
+                "face": "RecMonoSemicasual Nerd Font",
                 "size": 16.0,
                 "weight": "medium"
             },
             "padding": "0, 0, 0, 0",
-            "useAcrylic": true
+            "useAcrylic": false,
+            "useAtlasEngine": true
         },
-        "list":
+        "list": 
         [
             {
                 "colorScheme": "Catppuccin Mocha",
-                "commandline": "\"C:\\Users\\zeekc\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.PowerShell_8wekyb3d8bbwe\\pwsh.exe\"  -NoLogo",
+                "commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\"  -NoLogo",
                 "elevate": false,
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
@@ -80,21 +82,23 @@
                 "startingDirectory": "~"
             },
             {
-                "colorScheme": "Catppuccin Mocha",
-                "font":
+                "commandline": "C:\\WINDOWS\\system32\\wsl.exe -d Ubuntu-22.04",
+                "font": 
                 {
-                    "face": "JetBrainsMono Nerd Font"
+                    "weight": "normal"
                 },
-                "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
+                "guid": "{0e2e6f2f-5e44-40b9-8ffe-74ae848707fe}",
                 "hidden": false,
-                "name": "Wsl Ubuntu",
+                "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+                "name": "WSL Ubuntu-22.04",
+                "padding": "0, 0, 0, 0",
                 "scrollbarState": "hidden",
-                "source": "Windows.Terminal.Wsl"
+                "startingDirectory": "~"
             },
             {
                 "commandline": "%SystemRoot%\\System32\\cmd.exe",
                 "elevate": true,
-                "font":
+                "font": 
                 {
                     "weight": "semi-bold"
                 },
@@ -104,7 +108,7 @@
             }
         ]
     },
-    "schemes":
+    "schemes": 
     [
         {
             "background": "#0C0C0C",
@@ -567,17 +571,17 @@
             "yellow": "#808000"
         }
     ],
-    "themes":
+    "themes": 
     [
         {
             "name": "legacyDark",
-            "tab":
+            "tab": 
             {
                 "background": null,
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
-            "window":
+            "window": 
             {
                 "applicationTheme": "dark",
                 "useMica": false
@@ -585,13 +589,13 @@
         },
         {
             "name": "legacyLight",
-            "tab":
+            "tab": 
             {
                 "background": null,
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
-            "window":
+            "window": 
             {
                 "applicationTheme": "light",
                 "useMica": false
@@ -599,13 +603,13 @@
         },
         {
             "name": "legacySystem",
-            "tab":
+            "tab": 
             {
                 "background": null,
                 "showCloseButton": "always",
                 "unfocusedBackground": null
             },
-            "window":
+            "window": 
             {
                 "applicationTheme": "system",
                 "useMica": false
