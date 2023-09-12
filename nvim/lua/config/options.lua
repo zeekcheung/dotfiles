@@ -56,3 +56,9 @@ if vim.fn.has("nvim-0.9.0") == 1 then
 end
 
 opt.swapfile = false -- Disable swap file
+-- ufo folding
+opt.foldcolumn = "1"
+opt.foldlevel = 99 -- using ufo provider need a large value, feel free to decrease the value
+opt.foldlevelstart = 99 -- start with all code unfolded
+opt.foldenable = true -- enable fold for nvim-ufo
+opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]

@@ -8,6 +8,10 @@ return {
       end,
     },
 
-    mappings = {},
+    mappings = {
+      comment = "<leader>/",
+      comment_line = "<leader>/",
+      textobject = "<leader>/",
+    },
   },
 }

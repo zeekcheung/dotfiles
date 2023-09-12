@@ -116,6 +116,13 @@ return {
           n = { q = actions.close },
         },
       },
+      pickers = {
+        find_files = {
+          initial_mode = "normal",
+          ignore_current_buffer = true,
+          sort_lastused = true,
+        },
+      },
     }
   end,
 }

@@ -1,3 +1,5 @@
+local icons = require("utils.icons")
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -30,12 +32,15 @@ return {
     end
   end,
   opts = {
+    auto_clean_after_session_restore = true,
+    close_if_last_window = true,
     sources = { "filesystem", "buffers", "git_status", "document_symbols" },
     open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline" },
     filesystem = {
       bind_to_cwd = true,
       follow_current_file = { enabled = true },
       use_libuv_file_watcher = true,
+      hijack_netrw_behavior = "open_current",
       filtered_items = {
         visible = true,
         show_hidden_count = true,
@@ -50,8 +55,9 @@ return {
       },
     },
     window = {
+      width = 30,
       mappings = {
-        ["<space>"] = "none",
+        ["<space>"] = false, -- disable space until we figure out which-key disabling
       },
     },
     default_component_configs = {
@@ -60,6 +66,22 @@ return {
         expander_collapsed = "",
         expander_expanded = "",
         expander_highlight = "NeoTreeExpander",
+        padding = 0,
+        indent_size = 1,
+      },
+      git_status = {
+        symbols = {
+          added = icons.GitAdd,
+          deleted = icons.GitDelete,
+          modified = icons.GitChange,
+          renamed = icons.GitRenamed,
+          untracked = icons.GitUntracked,
+          ignored = icons.GitIgnored,
+          unstaged = icons.GitUnstaged,
+
+          staged = icons.GitStaged,
+          conflict = icons.GitConflict,
+        },
       },
     },
   },

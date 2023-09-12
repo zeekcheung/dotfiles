@@ -2,30 +2,53 @@ return {
   "nvim-lualine/lualine.nvim",
   event = "VeryLazy",
   opts = function()
-    local icons = require("lazyvim.config").icons
+    -- local icons = require("lazyvim.config").icons
+    local icons = require("utils.icons")
     local Util = require("lazyvim.util")
+    local telescope = require("telescope.builtin")
 
     return {
       options = {
-        theme = "auto",
+        theme = "catppuccin",
         globalstatus = true,
         disabled_filetypes = { statusline = { "dashboard", "alpha" } },
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch" },
+        lualine_b = {
+          {
+            "branch",
+            on_click = function()
+              telescope.git_branches()
+            end,
+          },
+        },
         lualine_c = {
+          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+          { "filename", path = 0, symbols = { modified = icons.FileModified, readonly = "", unnamed = "" } },
           {
             "diagnostics",
             symbols = {
-              error = icons.diagnostics.Error,
-              warn = icons.diagnostics.Warn,
-              info = icons.diagnostics.Info,
-              hint = icons.diagnostics.Hint,
+              error = icons.DiagnosticError,
+              warn = icons.DiagnosticWarn,
+              info = icons.DiagnosticInfo,
+              hint = icons.DiagnosticHint,
             },
+            on_click = function()
+              telescope.diagnostics()
+            end,
           },
-          { "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-          { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
+          {
+            "diff",
+            symbols = {
+              added = icons.GitAdd,
+              modified = icons.GitChange,
+              removed = icons.GitDelete,
+            },
+            on_click = function()
+              telescope.git_status()
+            end,
+          },
           -- stylua: ignore
           -- {
           --   function() return require("nvim-navic").get_location() end,
@@ -51,19 +74,19 @@ return {
             cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
             color = Util.fg("Debug"),
           },
-          { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = Util.fg("Special") },
-          {
-            "diff",
-            symbols = {
-              added = icons.git.added,
-              modified = icons.git.modified,
-              removed = icons.git.removed,
-            },
-          },
+          -- { require("lazy.status").updates, cond = require("lazy.status").has_updates, color = Util.fg("Special") },
           {
             'vim.fn["codeium#GetStatusString"]()',
             fmt = function(str)
               return "Codeium " .. str:lower():match("^%s*(.-)%s*$")
+            end,
+            on_click = function()
+              local codeium_status = vim.fn["codeium#GetStatusString"]()
+              if codeium_status == "OFF" then
+                vim.cmd("CodeiumEnable")
+              else
+                vim.cmd("CodeiumDisable")
+              end
             end,
           },
         },

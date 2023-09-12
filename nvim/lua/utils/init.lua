@@ -17,4 +17,8 @@ function M.extend_tbl(default, opts)
   return default and vim.tbl_deep_extend("force", default, opts) or opts
 end
 
+function M.get_icon(name)
+  return require("utils.icons")[name]
+end
+
 return M

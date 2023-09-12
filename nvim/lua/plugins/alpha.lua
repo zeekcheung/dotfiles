@@ -20,7 +20,7 @@ return {
       dashboard.button("w", " " .. " Find word", ":Telescope live_grep <CR>"),
       dashboard.button("p", " " .. " Projects", ":Telescope projects <CR>"),
       dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
-      dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
+      dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load({ last = true }) <cr>]]),
       dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
       dashboard.button("q", " " .. " Quit", ":qa<CR>"),
     }

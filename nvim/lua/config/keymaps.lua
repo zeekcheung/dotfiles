@@ -26,10 +26,21 @@ map("n", "<leader>N", "<cmd>enew<cr>", { desc = "New File" })
 -- save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 map({ "x", "n", "s" }, "<leader>w", "<cmd>w<cr><esc>", { desc = "Save file" })
+-- select all
+map("n", "<C-a>", "ggVG", { desc = "Select all" })
+-- yank select
+map("n", "C-c", ":y+<cr>", { desc = "Yank select" })
+-- paste from clipboard
+map("n", "C-v", ":+p<cr>", { desc = "Paste from Clipboard" })
+-- undo
+map({ "n", "x" }, "<C-z>", "<cmd>u<cr>", { desc = "Undo" })
 -- quit
 map("n", "<leader>q", "<cmd>qa<cr>", { desc = "Quit all" })
--- comment
--- map({ "n", "v" }, "<leader>/", "gcc", { desc = "Toggle comment", remap = true })
+
+-- goto line start
+map("n", "gls", "^", { desc = "Goto line start" })
+-- goto line end
+map("n", "gle", "$", { desc = "Goto line end" })
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -64,7 +75,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- UI
-map("n", "<leader>ut", Util.telescope("colorscheme", { enable_preview = true }), { desc = "Find themes" })
+map("n", "<leader>uc", Util.telescope("colorscheme", { enable_preview = true }), { desc = "Find themes" })
 map("n", "<leader>uf", require("lazyvim.plugins.lsp.format").toggle, { desc = "Toggle format on Save" })
 map("n", "<leader>us", function()
   Util.toggle("spell")
@@ -77,7 +88,7 @@ map("n", "<leader>ul", function()
 end, { desc = "Toggle Line Numbers" })
 map("n", "<leader>ud", Util.toggle_diagnostics, { desc = "Toggle Diagnostics" })
 local conceallevel = vim.o.conceallevel > 0 and vim.o.conceallevel or 3
-map("n", "<leader>uc", function()
+map("n", "<leader>uC", function()
   Util.toggle("conceallevel", false, { 0, conceallevel })
 end, { desc = "Toggle Conceal" })
 if vim.lsp.inlay_hint then
@@ -122,9 +133,9 @@ map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
 map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
 map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
 map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
-map({ "n", "t" }, "<leader>tt", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
-map({ "n", "t" }, "<C-'>", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
-map({ "n", "t" }, "<F7>", "<cmd>ToggleTerm<cr>", { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<leader>tt", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<C-'>", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Terminal" })
+map({ "n", "t" }, "<F7>", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Terminal" })
 map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Toggle Float Terminal" })
 map("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "Toggle Horizontal Terminal" })
 map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "Toggle Vertical Terminal" })
