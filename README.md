@@ -1,4 +1,12 @@
 # Dotfiles
+
+<!--toc:start-->
+
+- [Dotfiles](#dotfiles)
+  - [Usage](#usage)
+
+<!--toc:end-->
+
 My dotfiles
 
 ## Usage
