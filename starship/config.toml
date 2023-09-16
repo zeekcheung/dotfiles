@@ -1,17 +1,14 @@
-# 根据 schema 提供自动补全
 "$schema" = 'https://starship.rs/config-schema.json'
 
 command_timeout = 3000 #ms
 
-# 在提示符之间插入空行
 add_newline = false
 
 [line_break]
 disabled = false
 
-# 将提示符中的 '❯' 替换为 '➜'
-[character] # 此模块名称为 'character'
-success_symbol = '[❯](bold green)' # 将 'success_symbol' 片段设置成颜色为 'bold green' 的 '➜'
+[character]
+success_symbol = '[❯](bold green)'
 
 [aws]
 symbol = "  "
