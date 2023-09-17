@@ -11,8 +11,23 @@ end
 # Fish end
 
 # Alias
-alias la "ls -all"
+alias cl "clear"
+alias h "history"
+
 alias ll "ls -l"
+alias la "ls -all"
+alias mkdir "mkdir -p"
+
+alias ps "ps aux"
+alias psg "ps aux | grep"
+alias top "htop"
+alias kill "kill -9"
+
+alias vim "nvim"
+alias cat "batcat"
+alias grep "grep --color=auto"
+alias lua "luajit"
+alias py "python3"
 
 alias gg "lazygit"
 alias gt "git status"
@@ -24,6 +39,11 @@ alias gp "git pull"
 alias gP "git push"
 alias gl "git log"
 alias gs "git stash"
+
+alias apt "sudo apt"
+alias update "sudo apt update && sudo apt upgrade"
+
+alias ipconfig "ifconfig"
 # Alias end
 
 # Wsl Proxy
