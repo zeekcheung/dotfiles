@@ -41,9 +41,18 @@ config.cursor_blink_ease_out = "Constant"
 
 config.window_close_confirmation = "NeverPrompt"
 
+config.keys = {
+	{ key = "F11", mods = "", action = wezterm.action.ToggleFullScreen },
+	{ key = "F1", mods = "", action = wezterm.action.ActivateCommandPalette },
+}
+
+config.mouse_bindings = {
+	{ event = { Up = { streak = 1, button = "Left" } }, mods = "CTRL", action = wezterm.action.OpenLinkAtMouseCursor },
+}
+
 local on_startup = function()
 	-- attach tmux session on wezterm startup
-	local attach_tmux_session = "fish ~/.config/scripts/ubuntu/tmux/attach_tmux_session.fish\n"
+	local attach_tmux_session = "tmux attach -t main || tmux new -s main\n"
 
 	local _tab, pane, _window = mux.spawn_window({})
 	pane:send_text(attach_tmux_session)
