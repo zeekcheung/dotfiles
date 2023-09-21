@@ -26,6 +26,6 @@ return {
       ["<leader>sc"] = { ":SessionManager load_current_dir_session<cr>", "Load current dir session" },
       ["<leader>ss"] = { ":SessionManager save_current_session<cr>", "Save current session" },
       ["<leader>sd"] = { ":SessionManager delete_session<cr>", "Delete session" },
-    }, { slient = true })
+    }, { silent = true })
   end,
 }

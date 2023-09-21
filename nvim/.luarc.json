@@ -1,0 +1,18 @@
+{
+    "diagnostics.globals": [
+        "vim",
+        "load_textobjects",
+        "_lazygit_toggle",
+        "_nodejs_toggle",
+        "_python_toggle"
+    ],
+    "diagnostics.disable": [
+        "undefined-doc-name",
+        "inject-field",
+        "undefined-field",
+        "need-check-nil",
+        "deprecated",
+        "param-type-mismatch",
+        "unused-local"
+    ]
+}
