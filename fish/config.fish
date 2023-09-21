@@ -27,7 +27,21 @@ alias vim "nvim"
 alias cat "batcat"
 alias grep "grep --color=auto"
 alias lua "luajit"
-alias py "python3"
+alias python "python3"
+
+alias bashls "bash-language-server"
+alias dockerls "docker-langserver"
+alias html "vscode-html-language-server"
+alias cssls "vscode-css-language-server"
+alias emmet_ls "emmet-ls"
+alias jsonls "vscode-json-languge-server"
+alias lua_ls "lua-language-server"
+alias prismals "prisma-language-server"
+alias ruff_lsp "ruff-lsp"
+alias tailwindcss "tailwindcss-language-server"
+alias tsserver "typescript-language-server"
+alias volar "vue-language-server"
+alias yamlls "yaml-language-server"
 
 alias gg "lazygit"
 alias gt "git status"
@@ -66,6 +80,10 @@ set -gx STARSHIP_CONFIG ~/.config/starship/config.toml
 starship init fish | source
 # Starship end
 
+# mason.nvim
+set PATH $HOME/.local/share/nvim/mason/bin $PATH
+# mason.nvim end
+
 # Rust
 set PATH $HOME/.cargo/bin $PATH
 # Rust end
@@ -79,6 +97,7 @@ set PATH $GOBIN $PATH
 
 # NodeJS
 set -U nvm_default_version v18.17.1
+set -gx path $HOME/.local/share/nvm/v18.17.1/bin $PATH
 # NodeJS end
 
 # pnpm
