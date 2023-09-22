@@ -1,3 +1,5 @@
+local icons = require("utils.icons")
+
 return {
   "folke/noice.nvim",
   event = "VeryLazy",
@@ -8,6 +10,26 @@ return {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
         ["vim.lsp.util.stylize_markdown"] = true,
         ["cmp.entry.get_documentation"] = true,
+      },
+      progress = {
+        format = {
+          {
+            "{progress} ",
+            key = "progress.percentage",
+            contents = {
+              { "{data.progress.message} " },
+            },
+          },
+          "({data.progress.percentage}%) ",
+          { "{spinner} ", hl_group = "NoiceLspProgressSpinner" },
+          { "{data.progress.title} ", hl_group = "NoiceLspProgressTitle" },
+          { "{data.progress.client} ", hl_group = "NoiceLspProgressClient" },
+        },
+        format_done = {
+          --[[ { icons.LSPLoaded .. " ", hl_group = "NoiceLspProgressSpinner" }, ]]
+          { "{data.progress.title} ", hl_group = "NoiceLspProgressTitle" },
+          { "{data.progress.client} ", hl_group = "NoiceLspProgressClient" },
+        },
       },
     },
     routes = {

@@ -1,5 +1,8 @@
 return {
   "smoka7/multicursors.nvim",
+  dependencies = {
+    "smoka7/hydra.nvim",
+  },
   cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
   keys = {
     {
@@ -10,8 +13,5 @@ return {
     },
   },
   event = { "BufReadPost", "BufNewFile" },
-  dependencies = {
-    "smoka7/hydra.nvim",
-  },
   opts = {},
 }
