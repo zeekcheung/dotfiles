@@ -18,14 +18,12 @@ return {
       autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
       max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
     })
-
-    require("which-key").register({
-      ["<leader>s"] = { name = "Session" },
-      ["<leader>sf"] = { ":SessionManager load_session<cr>", "Find session" },
-      ["<leader>sl"] = { ":SessionManager load_last_session<cr>", "Load last session" },
-      ["<leader>sc"] = { ":SessionManager load_current_dir_session<cr>", "Load current dir session" },
-      ["<leader>ss"] = { ":SessionManager save_current_session<cr>", "Save current session" },
-      ["<leader>sd"] = { ":SessionManager delete_session<cr>", "Delete session" },
-    }, { silent = true })
   end,
+  keys = {
+    { "<leader>sf", ":SessionManager load_session<cr>", desc = "Find session", silent = true },
+    { "<leader>sl", ":SessionManager load_last_session<cr>", desc = "Load last session", silent = true },
+    { "<leader>sc", ":SessionManager load_current_dir_session<cr>", desc = "Load current dir session", silent = true },
+    { "<leader>ss", ":SessionManager save_current_session<cr>", desc = "Save current session", silent = true },
+    { "<leader>sd", ":SessionManager delete_session<cr>", desc = "Delete session", silent = true },
+  },
 }
