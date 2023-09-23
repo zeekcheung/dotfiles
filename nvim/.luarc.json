@@ -4,7 +4,8 @@
         "load_textobjects",
         "_lazygit_toggle",
         "_nodejs_toggle",
-        "_python_toggle"
+        "_python_toggle",
+        "_node_toggle"
     ],
     "diagnostics.disable": [
         "undefined-doc-name",

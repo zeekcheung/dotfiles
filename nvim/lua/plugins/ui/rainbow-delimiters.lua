@@ -1,6 +1,7 @@
 return {
   {
     "HiPhish/rainbow-delimiters.nvim",
+    enabled = false,
     dependencies = "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPre", "BufNewFile" },
     config = function()

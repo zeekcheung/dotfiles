@@ -15,9 +15,11 @@ function M.on_attach(on_attach)
   })
 end
 
----@param plugin string
-function M.has(plugin)
-  return require("lazy.core.config").spec.plugins[plugin] ~= nil
+-- Check if the plugin is available
+---@param plugin string check lazy-lock.json
+function M.is_available(plugin)
+  local lazy_config_avail, lazy_config = pcall(require, "lazy.core.config")
+  return lazy_config_avail and lazy_config.spec.plugins[plugin] ~= nil
 end
 
 function M.fg(name)
