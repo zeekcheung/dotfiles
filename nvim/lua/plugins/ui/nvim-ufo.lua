@@ -3,11 +3,11 @@ return {
   {
     "kevinhwang91/nvim-ufo",
     enabled = true,
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "kevinhwang91/promise-async",
       "luukvbaal/statuscol.nvim",
     },
-    event = "BufReadPost",
     opts = {
       provider_selector = function()
         return { "treesitter", "indent" }

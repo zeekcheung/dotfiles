@@ -4,6 +4,8 @@ return {
   opts = {
     -- char = "▏",
     char = "│",
+    show_trailing_blankline_indent = false,
+    show_current_context = false,
     filetype_exclude = {
       "help",
       "alpha",
@@ -17,8 +19,10 @@ return {
       "toggleterm",
       "lazyterm",
     },
-    show_trailing_blankline_indent = false,
-    show_current_context = false,
+    buftype_exclude = {
+      "terminal",
+      "nofile",
+    },
   },
   config = function()
     local augroup = vim.api.nvim_create_augroup("indent_blankline", { clear = true })

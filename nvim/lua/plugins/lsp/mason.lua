@@ -1,18 +1,19 @@
 return {
   "williamboman/mason.nvim",
-  cmd = "Mason",
-  keys = {
-    { "<leader>lm", ":Mason<cr>", desc = "Mason" },
-    { "<leader>li", ":LspInfo<cr>", desc = "LSP Info" },
-    { "<leader>lI", ":LspInstal<cr>", desc = "LSP Install" },
-    { "<leader>ll", ":LspLog<cr>", desc = "LSP Log" },
-    { "<leader>lr", ":LspRestart<cr>", desc = "LSP Restart" },
-    { "<leader>ls", ":LspStop<cr>", desc = "LSP Strop" },
-    { "<leader>lu", ":LspUninstall<cr>", desc = "LSP Uninstall" },
-  },
+  event = { "BufReadPre", "BufNewFile" },
   dependencies = {
     "williamboman/mason-lspconfig.nvim",
     "jayp0521/mason-null-ls.nvim",
+  },
+  cmd = "Mason",
+  keys = {
+    { "<leader>lm", ":Mason<cr>", desc = "Mason", silent = true },
+    { "<leader>li", ":LspInfo<cr>", desc = "LSP Info", silent = true },
+    { "<leader>lI", ":LspInstal<cr>", desc = "LSP Install", silent = true },
+    { "<leader>ll", ":LspLog<cr>", desc = "LSP Log", silent = true },
+    { "<leader>lr", ":LspRestart<cr>", desc = "LSP Restart", silent = true },
+    { "<leader>ls", ":LspStop<cr>", desc = "LSP Strop", silent = true },
+    { "<leader>lu", ":LspUninstall<cr>", desc = "LSP Uninstall", silent = true },
   },
   config = function()
     local mason = require("mason")

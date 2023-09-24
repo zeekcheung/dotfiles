@@ -1,6 +1,6 @@
 return {
   "akinsho/bufferline.nvim",
-  event = { "BufReadPre", "BufNewFile" },
+  event = { "BufReadPost", "BufNewFile" },
   opts = {
     options = {
       -- stylua: ignore
@@ -9,12 +9,14 @@ return {
       right_mouse_command = function(n) require("mini.bufremove").delete(n, false) end,
       diagnostics = "nvim_lsp",
       always_show_bufferline = true,
+      separator_style = "slant",
+      -- indicator = { style = "underline" },
       offsets = {
         {
           filetype = "neo-tree",
-          text = "Neo-tree",
+          text = "EXPLORER",
           highlight = "Directory",
-          text_align = "left",
+          text_align = "center",
         },
       },
     },

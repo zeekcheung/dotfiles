@@ -1,3 +1,4 @@
+-- Search more icons: https://www.nerdfonts.com/cheat-sheet
 return {
   ActiveLSP = "",
   ActiveTS = "",
@@ -21,10 +22,11 @@ return {
   FileNew = "",
   FileModified = "",
   FileReadOnly = "",
+  FileSystem = "󰉓",
   FoldClosed = "",
   FoldOpened = "",
   FoldSeparator = " ",
-  FolderClosed = "",
+  FolderClosed = "󰉋",
   FolderEmpty = "",
   FolderOpen = "",
   Git = "󰊢",
@@ -50,6 +52,7 @@ return {
   Search = "",
   Selected = "❯",
   Spellcheck = "󰓆",
+  Symbol = "",
   TabClose = "󰅙",
   Window = "",
   WordFile = "󰈭",
