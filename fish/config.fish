@@ -119,3 +119,7 @@ function acme.sh
   $HOME/.acme.sh/acme.sh $argv;
 end
 # acme.sh end
+
+# tpm
+set -gx TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins/tpm"
+# tpm end
