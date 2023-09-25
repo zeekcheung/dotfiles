@@ -101,6 +101,12 @@ return {
             fmt = function(str)
               return icons.Codeium .. str
             end,
+            cond = function()
+              local is_exists, _ = pcall(function()
+                return vim.fn["codeium#GetStatusString"]()
+              end)
+              return is_exists
+            end,
             color = { fg = colors_default.green1 },
             on_click = function()
               if vim.fn["codeium#GetStatusString"]() == "OFF" then
