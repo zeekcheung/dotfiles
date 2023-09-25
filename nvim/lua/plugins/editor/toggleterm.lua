@@ -24,7 +24,8 @@ return {
       { mode = "t", "<esc>", [[<C-\><C-n>]], { desc = "Escape Terminal Mode" }, nowait = true },
     }
 
-    if utils.is_available("toggleterm.nvim") then
+    local status_ok, toggleterm_terminal = pcall(require, "toggleterm.terminal")
+    if status_ok then
       local Terminal = require("toggleterm.terminal").Terminal
       local lazygit = utils.float_term(Terminal, "lazygit", { dir = "git_dir" })
       local node = utils.float_term(Terminal, "node")
