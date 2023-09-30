@@ -21,9 +21,12 @@ require("lazy").setup({
     { import = "plugins.editor" },
     { import = "plugins.ui" },
     { import = "plugins.lsp" },
-    { import = "plugins.lsp.lang.lua" },
-    { import = "plugins.lsp.lang.bash" },
-    { import = "plugins.lsp.lang.typescript" },
+    { import = "plugins.lsp.lang.lua", enabled = true },
+    { import = "plugins.lsp.lang.bash", enabled = true },
+    { import = "plugins.lsp.lang.json", enabled = true },
+    { import = "plugins.lsp.lang.yaml", enabled = true },
+    { import = "plugins.lsp.lang.toml", enabled = true },
+    { import = "plugins.lsp.lang.typescript", enabled = true },
   },
   defaults = {
     lazy = true, -- should plugins be lazy-loaded?
