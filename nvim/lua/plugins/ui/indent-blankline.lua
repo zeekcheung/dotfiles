@@ -1,43 +1,58 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
+  main = "ibl",
   event = { "BufReadPost", "BufNewFile" },
-  opts = {
-    -- char = "▏",
-    char = "│",
-    show_trailing_blankline_indent = false,
-    show_current_context = false,
-    filetype_exclude = {
-      "help",
-      "alpha",
-      "aerial",
-      "dashboard",
-      "neo-tree",
-      "Trouble",
-      "lazy",
-      "mason",
-      "notify",
-      "toggleterm",
-      "lazyterm",
-    },
-    buftype_exclude = {
-      "terminal",
-      "nofile",
-    },
-  },
-  config = function()
-    local augroup = vim.api.nvim_create_augroup("indent_blankline", { clear = true })
-    local autocmd = vim.api.nvim_create_autocmd
+  config = function(_, opts)
+    local highlight = {
+      "RainbowRed",
+      "RainbowYellow",
+      "RainbowBlue",
+      "RainbowOrange",
+      "RainbowGreen",
+      "RainbowViolet",
+      "RainbowCyan",
+    }
+    local hooks = require "ibl.hooks"
+    -- create the highlight groups in the highlight setup hook, so they are reset
+    -- every time the colorscheme changes
+    hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+      vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+      vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+      vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+      vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+      vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+      vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+      vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+    end)
 
-    -- HACK: indent blankline doesn't properly refresh when scrolling the window
-    -- remove when fixed upstream: https://github.com/lukas-reineke/indent-blankline.nvim/issues/489
-    autocmd("WinScrolled", {
-      desc = "Refresh indent blankline on window scroll",
-      group = augroup,
-      callback = function()
-        if vim.fn.has("nvim-0.9") ~= 1 then
-          pcall(vim.cmd.IndentBlanklineRefresh)
-        end
-      end,
+    require("ibl").setup({
+      indent = { char = "│" },
+      scope = {
+        enabled = vim.g.indent_blankline_highlight_scope,
+        highlight = highlight,
+        include = {
+          node_type = { ["*"] = { "*" } },
+        },
+        show_start = true,
+        show_end = true,
+      },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "aerial",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
     })
-  end,
+
+    hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
+  end
 }

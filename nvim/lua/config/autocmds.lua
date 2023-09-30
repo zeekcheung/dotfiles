@@ -179,3 +179,15 @@ autocmd("FileType", {
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
+
+-- HACK: indent blankline doesn't properly refresh when scrolling the window
+-- remove when fixed upstream: https://github.com/lukas-reineke/indent-blankline.nvim/issues/489
+autocmd("WinScrolled", {
+  desc = "Refresh indent blankline on window scroll",
+  group = augroup("indent_blankline_refresh", { clear = true }),
+  callback = function()
+    if vim.fn.has("nvim-0.9") ~= 1 then
+      pcall(vim.cmd.IndentBlanklineRefresh)
+    end
+  end,
+})
