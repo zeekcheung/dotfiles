@@ -19,31 +19,18 @@ return {
         lua_ls = {
           settings = {
             Lua = {
-              runtime = {
-                version = "LuaJIT",
+              diagnostics = {
+                globals = { "vim" },
               },
               workspace = {
                 checkThirdParty = false,
-                ignoreDir = {
-                  ".vscode",
-                  ".git",
-                },
                 library = {
                   [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.stdpath("config") .. "/lua"] = true,
+                  [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
                 },
               },
               completion = {
                 callSnippet = "Replace",
-              },
-              hint = {
-                enable = true,
-              },
-              diagnostics = {
-                enable = true,
-                globals = {
-                  "vim",
-                },
               },
               telemetry = {
                 enable = false,
