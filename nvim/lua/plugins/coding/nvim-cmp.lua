@@ -7,10 +7,11 @@ return {
     "hrsh7th/cmp-path", -- source for file system paths
     "L3MON4D3/LuaSnip", -- snippet engine
     "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets
     "onsails/lspkind.nvim", -- vs-code like pictograms
   },
   opts = function()
+    vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local lspkind = require("lspkind")
@@ -26,7 +27,7 @@ return {
     -- load vscode style snippets from installed plugins (e.g. friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
 
-    cmp.setup({
+    return {
       preselect = cmp.PreselectMode.None,
       confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
@@ -92,6 +93,11 @@ return {
         completion = cmp.config.window.bordered(border_opts),
         documentation = cmp.config.window.bordered(border_opts),
       },
-    })
+      experimental = {
+        ghost_text = {
+          hl_group = "CmpGhostText",
+        },
+      },
+    }
   end,
 }

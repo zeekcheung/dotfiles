@@ -2,63 +2,69 @@ return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-    { "antosha417/nvim-lsp-file-operations", config = true },
-    { "b0o/SchemaStore.nvim", version = false },
+    { "folke/neodev.nvim", opts = {} },
+    "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    {
+      "hrsh7th/cmp-nvim-lsp",
+      cond = function()
+        return require("utils").is_available("nvim-cmp")
+      end,
+    },
   },
-  config = function()
-    local lspconfig = require("lspconfig")
-    local root_pattern = require("lspconfig.util").root_pattern
+  opts = {
+    -- options for vim.diagnostic.config()
+    diagnostics = {
+      signs = true,
+      underline = true,
+      update_in_insert = true,
+      virtual_text = {
+        spacing = 4,
+        source = "if_many",
+        prefix = "●",
+      },
+      severity_sort = true,
+      float = {
+        header = false,
+        border = "rounded",
+        focusable = true,
+      },
+    },
+    inlay_hints = {
+      enabled = false,
+    },
+    capabilities = {},
+    autoformat = true,
+    format_notify = false,
+    format = {
+      formatting_options = nil,
+      timeout_ms = nil,
+    },
+    servers = {},
+    setup = {
+      -- example to setup with typescript.nvim
+      -- tsserver = function(_, opts)
+      --   require("typescript").setup({ server = opts })
+      --   return true
+      -- end,
+      -- Specify * to use this function as a fallback for any server
+      -- ["*"] = function(server, opts) end,
+    },
+  },
+  config = function(_, opts)
+    local lsp_utils = require("utils.lsp")
+    local format_utils = require("utils.lsp.format")
+    local keymaps_utils = require("utils.lsp.keymaps")
 
-    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    -- setup autoformat
+    format_utils.setup(opts)
 
-    ----------------------------------------------------------
-    -- Configure language servers via nvim-lspconfig
-    ----------------------------------------------------------
+    -- setup formatting and keymaps
+    lsp_utils.on_attach(function(client, buffer)
+      keymaps_utils.on_attach(client, buffer)
+    end)
 
-    -- set keymaps
-    local on_attach = function(client, bufnr)
-      local wk = require("which-key")
-
-      wk.register({
-        ["K"] = { vim.lsp.buf.hover, "Hover" },
-        ["gr"] = { "<cmd>Telescope lsp_references<CR>", "Goto References" },
-        ["gD"] = { vim.lsp.buf.declaration, "Goto Declaration" },
-        ["gd"] = { "<cmd>Telescope lsp_definitions<CR>", "Goto Definition" },
-        ["gt"] = { "<cmd>Telescope lsp_type_definitions<CR>", "Show Lsp type definitions" },
-        ["[d"] = { vim.diagnostic.goto_prev, "Previous Diagnostic" },
-        ["]d"] = { vim.diagnostic.goto_next, "Next Diagnostic" },
-      }, {
-        buffer = bufnr,
-        silent = true,
-      })
-
-      wk.register({
-        ["<leader>c"] = { name = "Code" },
-        ["<leader>ca"] = { vim.lsp.buf.code_action, "Code Actions" },
-        ["<leader>cd"] = { vim.diagnostic.open_float, "Line Diagnostics" },
-        ["<leader>cf"] = {
-          function()
-            vim.lsp.buf.format({
-              filter = function(_client)
-                --  only use null-ls for formatting instead of lsp server
-                return _client.name == "null-ls"
-              end,
-              bufnr = bufnr,
-            })
-          end,
-          "Format Document",
-        },
-      }, { buffer = bufnr, silent = true })
-
-      wk.register({
-        ["<leader>r"] = { name = "Refactor" },
-        ["<leader>rn"] = { vim.lsp.buf.rename, "Rename" },
-      }, { buffer = bufnr, silent = true })
-    end
-
-    -- enable autocompletion
-    local capabilities = cmp_nvim_lsp.default_capabilities()
+    -- setup diagnostics
     local icons = require("utils.icons")
     local signs = {
       Error = icons.DiagnosticError,
@@ -66,319 +72,92 @@ return {
       Hint = icons.DiagnosticHint,
       Info = icons.DiagnosticInfo,
     }
-
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    -- configure bash language server
-    lspconfig.bashls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = { "sh", "bash" },
-    })
+    local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
 
-    -- configure c/cpp language server
-    lspconfig.clangd.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+    if opts.inlay_hints.enabled and inlay_hint then
+      lsp_utils.on_attach(function(client, buffer)
+        if client.supports_method("textDocument/inlayHint") then
+          inlay_hint(buffer, true)
+        end
+      end)
+    end
 
-    -- configure docker compose language server
-    lspconfig.docker_compose_language_service.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+    if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
+      opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
+        or function(diagnostic)
+          for d, icon in pairs(icons) do
+            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+              return icon
+            end
+          end
+        end
+    end
 
-    -- configure docker language server
-    lspconfig.dockerls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+    vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-    -- configure go language server
-    lspconfig.gopls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        gopls = {
-          gofumpt = true,
-          codelenses = {
-            gc_details = false,
-            generate = true,
-            regenerate_cgo = true,
-            run_govulncheck = true,
-            test = true,
-            tidy = true,
-            upgrade_dependency = true,
-            vendor = true,
-          },
-          hints = {
-            assignVariableTypes = true,
-            compositeLiteralFields = true,
-            compositeLiteralTypes = true,
-            constantValues = true,
-            functionTypeParameters = true,
-            parameterNames = true,
-            rangeVariableTypes = true,
-          },
-          analyses = {
-            fieldalignment = true,
-            nilness = true,
-            unusedparams = true,
-            unusedwrite = true,
-            useany = true,
-          },
-          usePlaceholders = true,
-          completeUnimported = true,
-          staticcheck = true,
-          directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
-          semanticTokens = true,
-        },
-      },
-    })
+    -- setup language servers
+    local servers = opts.servers
+    local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    local capabilities = vim.tbl_deep_extend(
+      "force",
+      {},
+      vim.lsp.protocol.make_client_capabilities(),
+      has_cmp and cmp_nvim_lsp.default_capabilities() or {},
+      opts.capabilities or {}
+    )
 
-    -- configure html language server
-    lspconfig.html.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+    local setup = function(server)
+      local server_opts = vim.tbl_deep_extend("force", {
+        capabilities = vim.deepcopy(capabilities),
+      }, servers[server] or {})
 
-    -- configure css language server
-    lspconfig.cssls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        css = {
-          validate = true,
-          lint = {
-            unknownAtRules = "ignore",
-          },
-        },
-        scss = {
-          validate = true,
-          lint = {
-            unknownAtRules = "ignore",
-          },
-        },
-        less = {
-          validate = true,
-          lint = {
-            unknownAtRules = "ignore",
-          },
-        },
-      },
-    })
+      if opts.setup[server] then
+        if opts.setup[server](server, server_opts) then
+          return
+        end
+      elseif opts.setup["*"] then
+        if opts.setup["*"](server, server_opts) then
+          return
+        end
+      end
+      require("lspconfig")[server].setup(server_opts)
+    end
 
-    -- configure emmet language server
-    lspconfig.emmet_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte", "vue" },
-    })
+    -- get all the servers that are available througn mason-lspconfig
+    local have_mason, mlsp = pcall(require, "mason-lspconfig")
+    local all_mslp_servers = {}
+    if have_mason then
+      all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+    end
 
-    -- configure json language server
-    lspconfig.jsonls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      -- lazy-load schemastore when needed
-      on_new_config = function(new_config)
-        new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-        vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-      end,
-      settings = {
-        json = {
-          format = {
-            enable = true,
-          },
-          validate = { enable = true },
-        },
-      },
-    })
+    local ensure_installed = {} ---@type string[]
+    for server, server_opts in pairs(servers) do
+      if server_opts then
+        server_opts = server_opts == true and {} or server_opts
+        -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+        if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+          setup(server)
+        else
+          ensure_installed[#ensure_installed + 1] = server
+        end
+      end
+    end
 
-    -- configure lua language server
-    lspconfig.lua_ls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        Lua = {
-          runtime = {
-            version = "LuaJIT",
-          },
-          workspace = {
-            checkThirdParty = false,
-            ignoreDir = {
-              ".vscode",
-              ".git",
-            },
-            library = {
-              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-              [vim.fn.stdpath("config") .. "/lua"] = true,
-            },
-          },
-          completion = {
-            callSnippet = "Replace",
-          },
-          hint = {
-            enable = true,
-          },
-          diagnostics = {
-            enable = true,
-            globals = {
-              "vim",
-            },
-          },
-          telemetry = {
-            enable = false,
-          },
-        },
-      },
-    })
+    if have_mason then
+      mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+    end
 
-    -- configure markdown language server
-    lspconfig.marksman.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = { "markdown", "md" },
-    })
-
-    -- configure prisma language server
-    lspconfig.prismals.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- configure python language server
-    lspconfig.pyright.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        python = {
-          analysis = {
-            autoSearchPaths = true,
-            diagnosticMode = "openFilesOnly",
-            useLibraryCodeForTypes = true,
-          },
-        },
-      },
-    })
-
-    -- configure python language server
-    lspconfig.ruff_lsp.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- configure tailwindcss server
-    lspconfig.tailwindcss.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      root_dir = root_pattern("tailwind.config.js", "tailwind.config.cjs", "tailwind.config.mjs", "tailwind.config.ts"),
-      settings = {
-        tailwindCSS = {
-          classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
-          lint = {
-            cssConflict = "warning",
-            invalidApply = "error",
-            invalidConfigPath = "error",
-            invalidScreen = "error",
-            invalidTailwindDirective = "error",
-            invalidVariant = "error",
-            recommendedVariantOrder = "warning",
-          },
-          validate = true,
-        },
-      },
-    })
-
-    -- configure toml language server
-    lspconfig.taplo.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
-
-    -- configure javascrip/typescript language server
-    lspconfig.tsserver.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      root_dir = root_pattern("package.json"),
-      single_file_support = false,
-      settings = {
-        javascript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = true,
-          },
-        },
-        typescript = {
-          inlayHints = {
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
-            includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = true,
-          },
-        },
-        completions = {
-          completeFunctionCalls = true,
-        },
-      },
-    })
-
-    -- configure javascript/typescript language server
-    lspconfig.denols.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      root_dir = root_pattern("deno.json", "deno.jsonc"),
-      settings = {
-        deno = {
-          enable = true,
-          suggest = {
-            imports = {
-              hosts = {
-                ["https://crux.land"] = true,
-                ["https://deno.land"] = true,
-                ["https://x.nest.land"] = true,
-              },
-            },
-          },
-        },
-      },
-    })
-
-    -- configure vue language server
-    lspconfig.volar.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      filetypes = { "vue" },
-    })
-
-    -- configure yaml language server
-    lspconfig.yamlls.setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = {
-        yaml = {
-          keyOrdering = false,
-          schemas = {
-            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-            ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
-          },
-        },
-        redhat = {
-          telemetry = {
-            enabled = false,
-          },
-        },
-      },
-    })
+    if lsp_utils.get_config("denols") and lsp_utils.get_config("tsserver") then
+      local is_deno = require("lspconfig.util").root_pattern("deno.json", "deno.jsonc")
+      lsp_utils.lsp_disable("tsserver", is_deno)
+      lsp_utils.lsp_disable("denols", function(root_dir)
+        return not is_deno(root_dir)
+      end)
+    end
   end,
 }
