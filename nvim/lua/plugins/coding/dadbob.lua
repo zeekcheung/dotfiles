@@ -16,7 +16,6 @@ return {
             desc = "dadbod completion",
             group = vim.api.nvim_create_augroup("dadbod_cmp", { clear = true }),
             pattern = { "sql", "mysql", "plsql" },
-            ---@diagnostic disable-next-line: missing-fields
             callback = function()
               require("cmp").setup.buffer({ sources = { { name = "vim-dadbod-completion" } } })
             end,

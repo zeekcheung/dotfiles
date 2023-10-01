@@ -1,6 +1,6 @@
 return {
   "stevearc/aerial.nvim",
-  enabled = false,
+  enabled = true,
   event = { "BufReadPost", "BufNewFile" },
   keys = {
     { "<leader>uo", ":AerialToggle<CR>", desc = "Toggle symbol outline", silent = true },

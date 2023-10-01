@@ -1,7 +1,7 @@
 return {
   {
     "Exafunction/codeium.vim",
-    enabled = false,
+    enabled = true,
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       -- Change '<C-g>' here to any keycode you like.
@@ -21,7 +21,7 @@ return {
   },
   {
     "Exafunction/codeium.nvim",
-    enabled = true,
+    enabled = false,
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "nvim-lua/plenary.nvim",

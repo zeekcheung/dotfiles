@@ -20,6 +20,7 @@ require("lazy").setup({
     { import = "plugins.coding" },
     { import = "plugins.editor" },
     { import = "plugins.ui" },
+    { import = "plugins.util" },
     { import = "plugins.lsp" },
     { import = "plugins.lsp.lang.lua", enabled = true },
     { import = "plugins.lsp.lang.bash", enabled = true },

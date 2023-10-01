@@ -36,8 +36,7 @@ return {
         { source = "filesystem", display_name = icons.FileSystem },
         { source = "buffers", display_name = icons.DefaultFile },
         { source = "git_status", display_name = icons.Git },
-        { source = "document_symbols", display_name = icons.Symbol },
-        -- { source = "diagnostics", display_name = icons.Diagnostic },
+        -- { source = "document_symbols", display_name = icons.Symbol },
       },
     },
     open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline" },
@@ -99,7 +98,8 @@ return {
       {
         event = "file_added",
         handler = function(file_path)
-          vim.cmd("edit! " .. file_path .. "| startinsert!")
+          --   vim.cmd("edit " .. file_path .. "| startinsert!")
+          --   vim.cmd("Neotree Toggle")
         end,
       },
     },

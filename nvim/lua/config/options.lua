@@ -64,4 +64,4 @@ vim.g.markdown_recommended_style = 0 -- Fix markdown indentation settings
 vim.g.highlighturl_enabled = false -- Highlight URL
 vim.g.dadbod_enabled = false -- Disable vim-dadbod(-ui)
 vim.g.noice_enabled = true -- Enable noice.nvim
-vim.g.indent_blankline_highlight_scope = true -- Enable indent-blankline.nvim highlight scope
+vim.g.indent_blankline_highlight_scope = false -- Enable indent-blankline.nvim highlight scope
