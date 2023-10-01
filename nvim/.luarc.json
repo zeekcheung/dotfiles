@@ -1,19 +1,23 @@
 {
-    "diagnostics.globals": [
-        "vim",
-        "load_textobjects",
-        "_lazygit_toggle",
-        "_nodejs_toggle",
-        "_python_toggle",
-        "_node_toggle"
-    ],
-    "diagnostics.disable": [
-        "undefined-doc-name",
-        "inject-field",
-        "undefined-field",
-        "need-check-nil",
-        "deprecated",
-        "param-type-mismatch",
-        "unused-local"
-    ]
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "workspace.library": ["~/.config/nvim"],
+  "runtime.version": "LuaJIT",
+  "hint.enable": true,
+  "diagnostics.globals": [
+    "vim",
+    "load_textobjects",
+    "_lazygit_toggle",
+    "_nodejs_toggle",
+    "_python_toggle",
+    "_node_toggle"
+  ],
+  "diagnostics.disable": [
+    "undefined-doc-name",
+    "inject-field",
+    "undefined-field",
+    "need-check-nil",
+    "deprecated",
+    "param-type-mismatch",
+    "unused-local"
+  ]
 }
