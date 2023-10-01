@@ -1,20 +1,20 @@
 -- Load/Install lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
+  vim.fn.system {
     "git",
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
     "--branch=stable", -- latest stable release
     lazypath,
-  })
+  }
 end
 
 vim.opt.rtp:prepend(lazypath)
 
 -- Bootstrap lazy.nvim
-require("lazy").setup({
+require("lazy").setup {
   spec = {
     { import = "plugins" },
     { import = "plugins.coding" },
@@ -28,6 +28,7 @@ require("lazy").setup({
     { import = "plugins.lsp.lang.yaml", enabled = true },
     { import = "plugins.lsp.lang.toml", enabled = true },
     { import = "plugins.lsp.lang.typescript", enabled = true },
+    { import = "plugins.lsp.lang.rust", enabled = true },
   },
   defaults = {
     lazy = true, -- should plugins be lazy-loaded?
@@ -63,4 +64,4 @@ require("lazy").setup({
       },
     },
   },
-})
+}
