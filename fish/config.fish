@@ -39,28 +39,28 @@ set -gx TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins/tpm"
 # Tmux end
 
 # Nvim
-set PATH $HOME/.local/share/nvim/mason/bin $PATH
+fish_add_path $HOME/.local/share/nvim/mason/bin
 # Nvim end
 
 # Rust
-set PATH $HOME/.cargo/bin $PATH
+fish_add_path $HOME/.cargo/bin
 # Rust end
 
 # Go
-set PATH /usr/local/go/bin $PATH
 set -gx GOPATH $HOME/code/go
 set -gx GOBIN $GOPATH/bin
-set PATH $GOBIN $PATH
+fish_add_path /usr/local/go/bin
+fish_add_path $GOBIN
 # Go end
 
 # NodeJS
 set -U nvm_default_version v18.17.1
-set -gx path $HOME/.local/share/nvm/v18.17.1/bin $PATH
+fish_add_path $HOME/.local/share/nvm/v18.17.1/bin
 # NodeJS end
 
 # Deno
 set -gx DENO_INSTALL "$HOME/.deno"
-set PATH $DENO_INSTALL/bin $PATH
+fish_add_path $DENO_INSTALL/bin
 # Deno end
 
 # pnpm
@@ -84,7 +84,7 @@ alias psg "ps aux | grep"
 alias top htop
 alias kill "kill -9"
 
-alias vim nvim
+alias vi nvim
 alias cat batcat
 alias grep "grep --color=auto"
 alias lua luajit
