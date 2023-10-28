@@ -1,0 +1,17 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "diagnostic.virtualText": true,
+  "coc.preferences.bracketEnterImprove": true,
+  "coc.preferences.enableMarkdown": true,
+  "coc.preferences.extensionUpdateCheck": "weekly",
+  "coc.source.file.enable": true,
+  "suggest.noselect": true,
+  "suggest.floatConfig": {
+    "border": true,
+    "highlight": "CocFloating",
+    "rounded": false
+  },
+  "coc.source.file.ignoreHidden": false,
+  "hover.autoHide": true,
+  "hover.target": "float"
+}
