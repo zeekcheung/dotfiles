@@ -93,6 +93,21 @@ map("n", "<leader>uc", function() call("workbench.action.selectTheme") end)
 map("n", "<leader>up", function() call("workbench.actions.view.problems") end)
 map("n", "<leader>uw", function() call("editor.action.toggleWordWrap") end)
 
+---------------------------------------------------
+------------------ Setup autocmds -----------------
+---------------------------------------------------
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = function(name)
+  return vim.api.nvim_create_augroup(name, { clear = true })
+end
+
+-- highlight on yank
+autocmd("TextYankPost", {
+  group = augroup("highlight_yank"),
+  callback = function()
+    vim.highlight.on_yank({ higroup = "IncSearch" })
+  end
+})
 
 ---------------------------------------------------
 --------------- Bootstrap lazy.nvim ---------------
