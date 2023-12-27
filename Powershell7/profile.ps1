@@ -1,6 +1,9 @@
 # Starship prompt
 Invoke-Expression (&starship init powershell)
 
+# Change default directory
+Set-Location $Env:USERPROFILE
+
 # Enhance command suggestions
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
