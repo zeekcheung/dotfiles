@@ -4,21 +4,60 @@ Invoke-Expression (&starship init powershell)
 # Change default directory
 Set-Location $Env:USERPROFILE
 
+# Disable update notifications
+$Env:POWERSHELL_UPDATECHECK = "Off"
+
 # Enhance command suggestions
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
 
 # Functions
+
 # Usage: ls
-function list {
+function list
+{
   $items = Get-ChildItem -Hidden:$false
   $items | ForEach-Object {
     Write-Host $_.Name -ForegroundColor Cyan
   }
 }
 
+# Usage: touch foo.txt, bar.txt || touch $HOME/foo.bar
+function touch
+{
+  param(
+    [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
+    [String[]]$Paths
+  )
+
+  process
+  {
+    foreach ($Path in $Paths)
+    {
+      $expandedPath = $ExecutionContext.InvokeCommand.ExpandString($Path)
+      $parentDirectory = Split-Path -Path $expandedPath -Parent
+
+      if (-not [string]::IsNullOrWhiteSpace($parentDirectory) -and -not (Test-Path -Path $parentDirectory))
+      {
+        $null = New-Item -Path $parentDirectory -ItemType Directory
+      }
+
+      if (Test-Path -Path $expandedPath)
+      {
+        $currentDate = Get-Date
+        $null = (Get-Item -Path $expandedPath).LastWriteTime = $currentDate
+        $null = (Get-Item -Path $expandedPath).LastAccessTime = $currentDate
+      } else
+      {
+        $null = New-Item -Path $expandedPath -ItemType File
+      }
+    }
+  }
+}
+
 # Usage: which app
-function which {
+function which
+{
   param(
     [Parameter(Mandatory = $true, Position = 0)]
     [ValidateNotNullOrEmpty()]
@@ -29,7 +68,8 @@ function which {
 }
 
 # Usage: ln -Target "C:\path\to\file.txt" -Link "C:\path\to\symlink.txt"
-function ln {
+function ln
+{
   param(
     [Parameter(Mandatory = $true, Position = 0)]
     [ValidateNotNullOrEmpty()]
@@ -40,12 +80,14 @@ function ln {
     [string]$Link
   )
 
-  if (!(Test-Path $Target)) {
+  if (!(Test-Path $Target))
+  {
     Write-Host "Target file does not exist: $Target"
     return
   }
 
-  if (Test-Path $Link) {
+  if (Test-Path $Link)
+  {
     Write-Host "Link file already exists: $Link"
     return
   }
@@ -54,16 +96,19 @@ function ln {
 }
 
 # Usage: env
-function env {
+function env
+{
   Get-ChildItem -Path 'Env:'
 }
 
 # Usage: path
-function path {
+function path
+{
   $paths = $env:Path -split ';'
   $index = 1
 
-  foreach ($path in $paths) {
+  foreach ($path in $paths)
+  {
     Write-Host $path
     $index++
   }
