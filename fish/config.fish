@@ -19,12 +19,20 @@ if status is-interactive
         set -l host_ip (cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
         set -gx http_proxy $host_ip:10809
         set -gx https_proxy $host_ip:10809
+
+	git config --global http.proxy $host_ip:10809
+	git config --global https.proxy $host_ip:10809
+
         echo "Proxy enabled"
     end
 
     function unproxy
         set -e http_proxy
         set -e https_proxy
+
+	git config --global --unset http.proxy
+	git config --global --unset https.proxy
+
         echo "Proxy disabled"
     end
     # Wsl Proxy end
