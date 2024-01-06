@@ -20,8 +20,8 @@ if status is-interactive
         set -gx http_proxy $host_ip:10809
         set -gx https_proxy $host_ip:10809
 
-	git config --global http.proxy $host_ip:10809
-	git config --global https.proxy $host_ip:10809
+        git config --global http.proxy $host_ip:10809
+        git config --global https.proxy $host_ip:10809
 
         echo "Proxy enabled"
     end
@@ -30,8 +30,8 @@ if status is-interactive
         set -e http_proxy
         set -e https_proxy
 
-	git config --global --unset http.proxy
-	git config --global --unset https.proxy
+        git config --global --unset http.proxy
+        git config --global --unset https.proxy
 
         echo "Proxy disabled"
     end
@@ -43,11 +43,15 @@ sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.he
 # Github hosts end
 
 # Tmux
-set -gx TMUX_PLUGIN_MANAGER_PATH "$HOME/.tmux/plugins/tpm"
+set -gx TMUX_PLUGIN_MANAGER_PATH $HOME/.tmux/plugins/tpm
 # Tmux end
 
 # Nvim
 fish_add_path $HOME/.local/share/nvim/mason/bin
+
+function nvchad
+    env NVIM_APPNAME=nvchad nvim
+end
 # Nvim end
 
 # Rust
@@ -67,14 +71,14 @@ fish_add_path $HOME/.local/share/nvm/v18.17.1/bin
 # NodeJS end
 
 # Deno
-set -gx DENO_INSTALL "$HOME/.deno"
+set -gx DENO_INSTALL $HOME/.deno
 fish_add_path $DENO_INSTALL/bin
 # Deno end
 
 # pnpm
-set -gx PNPM_HOME "$HOME/.local/share/pnpm"
+set -gx PNPM_HOME $HOME/.local/share/pnpm
 if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
+    fish_add_path $PNPM_HOME
 end
 alias pn=pnpm
 # pnpm end
