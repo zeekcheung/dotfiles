@@ -45,5 +45,8 @@ sudo apt install fd-find -y
 # Install unzip
 sudo apt install unzip -y
 
+# Install wslu
+sudo apt install wslu -y
+
 # Install lazyvim
 # git clone git@github.com:zeekcheung/LazyVim_config.git ~/.config/nvim
