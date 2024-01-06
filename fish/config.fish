@@ -49,8 +49,14 @@ set -gx TMUX_PLUGIN_MANAGER_PATH $HOME/.tmux/plugins/tpm
 # Nvim
 fish_add_path $HOME/.local/share/nvim/mason/bin
 
+# ~/.config/nvchad
 function nvchad
     env NVIM_APPNAME=nvchad nvim
+end
+
+# ~/.config/lazyvim
+function lazyvim
+    env NVIM_APPNAME=lazyvim nvim
 end
 # Nvim end
 
