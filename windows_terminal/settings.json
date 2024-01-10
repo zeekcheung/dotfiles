@@ -1,10 +1,10 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions":
+    "actions": 
     [
         {
-            "command":
+            "command": 
             {
                 "action": "moveFocus",
                 "direction": "down"
@@ -12,7 +12,7 @@
             "keys": "ctrl+shift+j"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "splitPane",
                 "split": "right"
@@ -20,7 +20,7 @@
             "keys": "ctrl+\\"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "copy",
                 "singleLine": false
@@ -28,14 +28,14 @@
             "keys": "ctrl+c"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "commandPalette"
             },
             "keys": "ctrl+shift+p"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "moveFocus",
                 "direction": "up"
@@ -51,7 +51,7 @@
             "keys": "ctrl+shift+f"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "resizePane",
                 "direction": "left"
@@ -59,7 +59,7 @@
             "keys": "ctrl+shift+left"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "splitPane",
                 "split": "down"
@@ -67,7 +67,7 @@
             "keys": "ctrl+shift+\\"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 7
@@ -75,7 +75,7 @@
             "keys": "alt+8"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "moveFocus",
                 "direction": "left"
@@ -83,7 +83,7 @@
             "keys": "ctrl+shift+h"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "moveFocus",
                 "direction": "right"
@@ -91,14 +91,14 @@
             "keys": "ctrl+shift+l"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "closeTab"
             },
             "keys": "ctrl+shift+q"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "resizePane",
                 "direction": "up"
@@ -106,7 +106,7 @@
             "keys": "ctrl+shift+up"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 3
@@ -114,7 +114,7 @@
             "keys": "alt+4"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "resizePane",
                 "direction": "right"
@@ -122,7 +122,7 @@
             "keys": "ctrl+shift+right"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "resizePane",
                 "direction": "down"
@@ -138,7 +138,7 @@
             "keys": "alt+f4"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 0
@@ -146,7 +146,7 @@
             "keys": "alt+1"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 1
@@ -154,7 +154,7 @@
             "keys": "alt+2"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 2
@@ -162,7 +162,7 @@
             "keys": "alt+3"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 4
@@ -170,7 +170,7 @@
             "keys": "alt+5"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 5
@@ -178,7 +178,7 @@
             "keys": "alt+6"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 6
@@ -186,7 +186,7 @@
             "keys": "alt+7"
         },
         {
-            "command":
+            "command": 
             {
                 "action": "switchToTab",
                 "index": 4294967295
@@ -201,25 +201,21 @@
     "defaultProfile": "{e5a83caa-4c73-52b3-ae6b-bc438d721ef9}",
     "initialCols": 80,
     "initialRows": 20,
-    "newTabMenu":
+    "newTabMenu": 
     [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles":
+    "profiles": 
     {
-        "defaults":
+        "defaults": 
         {
             "antialiasingMode": "cleartype",
             "bellStyle": "none",
-            "colorScheme":
-            {
-                "dark": "Gruvbox Material Dark",
-                "light": "Gruvbox Material Light"
-            },
+            "colorScheme": "Catppuccin Mocha",
             "cursorShape": "filledBox",
-            "font":
+            "font": 
             {
                 "cellHeight": "1.25",
                 "face": "JetBrainsMono Nerd Font",
@@ -230,7 +226,7 @@
             "scrollbarState": "hidden",
             "useAtlasEngine": true
         },
-        "list":
+        "list": 
         [
             {
                 "commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\" -nologo",
@@ -261,7 +257,7 @@
             }
         ]
     },
-    "schemes":
+    "schemes": 
     [
         {
             "background": "#0C0C0C",
@@ -308,6 +304,29 @@
             "selectionBackground": "#FFFFFF",
             "white": "#CCCCCC",
             "yellow": "#C19C00"
+        },
+        {
+            "background": "#1E1E2E",
+            "black": "#45475A",
+            "blue": "#89B4FA",
+            "brightBlack": "#585B70",
+            "brightBlue": "#89B4FA",
+            "brightCyan": "#94E2D5",
+            "brightGreen": "#A6E3A1",
+            "brightPurple": "#F5C2E7",
+            "brightRed": "#F38BA8",
+            "brightWhite": "#A6ADC8",
+            "brightYellow": "#F9E2AF",
+            "cursorColor": "#F5E0DC",
+            "cyan": "#94E2D5",
+            "foreground": "#CDD6F4",
+            "green": "#A6E3A1",
+            "name": "Catppuccin Mocha",
+            "purple": "#F5C2E7",
+            "red": "#F38BA8",
+            "selectionBackground": "#585B70",
+            "white": "#BAC2DE",
+            "yellow": "#F9E2AF"
         },
         {
             "background": "#1E2327",
@@ -586,7 +605,28 @@
             "yellow": "#F6C177"
         }
     ],
-    "theme": "system",
-    "themes": [],
+    "theme": "Catppuccin Mocha",
+    "themes": 
+    [
+        {
+            "name": "Catppuccin Mocha",
+            "tab": 
+            {
+                "background": "#1E1E2EFF",
+                "showCloseButton": "always",
+                "unfocusedBackground": null
+            },
+            "tabRow": 
+            {
+                "background": "#181825FF",
+                "unfocusedBackground": "#11111BFF"
+            },
+            "window": 
+            {
+                "applicationTheme": "dark",
+                "useMica": false
+            }
+        }
+    ],
     "useAcrylicInTabRow": false
 }
