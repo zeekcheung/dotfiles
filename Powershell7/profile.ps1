@@ -2,7 +2,7 @@
 Invoke-Expression (&starship init powershell)
 
 # Change default directory
-Set-Location $Env:USERPROFILE
+# Set-Location $Env:USERPROFILE
 
 # Disable update notifications
 $Env:POWERSHELL_UPDATECHECK = "Off"
