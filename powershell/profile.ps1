@@ -1,11 +1,8 @@
 # Starship prompt
 Invoke-Expression (&starship init powershell)
 
-# Change default directory
-# Set-Location $Env:USERPROFILE
-
-# Disable update notifications
-$Env:POWERSHELL_UPDATECHECK = "Off"
+# Change execution policy
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 # Enhance command suggestions
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
@@ -114,7 +111,25 @@ function path
   }
 }
 
+function gc
+{
+  & "git" "commit" "-m" $args
+}
+
+function gp
+{
+  & "git" "pull"
+}
+
+function gP
+{
+  & "git" "push"
+}
+
 # Aliases
+Remove-Alias -Name gc -Force
+Remove-Alias -Name gp -Force
+
 Set-Alias ls list
 Set-Alias ll 'Get-ChildItem'
 Set-Alias grep 'Select-String'
@@ -129,8 +144,5 @@ Set-Alias gg 'lazygit'
 Set-Alias gt 'git status'
 Set-Alias ga 'git add'
 Set-Alias gb 'git branch'
-Set-Alias gcommit 'git commit'
 Set-Alias gd 'git diff'
-Set-Alias gpull 'git pull'
-Set-Alias gpush 'git push'
 Set-Alias gs 'git stash'
