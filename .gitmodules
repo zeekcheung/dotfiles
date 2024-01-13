@@ -1,6 +1,6 @@
 [submodule "nvim"]
 	path = nvim
-	url = https://github.com/zeekcheung/nvim.git
+	url = git@github.com:zeekcheung/nvim.git
 [submodule "lazyvim"]
 	path = lazyvim
 	url = git@github.com:zeekcheung/LazyVim_config.git
