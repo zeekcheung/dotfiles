@@ -1,0 +1,223 @@
+// 将键绑定放在此文件中以覆盖默认值auto[]
+[
+  // ==============================================================
+  // =========================== vscode ===========================
+  // ==============================================================
+  // open settings.json
+  {
+    "key": "ctrl+shift+oem_comma",
+    "command": "workbench.action.openSettingsJson"
+  },
+  // toggle explorer
+  {
+    "key": "ctrl+e",
+    "command": "workbench.action.closeSidebar",
+    "when": "sideBarVisible"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "workbench.explorer.fileView.focus",
+    "when": "!sideBarVisible"
+  },
+  // move line up
+  {
+    "key": "alt+k",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  // move line down
+  {
+    "key": "alt+j",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  // focus down
+  {
+    "key": "tab",
+    "command": "workbench.action.quickOpenNavigateNext",
+    "when": "inQuickOpen"
+  },
+  // focus up
+  {
+    "key": "ctrl+tab",
+    "command": "list.focusUp",
+    "when": "inQuickOpen"
+  },
+  // next quick fix
+  {
+    "key": "tab",
+    "command": "selectNextQuickFix",
+    "when": "editorFocus && quickFixWidgetVisible"
+  },
+  // previous quick fix
+  {
+    "key": "shift+tab",
+    "command": "selectPrevQuickFix",
+    "when": "editorFocus && quickFixWidgetVisible"
+  },
+  // next suggestion
+  {
+    "key": "tab",
+    "command": "selectNextSuggestion",
+    "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+  },
+  // previou suggestion
+  {
+    "key": "shift+tab",
+    "command": "selectPrevSuggestion",
+    "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+  },
+  // move to previous/left terminal panel
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.terminal.focusPreviousPane",
+    "when": "terminalFocus"
+  },
+  // move to next/right terminal panel
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.terminal.focusNextPane",
+    "when": "terminalFocus"
+  },
+  // move back to editor from terminal
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  // move back to editor from explorer
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "filesExplorerFocus"
+  },
+  // move to explorer from editor
+  {
+    "key": "ctrl+h",
+    "command": "workbench.files.action.focusFilesExplorer",
+    "when": "openEditorsFocus"
+  },
+  // move back to editor from explorer
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "explorerViewletFocus"
+  },
+  // move to outline from explorer
+  {
+    "key": "ctrl+w j",
+    "command": "outline.focus",
+    "when": "filesExplorerFocus"
+  },
+  // move back to explorer from outline
+  {
+    "key": "ctrl+w k",
+    "command": "workbench.files.action.focusFilesExplorer",
+    "when": "outlineFocused"
+  },
+  // move back to editor from outline
+  {
+    "key": "ctrl+w l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "outlineFocused"
+  },
+  // create new file from explorer
+  {
+    "key": "a",
+    "command": "explorer.newFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus"
+  },
+  // create new folder from explorer
+  {
+    "key": "shift+a",
+    "command": "explorer.newFolder",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus"
+  },
+  // yank file from explorer
+  {
+    "key": "y",
+    "command": "filesExplorer.copy",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus"
+  },
+  // cut file from explorer
+  {
+    "key": "x",
+    "command": "filesExplorer.cut",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !inputFocus"
+  },
+  // paste file to explorer
+  {
+    "key": "p",
+    "command": "filesExplorer.paste",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceReadonly && !inputFocus"
+  },
+  // rename file from explorer
+  {
+    "key": "r",
+    "command": "renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  // delete file from explorer
+  {
+    "key": "d",
+    "command": "moveFileToTrash",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceReadonly && !inputFocus"
+  },
+  // run file
+  {
+    "key": "f5",
+    "command": "code-runner.run"
+  },
+  // debug
+  {
+    "key": "ctrl+f5",
+    "command": "-workbench.action.debug.run",
+    "when": "debuggersAvailable && debugState != 'initializing'"
+  },
+  {
+    "key": "ctrl+f5",
+    "command": "workbench.action.debug.start",
+    "when": "debuggersAvailable && debugState == 'inactive'"
+  },
+  // ==============================================================
+  // ========================= vscode-vim =========================
+  // ==============================================================
+  // previous diagnostic
+  {
+    "key": "oem_4 d",
+    "command": "editor.action.marker.nextInFiles",
+    "when": "editorFocus && vim.mode == 'Normal'"
+  },
+  // next diagnostic
+  {
+    "key": "oem_6 d",
+    "command": "editor.action.marker.prevInFiles",
+    "when": "editorFocus && vim.mode == 'Normal'"
+  },
+  // ==============================================================
+  // ======================= vscode-neovim ========================
+  // ==============================================================
+  // better escape
+  {
+    "command": "vscode-neovim.compositeEscape1",
+    "key": "j",
+    "when": "neovim.mode == insert && editorTextFocus",
+    "args": "j"
+  },
+  // previous diagnostic
+  {
+    "key": "oem_4 d",
+    "command": "editor.action.marker.prevInFiles",
+    "when": "editorFocus && neovim.mode == normal"
+  },
+  // next diagnostic
+  {
+    "key": "oem_6 d",
+    "command": "editor.action.marker.nextInFiles",
+    "when": "editorFocus && neovim.mode == normal"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.terminal.clear"
+  }
+]

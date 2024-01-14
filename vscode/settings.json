@@ -1,0 +1,554 @@
+{
+  // ================== debug ==================
+  "debug.onTaskErrors": "showErrors",
+  "debug.inlineValues": "auto",
+  "debug.console.closeOnEnd": true,
+  "debug.terminal.clearBeforeReusing": true,
+  // ================== editor ==================
+  "editor.autoClosingBrackets": "always",
+  "editor.autoClosingQuotes": "always",
+  "editor.accessibilitySupport": "off",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorStyle": "line",
+  "editor.cursorWidth": 3,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.lineNumbers": "relative",
+  "editor.fontFamily": "JetBrainsMono Nerd Font, Consolas, \"Rec Mono Semicasual\"",
+  "editor.fontSize": 16,
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.glyphMargin": true,
+  "editor.hover.delay": 200,
+  "editor.inlayHints.padding": true,
+  "editor.lineHeight": 24,
+  "editor.linkedEditing": true,
+  "editor.letterSpacing": 0.5,
+  "editor.mouseWheelZoom": true,
+  "editor.minimap.showSlider": "always",
+  "editor.smoothScrolling": true,
+  "editor.suggest.insertMode": "replace",
+  "editor.suggest.preview": true,
+  "editor.suggest.shareSuggestSelections": true,
+  "editor.tokenColorCustomizations": {
+    "[Material Theme*]": {
+      "comments": {
+        "fontStyle": "",
+        "foreground": "#637777"
+      }
+    },
+    "[Kanagawa]": {
+      "comments": "#FF9E3B"
+    }
+  },
+  "editor.unicodeHighlight.allowedCharacters": {
+    "：": true,
+    "➕": true
+  },
+  "editor.unicodeHighlight.allowedLocales": {
+    "zh-hans": true,
+    "zh-hant": true
+  },
+  "editor.wordWrap": "on",
+  // ================== explorer ==================
+  "explorer.confirmDelete": false,
+  "explorer.decorations.badges": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.incrementalNaming": "smart",
+  // ================== extensions ==================
+  "extensions.autoUpdate": "onlyEnabledExtensions",
+  "extensions.closeExtensionDetailsOnViewChange": true,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1,
+    "vscodevim.vim": 1,
+    "codeium.codeium": 1
+  },
+  "extensions.ignoreRecommendations": true,
+  // ================== files ==================
+  "files.autoGuessEncoding": true,
+  "files.associations": {
+    "*.env.dev": "env",
+    "*.env.prod": "env",
+    "*.env.development": "env",
+    "*.env.production": "env",
+    "*.cjson": "jsonc",
+    "*.wxss": "css",
+    "*.wxs": "javascript",
+    "*.tsx": "typescriptreact"
+  },
+  "files.autoSaveDelay": 10000,
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  // ================== git ==================
+  "diffEditor.codeLens": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.ignoreMissingGitWarning": true,
+  "git.mergeEditor": true,
+  "git.openRepositoryInParentFolders": "never",
+  "merge-conflict.autoNavigateNextConflict.enabled": true,
+  // ================== html ==================
+  "html.format.enable": false,
+  "html.format.templating": true,
+  "html.format.indentHandlebars": true,
+  "html.format.indentInnerHtml": true,
+  "html.format.wrapLineLength": 80,
+  // ================== javascript ==================
+  "javascript.format.enable": false,
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.validate.enable": false,
+  // ================== security ==================
+  "security.workspace.trust.untrustedFiles": "open",
+  "security.workspace.trust.banner": "never",
+  "security.workspace.trust.enabled": false,
+  "security.workspace.trust.startupPrompt": "never",
+  // ================== terminal ==================
+  "terminal.external.windowsExec": "",
+  "terminal.integrated.tabs.enabled": true,
+  "terminal.integrated.autoReplies": {
+    "Terminate batch job (Y/N)": "\r"
+  },
+  "terminal.integrated.cursorBlinking": true,
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.enableMultiLinePasteWarning": false,
+  "terminal.integrated.enablePersistentSessions": false,
+  "terminal.integrated.smoothScrolling": true,
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Nushell": {
+      "path": "C:\\Program Files\\nu\\bin\\nu.exe"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+  // ================== typescript ==================
+  "typescript.format.enable": false,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  // ================== vim ==================
+  "vim.easymotion": true,
+  "vim.easymotionMarkerForegroundColorOneChar": "#ff007c",
+  "vim.foldfix": true,
+  "vim.gdefault": true,
+  "vim.showMarksInGutter": true,
+  "vim.targets.enable": true,
+  "vim.autoSwitchInputMethod.defaultIM": "1033",
+  "vim.autoSwitchInputMethod.obtainIMCmd": "D:\\Apps\\im-select\\im-select.exe",
+  "vim.autoSwitchInputMethod.switchIMCmd": "D:\\Apps\\im-select\\im-select.exe {im}",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-b>": false,
+    "<C-c>": false,
+    "<C-e>": false,
+    "<C-v>": false,
+    "<C-s>": false,
+    "<C-z>": false,
+    "<C-x>": false,
+    "<C-f>": false,
+    "<C-p>": false,
+    "<C-d>": true,
+    "<C-u>": true
+  },
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.leader": "<space>",
+  "vim.overrideCopy": false,
+  "vim.showcmd": true,
+  "vim.showmodename": true,
+  "vim.smartRelativeLine": false,
+  "vim.statusBarColors.easymotionmode": "#007acc",
+  "vim.statusBarColors.easymotioninputmode": "#2ac3de",
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  "vim.normalModeKeyBindings": [
+    // show commands palette
+    {
+      "before": [":"],
+      "commands": ["workbench.action.showCommands"],
+      "silent": true
+    },
+    // save file
+    {
+      "before": ["leader", "w"],
+      "commands": [":w!"],
+      "silent": true
+    },
+    // quit all
+    {
+      "before": ["<leader>", "q", "q"],
+      "commands": [":qa"],
+      "silent": true
+    },
+    // quit window
+    {
+      "before": ["<leader>", "q", "w"],
+      "commands": [":exit"],
+      "silent": true
+    },
+    // save and quit
+    {
+      "before": ["leader", "x"],
+      "commands": [":x!"],
+      "silent": true
+    },
+    // show hover
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"],
+      "silent": true
+    },
+    // previous tab
+    {
+      "before": ["<Tab>"],
+      "commands": [":tabp"],
+      "silent": true
+    },
+    // next tab
+    {
+      "before": ["<S-Tab>"],
+      "commands": [":tabn"],
+      "silent": true
+    },
+    // go to left window
+    {
+      "before": ["<c-h>"],
+      "after": ["<c-w>", "h"],
+      "silent": true
+    },
+    // go to right window
+    {
+      "before": ["<c-l>"],
+      "after": ["<c-w>", "l"]
+    },
+    // go to upper window
+    {
+      "before": ["<c-j>"],
+      "after": ["<c-w>", "j"]
+    },
+    // go to lower window
+    {
+      "before": ["<c-k>"],
+      "after": ["<c-w>", "k"]
+    },
+    // go to line start
+    {
+      "before": ["g", "h"],
+      "after": ["^"]
+    },
+    // go to line end
+    {
+      "before": ["g", "l"],
+      "after": ["$"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    // toggle explorer
+    {
+      "before": ["<leader>", "e"],
+      "commands": ["workbench.action.toggleSidebarVisibility"],
+      "silent": true
+    },
+    // goto references
+    {
+      "before": ["g", "r"],
+      "commands": ["references-view.findReferences"],
+      "silent": true
+    },
+    // goto implementations
+    {
+      "before": ["g", "i"],
+      "commands": ["editor.action.goToImplementation"],
+      "silent": true
+    },
+    // quickfix/code actions
+    {
+      "before": ["<leader>", "c", "a"],
+      "commands": ["editor.action.quickFix"],
+      "silent": true
+    },
+    // rename
+    {
+      "before": ["leader", "r", "n"],
+      "commands": ["editor.action.rename"],
+      "silent": true
+    },
+    // format
+    {
+      "before": ["<leader>", "f", "m"],
+      "commands": ["editor.action.formatDocument"],
+      "silent": true
+    },
+    // find config
+    {
+      "before": ["<leader>", "f", "c"],
+      "commands": ["workbench.action.openSettingsJson"],
+      "silent": true
+    },
+    // find file
+    {
+      "before": ["<leader>", "f", "f"],
+      "commands": ["workbench.action.quickOpen"],
+      "silent": true
+    },
+    // find recent files
+    {
+      "before": ["<leader>", "f", "o"],
+      "commands": ["workbench.action.openRecent"],
+      "silent": true
+    },
+    // find notifications
+    {
+      "before": ["<leader>", "f", "n"],
+      "commands": ["notifications.showList"],
+      "silent": true
+    },
+    // find keymaps
+    {
+      "before": ["<leader>", "f", "k"],
+      "commands": ["workbench.action.openGlobalKeybindings"],
+      "silent": true
+    },
+    // Go to Symbol in Editor
+    {
+      "before": ["<leader>", "f", "s"],
+      "commands": ["workbench.action.gotoSymbol"],
+      "silent": true
+    },
+    // Go to Symbol in Workspace
+    {
+      "before": ["<leader>", "f", "S"],
+      "commands": ["workbench.action.showAllSymbols"],
+      "silent": true
+    },
+    // find word
+    {
+      "before": ["<leader>", "f", "w"],
+      "commands": ["actions.find"],
+      "silent": true
+    },
+    // find word(workbench)
+    {
+      "before": ["<leader>", "f", "W"],
+      "commands": ["workbench.action.findInFiles"],
+      "silent": true
+    },
+    // find themes
+    {
+      "before": ["<leader>", "f", "t"],
+      "commands": ["workbench.action.selectTheme"],
+      "silent": true
+    },
+    // toggle diagnostics
+    {
+      "before": ["<leader>", "u", "d"],
+      "commands": ["workbench.actions.view.problems"],
+      "silent": true
+    },
+    // toggle word wrap
+    {
+      "before": ["<leader>", "u", "w"],
+      "commands": ["editor.action.toggleWordWrap"],
+      "silent": true
+    },
+    // toggle comment
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["editor.action.commentLine"],
+      "silent": true
+    },
+    // easymotion
+    {
+      "before": ["s"],
+      "after": ["leader", "leader", "s"]
+    },
+    // toggle symbol
+    {
+      "before": ["leader", "c", "s"],
+      "commands": ["outline.focus", "outline.collapseAll"],
+      "silent": true
+    },
+    // git
+    {
+      "before": ["<leader>", "g", "g"],
+      "commands": ["workbench.scm.focus"],
+      "silent": true
+    },
+    // toggle zen mode
+    {
+      "before": ["<leader>", "z"],
+      "commands": ["workbench.action.toggleZenMode"],
+      "silent": true
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    // comment
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["editor.action.commentLine"],
+      "silent": true
+    },
+    // indent
+    {
+      "before": [">"],
+      "commands": ["editor.action.indentLines"],
+      "silent": true
+    },
+    // outdent
+    {
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"],
+      "silent": true
+    }
+  ],
+  "vim.insertModeKeyBindings": [
+    // escape
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  // ================== workbench/window ==================
+  "workbench.colorTheme": "Everforest Dark",
+  "workbench.colorCustomizations": {
+    "[Everforest Dark]": {
+      "titleBar.activeBackground": "#1E1E2E",
+      "editor.background": "#1E1E2E",
+      "editorGroupHeader.tabsBackground": "#1E1E2E",
+      "editorSuggestWidget.background": "#1E1E2E",
+      "editorHoverWidget.background": "#1E1E2E",
+      "tab.activeBackground": "#1E1E2E",
+      "tab.inactiveBackground": "#1E1E2E",
+      "tab.unfocusedInactiveBackground": "#181825FF",
+      "tab.unfocusedActiveBackground": "#181825FF",
+      "tab.hoverBackground": "#181825FF",
+      "sideBar.background": "#1E1E2E",
+      "activityBar.background": "#1E1E2E",
+      "statusBar.background": "#1E1E2E",
+      "banner.background": "#1E1E2E",
+      "menu.background": "#1E1E2E",
+      "terminal.background": "#1E1E2E",
+      "panel.background": "#1E1E2E",
+      "quickInput.background": "#1E1E2E"
+    }
+  },
+  "workbench.editor.empty.hint": "hidden",
+  "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.preferredDarkColorTheme": "Everforest Dark",
+  "workbench.preferredLightColorTheme": "Everforest Light",
+  "workbench.sideBar.location": "left",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.tree.indent": 18,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.layoutControl.enabled": false,
+  "workbench.productIconTheme": "fluent-icons",
+  "window.autoDetectColorScheme": true,
+  "window.commandCenter": false,
+  "window.titleBarStyle": "custom",
+  "window.zoomLevel": 2,
+  // ================== chore ==================
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[cpp]": {
+    "editor.tabSize": 4
+  },
+  "emmet.triggerExpansionOnTab": true,
+  "search.smartCase": true,
+  "search.showLineNumbers": true,
+  "remote.downloadExtensionsLocally": true,
+  "http.proxySupport": "fallback",
+  "zenMode.hideLineNumbers": false,
+  "http.proxyStrictSSL": false,
+  "task.allowAutomaticTasks": "on",
+  "settingsSync.ignoredSettings": [
+    "window.doubleClickIconToClose",
+    "-vim.autoSwitchInputMethod.defaultIM",
+    "-vim.autoSwitchInputMethod.obtainIMCmd",
+    "-vim.autoSwitchInputMethod.switchIMCmd"
+  ],
+  "code-runner.saveFileBeforeRun": true,
+  "code-runner.showExecutionMessage": false,
+  "material-icon-theme.activeIconPack": "none",
+  "code-runner.clearPreviousOutput": true,
+  "code-runner.fileDirectoryAsCwd": true,
+  "gitlens.ai.experimental.provider": "openai",
+  "gitlens.ai.experimental.openai.model": "gpt-4-1106-preview",
+  "C_Cpp.autocompleteAddParentheses": true,
+  "remote.autoForwardPorts": false,
+  "everforest.darkContrast": "hard",
+  "C_Cpp.debugShortcut": false,
+  "json.format.enable": false,
+  "better-comments.tags": [
+    {
+      "tag": "FIX",
+      "color": "#FF2D00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "TODO",
+      "color": "#3498DB",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "//",
+      "color": "#474747",
+      "strikethrough": true,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "HACK",
+      "color": "#FF8C00",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    },
+    {
+      "tag": "NOTE",
+      "color": "#98C379",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    }
+  ],
+  "material-icon-theme.hidesExplorerArrows": true,
+  "vsicons.presets.hideExplorerArrows": true,
+  "workbench.iconTheme": "material-icon-theme"
+}
