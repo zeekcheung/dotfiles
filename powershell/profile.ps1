@@ -8,7 +8,33 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin
 Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
 
+# Remove default aliases
+Remove-Alias -Name cd -Force
+Remove-Alias -Name gc -Force
+Remove-Alias -Name gp -Force
+
 # Functions
+function cd
+{
+  param (
+    [string]$Path
+  )
+
+  $item = Get-Item -LiteralPath $Path -Force
+
+  $targetPath = ""
+
+  # Goto the target directory if it's a symbolic link
+  if ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint)
+  {
+    $targetPath = $item.Target
+  } else
+  {
+    $targetPath = $Path
+  }
+
+  Set-Location -LiteralPath $targetPath
+}
 
 # Usage: ls
 function list
@@ -111,25 +137,7 @@ function path
   }
 }
 
-function gc
-{
-  & "git" "commit" "-m" $args
-}
-
-function gp
-{
-  & "git" "pull"
-}
-
-function gP
-{
-  & "git" "push"
-}
-
 # Aliases
-Remove-Alias -Name gc -Force
-Remove-Alias -Name gp -Force
-
 Set-Alias ls list
 Set-Alias ll 'Get-ChildItem'
 Set-Alias grep 'Select-String'
@@ -141,8 +149,43 @@ Set-Alias shutdown 'Stop-Computer'
 Set-Alias vi nvim
 
 Set-Alias gg 'lazygit'
-Set-Alias gt 'git status'
-Set-Alias ga 'git add'
-Set-Alias gb 'git branch'
-Set-Alias gd 'git diff'
-Set-Alias gs 'git stash'
+function ga
+{
+  git add $args 
+}
+
+function gb
+{
+  git branch $args 
+}
+
+function gc
+{
+  & "git" "commit" "-m" $args
+}
+
+function gd
+{
+  git diff $args 
+}
+
+function gs
+{
+  git stash $args 
+}
+
+function gp
+{
+  & "git" "pull" 
+}
+
+function gP
+{
+  & "git" "push"
+}
+
+function gt
+{
+  git status 
+}
+
