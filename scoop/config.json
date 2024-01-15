@@ -1,7 +1,7 @@
 {
-  "last_update": "2024-01-13T21:58:29.7798079+08:00",
+  "last_update": "2024-01-17T13:43:20.8876890+08:00",
   "root_path": "D:\\Apps\\Scoop",
-  "global_path": "D:\\Apps\\ScoopApps",
-  "scoop_repo": "https://github.com/ScoopInstaller/Scoop",
-  "scoop_branch": "master"
+  "global_path": "D:\\Apps\\Scoop\\apps",
+  "scoop_branch": "master",
+  "scoop_repo": "https://gitee.com/glsnames/scoop-installer"
 }

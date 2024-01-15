@@ -1,8 +1,10 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-command_timeout = 3000 #ms
+add_newline = true
 
-add_newline = false
+[cmd_duration]
+min_time = 200
+show_milliseconds = true
 
 [line_break]
 disabled = false

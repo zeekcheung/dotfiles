@@ -1,7 +1,7 @@
 live_config_reload = true
 
-# shell = { program = "pwsh", args = ["-nologo", "-WorkingDirectory", "~"] }
-shell = { program = "wsl", args = ["~", "tmux new-session -A -s main"] }
+shell = { program = "pwsh", args = ["-nologo", "-WorkingDirectory", "~"] }
+# shell = { program = "wsl", args = ["~", "tmux new-session -A -s main"] }
 
 [env]
 TERM = "xterm-256color"
@@ -11,6 +11,7 @@ decorations_theme_variant = "Dark"
 dimensions = { lines = 24, columns = 80 }
 position = { x = 420, y = 120 }
 opacity = 1.0
+dynamic_title = false
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }

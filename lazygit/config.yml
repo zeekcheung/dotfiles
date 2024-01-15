@@ -41,7 +41,7 @@ gui:
   showListFooter: true # for seeing the '5 of 20' message in list panels
   showRandomTip: true
   showBranchCommitHash: false # show commit hashes alongside branch names
-  showBottomLine: true # for hiding the bottom information line (unless it has important information to tell you)
+  showBottomLine: false # for hiding the bottom information line (unless it has important information to tell you)
   showCommandLog: true
   nerdFontsVersion: "3" # nerd fonts version to use ("2" or "3"); empty means don't show nerd font icons
   commandLogSize: 8
@@ -213,7 +213,6 @@ keybinding:
     tagCommit: "T"
     checkoutCommit: "<space>"
     resetCherryPick: "<c-R>"
-    copyCommitMessageToClipboard: "<c-y>"
     openLogMenu: "<c-l>"
     viewBisectOptions: "b"
   stash:

@@ -13,7 +13,8 @@ config.default_prog = { "pwsh", "-nologo" }
 -- config.default_domain = "WSL:Ubuntu-22.04"
 
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
-config.color_scheme = "Rosé Pine (base16)"
+-- config.color_scheme = "Rosé Pine (base16)"
+config.color_scheme = "Catppuccin Mocha"
 
 -- Font
 config.font = wezterm.font_with_fallback({
@@ -100,7 +101,7 @@ config.keys = {
 	-- Horizontal split
 	{ key = "|", mods = "LEADER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	-- Close split panel
-	{ key = "q", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
 	-- Close current tab
 	{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	-- Move between split panels

@@ -1,7 +1,7 @@
-#!/usr/bin/env fish
+#!/bin/bash
 
 # Install pre-requisites
-sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
 
 # Add Docker’s official GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -14,7 +14,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docke
 sudo apt update
 
 # Install Docker Engine
-sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 # Enable Docker service
 sudo systemctl enable docker
