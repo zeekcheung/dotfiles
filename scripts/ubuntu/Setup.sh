@@ -33,6 +33,10 @@ install_deps() {
 	sudo apt install -y zsh
 	sudo chsh -s /usr/bin/zsh
 
+	git clone https://github.com/zsh-users/zsh-completions.git ~/.config/zsh/plugins/zsh-completions
+	git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/plugins/zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/plugins/zsh-syntax-highlighting
+
 	# starship
 	curl -sS https://starship.rs/install.sh | sh
 
@@ -70,13 +74,18 @@ install_deps() {
 
 	# bottom
 	curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0.9.6_amd64.deb
-	rm bottom_0.9.6_amd64.deb
 	sudo dpkg -i bottom_0.9.6_amd64.deb
+	rm bottom_0.9.6_amd64.deb
 }
 
 config() {
 	# Clone my dotfiles
-	git clone git@github.com:zeekcheung/dotfiles.git ~/.config
+	git clone git@github.com:zeekcheung/dotfiles.git
+	cp dotfiles/* -r ~/.config
+
+	# Clone submodules
+	git submodule init
+	git submodules update
 
 	# Make symbolic links
 	ln -s ~/.config/.gitconfig ~/.gitconfig
