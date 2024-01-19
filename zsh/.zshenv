@@ -20,7 +20,7 @@ function lazyvim {
 # Go
 export GOPATH=$HOME/code/go
 export GOBIN=$GOPATH/bin
-export PATH=$GOPATH:$PATH
+export PATH=$GOBIN:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
 # fzf
