@@ -1,6 +1,7 @@
 live_config_reload = true
 
-shell = { program = "pwsh", args = ["-nologo", "-WorkingDirectory", "~"] }
+shell = "zsh"
+# shell = { program = "pwsh", args = ["-nologo", "-WorkingDirectory", "~"] }
 # shell = { program = "wsl", args = ["~", "tmux new-session -A -s main"] }
 
 [env]
@@ -21,82 +22,80 @@ size = 14
 transparent_background_colors = true
 
 [colors.primary]
-foreground = "#e0def4"
-background = "#191724"
-dim_foreground = "#908caa"
-bright_foreground = "#e0def4"
+background = '#1E1E2E' # base
+foreground = '#CDD6F4' # text
+# Bright and dim foreground colors
+dim_foreground = '#CDD6F4' # text
+bright_foreground = '#CDD6F4' # text
 
+# Cursor colors
 [colors.cursor]
-text = "#e0def4"
-cursor = "#524f67"
+text = '#1E1E2E' # base
+cursor = '#F5E0DC' # rosewater
 
 [colors.vi_mode_cursor]
-text = "#e0def4"
-cursor = "#524f67"
+text = '#1E1E2E' # base
+cursor = '#B4BEFE' # lavender
 
+# Search colors
 [colors.search.matches]
-foreground = "#908caa"
-background = "#26233a"
+foreground = '#1E1E2E' # base
+background = '#A6ADC8' # subtext0
 
 [colors.search.focused_match]
-foreground = "#191724"
-background = "#ebbcba"
-
-[colors.hints.start]
-foreground = "#908caa"
-
-background = "#1f1d2e"
-
-[colors.hints.end]
-foreground = "#6e6a86"
-
-background = "#1f1d2e"
-
-[colors.line_indicator]
-foreground = "None"
-background = "None"
+foreground = '#1E1E2E' # base
+background = '#A6E3A1' # green
 
 [colors.footer_bar]
-foreground = "#e0def4"
-background = "#1f1d2e"
+foreground = '#1E1E2E' # base
+background = '#A6ADC8' # subtext0
 
+# Keyboard regex hints
+[colors.hints.start]
+foreground = '#1E1E2E' # base
+background = '#F9E2AF' # yellow
+
+[colors.hints.end]
+foreground = '#1E1E2E' # base
+background = '#A6ADC8' # subtext0
+
+# Selection colors
 [colors.selection]
-text = "#e0def4"
-background = "#403d52"
+text = '#1E1E2E' # base
+background = '#F5E0DC' # rosewater
 
+# Normal colors
 [colors.normal]
-black = "#26233a"
-red = "#eb6f92"
-green = "#31748f"
+black = '#45475A' # surface1
+red = '#F38BA8' # red
+green = '#A6E3A1' # green
+yellow = '#F9E2AF' # yellow
+blue = '#89B4FA' # blue
+magenta = '#F5C2E7' # pink
+cyan = '#94E2D5' # teal
+white = '#BAC2DE' # subtext1
 
-yellow = "#f6c177"
-
-blue = "#9ccfd8"
-magenta = "#c4a7e7"
-cyan = "#ebbcba"
-white = "#e0def4"
-
+# Bright colors
 [colors.bright]
-black = "#6e6a86"
+black = '#585B70' # surface2
+red = '#F38BA8' # red
+green = '#A6E3A1' # green
+yellow = '#F9E2AF' # yellow
+blue = '#89B4FA' # blue
+magenta = '#F5C2E7' # pink
+cyan = '#94E2D5' # teal
+white = '#A6ADC8' # subtext0
 
-red = "#eb6f92"
-green = "#31748f"
-yellow = "#f6c177"
-blue = "#9ccfd8"
-magenta = "#c4a7e7"
-cyan = "#ebbcba"
-white = "#e0def4"
-
-
+# Dim colors
 [colors.dim]
-black = "#6e6a86"
-red = "#eb6f92"
-green = "#31748f"
-yellow = "#f6c177"
-blue = "#9ccfd8"
-magenta = "#c4a7e7"
-cyan = "#ebbcba"
-white = "#e0def4"
+black = '#45475A' # surface1
+red = '#F38BA8' # red
+green = '#A6E3A1' # green
+yellow = '#F9E2AF' # yellow
+blue = '#89B4FA' # blue
+magenta = '#F5C2E7' # pink
+cyan = '#94E2D5' # teal
+white = '#BAC2DE' # subtext1
 
 [mouse]
 hide_when_typing = true
