@@ -1,8 +1,8 @@
 [http]
-	proxy = http://127.0.0.1:10809
+	proxy = http://127.0.0.1:20171
 	sslVerify = false
 [https]
-	proxy = https://127.0.0.1:10809
+	proxy = https://127.0.0.1:20171
 [user]
 	name = zeekcheung
 	email = zeekcheung@gmail.com
@@ -13,5 +13,3 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[safe]
-	directory = C:/Users/zeekc/AppData/Local/nvim-data/lazy/markdown-preview.nvim
