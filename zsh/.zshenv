@@ -23,6 +23,12 @@ export GOBIN=$GOPATH/bin
 export PATH=$GOBIN:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
+# nvm
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
 # fzf
 export FZF_DEFAULT_OPTS="
 --layout=reverse
