@@ -2,11 +2,16 @@
 
 # zsh
 sudo apt install -y zsh
-sudo chsh -s /usr/bin/zsh
 
-git clone https://github.com/zsh-users/zsh-completions.git ~/.config/zsh/plugins/zsh-completions
-git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.config/zsh/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.config/zsh/plugins/zsh-syntax-highlighting
+# oh-my-zsh
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+ZSH="$HOME/.config/oh-my-zsh" sh install.sh
+rm install.sh
+
+# zsh plugins
+git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.config/oh-my-zsh/custom}/plugins/zsh-completions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.config/oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.config/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # starship
 curl -sS https://starship.rs/install.sh | sh
@@ -34,7 +39,10 @@ sudo apt update
 sudo apt install -y neovim
 
 # other tools
-sudo apt install -y bat fd-find fzf ripgrep zoxide unzip xclip neofetch gnome-tweaks gnome-shell-extensions
+sudo apt install -y bat fd-find fzf ripgrep unzip xclip neofetch gnome-tweaks gnome-shell-extensions
+
+# zoxide
+curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
 # eza
 sudo mkdir -p /etc/apt/keyrings
