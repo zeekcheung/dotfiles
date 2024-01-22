@@ -7,19 +7,24 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
--- Windows shell
-config.default_prog = { "pwsh", "-nologo" }
--- WSL
--- config.default_domain = "WSL:Ubuntu-22.04"
+if wezterm.target_triple:find("windows") then
+	-- Windows shell
+	config.default_prog = { "pwsh", "-nologo" }
+	-- WSL
+	config.default_domain = "WSL:Ubuntu-22.04"
+end
 
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 -- config.color_scheme = "Rosé Pine (base16)"
 config.color_scheme = "Catppuccin Mocha"
 
+config.front_end = "WebGpu"
+config.webgpu_power_preference = "HighPerformance"
+
 -- Font
 config.font = wezterm.font_with_fallback({
+	-- { family = "Maple Mono NF", weight = "Regular", italic = true },
 	{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true },
-	{ family = "RecMonoSemicasual Nerd Font", weight = "Regular", italic = true },
 	{ family = "Terminus", weight = "Regular" },
 })
 
@@ -84,36 +89,45 @@ config.mouse_bindings = {
 	{ event = { Up = { streak = 1, button = "Left" } }, mods = "CTRL", action = act.OpenLinkAtMouseCursor },
 	-- Disable the 'Down' event of CTRL-Click to avoid weird program behaviors
 	{ event = { Down = { streak = 1, button = "Left" } }, mods = "CTRL", action = act.Nop },
+	-- Right click to paste from clipboard
+	{
+		event = { Down = { streak = 1, button = "Right" } },
+		mods = "NONE",
+		action = wezterm.action_callback(function(window, pane)
+			local has_selection = window:get_selection_text_for_pane(pane) ~= ""
+			if has_selection then
+				window:perform_action(act.CopyTo("ClipboardAndPrimarySelection"), pane)
+				window:perform_action(act.ClearSelection, pane)
+			else
+				window:perform_action(act({ PasteFrom = "Clipboard" }), pane)
+			end
+		end),
+	},
 }
-
--- Change leader key to ctrl+a
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 }
 
 config.keys = {
 	-- Active command palette
 	{ key = "F1", mods = "", action = act.ActivateCommandPalette },
 	-- Toggle fullscreen
 	{ key = "F11", mods = "", action = act.ToggleFullScreen },
-	-- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
-	{ key = "a", mods = "LEADER|CTRL", action = act.SendKey({ key = "a", mods = "CTRL" }) },
 	-- Vertical split
-	{ key = "\\", mods = "LEADER", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "\\", mods = "CTRL", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 	-- Horizontal split
-	{ key = "|", mods = "LEADER|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+	{ key = "|", mods = "CTRL|SHIFT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
 	-- Close split panel
-	{ key = "x", mods = "LEADER", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "x", mods = "CTRL|SHIFT", action = act.CloseCurrentPane({ confirm = false }) },
 	-- Close current tab
 	{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 	-- Move between split panels
-	{ key = "h", mods = "LEADER", action = act.ActivatePaneDirection("Left") },
-	{ key = "j", mods = "LEADER", action = act.ActivatePaneDirection("Down") },
-	{ key = "k", mods = "LEADER", action = act.ActivatePaneDirection("Up") },
-	{ key = "l", mods = "LEADER", action = act.ActivatePaneDirection("Right") },
+	{ key = "h", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Left") },
+	{ key = "j", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Down") },
+	{ key = "k", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Up") },
+	{ key = "l", mods = "CTRL|SHIFT", action = act.ActivatePaneDirection("Right") },
 	-- Resize panels
-	{ key = "LeftArrow", mods = "LEADER|CTRL", action = act.AdjustPaneSize({ "Left", 5 }) },
-	{ key = "RightArrow", mods = "LEADER|CTRL", action = act.AdjustPaneSize({ "Right", 5 }) },
-	{ key = "UpArrow", mods = "LEADER|CTRL", action = act.AdjustPaneSize({ "Up", 5 }) },
-	{ key = "DownArrow", mods = "LEADER|CTRL", action = act.AdjustPaneSize({ "Down", 5 }) },
+	{ key = "LeftArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Left", 5 }) },
+	{ key = "RightArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Right", 5 }) },
+	{ key = "UpArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Up", 5 }) },
+	{ key = "DownArrow", mods = "CTRL|SHIFT", action = act.AdjustPaneSize({ "Down", 5 }) },
 }
 
 -- and finally, return the configuration to wezterm
