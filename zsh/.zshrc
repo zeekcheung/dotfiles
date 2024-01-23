@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.config/oh-my-zsh"
@@ -24,7 +25,7 @@ zstyle ':omz:plugins:nvm' lazy yes
 DISABLE_LS_COLORS="true"
 
 # Enable command auto-correction.
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # Disable marking untracked files under VCS as dirty.
 DISABLE_UNTRACKED_FILES_DIRTY="true"

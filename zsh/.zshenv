@@ -34,6 +34,9 @@ export GOBIN=$GOPATH/bin
 export PATH=$GOBIN:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
+# Nodejs
+export PATH=$HOME/.config/nvm/versions/node/v20.11.0/bin:$PATH
+
 # fzf
 export FZF_DEFAULT_OPTS="
 --layout=reverse
