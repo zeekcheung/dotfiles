@@ -39,7 +39,9 @@ sudo apt update
 sudo apt install -y neovim
 
 # other tools
-sudo apt install -y bat fd-find fzf ripgrep unzip xclip neofetch gnome-tweaks gnome-shell-extensions
+sudo apt install -y bat fd-find fzf ripgrep unzip xclip neofetch gnome-tweaks gnome-shell-extensions python3-pip python3-nautilus gimp
+
+pip3 install --user nautilus-open-any-terminal --break-system-packages
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
