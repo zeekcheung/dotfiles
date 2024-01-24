@@ -60,32 +60,45 @@ unproxy() {
 	echo "proxy off"
 }
 
-alias zshconfig="nvim ~/.config/zsh"
+package_exist() {
+	command -v "$1" >/dev/null 2>&1
+}
 
-alias ~="cd ~"
-alias ..="cd .."
-alias cat="bat"
-alias cd="z"
-alias grep="rg"
-alias ga="git add"
-alias gb="git branch"
-alias gc="git commit"
-alias gd="git diff"
-alias gg="lazygit"
-alias gl="git log"
-alias gp="git pull && git git push"
-alias gt="git status"
-alias ipconfig="ifconfig"
-alias la="eza -a --git --icons --group-directories-first"
-alias ls="eza --git --icons --group-directories-first"
-alias ll="eza -l --git --icons --group-directories-first"
-alias vi="nvim"
+if package_exist batcat; then
+  alias cat="batcat"
+fi
+
+if package_exist eza; then
+  alias la="eza -a --git --icons --group-directories-first"
+  alias ls="eza --git --icons --group-directories-first"
+  alias ll="eza -l --git --icons --group-directories-first"
+fi
+
+if package_exist git; then
+  alias ga="git add"
+  alias gb="git branch"
+  alias gc="git commit"
+  alias gd="git diff"
+  alias gl="git log"
+  alias gp="git pull && git push"
+  alias gt="git status"
+fi
+
+if package_exist lazygit; then
+	alias gg="lazygit"
+fi
+
+if package_exist nvim; then
+	alias vi="nvim"
+fi
+
+# zoxide
+if package_exist "zoxide"; then
+	eval "$(zoxide init zsh)"
+  alias cd="z"
+fi
 
 # starship
-eval "$(starship init zsh)"
-# zoxide
-eval "$(zoxide init zsh)"
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+if package_exist "starship"; then
+	eval "$(starship init zsh)"
+fi
