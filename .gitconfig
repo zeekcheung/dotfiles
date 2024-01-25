@@ -1,8 +1,8 @@
 [http]
-	proxy = http://127.0.0.1:20171
+	; proxy = http://127.0.0.1:20171
 	sslVerify = false
 [https]
-	proxy = https://127.0.0.1:20171
+	; proxy = https://127.0.0.1:20171
 [user]
 	name = zeekcheung
 	email = zeekcheung@gmail.com

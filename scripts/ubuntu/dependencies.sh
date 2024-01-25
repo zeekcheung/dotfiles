@@ -4,14 +4,17 @@
 sudo apt install -y zsh
 
 # oh-my-zsh
+ZSH="$HOME/.config/oh-my-zsh"
+ZSH_CUSTOM="$ZSH/custom"
+
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-ZSH="$HOME/.config/oh-my-zsh" sh install.sh
+ZSH=$ZSH sh install.sh
 rm install.sh
 
 # zsh plugins
-git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:=~/.config/oh-my-zsh/custom}/plugins/zsh-completions
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.config/oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.config/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
+git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
 
 # starship
 curl -sS https://starship.rs/install.sh | sh
@@ -39,9 +42,7 @@ sudo apt update
 sudo apt install -y neovim
 
 # other tools
-sudo apt install -y bat fd-find fzf ripgrep unzip xclip neofetch gnome-tweaks gnome-shell-extensions python3-pip python3-nautilus gimp
-
-pip3 install --user nautilus-open-any-terminal --break-system-packages
+sudo apt install -y bat fd-find fzf neofetch python3-pip ripgrep unzip xclip
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
@@ -58,7 +59,17 @@ curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0
 sudo dpkg -i bottom_0.9.6_amd64.deb
 rm bottom_0.9.6_amd64.deb
 
-# solaar
-sudo add-apt-repository ppa:solaar-unifying/stable
-sudo apt update
-sudo apt install -y solaar
+if grep -qi Microsoft /proc/version; then
+	# WSL dependencies
+	sudo apt install -y wslu xdg-utils
+else
+	# Ubuntu desktop dependencies
+	sudo apt install -y gimp gnome-shell-extensions gnome-tweaks
+
+	sudo apt install -y python3-nautilus && pip3 install --user nautilus-open-any-terminal --break-system-packages
+
+	# solaar
+	sudo add-apt-repository ppa:solaar-unifying/stable
+	sudo apt update
+	sudo apt install -y solaar
+fi

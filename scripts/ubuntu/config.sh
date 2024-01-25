@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Clone my dotfiles
-git clone git@github.com:zeekcheung/dotfiles.git
-cp dotfiles/* -r ~/.config
+# git clone git@github.com:zeekcheung/dotfiles.git
+# cp dotfiles/* -r ~/.config
 
 # Clone submodules
-git submodules update --init
+git submodule update --init
 
 # Make symbolic links
 ln -s ~/.config/.gitconfig ~/.gitconfig

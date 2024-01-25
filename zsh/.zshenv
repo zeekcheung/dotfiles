@@ -1,5 +1,6 @@
 # Manually set your language environment
 export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -35,7 +36,7 @@ export PATH=$GOBIN:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
 # Nodejs
-export PATH=$HOME/.config/nvm/versions/node/v20.11.0/bin:$PATH
+export PATH=$HOME/.nvm/versions/node/v20.11.0/bin:$PATH
 
 # fzf
 export FZF_DEFAULT_OPTS="

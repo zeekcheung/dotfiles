@@ -65,23 +65,26 @@ package_exist() {
 }
 
 if package_exist batcat; then
-  alias cat="batcat"
+	alias cat="batcat"
 fi
 
 if package_exist eza; then
-  alias la="eza -a --git --icons --group-directories-first"
-  alias ls="eza --git --icons --group-directories-first"
-  alias ll="eza -l --git --icons --group-directories-first"
+	alias la="eza -a --git --icons --group-directories-first"
+	alias ls="eza --git --icons --group-directories-first"
+	alias ll="eza -l --git --icons --group-directories-first"
+else
+	alias la="ls -a"
+	alias ll="ls -l"
 fi
 
 if package_exist git; then
-  alias ga="git add"
-  alias gb="git branch"
-  alias gc="git commit"
-  alias gd="git diff"
-  alias gl="git log"
-  alias gp="git pull && git push"
-  alias gt="git status"
+	alias ga="git add"
+	alias gb="git branch"
+	alias gc="git commit"
+	alias gd="git diff"
+	alias gl="git log"
+	alias gp="git pull && git push"
+	alias gt="git status"
 fi
 
 if package_exist lazygit; then
@@ -95,7 +98,7 @@ fi
 # zoxide
 if package_exist "zoxide"; then
 	eval "$(zoxide init zsh)"
-  alias cd="z"
+	alias cd="z"
 fi
 
 # starship
