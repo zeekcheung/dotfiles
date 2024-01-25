@@ -26,7 +26,7 @@ $symbolicLinks = @{
   # bat
   "$APPDATA\bat" = "$CONFIG\bat"
   # clangd
-  "$LOCALAPPDATA\clangd" = "$CONFIG\clangd"
+  "$LOCALAPPDATA\clangd\config.yaml" = "$CONFIG\clangd\windows-config.yaml"
   # wsl
   "$USERPROFILE\.wslconfig" = "$CONFIG\wsl\.wslconfig"
 }
@@ -79,10 +79,11 @@ $scoopDeps = @(
 )
 
 # Install scoop
-if (Get-Command -Name "scoop" -ErrorAction SilentlyContinue) {
+if (Get-Command -Name "scoop" -ErrorAction SilentlyContinue)
+{
   Write-Host "Scoop has been installed."
-}
-else {
+} else
+{
   Write-Host "Installing scoop..."
 
   irm get.scoop.sh | iex
@@ -93,8 +94,10 @@ else {
 # Add missing buckets
 Write-Host "Adding missing scoop buckets..."
 $addedBuckets = scoop bucket list
-foreach ($scoopBucket in $scoopBuckets.GetEnumerator()) {
-  if ($addedBuckets -notcontains $scoopBucket.Key) {
+foreach ($scoopBucket in $scoopBuckets.GetEnumerator())
+{
+  if ($addedBuckets -notcontains $scoopBucket.Key)
+  {
     scoop bucket add $scoopBucket.Key $scoopBucket.Value
   }
 }
@@ -102,8 +105,10 @@ foreach ($scoopBucket in $scoopBuckets.GetEnumerator()) {
 # Install missing dependencies
 Write-Host "Installing missing dependencies..."
 $installedScoopDeps = scoop list
-foreach ($scoopDep in $scoopDeps) {
-  if ($installedScoopDeps -notcontains $scoopDep) {
+foreach ($scoopDep in $scoopDeps)
+{
+  if ($installedScoopDeps -notcontains $scoopDep)
+  {
     scoop install $scoopDep
   }
 }
@@ -116,7 +121,9 @@ $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";
 
 # Create Symbolic Links
 Write-Host "Creating Symbolic Links..."
-foreach ($symlink in $symbolicLinks.GetEnumerator()) {
+foreach ($symlink in $symbolicLinks.GetEnumerator())
+{
   Get-Item -Path $symlink.Key -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
   New-Item -ItemType SymbolicLink -Path $symlink.Key -Target (Resolve-Path $symlink.Value) -Force | Out-Null
 }
+
