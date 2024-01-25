@@ -11,7 +11,7 @@ if wezterm.target_triple:find("windows") then
 	-- Windows shell
 	config.default_prog = { "pwsh", "-nologo" }
 	-- WSL
-	config.default_domain = "WSL:Ubuntu-22.04"
+	-- config.default_domain = "WSL:Ubuntu-22.04"
 end
 
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
