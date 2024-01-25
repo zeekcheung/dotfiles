@@ -31,8 +31,8 @@ $symbolicLinks = @{
   "$USERPROFILE\.wslconfig" = "$CONFIG\wsl\.wslconfig"
 }
 
-$ScoopDir = 'D:\Apps\Scoop'
-$ScoopGlobalDir = 'D:\Apps\Scoop\apps'
+# $ScoopDir = 'D:\Apps\Scoop'
+# $ScoopGlobalDir = 'D:\Apps\Scoop\apps'
 
 # Scoop buckets
 $scoopBuckets = @{
@@ -54,7 +54,7 @@ $scoopDeps = @(
   "eza"
   "fd"
   "fzf"
-  "git"
+  # "git"
   "gzip"
   "go"
   "lazygit"
@@ -85,8 +85,9 @@ if (Get-Command -Name "scoop" -ErrorAction SilentlyContinue) {
 else {
   Write-Host "Installing scoop..."
 
-  Invoke-RestMethod get.scoop.sh -outfile 'install.ps1'
-  .\install.ps1 -ScoopDir $ScoopDir -ScoopGlobalDir $ScoopGlobalDir
+  irm get.scoop.sh | iex
+  # Invoke-RestMethod get.scoop.sh -outfile 'install.ps1'
+  # .\install.ps1 -ScoopDir $ScoopDir -ScoopGlobalDir $ScoopGlobalDir
 }
 
 # Add missing buckets
