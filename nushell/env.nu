@@ -51,9 +51,22 @@ $env.NU_PLUGIN_DIRS = [
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
 $env.PATH = ($env.Path | split row (char esep) | prepend '/some/path')
 
-# Environment
-$env.EDITOR = 'code'
+def command_exists [command] {
+  let command_list_length = (which $command | length)
+  $command_list_length > 0
+}
 
-# Startship
-mkdir ~/.cache/starship
-starship init nu | save -f ~/.cache/starship/init.nu
+if (command_exists code) {
+  $env.EDITOR = 'code'
+} else if (command_exists nvim) {
+  $env.EDITOR = 'nvim'
+}
+
+if (command_exists zoxide) {
+  zoxide init nushell | save -f ~/.zoxide.nu
+}
+
+if (command_exists starship) {
+  mkdir ~/.cache/starship
+  starship init nu | save -f ~/.cache/starship/init.nu
+}
