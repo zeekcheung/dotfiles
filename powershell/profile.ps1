@@ -1,132 +1,135 @@
-# Change execution policy
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-
 # Enhance command suggestions
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -EditMode Windows
-Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete
+Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete
 
-# Starship
-Invoke-Expression (&starship init powershell)
-# zoxide
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
+# Global variables: $Config, $Documents, etc
+$Global:Config = $HOME + '\.config'
+$Global:Documents = [Environment]::GetFolderPath('MyDocuments')
+$Global:Downloads = (New-Object -ComObject Shell.Application).Namespace('shell:Downloads').Self.Path
+$Global:Music = [Environment]::GetFolderPath('MyMusic')
+$Global:Pictures = [Environment]::GetFolderPath('MyPictures')
+$Global:Videos = [Environment]::GetFolderPath('MyVideos')
 
-# Environment
-$env:EDITOR = 'nvim'
+<#
+.SYNOPSIS
+cd to parent folder
 
-# fzf
-$env:FZF_DEFAULT_OPTS = "
---layout=reverse
---inline-info
---ansi
---bind=tab:down,shift-tab:up,ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle
---preview='bat --color=always {}'
---preview-window=right,60%
-"
-
-# Remove default aliases
-Remove-Alias -Name cat -Force
-Remove-Alias -Name cd -Force
-Remove-Alias -Name gc -Force
-Remove-Alias -Name gp -Force
-Remove-Alias -Name ls -Force
-
-# Aliases
-Set-Alias cat bat
-Set-Alias cd z
-Set-Alias grep rg
-Set-Alias df Get-PSDrive
-Set-Alias gg lazygit
-Set-Alias ipconfig Get-NetIPAddress
-Set-Alias reboot Restart-Computer
-Set-Alias shutdown top-Computer
-Set-Alias top btm
-Set-Alias vi nvim
-
-function ..
-{ z .. 
-}
-function ls
-{ eza --git --icons --group-directories-first 
-}
-function ll
-{ eza -l --git --icons --group-directories-first 
+.EXAMPLE
+..
+#>
+function .. {
+  Set-Location ..
 }
 
-function ga
-{ git add $args 
-}
-function gb
-{ git branch $args 
-}
-function gc
-{ git commit -m $args 
-}
-function gd
-{ git diff $args 
-}
-function gs
-{ git stash $args 
-}
-function gp
-{ git pull 
-}
-function gP
-{ git push 
-}
-function gt
-{ git status 
-}
+<#
+.SYNOPSIS
+Open config folder with $env:EDITOR
 
-# Usage: config, config nvim, config wsl...
-function config
-{
+.EXAMPLE
+config, config nvim, config wsl, etc
+#>
+function config {
   param (
     [String]$dirname
   )
 
-  $dirname = '~\.config\' + $dirname
-  Set-Location $dirname
+  $current_location = Get-Location
+  $target_location = $Global:Config + $dirname
+
+  Set-Location $target_location
   $command = $env:EDITOR + ' .'
   Invoke-Expression $command
+
+  Set-Location $current_location
 }
 
-# Usage: touch foo.txt, bar.txt || touch $HOME/foo.bar
-function touch
-{
+<#
+.SYNOPSIS
+List environment variables
+
+.EXAMPLE
+env
+#>
+function env {
+  Get-ChildItem -Path 'Env:'
+}
+
+<#
+.SYNOPSIS
+Create symbolic link
+
+.EXAMPLE
+ln ~\.config\bat $Env:APPDATA\bat
+#>
+function ln {
+  param(
+    [Parameter(Mandatory = $true, Position = 0)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Target,
+
+    [Parameter(Mandatory = $true, Position = 1)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Destination
+  )
+
+  Get-Item -Path $Destination -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+  New-Item -ItemType SymbolicLink -Path $Destination -Target (Resolve-Path $Target) -Force | Out-Null
+}
+
+<#
+.SYNOPSIS
+List paths
+
+.EXAMPLE
+path
+#>
+function path {
+  $env:Path -split ';'
+}
+
+<#
+.SYNOPSIS
+Create files
+
+.EXAMPLE
+touch foo.txt, bar.txt || touch $HOME/foo.bar
+#>
+function touch {
   param(
     [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
     [String[]]$Paths
   )
 
-  process
-  {
-    foreach ($Path in $Paths)
-    {
+  process {
+    foreach ($Path in $Paths) {
       $expandedPath = $ExecutionContext.InvokeCommand.ExpandString($Path)
       $parentDirectory = Split-Path -Path $expandedPath -Parent
 
-      if (-not [string]::IsNullOrWhiteSpace($parentDirectory) -and -not (Test-Path -Path $parentDirectory))
-      {
+      if (-not [string]::IsNullOrWhiteSpace($parentDirectory) -and -not (Test-Path -Path $parentDirectory)) {
         $null = New-Item -Path $parentDirectory -ItemType Directory
       }
 
-      if (Test-Path -Path $expandedPath)
-      {
+      if (Test-Path -Path $expandedPath) {
         $currentDate = Get-Date
         $null = (Get-Item -Path $expandedPath).LastWriteTime = $currentDate
         $null = (Get-Item -Path $expandedPath).LastAccessTime = $currentDate
-      } else
-      {
+      }
+      else {
         $null = New-Item -Path $expandedPath -ItemType File
       }
     }
   }
 }
 
-# Usage: which app
-function which
-{
+<#
+.SYNOPSIS
+Get the path of a command
+
+.EXAMPLE
+which pwsh
+#>
+function which {
   param(
     [Parameter(Mandatory = $true, Position = 0)]
     [ValidateNotNullOrEmpty()]
@@ -136,38 +139,106 @@ function which
   Get-Command $CommandName | Select-Object -ExpandProperty Definition
 }
 
-# Usage: ln $Env:APPDATA\bat ~\.config\bat
-function ln
-{
-  param(
-    [Parameter(Mandatory = $true, Position = 0)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Destination,
+<#
+.SYNOPSIS
+Check if command exists
 
-    [Parameter(Mandatory = $true, Position = 1)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Source
-  )
-
-  Get-Item -Path $Destination -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-  New-Item -ItemType SymbolicLink -Path $Destination -Target (Resolve-Path $Source) -Force | Out-Null
+.EXAMPLE
+Test-CommandExists pwsh
+#>
+function Test-CommandExists {
+  Param ($command)
+  $oldPreference = $ErrorActionPreference
+  $ErrorActionPreference = 'stop'
+  try { if (Get-Command $command) { RETURN $true } }
+  Catch { Write-Host "$command does not exist"; RETURN $false }
+  Finally { $ErrorActionPreference = $oldPreference }
 }
 
-# Usage: env
-function env
-{ Get-ChildItem -Path 'Env:' 
+if (Test-CommandExists bat) {
+  Set-Alias cat bat -Force
 }
 
-# Usage: path
-function path
-{
-  $paths = $env:Path -split ';'
-  $index = 1
+if (Test-CommandExists eza) {
+  Remove-Alias -Name ls -Force
 
-  foreach ($path in $paths)
-  {
-    Write-Host $path
-    $index++
+  function ls {
+    eza --git --icons --group-directories-first
+  }
+  function la {
+    eza -a --git --icons --group-directories-first
+  }
+  function ll {
+    eza -l --git --icons --group-directories-first
+  }
+}
+else {
+  Set-Alias la 'ls -a'
+  Set-Alias ll 'ls -l'
+}
+
+if (Test-CommandExists fzf) {
+  $env:FZF_DEFAULT_OPTS = "
+    --layout=reverse
+    --inline-info
+    --ansi
+    --bind=tab:down,shift-tab:up,ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle
+    --preview='bat --color=always {}'
+    --preview-window=right,60%
+  "
+}
+
+if (Test-CommandExists git) {
+  Remove-Alias -Name gc -Force
+  Remove-Alias -Name gp -Force
+
+  function ga {
+    git add $args
+  }
+  function gb {
+    git branch $args
+  }
+  function gc {
+    git commit -m $args
+  }
+  function gd {
+    git diff $args
+  }
+  function gs {
+    git stash $args
+  }
+  function gp {
+    git pull
+  }
+  function gP {
+    git push
+  }
+  function gt {
+    git status
   }
 }
 
+if (Test-CommandExists lazygit) {
+  Set-Alias gg lazygit
+}
+
+if (Test-CommandExists nvim) {
+  $env:EDITOR = 'nvim'
+  Set-Alias vi nvim
+}
+
+if (Test-CommandExists zoxide) {
+  Remove-Alias -Name cd -Force
+  Set-Alias cd z
+
+  # zoxide
+  Invoke-Expression (& { (zoxide init powershell | Out-String) })
+}
+
+# Aliases
+Set-Alias ipconfig Get-NetIPAddress
+Set-Alias reboot Restart-Computer
+Set-Alias shutdown top-Computer
+
+# Starship
+Invoke-Expression (&starship init powershell)
