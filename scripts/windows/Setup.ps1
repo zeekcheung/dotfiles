@@ -1,115 +1,117 @@
 # Setup script for Windows
 
-$USERPROFILE = $env:USERPROFILE
-$APPDATA = $env:APPDATA
-$LOCALAPPDATA = $env:LOCALAPPDATA
+$AppData = $env:APPDATA
+$LocalAppData = $env:LOCALAPPDATA
 
-$CONFIG = "$USERPROFILE\.config"
-$DOCUMENTS = "$USERPROFILE\Documents"
+$Config = "$HOME\.config"
+$Documents = [Environment]::GetFolderPath('MyDocuments')
 
-# Symbolic link list: Destination => Source
-$symbolicLinks = @{
-  # Windows Terminal
-  "$LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json" = "$CONFIG\windows-terminal\settings.json"
-  # Alacritty
-  "$APPDATA\alacritty" = "$CONFIG\alacritty"
-  # Powershell
-  "$DOCUMENTS\PowerShell\Microsoft.PowerShell_profile.ps1" = "$CONFIG\powershell\profile.ps1"
-  # Nushell
-  "$APPDATA\nushell" = "$CONFIG\nushell"
-  # Neovim
-  "$LOCALAPPDATA\nvim" = "$CONFIG\nvim"
-  # git
-  "$USERPROFILE\.gitconfig" = "$CONFIG\.gitconfig"
-  # lazygit
-  "$APPDATA\lazygit" = "$CONFIG\lazygit"
+# Symbolic link list: Target => Destination
+$SymLinks = @{
+  # alacritty
+  "$Config\alacritty" = "$AppData\alacritty"
   # bat
-  "$APPDATA\bat" = "$CONFIG\bat"
+  "$Config\bat" = "$AppData\bat"
   # clangd
-  "$LOCALAPPDATA\clangd\config.yaml" = "$CONFIG\clangd\windows-config.yaml"
+  "$Config\clangd\windows-config.yaml" = "$LocalAppData\clangd\config.yaml"
+  # git
+  "$Config\.gitconfig" = "$USERPROFILE\.gitconfig"
+  # lazygit
+  "$Config\lazygit" = "$AppData\lazygit"
+  # lf
+  "$Config\lf" = "$LocalAppData\lf"
+  # neovim
+  "$Config\nvim" = "$LocalAppData\nvim"
+  # nushell
+  "$Config\nushell" = "$AppData\nushell"
+  # powershell
+  "$Config\powershell\profile.ps1" = "$Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+  # windows terminal
+  "$Config\windows-terminal\settings.json" = "$LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
   # wsl
-  "$USERPROFILE\.wslconfig" = "$CONFIG\wsl\.wslconfig"
+  "$Config\wsl\.wslconfig" = "$USERPROFILE\.wslconfig"
 }
 
-# $ScoopDir = 'D:\Apps\Scoop'
-# $ScoopGlobalDir = 'D:\Apps\Scoop\apps'
-
 # Scoop buckets
-$scoopBuckets = @{
-  "main" = "https://github.com/ScoopInstaller/Main"
-  "extras" = "https://github.com/lukesampson/scoop-extras.git"
-  "versions" = "https://github.com/ScoopInstaller/Versions"
-  "nerd-fonts" = "https://github.com/matthewjberger/scoop-nerd-fonts"
+$ScoopBuckets = @{
+  'main' = 'https://github.com/ScoopInstaller/Main'
+  'extras' = 'https://github.com/lukesampson/scoop-extras.git'
+  'versions' = 'https://github.com/ScoopInstaller/Versions'
+  'nerd-fonts' = 'https://github.com/matthewjberger/scoop-nerd-fonts'
 }
 
 # Scoop dependencies
-$scoopDeps = @(
-  "7zip"
-  "bat"
-  "bottom"
-  "cacert"
-  "curl"
-  "dark"
-  "deno"
-  "eza"
-  "fd"
-  "fzf"
+$ScoopDeps = @(
+  '7zip'
+  'bat'
+  'bottom'
+  'cacert'
+  'curl'
+  'dark'
+  'deno'
+  'eza'
+  'fd'
+  'fzf'
   # "git"
-  "gzip"
-  "go"
-  "lazygit"
-  "jq"
-  "JetBrainsMono-NF"
-  "lua"
-  "mingw-winlibs"
-  "neovim-nightly"
-  "nodejs20"
-  "nu"
-  "python"
-  "ripgrep"
-  "rust"
-  "sed"
-  "starship"
-  "sudo"
-  "unzip"
-  "xmake"
-  "yarn"
-  "zig"
-  "zoxide"
+  'gzip'
+  'go'
+  'lazygit'
+  'jq'
+  # 'JetBrainsMono-NF'
+  'lua'
+  'mingw-winlibs'
+  'neovim-nightly'
+  'nodejs20'
+  'nu'
+  'python'
+  'ripgrep'
+  'rust'
+  'sed'
+  'starship'
+  'sudo'
+  'unzip'
+  'xmake'
+  'yarn'
+  'zig'
+  'zoxide'
 )
 
-# Install scoop
-if (Get-Command -Name "scoop" -ErrorAction SilentlyContinue)
-{
-  Write-Host "Scoop has been installed."
-} else
-{
-  Write-Host "Installing scoop..."
+$ChangeScoopDir = $false
+$ScoopDir = 'D:\Apps\Scoop'
+$ScoopGlobalDir = 'D:\Apps\Scoop\apps'
 
-  irm get.scoop.sh | iex
-  # Invoke-RestMethod get.scoop.sh -outfile 'install.ps1'
-  # .\install.ps1 -ScoopDir $ScoopDir -ScoopGlobalDir $ScoopGlobalDir
+# Install scoop
+if (Get-Command -Name 'scoop' -ErrorAction SilentlyContinue) {
+  Write-Host 'Scoop has been installed.'
+}
+else {
+  Write-Host 'Installing scoop...'
+
+  if ($ChangeScoopDir) {
+    Invoke-RestMethod get.scoop.sh -OutFile 'install.ps1'
+    .\install.ps1 -ScoopDir $ScoopDir -ScoopGlobalDir $ScoopGlobalDir
+    Remove-Item install.ps1
+  }
+  else {
+    Invoke-RestMethod get.scoop.sh | Invoke-Expression
+  }
 }
 
 # Add missing buckets
-Write-Host "Adding missing scoop buckets..."
-$addedBuckets = scoop bucket list
-foreach ($scoopBucket in $scoopBuckets.GetEnumerator())
-{
-  if ($addedBuckets -notcontains $scoopBucket.Key)
-  {
-    scoop bucket add $scoopBucket.Key $scoopBucket.Value
+Write-Host 'Adding missing scoop buckets...'
+$AddedBuckets = scoop bucket list
+foreach ($ScoopBucket in $ScoopBuckets.GetEnumerator()) {
+  if ($AddedBuckets -notcontains $ScoopBucket.Key) {
+    scoop bucket add $ScoopBucket.Key $ScoopBucket.Value
   }
 }
 
 # Install missing dependencies
-Write-Host "Installing missing dependencies..."
-$installedScoopDeps = scoop list
-foreach ($scoopDep in $scoopDeps)
-{
-  if ($installedScoopDeps -notcontains $scoopDep)
-  {
-    scoop install $scoopDep
+Write-Host 'Installing missing dependencies...'
+$InstalledScoopDeps = scoop list
+foreach ($ScoopDep in $ScoopDeps) {
+  if ($InstalledScoopDeps -notcontains $ScoopDep) {
+    scoop install $ScoopDep
   }
 }
 
@@ -117,13 +119,14 @@ Install-Module -Name z –Force
 Install-Module -Name PSFzf -Scope CurrentUser -Force
 
 # Refresh Path
-$env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+$env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
 
 # Create Symbolic Links
-Write-Host "Creating Symbolic Links..."
-foreach ($symlink in $symbolicLinks.GetEnumerator())
-{
-  Get-Item -Path $symlink.Key -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
-  New-Item -ItemType SymbolicLink -Path $symlink.Key -Target (Resolve-Path $symlink.Value) -Force | Out-Null
-}
+Write-Host 'Creating Symbolic Links...'
+foreach ($Symlink in $SymLinks.GetEnumerator()) {
+  $Target = $Symlink.Key
+  $Destination = $Symlink.Value
 
+  Get-Item -Path $Destination -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+  New-Item -ItemType SymbolicLink -Path $Destination -Target (Resolve-Path $Target) -Force | Out-Null
+}
