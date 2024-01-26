@@ -3,6 +3,7 @@
 add_newline = true
 
 [cmd_duration]
+disabled = true
 min_time = 200
 show_milliseconds = true
 
