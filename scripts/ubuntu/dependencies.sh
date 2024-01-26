@@ -36,6 +36,9 @@ rm go1.21.0.linux-amd64.tar.gz
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
 
+# lf
+env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+
 # neovim
 sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update

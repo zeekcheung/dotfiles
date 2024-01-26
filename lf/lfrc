@@ -1,0 +1,16 @@
+# Enable borders around the columns
+set drawbox
+
+# Dual pane single column mode
+set nopreview
+set ratios 1
+set info size:time
+
+# Change the preview directory cursor
+set cursorpreviewfmt "\033[7m"
+
+# Mappings
+map A push %mkdir<space>
+map d :delete;
+map x :cut;
+map <enter> :open;
