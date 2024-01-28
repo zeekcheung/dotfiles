@@ -11,16 +11,14 @@ $Global:Music = [Environment]::GetFolderPath('MyMusic')
 $Global:Pictures = [Environment]::GetFolderPath('MyPictures')
 $Global:Videos = [Environment]::GetFolderPath('MyVideos')
 
-<#
-.SYNOPSIS
-cd to parent folder
+Set-Alias ipconfig Get-NetIPAddress
+Set-Alias reboot Restart-Computer
+Set-Alias shutdown top-Computer
 
-.EXAMPLE
-..
-#>
-function .. {
-  Set-Location ..
-}
+function .. { Set-Location .. }
+function env { Get-ChildItem -Path 'Env:' }
+function path { $env:Path -split ';' }
+function reload { & $PROFILE }
 
 <#
 .SYNOPSIS
@@ -30,29 +28,12 @@ Open config folder with $env:EDITOR
 config, config nvim, config wsl, etc
 #>
 function config {
-  param (
-    [String]$dirname
-  )
-
-  $current_location = Get-Location
-  $target_location = $Global:Config + $dirname
-
-  Set-Location $target_location
+  param ([String]$dirname)
+  $target_location = "$Global:Config\$dirname"
+  Push-Location -Path $target_location
   $command = $env:EDITOR + ' .'
   Invoke-Expression $command
-
-  Set-Location $current_location
-}
-
-<#
-.SYNOPSIS
-List environment variables
-
-.EXAMPLE
-env
-#>
-function env {
-  Get-ChildItem -Path 'Env:'
+  Pop-Location
 }
 
 <#
@@ -75,17 +56,6 @@ function ln {
 
   Get-Item -Path $Destination -ErrorAction SilentlyContinue | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
   New-Item -ItemType SymbolicLink -Path $Destination -Target (Resolve-Path $Target) -Force | Out-Null
-}
-
-<#
-.SYNOPSIS
-List paths
-
-.EXAMPLE
-path
-#>
-function path {
-  $env:Path -split ';'
 }
 
 <#
@@ -122,30 +92,10 @@ function touch {
   }
 }
 
-<#
-.SYNOPSIS
-Get the path of a command
-
-.EXAMPLE
-which pwsh
-#>
-function which {
-  param(
-    [Parameter(Mandatory = $true, Position = 0)]
-    [ValidateNotNullOrEmpty()]
-    [string]$CommandName
-  )
-
-  Get-Command $CommandName | Select-Object -ExpandProperty Definition
+function which($name) {
+  Get-Command $name | Select-Object -ExpandProperty Definition
 }
 
-<#
-.SYNOPSIS
-Check if command exists
-
-.EXAMPLE
-Test-CommandExists pwsh
-#>
 function Test-CommandExists {
   Param ($command)
   $oldPreference = $ErrorActionPreference
@@ -155,22 +105,23 @@ function Test-CommandExists {
   Finally { $ErrorActionPreference = $oldPreference }
 }
 
+function Remove-DefaultAlias {
+  param ($name, $scope = 'Global')
+  if (Get-Alias $name -ErrorAction SilentlyContinue) {
+    Remove-Alias -Name $name -Scope $scope -Force
+  }
+}
+
 if (Test-CommandExists bat) {
   Set-Alias cat bat -Force
 }
 
 if (Test-CommandExists eza) {
-  Remove-Alias -Name ls -Force
+  Remove-DefaultAlias ls
 
-  function ls {
-    eza --git --icons --group-directories-first
-  }
-  function la {
-    eza -a --git --icons --group-directories-first
-  }
-  function ll {
-    eza -l --git --icons --group-directories-first
-  }
+  function ls { eza --git --icons --group-directories-first }
+  function la { eza -a --git --icons --group-directories-first }
+  function ll { eza -l --git --icons --group-directories-first }
 }
 else {
   Set-Alias la 'ls -a'
@@ -189,33 +140,16 @@ if (Test-CommandExists fzf) {
 }
 
 if (Test-CommandExists git) {
-  Remove-Alias -Name gc -Force
-  Remove-Alias -Name gp -Force
+  Remove-DefaultAlias gc
+  Remove-DefaultAlias gp
 
-  function ga {
-    git add $args
-  }
-  function gb {
-    git branch $args
-  }
-  function gc {
-    git commit -m $args
-  }
-  function gd {
-    git diff $args
-  }
-  function gs {
-    git stash $args
-  }
-  function gp {
-    git pull
-  }
-  function gP {
-    git push
-  }
-  function gt {
-    git status
-  }
+  function ga { git add $args }
+  function gb { git branch $args }
+  function gc { git commit -m $args }
+  function gd { git diff $args }
+  function gs { git stash $args }
+  function gp { git pull && git push }
+  function gt { git status }
 }
 
 if (Test-CommandExists lazygit) {
@@ -228,17 +162,12 @@ if (Test-CommandExists nvim) {
 }
 
 if (Test-CommandExists zoxide) {
-  Remove-Alias -Name cd -Force
-  Set-Alias cd z
+  Remove-Alias -Name cd -Scope Global -Force
+  Set-Alias cd z -Scope Global -Force
 
   # zoxide
   Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
-
-# Aliases
-Set-Alias ipconfig Get-NetIPAddress
-Set-Alias reboot Restart-Computer
-Set-Alias shutdown top-Computer
 
 # Starship
 Invoke-Expression (&starship init powershell)
