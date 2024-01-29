@@ -4,19 +4,6 @@
   "actions": [
     {
       "command": {
-        "action": "commandPalette"
-      },
-      "keys": "ctrl+shift+p"
-    },
-    {
-      "command": {
-        "action": "copy",
-        "singleLine": false
-      },
-      "keys": "ctrl+c"
-    },
-    {
-      "command": {
         "action": "splitPane",
         "split": "right"
       },
@@ -30,8 +17,17 @@
       "keys": "ctrl+shift+j"
     },
     {
-      "command": "paste",
-      "keys": "ctrl+v"
+      "command": {
+        "action": "copy",
+        "singleLine": false
+      },
+      "keys": "ctrl+c"
+    },
+    {
+      "command": {
+        "action": "commandPalette"
+      },
+      "keys": "ctrl+shift+p"
     },
     {
       "command": {
@@ -41,8 +37,8 @@
       "keys": "ctrl+shift+k"
     },
     {
-      "command": "find",
-      "keys": "ctrl+shift+f"
+      "command": "paste",
+      "keys": "ctrl+v"
     },
     {
       "command": {
@@ -52,11 +48,8 @@
       "keys": "ctrl+shift+left"
     },
     {
-      "command": {
-        "action": "splitPane",
-        "split": "down"
-      },
-      "keys": "ctrl+shift+\\"
+      "command": "find",
+      "keys": "ctrl+shift+f"
     },
     {
       "command": {
@@ -67,10 +60,23 @@
     },
     {
       "command": {
+        "action": "splitPane",
+        "split": "down"
+      },
+      "keys": "ctrl+shift+\\"
+    },
+    {
+      "command": {
         "action": "moveFocus",
         "direction": "left"
       },
       "keys": "ctrl+shift+h"
+    },
+    {
+      "command": {
+        "action": "closeTab"
+      },
+      "keys": "ctrl+shift+w"
     },
     {
       "command": {
@@ -81,9 +87,10 @@
     },
     {
       "command": {
-        "action": "closeTab"
+        "action": "switchToTab",
+        "index": 3
       },
-      "keys": "ctrl+shift+w"
+      "keys": "alt+4"
     },
     {
       "command": {
@@ -91,13 +98,6 @@
         "direction": "up"
       },
       "keys": "ctrl+shift+up"
-    },
-    {
-      "command": {
-        "action": "switchToTab",
-        "index": 3
-      },
-      "keys": "alt+4"
     },
     {
       "command": {
@@ -152,16 +152,16 @@
     {
       "command": {
         "action": "switchToTab",
-        "index": 5
+        "index": 6
       },
-      "keys": "alt+6"
+      "keys": "alt+7"
     },
     {
       "command": {
         "action": "switchToTab",
-        "index": 6
+        "index": 5
       },
-      "keys": "alt+7"
+      "keys": "alt+6"
     },
     {
       "command": {
@@ -195,7 +195,7 @@
         "size": 17.0,
         "weight": "normal"
       },
-      "padding": "0",
+      "padding": "0, 0, -3, -3",
       "scrollbarState": "hidden",
       "useAtlasEngine": true
     },
@@ -203,6 +203,9 @@
       {
         "commandline": "\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\" -nologo",
         "elevate": false,
+        "font": {
+          "face": "JetBrainsMono Nerd Font"
+        },
         "guid": "{c3c6ce22-a6ac-44df-9f32-7dd9c532792b}",
         "hidden": false,
         "icon": "ms-appx:///ProfileIcons/pwsh.png",
@@ -226,12 +229,6 @@
         "hidden": true,
         "name": "Ubuntu-22.04",
         "source": "Windows.Terminal.Wsl"
-      },
-      {
-        "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
-        "hidden": false,
-        "name": "Nushell",
-        "source": "nu"
       }
     ]
   },
@@ -603,4 +600,3 @@
   ],
   "useAcrylicInTabRow": false
 }
-
