@@ -161,6 +161,10 @@ if (Test-CommandExists nvim) {
   Set-Alias vi nvim
 }
 
+if (Test-CommandExists starship) {
+  Invoke-Expression (&starship init powershell)
+}
+
 if (Test-CommandExists zoxide) {
   Remove-Alias -Name cd -Scope Global -Force
   Set-Alias cd z -Scope Global -Force
@@ -168,6 +172,3 @@ if (Test-CommandExists zoxide) {
   # zoxide
   Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
-
-# Starship
-Invoke-Expression (&starship init powershell)
