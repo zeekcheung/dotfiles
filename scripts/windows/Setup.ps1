@@ -94,7 +94,7 @@ else {
     Remove-Item install.ps1
   }
   else {
-    Invoke-RestMethod get.scoop.sh | Invoke-Expression
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
   }
 }
 
@@ -116,8 +116,8 @@ foreach ($ScoopDep in $ScoopDeps) {
   }
 }
 
-Install-Module -Name z –Force
-Install-Module -Name PSFzf -Scope CurrentUser -Force
+# Install-Module -Name z –Force
+# Install-Module -Name PSFzf -Scope CurrentUser -Force
 
 # Refresh Path
 $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
