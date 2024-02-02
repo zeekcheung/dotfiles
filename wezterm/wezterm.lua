@@ -1,44 +1,49 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
-
 local config = {}
 
 if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+-- Windows specific config
 if wezterm.target_triple:find("windows") then
 	-- Windows shell
 	config.default_prog = { "pwsh", "-nologo" }
 	-- WSL
 	-- config.default_domain = "WSL:Ubuntu-22.04"
+
+	-- Change scale to 125%: 96 * 1.25 = 120
+	config.dpi = 120
+
+	-- Dimensions
+	config.initial_cols = 80
+	config.initial_rows = 20
 end
 
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 -- config.color_scheme = "Rosé Pine (base16)"
 config.color_scheme = "Catppuccin Mocha"
 
-config.front_end = "WebGpu"
-config.webgpu_power_preference = "HighPerformance"
+-- Custom colors
+config.colors = {
+	tab_bar = {
+		background = "#1e1e2e",
+	},
+}
+
+-- config.front_end = "WebGpu"
+-- config.webgpu_power_preference = "HighPerformance"
 
 -- Font
 config.font = wezterm.font_with_fallback({
 	-- { family = "Maple Mono NF", weight = "Regular", italic = true },
-	{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = true },
+	{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = false },
 	{ family = "Terminus", weight = "Regular" },
 })
+config.font_size = 16
 
-config.font_size = 14
-
--- Change scale to 125%: 96 * 1.25 = 120
-config.dpi = 120
-
--- Dimensions
-config.initial_cols = 100
-config.initial_rows = 25
-
-config.line_height = 1
-
+-- Padding
 config.window_padding = {
 	left = 0,
 	right = 0,
@@ -46,23 +51,32 @@ config.window_padding = {
 	bottom = 0,
 }
 
--- Tab bar style
-config.window_frame = {
-	font = wezterm.font({ family = "Roboto", weight = "Bold" }),
-	font_size = 10,
-	active_titlebar_bg = "#333333",
-	inactive_titlebar_bg = "#333333",
-}
-
+-- Command palette
 config.command_palette_rows = 8
+config.command_palette_bg_color = "#1e1e2e"
+config.command_palette_fg_color = "#bbbbbb"
+config.command_palette_font_size = 16
 
-config.hide_tab_bar_if_only_one_tab = true
+-- Tab bar
+config.hide_tab_bar_if_only_one_tab = false
+config.tab_bar_at_bottom = false
+config.use_fancy_tab_bar = false
+config.tab_bar_style = {
+	window_hide = " - ",
+	window_maximize = " + ",
+	window_close = " x ",
+
+	window_hide_hover = " - ",
+	window_maximize_hover = " + ",
+	window_close_hover = " x ",
+}
 
 config.animation_fps = 60
 
-config.default_cursor_style = "BlinkingBar"
-config.cursor_blink_ease_in = "Constant"
-config.cursor_blink_ease_out = "Constant"
+-- Cursor
+config.default_cursor_style = "BlinkingBlock"
+-- config.cursor_blink_ease_in = "Constant"
+-- config.cursor_blink_ease_out = "Constant"
 
 config.launch_menu = {
 	{ label = "PowerShell", args = { "pwsh", "-nologo" } },
@@ -70,13 +84,8 @@ config.launch_menu = {
 	{ label = "cmd", args = { "cmd", "/k" } },
 }
 
--- Dim inactive panes
-config.inactive_pane_hsb = {
-	saturation = 0.24,
-	brightness = 0.5,
-}
-
 config.window_close_confirmation = "NeverPrompt"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 
 -- https://wezfurlong.org/wezterm/recipes/workspaces.html
 -- Wezterm workspaces -> Tmux sessions
