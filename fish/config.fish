@@ -1,20 +1,10 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 
-    # Fish style
+    # remove greeting message
     set -g fish_greeting ""
 
-    function fish_postcmd --on-event fish_postexec
-        echo
-    end
-    # Fish style end
-
-    # Starship
-    set -gx STARSHIP_CONFIG ~/.config/starship/config.toml
-    starship init fish | source
-    # Starship end
-
-    # Wsl Proxy
+    # proxy
     function proxy
         set -l host_ip (cat /etc/resolv.conf |grep "nameserver" |cut -f 2 -d " ")
         set -gx http_proxy $host_ip:10809
@@ -35,16 +25,14 @@ if status is-interactive
 
         echo "Proxy disabled"
     end
-    # Wsl Proxy end
+    
+    # starship
+    set -gx STARSHIP_CONFIG ~/.config/starship/config.toml
+    starship init fish | source
+
+    # zoxide
+    zoxide init fish | source
 end
-
-# Github hosts
-sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts' >/dev/null 2>&1
-# Github hosts end
-
-# Tmux
-set -gx TMUX_PLUGIN_MANAGER_PATH $HOME/.tmux/plugins/tpm
-# Tmux end
 
 # Nvim
 fish_add_path $HOME/.local/share/nvim/mason/bin
@@ -58,28 +46,23 @@ end
 function lazyvim
     env NVIM_APPNAME=lazyvim nvim
 end
-# Nvim end
 
 # Rust
 fish_add_path $HOME/.cargo/bin
-# Rust end
 
 # Go
 set -gx GOPATH $HOME/code/go
 set -gx GOBIN $GOPATH/bin
 fish_add_path /usr/local/go/bin
 fish_add_path $GOBIN
-# Go end
 
 # NodeJS
-set -U nvm_default_version v18.17.1
-fish_add_path $HOME/.local/share/nvm/v18.17.1/bin
-# NodeJS end
+set -U nvm_default_version v20.11.0
+fish_add_path $HOME/.local/share/nvm/v20.11.0/bin
 
 # Deno
 set -gx DENO_INSTALL $HOME/.deno
 fish_add_path $DENO_INSTALL/bin
-# Deno end
 
 # pnpm
 set -gx PNPM_HOME $HOME/.local/share/pnpm
@@ -87,24 +70,15 @@ if not string match -q -- $PNPM_HOME $PATH
     fish_add_path $PNPM_HOME
 end
 alias pn=pnpm
-# pnpm end
 
 # Alias
-alias cl clear
-alias h history
+alias cat batcat
 
-alias ll "ls -l"
-alias la "ls -all"
-alias mkdir "mkdir -p"
-
-alias ps "ps aux"
-alias psg "ps aux | grep"
-alias top htop
-alias kill "kill -9"
+alias la "eza -a --git --icons --group-directories-first"
+alias ls "eza --git --icons --group-directories-first"
+alias ll "eza -l --git --icons --group-directories-first"
 
 alias vi nvim
-alias cat batcat
-alias grep "grep --color=auto"
 alias lua luajit
 alias python python3
 
@@ -123,18 +97,14 @@ alias volar vue-language-server
 alias yamlls yaml-language-server
 
 alias gg lazygit
-alias gt "git status"
 alias ga "git add"
 alias gb "git branch"
 alias gc "git commit"
 alias gd "git diff"
-alias gp "git pull"
-alias gP "git push"
 alias gl "git log"
+alias gp "git pull && git push"
 alias gs "git stash"
+alias gt "git status"
 
 alias apt "sudo apt"
 alias update "sudo apt update && sudo apt upgrade"
-
-alias ipconfig ifconfig
-# Alias end
