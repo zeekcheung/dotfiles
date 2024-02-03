@@ -7,10 +7,6 @@ sudo apt install -y zsh
 ZSH="$HOME/.config/oh-my-zsh"
 ZSH_CUSTOM="$ZSH/custom"
 
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-ZSH=$ZSH sh install.sh
-rm install.sh
-
 # zsh plugins
 git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
 git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
@@ -76,3 +72,7 @@ else
 	sudo apt update
 	sudo apt install -y solaar
 fi
+
+# Install oh-my-zsh at the end to prevent the script from being terminated
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+ZSH=$ZSH sh install.sh
