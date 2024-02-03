@@ -65,12 +65,20 @@ else
 	# Ubuntu desktop dependencies
 	sudo apt install -y gimp gnome-shell-extensions gnome-tweaks
 
-	sudo apt install -y python3-nautilus && pip3 install --user nautilus-open-any-terminal --break-system-packages
+	sudo apt install -y python3-nautilus
+	pip3 install --user nautilus-open-any-terminal --break-system-packages
 
 	# solaar
 	sudo add-apt-repository ppa:solaar-unifying/stable
 	sudo apt update
 	sudo apt install -y solaar
+
+	# rime
+	sudo apt install -y ibus-rime
+	git clone --depth 1 https://github.com/rime/plum.git
+	cd plum || exit
+	bash rime-install :preset
+	bash rime-install iDvel/rime-ice:others/recipes/full
 fi
 
 # Install oh-my-zsh at the end to prevent the script from being terminated
