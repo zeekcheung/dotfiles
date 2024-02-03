@@ -95,13 +95,13 @@ if package_exist nvim; then
 	alias vi="nvim"
 fi
 
+# starship
+if package_exist "starship"; then
+	eval "$(starship init zsh)"
+fi
+
 # zoxide
 if package_exist "zoxide"; then
 	eval "$(zoxide init zsh)"
 	alias cd="z"
-fi
-
-# starship
-if package_exist "starship"; then
-	eval "$(starship init zsh)"
 fi
