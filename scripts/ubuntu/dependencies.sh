@@ -74,11 +74,7 @@ else
 	sudo apt install -y solaar
 
 	# rime
-	sudo apt install -y ibus-rime
-	git clone --depth 1 https://github.com/rime/plum.git
-	cd plum || exit
-	bash rime-install :preset
-	bash rime-install iDvel/rime-ice:others/recipes/full
+	bash ./fcitx5.sh
 fi
 
 # Install oh-my-zsh at the end to prevent the script from being terminated
