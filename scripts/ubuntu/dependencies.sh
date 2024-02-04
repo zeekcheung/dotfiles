@@ -41,7 +41,7 @@ sudo apt update
 sudo apt install -y neovim
 
 # other tools
-sudo apt install -y bat fd-find fzf neofetch python3-pip ripgrep unzip xclip
+sudo apt install -y bat fd-find fzf neofetch python3-pip ripgrep unzip xclip vim-gtk
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash

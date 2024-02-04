@@ -1,53 +1,71 @@
+" Better escape
+inoremap <silent> jj <esc>
+
+" Better indenting
+vnoremap <silent> < <gv
+vnoremap <silent> > >gv
+
+" Buffers
+nnoremap <silent> <Tab> :bp<cr>
+nnoremap <silent> <S-Tab> :bn<cr>
+nnoremap <silent> <leader>bd :bd!<cr>
+nnoremap <silent> <leader>x :x!<cr>
+
+" Copy/Cut
+nnoremap <silent> <C-c> "+y
+vnoremap <silent> <C-c> "+y
+nnoremap <silent> <C-x> "+d
+vnoremap <silent> <C-x> "+d
+
 " Move between windows
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-l> <C-w>l
 
 " Resize window using <ctrl> arrow keys
-nnoremap <silent> <C-Up> :resize +2<cr>
-nnoremap <silent> <C-Down> :resize -2<cr>
-nnoremap <silent> <C-Left> :vertical resize -2<cr>
-nnoremap <silent> <C-Right> :vertical resize +2<cr>
+nnorema <silent> <C-Up> :resize +2<cr>
+nnorema <silent> <C-Down> :resize -2<cr>
+nnorema <silent> <C-Left> :vertical resize -2<cr>
+nnorema <silent> <C-Right> :vertical resize +2<cr>
 
-" Save file
-nnoremap <silent> <C-s> :w!<cr>
-inoremap <silent> <C-s> <esc>:w!<cr>
-nmap <silent> <leader>w :w!<cr>
+" Clear search with <esc>
+nnoremap <silent> <esc> <esc>:noh<cr><esc>
+inoremap <silent> <esc> <esc>:noh<cr><esc>
 
-" Select all
-nnoremap <silent> <C-a> ggVG
-vnoremap <silent> <C-a> ggVG
-xnoremap <silent> <C-a> ggVG
-inoremap <silent> <C-a> <esc>ggVG
-
-" Replace
-vnoremap <silent> <C-h> :call VisualSelection('replace')<CR>
+" BUG: Move lines
+nnoremap <silent> <A-j> :m .+1<cr>
+nnoremap <silent> <A-k> :m .-2<cr>
+inoremap <silent> <A-j> <esc>:m .+1<cr>
+inoremap <silent> <A-k> <esc>:m .-2<cr>
+vnoremap <silent> <A-j> :m '>+1<cr>
+vnoremap <silent> <A-k> :m '<-2<cr>
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
-vnoremap <silent> <leader>qq :qa!<cr>
-xnoremap <silent> <leader>qq :qa!<cr>
+nnoremap <silent> q :exit<cr>
+vnoremap <silent> q :exit<cr>
+xnoremap <silent> q :exit<cr>
 
-nnoremap <silent> <leader>qw :exit!<cr>
-vnoremap <silent> <leader>qw :exit!<cr>
-xnoremap <silent> <leader>qw :exit!<cr>
+" Save file
+nnoremap <silent> <C-s> <esc>:w!<cr><esc>
+xnoremap <silent> <C-s> <esc>:w!<cr><esc>
+snoremap <silent> <C-s> <esc>:w!<cr><esc>
+inoremap <silent> <C-s> <esc>:w!<cr><esc>
 
-" Better escape
-inoremap <silent> jj <esc>
-inoremap <silent> jk <esc>
-inoremap <silent> kk <esc>
+" Select all
+nnoremap <silent> <C-a> <esc>ggVG
+vnoremap <silent> <C-a> <esc>ggVG
+xnoremap <silent> <C-a> <esc>ggVG
+inoremap <silent> <C-a> <esc>ggVG
 
 " Split window
-nnoremap <silent> \ :vsplit<cr>
 nnoremap <silent> \| :split<cr>
+nnoremap <silent> \ :vsplit<cr>
 
-" Buffers
-map H :bp<cr>
-map L :bn<cr>
-map <leader>bd :bd!<cr>
-map <leader>x :x!<cr>
-map <leader>ba :1,1000 bd!<cr>
+" Undo
+nnoremap <silent> <C-z> :undo<cr>
+inoremap <silent> <C-z> <esc>:undo<cr>
 
 " Git
 nnoremap <silent> <leader>gg :FloatermNew lazygit<cr>
