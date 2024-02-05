@@ -6,20 +6,48 @@ if wezterm.config_builder then
 	config = wezterm.config_builder()
 end
 
+local is_windows = wezterm.target_triple:find("windows")
+local is_linux = wezterm.target_triple:find("linux")
+
 -- Windows specific config
-if wezterm.target_triple:find("windows") then
+if is_windows then
 	-- Windows shell
 	config.default_prog = { "pwsh", "-nologo" }
 	-- WSL
 	-- config.default_domain = "WSL:Ubuntu-22.04"
 
+	config.launch_menu = {
+		{ label = "PowerShell", args = { "pwsh", "-nologo" } },
+		{ label = "Ubuntu-22.04", args = { "wsl", "~" } },
+		{ label = "cmd", args = { "cmd", "/k" } },
+	}
+
 	-- Change scale to 125%: 96 * 1.25 = 120
 	config.dpi = 120
-
-	-- Dimensions
-	config.initial_cols = 80
-	config.initial_rows = 20
 end
+
+if is_linux then
+	config.integrated_title_button_style = "Gnome"
+else
+	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+
+	-- Tab bar
+	config.hide_tab_bar_if_only_one_tab = false
+	config.use_fancy_tab_bar = false
+	config.tab_bar_style = {
+		window_hide = " - ",
+		window_maximize = " + ",
+		window_close = " x ",
+
+		window_hide_hover = " - ",
+		window_maximize_hover = " + ",
+		window_close_hover = " x ",
+	}
+end
+
+-- Dimensions
+config.initial_cols = 80
+config.initial_rows = 20
 
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 -- config.color_scheme = "Rosé Pine (base16)"
@@ -57,20 +85,6 @@ config.command_palette_bg_color = "#1e1e2e"
 config.command_palette_fg_color = "#bbbbbb"
 config.command_palette_font_size = 16
 
--- Tab bar
-config.hide_tab_bar_if_only_one_tab = false
-config.tab_bar_at_bottom = false
-config.use_fancy_tab_bar = false
-config.tab_bar_style = {
-	window_hide = " - ",
-	window_maximize = " + ",
-	window_close = " x ",
-
-	window_hide_hover = " - ",
-	window_maximize_hover = " + ",
-	window_close_hover = " x ",
-}
-
 config.animation_fps = 60
 
 -- Cursor
@@ -78,14 +92,7 @@ config.default_cursor_style = "BlinkingBlock"
 -- config.cursor_blink_ease_in = "Constant"
 -- config.cursor_blink_ease_out = "Constant"
 
-config.launch_menu = {
-	{ label = "PowerShell", args = { "pwsh", "-nologo" } },
-	{ label = "Ubuntu-22.04", args = { "wsl", "~" } },
-	{ label = "cmd", args = { "cmd", "/k" } },
-}
-
 config.window_close_confirmation = "NeverPrompt"
-config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 
 -- https://wezfurlong.org/wezterm/recipes/workspaces.html
 -- Wezterm workspaces -> Tmux sessions
