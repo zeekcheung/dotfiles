@@ -31,9 +31,16 @@ if is_linux then
 else
 	config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 
+	-- The filled in variant of the < symbol
+	local SOLID_LEFT_ARROW = wezterm.nerdfonts.pl_right_hard_divider
+
+	-- The filled in variant of the > symbol
+	local SOLID_RIGHT_ARROW = wezterm.nerdfonts.pl_left_hard_divider
+
 	-- Tab bar
 	config.hide_tab_bar_if_only_one_tab = false
-	config.use_fancy_tab_bar = false
+	-- https://wezfurlong.org/wezterm/config/appearance.html#native-fancy-tab-bar-appearance
+	config.use_fancy_tab_bar = true
 	config.tab_bar_style = {
 		window_hide = " - ",
 		window_maximize = " + ",
@@ -52,6 +59,55 @@ config.initial_rows = 20
 -- https://wezfurlong.org/wezterm/colorschemes/index.html
 -- config.color_scheme = "Rosé Pine (base16)"
 config.color_scheme = "Catppuccin Mocha"
+
+-- Window title bar
+config.window_frame = {
+	font_size = 12,
+	active_titlebar_bg = "#181825",
+	inactive_titlebar_bg = "#11111b",
+}
+
+local function tab_title(tab_info)
+	local title = tab_info.tab_title
+	-- if the tab title is explicitly set, take that
+	if title and #title > 0 then
+		return title
+	end
+	-- Otherwise, use the title from the active pane
+	-- in that tab
+	return tab_info.active_pane.title
+end
+
+-- Custom the text and color of the tab title
+wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+	local edge_background = "#1e1e2e"
+	local background = "#11111b"
+	local foreground = "#808080"
+
+	if tab.is_active then
+		foreground = "#ffffff"
+	elseif hover then
+		foreground = "#ffffff"
+	end
+
+	local edge_foreground = background
+
+	local title = tab_title(tab)
+
+	-- ensure that the titles fit in the available space,
+	-- and that we have room for the edges.
+	title = wezterm.truncate_right(title, max_width - 2)
+
+	return {
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = edge_foreground } },
+		{ Background = { Color = background } },
+		{ Foreground = { Color = foreground } },
+		{ Text = title },
+		{ Background = { Color = edge_background } },
+		{ Foreground = { Color = edge_foreground } },
+	}
+end)
 
 -- Custom colors
 config.colors = {
