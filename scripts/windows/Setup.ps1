@@ -57,7 +57,7 @@ $ScoopDeps = @(
   'go'
   'lazygit'
   'jq'
-  # 'JetBrainsMono-NF'
+  'JetBrainsMono-NF'
   'lf'
   'lua'
   'mingw-winlibs'
@@ -94,6 +94,7 @@ else {
     Remove-Item install.ps1
   }
   else {
+    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
     Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
   }
 }
