@@ -158,7 +158,21 @@ if (Test-CommandExists lazygit) {
 
 if (Test-CommandExists nvim) {
   $env:EDITOR = 'nvim'
-  Set-Alias vi nvim
+
+  function vi {
+    $env:NVIM_APPNAME = 'nvim'
+    nvim
+  }
+
+  function lazyvim {
+    $env:NVIM_APPNAME = 'lazyvim'
+    nvim
+  }
+
+  function nvchad {
+    $env:NVIM_APPNAME = 'nvchad'
+    nvim
+  }
 }
 
 if (Test-CommandExists starship) {

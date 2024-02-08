@@ -22,6 +22,10 @@ $SymLinks = @{
   "$Config\lf" = "$LocalAppData\lf"
   # neovim
   "$Config\nvim" = "$LocalAppData\nvim"
+  # lazyvim
+  "$Config\lazyvim" = "$LocalAppData\lazyvim"
+  # nvchad
+  "$Config\nvchad" = "$LocalAppData\nvchad"
   # nushell
   "$Config\nushell" = "$AppData\nushell"
   # powershell
