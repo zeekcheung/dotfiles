@@ -161,17 +161,17 @@ if (Test-CommandExists nvim) {
 
   function vi {
     $env:NVIM_APPNAME = 'nvim'
-    nvim
+    & nvim $args
   }
 
   function lazyvim {
     $env:NVIM_APPNAME = 'lazyvim'
-    nvim
+    & nvim $args
   }
 
   function nvchad {
     $env:NVIM_APPNAME = 'nvchad'
-    nvim
+    & nvim $args
   }
 }
 
