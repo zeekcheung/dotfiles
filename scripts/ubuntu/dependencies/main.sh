@@ -1,16 +1,7 @@
 #!/bin/bash
 
 # zsh
-sudo apt install -y zsh
-
-# oh-my-zsh
-ZSH="$HOME/.config/oh-my-zsh"
-ZSH_CUSTOM="$ZSH/custom"
-
-# zsh plugins
-git clone https://github.com/zsh-users/zsh-completions "$ZSH_CUSTOM/plugins/zsh-completions"
-git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+bash ./zsh.sh
 
 # starship
 curl -sS https://starship.rs/install.sh | sh
@@ -18,16 +9,29 @@ curl -sS https://starship.rs/install.sh | sh
 # nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# nodejs
+nvm install --lts
+nvm use --lts
+
 # c/c++
 sudo apt install -y build-essential
 
 # rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+source "$HOME/.cargo/env"
+
 # golang
 wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
 rm go1.21.0.linux-amd64.tar.gz
+
+export PATH=$PATH:/usr/local/go/bin
+source ~/.bashrc
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
@@ -41,17 +45,13 @@ sudo apt update
 sudo apt install -y neovim
 
 # other tools
-sudo apt install -y bat fd-find fzf neofetch python3-pip ripgrep unzip xclip vim-gtk
+sudo apt install -y bat curl fd-find fzf neofetch python3-pip ripgrep tmux unzip xclip vim-gtk
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
 # eza
-sudo mkdir -p /etc/apt/keyrings
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-sudo apt update
-sudo apt install -y eza
+cargo install eza
 
 # bottom
 curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.6/bottom_0.9.6_amd64.deb
@@ -63,20 +63,26 @@ if grep -qi Microsoft /proc/version; then
 	sudo apt install -y wslu xdg-utils
 else
 	# Ubuntu desktop dependencies
-	sudo apt install -y gimp gnome-shell-extensions gnome-tweaks
+	sudo apt install -y gimp gpick gnome-shell-extensions gnome-tweaks
 
-	sudo apt install -y python3-nautilus
-	pip3 install --user nautilus-open-any-terminal --break-system-packages
+	# nautilus
+	# sudo apt install -y python3-nautilus
+	# pip3 install --user nautilus-open-any-terminal
 
 	# solaar
 	sudo add-apt-repository ppa:solaar-unifying/stable
 	sudo apt update
 	sudo apt install -y solaar
 
-	# rime
+	# fcitx5
 	bash ./fcitx5.sh
+
+	# fonts
+	bash ./fonts.sh
+
+	# v2raya
+	bash ./v2raya.sh
 fi
 
-# Install oh-my-zsh at the end to prevent the script from being terminated
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-ZSH=$ZSH sh install.sh
+# Use my config
+bash ./config.sh

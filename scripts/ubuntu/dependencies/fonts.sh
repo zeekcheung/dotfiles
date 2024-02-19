@@ -1,10 +1,10 @@
 #!/bin/bash
 
 declare -a fonts=(
-	FiraCode
-	Hack
+	# FiraCode
+	# Hack
 	JetBrainsMono
-	Meslo
+	# Meslo
 )
 
 version='3.1.1'

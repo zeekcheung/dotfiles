@@ -31,3 +31,7 @@ cd rime-auto-deploy || exit
 chmod +x ./installer.rb
 
 ./installer.rb
+
+# Remove tmp dir
+cd ../
+rm -rf rime-auto-deploy
