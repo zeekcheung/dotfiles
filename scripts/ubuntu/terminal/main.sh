@@ -32,4 +32,6 @@ if [ "$choice" != "n" ]; then
 
 	sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator "$terminal_path" 50
 	sudo update-alternatives --config x-terminal-emulator
+
+	bash ./open-in-terminal.sh "$terminal_name"
 fi
