@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 # Install dependencies
 bash ./dependencies/main.sh
 

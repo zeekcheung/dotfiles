@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# shellcheck disable=SC1090,SC1091
+
 # zsh
 bash ./zsh.sh
 
@@ -64,10 +66,6 @@ if grep -qi Microsoft /proc/version; then
 else
 	# Ubuntu desktop dependencies
 	sudo apt install -y gimp gpick gnome-shell-extensions gnome-tweaks
-
-	# nautilus
-	# sudo apt install -y python3-nautilus
-	# pip3 install --user nautilus-open-any-terminal
 
 	# solaar
 	sudo add-apt-repository ppa:solaar-unifying/stable

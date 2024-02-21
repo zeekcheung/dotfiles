@@ -5,6 +5,7 @@ dconf
 enchant
 evolution
 fcitx
+geary
 gedit
 gnome-control-center
 gnome-initial-setup-done
@@ -22,6 +23,7 @@ ibus
 lazygit/state.yml
 lf/files
 lf/history
+libreoffice
 mimeapps.list
 monitors.xml*
 nautilus
