@@ -21,7 +21,8 @@ sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
 sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
 # sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
 sudo cp ~/.config/alacritty/alacritty.svg /usr/share/pixmaps/Alacritty.svg
-sudo desktop-file-install extra/linux/Alacritty.desktop
+# sudo desktop-file-install extra/linux/Alacritty.desktop
+sudo ln -s ~/.config/alacritty/Alacritty.desktop /usr/local/share/applications/Alacritty.desktop
 sudo update-desktop-database
 
 # Remove the source code

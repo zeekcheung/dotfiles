@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Alacritty
+GenericName=Terminal emulator
+Comment=A fast, cross-platform, OpenGL terminal emulator
+TryExec=alacritty
+Exec=alacritty
+Icon=/home/zeek/.config/alacritty/alacritty.svg
+Categories=System;TerminalEmulator;
+
+[Desktop Action New]
+Name=New Terminal
+Exec=alacritty
