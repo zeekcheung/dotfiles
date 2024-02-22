@@ -52,6 +52,13 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+case "$XDG_CURRENT_DESKTOP" in
+*GNOME*) alias ex="nautilus" ;;
+*KDE*) alias ex="dolphin" ;;
+*XFCE*) alias ex="thunar" ;;
+*) alias ex="xdg-open" ;;
+esac
+
 package_exist() {
 	command -v "$1" >/dev/null 2>&1
 }
