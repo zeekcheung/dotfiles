@@ -35,3 +35,7 @@ chmod +x ./installer.rb
 # Remove tmp dir
 cd ../
 rm -rf rime-auto-deploy
+
+# Make symbolic links for custom config
+ln -s ~/.config/fcitx5/rime/default.custom.yaml ~/.local/share/fcitx5/rime/default.custom.yaml
+ln -s ~/.config/fcitx5/rime/rime_ice.custom.yaml ~/.local/share/fcitx5/rime/rime_ice.custom.yaml
