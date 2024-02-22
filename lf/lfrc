@@ -1,13 +1,20 @@
 # Enable borders around the columns
 set drawbox
 
-# Dual pane single column mode
-set nopreview
-set ratios 1
+# Show two columns: files and preview, with ratios 2:3
+set ratios 2:3
+
+# Show file size and last modification time in file column
 set info size:time
+
+# Use custom previewer
+set previewer ~/.config/lf/scripts/preview.sh
 
 # Change the preview directory cursor
 set cursorpreviewfmt "\033[7m"
+
+# Enable file icons
+set icons
 
 # Mappings
 map A push %mkdir<space>
