@@ -49,6 +49,9 @@ sudo apt install -y neovim
 # other tools
 sudo apt install -y bat curl fd-find fzf neofetch python3-pip ripgrep tmux unzip xclip vim-gtk
 
+# bat is installed as batcat instead of bat on Debian/Ubuntu
+ln -s /usr/bin/batcat ~/.local/bin/bat
+
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 

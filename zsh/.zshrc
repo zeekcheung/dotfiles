@@ -56,8 +56,8 @@ package_exist() {
 	command -v "$1" >/dev/null 2>&1
 }
 
-if package_exist batcat; then
-	alias cat="batcat"
+if package_exist bat; then
+	alias cat="bat"
 fi
 
 if package_exist eza; then
