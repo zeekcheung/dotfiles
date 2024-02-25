@@ -1,4 +1,6 @@
 patch:
+  "switcher/hotkeys":
+    - Control+Space
   # 菜单
   menu:
     page_size: 8 # 候选词个数
