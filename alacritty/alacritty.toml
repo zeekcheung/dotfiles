@@ -10,6 +10,7 @@ shell = "zsh"
 TERM = "xterm-256color"
 
 [window]
+dynamic_padding = true
 decorations_theme_variant = "Dark"
 dimensions = { lines = 20, columns = 80 }
 # position = { x = 420, y = 120 }
