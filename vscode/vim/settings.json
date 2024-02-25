@@ -1,4 +1,5 @@
 {
+  // ================== vim ==================
   "vim.easymotion": true,
   "vim.easymotionMarkerForegroundColorOneChar": "#ff007c",
   "vim.foldfix": true,
@@ -9,18 +10,18 @@
   "vim.autoSwitchInputMethod.obtainIMCmd": "D:\\Apps\\im-select\\im-select.exe",
   "vim.autoSwitchInputMethod.switchIMCmd": "D:\\Apps\\im-select\\im-select.exe {im}",
   "vim.handleKeys": {
+    "<C-b>": true,
+    "<C-d>": true,
+    "<C-u>": true,
+    "<C-v>": true,
     "<C-a>": false,
-    "<C-b>": false,
     "<C-c>": false,
     "<C-e>": false,
-    "<C-v>": false,
     "<C-s>": false,
     "<C-z>": false,
     "<C-x>": false,
-    "<C-f>": false,
-    "<C-p>": false,
-    "<C-d>": true,
-    "<C-u>": true
+    "<C-f>": true,
+    "<C-p>": false
   },
   "vim.highlightedyank.enable": true,
   "vim.hlsearch": true,
@@ -29,40 +30,59 @@
   "vim.showcmd": true,
   "vim.showmodename": true,
   "vim.smartRelativeLine": false,
-  "vim.statusBarColors.easymotionmode": "#007acc",
-  "vim.statusBarColors.easymotioninputmode": "#2ac3de",
   "vim.useCtrlKeys": true,
   "vim.useSystemClipboard": true,
-  "vim.normalModeKeyBindings": [
-    // show commands palette
+  // prettier-ignore
+  "vim.visualModeKeyBindingsNonRecursive": [
+    // indent
     {
-      "before": [":"],
-      "commands": ["workbench.action.showCommands"],
+      "before": [">"],
+      "commands": ["editor.action.indentLines"],
       "silent": true
     },
-    // save file
+    // outdent
     {
-      "before": ["leader", "w"],
-      "commands": [":w!"],
+      "before": ["<"],
+      "commands": ["editor.action.outdentLines"],
+      "silent": true
+    }
+  ],
+  // prettier-ignore
+  "vim.insertModeKeyBindings": [
+    // escape
+    {
+      "before": ["j", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  // prettier-ignore
+  "vim.normalModeKeyBindings": [
+    // undo
+    {
+      "before": ["u"],
+      "commands": ["undo"],
+      "silent": true
+    },
+    // redo
+    {
+      "before": ["<C-r>"],
+      "commands": ["redo"],
       "silent": true
     },
     // quit all
     {
       "before": ["<leader>", "q", "q"],
-      "commands": [":qa"],
-      "silent": true
+      "commands": [":qa"]
     },
     // quit window
     {
       "before": ["<leader>", "q", "w"],
-      "commands": [":exit"],
-      "silent": true
+      "commands": [":exit"]
     },
     // save and quit
     {
       "before": ["leader", "x"],
-      "commands": [":x!"],
-      "silent": true
+      "commands": [":x!"]
     },
     // show hover
     {
@@ -70,38 +90,35 @@
       "commands": ["editor.action.showHover"],
       "silent": true
     },
-    // previous tab
-    {
-      "before": ["<Tab>"],
-      "commands": [":tabp"],
-      "silent": true
-    },
     // next tab
     {
+      "before": ["<Tab>"],
+      "commands": [":tabp"]
+    },
+    // previous tab
+    {
       "before": ["<S-Tab>"],
-      "commands": [":tabn"],
-      "silent": true
+      "commands": [":tabn"]
     },
     // go to left window
     {
       "before": ["<c-h>"],
-      "after": ["<c-w>", "h"],
-      "silent": true
+      "after": ["<c-w>", "h"]
+    },
+    // go to down window
+    {
+      "before": ["<c-j>"],
+      "after": ["<c-w>", "j"]
+    },
+    // go to up window
+    {
+      "before": ["<c-k>"],
+      "after": ["<c-w>", "k"]
     },
     // go to right window
     {
       "before": ["<c-l>"],
       "after": ["<c-w>", "l"]
-    },
-    // go to upper window
-    {
-      "before": ["<c-j>"],
-      "after": ["<c-w>", "j"]
-    },
-    // go to lower window
-    {
-      "before": ["<c-k>"],
-      "after": ["<c-w>", "k"]
     },
     // go to line start
     {
@@ -114,23 +131,12 @@
       "after": ["$"]
     }
   ],
+  // prettier-ignore
   "vim.normalModeKeyBindingsNonRecursive": [
     // toggle explorer
     {
       "before": ["<leader>", "e"],
       "commands": ["workbench.action.toggleSidebarVisibility"],
-      "silent": true
-    },
-    // goto references
-    {
-      "before": ["g", "r"],
-      "commands": ["references-view.findReferences"],
-      "silent": true
-    },
-    // goto implementations
-    {
-      "before": ["g", "i"],
-      "commands": ["editor.action.goToImplementation"],
       "silent": true
     },
     // quickfix/code actions
@@ -149,12 +155,6 @@
     {
       "before": ["<leader>", "f", "m"],
       "commands": ["editor.action.formatDocument"],
-      "silent": true
-    },
-    // find config
-    {
-      "before": ["<leader>", "f", "c"],
-      "commands": ["workbench.action.openSettingsJson"],
       "silent": true
     },
     // find file
@@ -207,7 +207,7 @@
     },
     // find themes
     {
-      "before": ["<leader>", "f", "t"],
+      "before": ["<leader>", "u", "c"],
       "commands": ["workbench.action.selectTheme"],
       "silent": true
     },
@@ -221,12 +221,6 @@
     {
       "before": ["<leader>", "u", "w"],
       "commands": ["editor.action.toggleWordWrap"],
-      "silent": true
-    },
-    // toggle comment
-    {
-      "before": ["<leader>", "/"],
-      "commands": ["editor.action.commentLine"],
       "silent": true
     },
     // easymotion
@@ -252,32 +246,5 @@
       "commands": ["workbench.action.toggleZenMode"],
       "silent": true
     }
-  ],
-  "vim.visualModeKeyBindingsNonRecursive": [
-    // comment
-    {
-      "before": ["<leader>", "/"],
-      "commands": ["editor.action.commentLine"],
-      "silent": true
-    },
-    // indent
-    {
-      "before": [">"],
-      "commands": ["editor.action.indentLines"],
-      "silent": true
-    },
-    // outdent
-    {
-      "before": ["<"],
-      "commands": ["editor.action.outdentLines"],
-      "silent": true
-    }
-  ],
-  "vim.insertModeKeyBindings": [
-    // escape
-    {
-      "before": ["j", "j"],
-      "after": ["<Esc>"]
-    }
-  ],
+  ]
 }
