@@ -51,6 +51,10 @@
   },
   "workbench.editor.empty.hint": "hidden",
   "workbench.editor.enablePreviewFromQuickOpen": true,
+  "workbench.editorAssociations": {
+    // preview markdown by default
+    "*.md": "vscode.markdown.preview.editor"
+  },
   "workbench.settings.editor": "json",
   "workbench.sideBar.location": "left",
   "workbench.startupEditor": "none",
@@ -60,7 +64,6 @@
   "window.autoDetectColorScheme": true,
   "window.commandCenter": false,
   "window.titleBarStyle": "custom",
-  "window.zoomLevel": 1.25,
   "everforest.darkContrast": "hard",
 
   // ================== editor ==================
@@ -128,7 +131,6 @@
 
   // ================== terminal ==================
   "terminal.external.windowsExec": "",
-  "terminal.integrated.allowChords": false,
   "terminal.integrated.tabs.enabled": true,
   "terminal.integrated.autoReplies": {
     "Terminate batch job (Y/N)": "\r"
@@ -230,6 +232,8 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  // markdown
+  "markdown.preview.typographer": true,
 
   // ================== debug ==================
   "debug.onTaskErrors": "showErrors",
@@ -239,7 +243,7 @@
 
   // ================== vscode-neovim ==================
   // prettier-ignore
-  "vscode-neovim.ctrlKeysForNormalMode": [ "b", "d", "f", "i", "o", "r", "t", "u", "v", "w", "]", "right", "left", "up", "down", "backspace", "delete" ],
+  "vscode-neovim.ctrlKeysForNormalMode": [ "b", "d", "f", "i", "o", "r", "t", "u", "v", "w", "]", "right", "left", "up", "down", "backspace", "delete", "h", "j", "k", "l" ],
   // prettier-ignore
   "vscode-neovim.ctrlKeysForInsertMode": [ "b", "d", "f", "i", "o", "r", "t", "u", "w", "]", "right", "left", "up", "down", "backspace", "delete" ],
 
@@ -263,5 +267,6 @@
   },
   "http.proxySupport": "fallback",
   "http.proxyStrictSSL": false,
-  "settingsSync.ignoredSettings": ["-window.zoomLevel"]
+  "settingsSync.ignoredSettings": ["-window.zoomLevel"],
+  "glassit.alpha": 220
 }

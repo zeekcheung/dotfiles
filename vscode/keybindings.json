@@ -63,7 +63,19 @@
   {
     "key": "ctrl+l",
     "command": "workbench.action.focusActiveEditorGroup",
-    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+    "when": "explorerViewletVisible && filesExplorerFocus"
+  },
+  // go back to editor when search is focused
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "searchViewletVisible && searchViewletFocus"
+  },
+  // go back to editor when extensions is focused
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "viewContainer.workbench.view.extensions.enabled"
   },
   // go back to editor when terminal is focused
   {
@@ -71,7 +83,25 @@
     "command": "workbench.action.focusActiveEditorGroup",
     "when": "terminalFocus"
   },
-  // next item in quick open
+  // go back to editor when problem filter is focused
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "problemsFilterFocus"
+  },
+  // go back to editor when comments filter is focused
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "commentsFilterFocus"
+  },
+  // go back to editor when problems is focused
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "problemsVisibility"
+  },
+  // next item in quick
   {
     "key": "ctrl+n",
     "command": "workbench.action.quickOpenNavigateNext",
@@ -137,5 +167,15 @@
     "key": "shift+oem_5",
     "command": "workbench.action.splitEditorDown",
     "when": "editorFocus && (vim.mode == 'Normal' || neovim.mode == normal)"
+  },
+  {
+    "key": "] ]",
+    "command": "editor.action.wordHighlight.next",
+    "when": "editorTextFocus && hasWordHighlights"
+  },
+  {
+    "key": "[ [",
+    "command": "editor.action.wordHighlight.prev",
+    "when": "editorTextFocus && hasWordHighlights"
   }
 ]
