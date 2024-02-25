@@ -108,13 +108,14 @@ inoremap <silent> <esc> <esc>:noh<cr><esc>
 
 " Move lines
 " Hack: terminal emulator will send Esc when pressing Alt in vim
-nnoremap <A-k> :m-2<CR>
-inoremap <A-k> <Esc>:m-2<CR>i
-vnoremap <A-k> :m-2<CR>gv=gv
- 
+execute "set <A-j>=\ej" 
+execute "set <A-k>=\ek"
 nnoremap <A-j> :m+<CR>
 inoremap <A-j> <Esc>:m+<CR>i
 vnoremap <A-j> :m+<CR>gv=gv
+nnoremap <A-k> :m-2<CR>
+inoremap <A-k> <Esc>:m-2<CR>i
+vnoremap <A-k> :m-2<CR>gv=gv
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
@@ -143,11 +144,14 @@ nnoremap <silent> <C-z> :undo<cr>
 inoremap <silent> <C-z> <esc>:undo<cr>
 
 " Git
-nnoremap <silent> <leader>gg :FloatermNew lazygit<cr>
+" nnoremap <silent> <leader>gg :FloatermNew lazygit<cr>
 
 " --------------------------------------------
 " ----------------- autocmds -----------------
 " --------------------------------------------
+
+" jump to last edit position when opening files
+silent! source $VIMRUNTIME/defaults.vim
 
 " Netrw 
 augroup NetrwCustomKeymaps
@@ -156,8 +160,6 @@ augroup NetrwCustomKeymaps
     }
 augroup END
 
-
-" Netrw
 augroup AutoDeleteNetrwHiddenBuffers
   au!
   au FileType netrw setlocal bufhidden=wipe
