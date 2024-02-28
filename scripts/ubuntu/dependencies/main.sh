@@ -86,6 +86,9 @@ else
 
 	# v2raya
 	bash ./v2raya.sh
+
+	# neovide
+	bash ./neovide.sh
 fi
 
 # Use my config
