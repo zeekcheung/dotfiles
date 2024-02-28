@@ -22,6 +22,10 @@ curl -sS https://starship.rs/install.sh | sh
 # n/nodejs
 curl -L https://bit.ly/n-install | bash
 
+sudo ln -s "$HOME/n/bin/node" /usr/bin/node
+sudo ln -s "$HOME/n/bin/npm" /usr/bin/npm
+sudo ln -s "$HOME/n/bin/npx" /usr/bin/npx
+
 # c/c++
 sudo apt install -y build-essential
 
