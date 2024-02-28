@@ -16,9 +16,6 @@ fi
 # Install neovide
 cargo install --git https://github.com/neovide/neovide
 
-# Install icon and desktop file
-wget https://github.com/neovide/neovide/raw/main/assets/neovide.svg
-sudo mv neovide.svg /usr/share/icons
-
-wget https://github.com/neovide/neovide/blob/main/assets/neovide.desktop
-sudo mv neovide.desktop /usr/share/applications
+# Create desktop file
+sudo ln -s "$HOME"/.config/neovide/neovide.svg /usr/share/icons/neovide.svg
+sudo ln -s "$HOME"/.config/neovide/neovide.desktop /usr/share/applications/neovide.desktop
