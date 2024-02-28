@@ -39,11 +39,15 @@ wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
 sudo tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
 rm go1.21.0.linux-amd64.tar.gz
 
+export GOPATH=$HOME/code/go
+export GOBIN=$GOPATH/bin
+export PATH=$GOBIN:$PATH
 export PATH=$PATH:/usr/local/go/bin
 source ~/.bashrc
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
+sudo ln -s "$HOME/code/go/bin/lazygit" /usr/bin/lazygit
 
 # lf
 env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
