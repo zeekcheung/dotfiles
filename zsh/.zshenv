@@ -37,19 +37,6 @@ export GOBIN=$GOPATH/bin
 export PATH=$GOBIN:$PATH
 export PATH=/usr/local/go/bin:$PATH
 
-# Nodejs
-if [[ -z "$NODE_BIN" ]]; then
-	# Find the latest version of Node.js installed via NVM
-	node_dir=$(find ~/.nvm/versions/node -maxdepth 1 -type d -name "v*[0-9]*.*" | sort -V | tail -n 1)
-
-	if [[ -n "$node_dir" ]]; then
-		export NODE_BIN="$node_dir/bin"
-		export PATH="$NODE_BIN:$PATH"
-	else
-		echo "No Node.js installation found."
-	fi
-fi
-
 # fzf
 export FZF_DEFAULT_OPTS="
 --layout=reverse

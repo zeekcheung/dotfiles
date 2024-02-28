@@ -21,8 +21,6 @@ zstyle ':omz:update' mode auto # update automatically without asking
 # Change how often to auto-update (in days).
 zstyle ':omz:update' frequency 13
 
-zstyle ':omz:plugins:nvm' lazy yes
-
 # Disable colors in ls.
 DISABLE_LS_COLORS="true"
 
@@ -42,8 +40,10 @@ plugins=(
 	zsh-completions
 	zsh-autosuggestions
 	zsh-syntax-highlighting
-	nvm
+	# nvm
 )
+
+# zstyle ':omz:plugins:nvm' lazy yes
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,3 +104,6 @@ if package_exist "zoxide"; then
 	eval "$(zoxide init zsh)"
 	alias cd="z"
 fi
+
+export N_PREFIX="$HOME/n"
+[[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin" # Added by n-install (see http://git.io/n-install-repo).
