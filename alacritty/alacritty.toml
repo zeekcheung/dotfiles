@@ -14,12 +14,12 @@ dynamic_padding = true
 decorations_theme_variant = "Dark"
 dimensions = { lines = 20, columns = 80 }
 # position = { x = 420, y = 120 }
-opacity = 0.95
+# opacity = 0.95
 # dynamic_title = true
 
 [font]
 normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
-size = 16
+size = 18
 
 [colors]
 transparent_background_colors = true
