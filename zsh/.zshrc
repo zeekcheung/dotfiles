@@ -104,6 +104,3 @@ if package_exist "zoxide"; then
 	eval "$(zoxide init zsh)"
 	alias cd="z"
 fi
-
-export N_PREFIX="$HOME/n"
-[[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin" # Added by n-install (see http://git.io/n-install-repo).

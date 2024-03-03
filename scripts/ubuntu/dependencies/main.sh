@@ -23,7 +23,7 @@ curl -sS https://starship.rs/install.sh | sh
 # nvm use --lts
 
 # n/nodejs
-curl -L https://bit.ly/n-install | bash
+curl -L https://bit.ly/n-install | N_PREFIX="$HOME/.n" bash -s -- -y
 
 sudo ln -sf "$HOME/n/bin/node" /usr/bin/node
 sudo ln -sf "$HOME/n/bin/npm" /usr/bin/npm

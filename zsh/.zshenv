@@ -28,6 +28,10 @@ function lazyvim {
 	env NVIM_APPNAME=lazyvim nvim
 }
 
+# n/node.js
+export N_PREFIX=$HOME/n
+export PATH=$N_PREFIX/bin:$PATH
+
 # Rust
 . "$HOME/.cargo/env"
 
