@@ -1,70 +1,73 @@
 " --------------------------------------------
 " ----------------- options ------------------
 " --------------------------------------------
-let mapleader=" "                      " Set mapleader to space key
-let maplocalleader=" "                 " Set maplocalleader to space key
+let mapleader=" "
+let maplocalleader=" "
 
-set autoindent                           " Enable auto-indentation
-set autowrite                            " Automatically save modified files
-set background=dark                      " Set background to dark colorscheme
-set backupdir=~/.vim/backup              " Set backup directory
-set clipboard=unnamedplus                " Sync with system clipboard
-" set confirm                            " Confirm to save changes before exiting modified buffer
-set completeopt="menu,menuone,noinsert"  " Set options for completion menu
-set conceallevel=2
-set cursorline                           " Highlighting current line
-set directory=~/.vim/swap                " Set swap directory
-set expandtab                            " Use spaces instead of tabs
-set encoding=utf-8                       " Set encoding to UTF-8
-set fillchars=eob:\ ,fold:\ ,vert:\|
-set hlsearch                             " Highlight search results
-set ignorecase                           " Ignore case when searching
-set incsearch                            " Show search matches incrementally
-set laststatus=2                         " Show status line
-set listchars=tab:▸\ ,eol:¬              " Set visible characters for tabs and end of line
-set mouse=a                              " Enable mouse support
-set nobackup                             " Disable backup file
-set nocompatible                         " Disable compatibility mode
-set noerrorbells                         " Disable error bells
-set nolist                               " Disable list mode
-set noswapfile                           " Enable swap files
-set noundofile                           " Disable persistent undo
-set nowritebackup                        " Disable write back up
-set number                               " Show line numbers
-set pumheight=10
-set relativenumber                       " Show relative line numbers
-set scrolloff=5                          " Keep 5 lines of context while scrolling
-set shiftround                           " Indent by multiples of shiftwidth
-set shiftwidth=2                         " Set indent width to 2 spaces
-set showcmd                              " Show current command being typed
-set showmatch                            " Highlight matching parentheses
-set noshowmode                           " Show current mode
-set sidescrolloff=8
-set splitbelow
-set splitkeep=screen
-set splitright
-set smartcase                            " Use smart case when searching
+" backup/swap/undo
+set nobackup
+set nowritebackup
+set noswapfile
+set undodir=~/.vim/undodir
+set undolevels=10000
+
+" number line
+set number
+set relativenumber
+
+" indent
+set shiftwidth=2
+set tabstop=2
+set expandtab
+set autoindent
 set smartindent
-set t_Co=256                             " Set terminal colors to 256 colors
-set tabstop=2                            " Set tab width to 2 spaces
-set termguicolors                        " Use terminal colors
-set timeoutlen=300                       " Set timeout length for mappings
-set ttyfast                              " Improve responsiveness in terminal
-set undodir=~/.vim/undodir               " Set undo directory
-set undolevels=10000                     " Increase maximum number of undos
-set updatetime=200                       " Set time interval for updating changes
-set vb t_vb=                             " Disable visual bells
-set wildmode=longest:full,full
-set wildignorecase                       " Ignore case in wildmenu
-set winminwidth=5                        " Set minimum window width to 5 columns
+set shiftround
 
-let g:colorscheme="habamax"
-let g:transparent_background=2
+" search
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
 
-" Netrw
-let g:netrw_banner=0
+" scroll
+set scrolloff=5
+set sidescrolloff=8
+
+" split
+set splitbelow
+set splitright
+set splitkeep=screen
+
+" vertical wildmenu
+set wildmenu
+set wildoptions=pum
+set wildignorecase
+
+" completion
+set completeopt="menu,menuone,noinsert"
+set pumheight=10
+
+" chars
+set fillchars=eob:\ ,fold:\ ,vert:\|
+" set listchars=tab:▸\ ,eol:¬
+
+" miscellaneous
+set cursorline
+set showmatch
+set laststatus=2
+set mouse=a
+set clipboard=unnamedplus
+set autowrite
+set encoding=utf-8
+set ttyfast
+set timeoutlen=300
+
+" netrw
 let g:netrw_winsize=25
+let g:netrw_banner=0
 let g:netrw_liststyle=3
+
+colorscheme habamax
 
 " --------------------------------------------
 " ----------------- keymaps ------------------
@@ -84,7 +87,6 @@ nnoremap <silent> <leader>bd :bd!<cr>
 nnoremap <silent> <leader>x :x!<cr>
 
 " Copy/Cut
-nnoremap <silent> <C-c> "+y
 vnoremap <silent> <C-c> "+y
 vnoremap <silent> <C-x> "+d
 
@@ -136,22 +138,28 @@ inoremap <silent> <C-a> <esc>ggVG
 nnoremap <silent> \| :split<cr>
 nnoremap <silent> \ :vsplit<cr>
 
-" Toggle Netrw
+" Toggle netrw
 nnoremap <silent> <leader>e :Lexplore<cr>
 
 " Undo
 nnoremap <silent> <C-z> :undo<cr>
 inoremap <silent> <C-z> <esc>:undo<cr>
 
-" Git
-" nnoremap <silent> <leader>gg :FloatermNew lazygit<cr>
-
 " --------------------------------------------
 " ----------------- autocmds -----------------
 " --------------------------------------------
 
-" jump to last edit position when opening files
+" Jump to last edit position when opening files
 silent! source $VIMRUNTIME/defaults.vim
+
+" Check if we need to reload the file when it changed
+autocmd FocusGained * checktime
+
+" Resize splits if window is resized
+autocmd VimResized * :wincmd =
+
+" Change indent size for different filetypes
+autocmd Filetype c,cpp,h,hpp,python setlocal shiftwidth=4 tabstop=4
 
 " Netrw 
 augroup NetrwCustomKeymaps
@@ -165,36 +173,3 @@ augroup AutoDeleteNetrwHiddenBuffers
   au FileType netrw setlocal bufhidden=wipe
 augroup end
 
-" Setup colorscheme and custom highlighting
-function! CustomHighlight()
-  if g:transparent_background
-    exe 'hi! Normal guibg=NONE ctermbg=NONE'
-  endif
-  exe 'hi! link NormalFloat Normal'
-  exe 'hi! link FloatBorder Normal'
-  exe 'hi! link LspInfoBorder Normal'
-endfunction
-
-autocmd VimEnter * nested
-  \ exe 'colorscheme ' . g:colorscheme
-  \ | call CustomHighlight()
-
-autocmd ColorScheme * call CustomHighlight()
-
-" Check if we need to reload the file when it changed
-autocmd FocusGained * checktime
-
-" Resize splits if window is resized
-autocmd VimResized * :wincmd =
-
-" Change indent size for different filetypes
-autocmd Filetype c,cpp,h,hpp,python setlocal shiftwidth=4 tabstop=4
-
-" Disable conceal in json files
-autocmd Filetype json,jsonc,json5 setlocal conceallevel=0
-
-" Return to last edit position when opening files
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
