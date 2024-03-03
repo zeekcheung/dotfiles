@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# NOTE: This script must be run as root(pass `-u $USER` to prevent `sudo` changing `$USER`)
+# `sudo -u $USER ./main.sh`
+
 declare -A choice_terminal_map=(
 	[1]="alacritty"
 	[2]="kitty"

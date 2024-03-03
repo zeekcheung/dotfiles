@@ -8,6 +8,6 @@
 git submodule update --init
 
 # Make symbolic links
-ln -s ~/.config/.gitconfig ~/.gitconfig
-ln -s ~/.config/tmux/.tmux.conf ~/.tmux.conf
-ln -s ~/.config/vim/.vimrc ~/.vimrc
+ln -sf ~/.config/.gitconfig ~/.gitconfig
+ln -sf ~/.config/tmux/.tmux.conf ~/.tmux.conf
+ln -sf ~/.config/vim/.vimrc ~/.vimrc

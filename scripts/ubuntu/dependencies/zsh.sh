@@ -11,10 +11,9 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-autosuggestions
 	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}"/plugins/zsh-syntax-highlighting
 
-	# Remove old zshrc
-	rm ~/.zshrc
-	ln -s ~/.config/zsh/.zshrc ~/.zshrc
-	ln -s ~/.config/zsh/.zshenv ~/.zshenv
+	# Create symbolic links
+	ln -sf ~/.config/zsh/.zshrc ~/.zshrc
+	ln -sf ~/.config/zsh/.zshenv ~/.zshenv
 
 	# Set zsh as default shell
 	bash -c "chsh -s $(which zsh)"

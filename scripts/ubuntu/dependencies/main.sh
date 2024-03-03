@@ -2,6 +2,9 @@
 
 # shellcheck disable=SC1090,SC1091
 
+# NOTE: This script must be run as root(pass `-u $USER` to prevent `sudo` changing `$USER`)
+# `sudo -u $USER ./main.sh`
+
 # zsh
 bash ./zsh.sh
 
@@ -22,9 +25,9 @@ curl -sS https://starship.rs/install.sh | sh
 # n/nodejs
 curl -L https://bit.ly/n-install | bash
 
-sudo ln -s "$HOME/n/bin/node" /usr/bin/node
-sudo ln -s "$HOME/n/bin/npm" /usr/bin/npm
-sudo ln -s "$HOME/n/bin/npx" /usr/bin/npx
+sudo ln -sf "$HOME/n/bin/node" /usr/bin/node
+sudo ln -sf "$HOME/n/bin/npm" /usr/bin/npm
+sudo ln -sf "$HOME/n/bin/npx" /usr/bin/npx
 
 # c/c++
 sudo apt install -y build-essential
@@ -47,7 +50,7 @@ source ~/.bashrc
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
-sudo ln -s "$HOME/code/go/bin/lazygit" /usr/bin/lazygit
+sudo ln -sf "$HOME/code/go/bin/lazygit" /usr/bin/lazygit
 
 # lf
 env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
@@ -61,7 +64,7 @@ sudo apt install -y neovim
 sudo apt install -y bat curl fd-find fzf neofetch python3-pip ripgrep tmux unzip xclip vim-gtk
 
 # bat is installed as batcat instead of bat on Debian/Ubuntu
-ln -s /usr/bin/batcat ~/.local/bin/bat
+ln -sf /usr/bin/batcat ~/.local/bin/bat
 
 # zoxide
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash

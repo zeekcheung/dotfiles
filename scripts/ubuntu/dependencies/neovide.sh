@@ -17,5 +17,5 @@ fi
 cargo install --git https://github.com/neovide/neovide
 
 # Create desktop file
-sudo ln -s "$HOME"/.config/neovide/neovide.svg /usr/share/icons/neovide.svg
-sudo ln -s "$HOME"/.config/neovide/neovide.desktop /usr/share/applications/neovide.desktop
+sudo ln -sf "$HOME"/.config/neovide/neovide.svg /usr/share/icons/neovide.svg
+sudo ln -sf "$HOME"/.config/neovide/neovide.desktop /usr/share/applications/neovide.desktop
