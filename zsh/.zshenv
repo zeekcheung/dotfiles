@@ -33,7 +33,10 @@ export N_PREFIX=$HOME/.n
 export PATH=$N_PREFIX/bin:$PATH
 
 # Rust
-. "$HOME/.cargo/env"
+# shellcheck disable=SC1091
+if [ -d "$HOME/.cargo" ]; then
+  . "$HOME/.cargo/env"
+fi
 
 # Go
 export GOPATH=$HOME/code/go

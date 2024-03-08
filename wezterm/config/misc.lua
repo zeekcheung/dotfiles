@@ -3,26 +3,20 @@ local wezterm = require("wezterm")
 local M = {}
 
 M.setup = function(config)
-	config.front_end = "WebGpu"
+	config.front_end = "OpenGL"
 	config.webgpu_power_preference = "HighPerformance"
 
 	-- https://wezfurlong.org/wezterm/colorschemes/index.html
 	-- config.color_scheme = "Rosé Pine (base16)"
 	config.color_scheme = "Catppuccin Mocha"
-	-- Custom colors
-	config.colors = {
-		tab_bar = {
-			background = "#1e1e2e",
-		},
-	}
 
 	-- Font
 	config.font = wezterm.font_with_fallback({
-		-- { family = "Maple Mono NF", weight = "Regular", italic = true },
+		{ family = "Maple Mono NF", weight = "Regular", italic = false },
 		{ family = "JetBrainsMono Nerd Font", weight = "Regular", italic = false },
 		{ family = "Terminus", weight = "Regular" },
 	})
-	config.font_size = 16
+	config.font_size = 18
 
 	-- Dimensions
 	config.initial_cols = 80
@@ -42,13 +36,13 @@ M.setup = function(config)
 
 	-- Cursor
 	config.default_cursor_style = "BlinkingBlock"
-	-- config.cursor_blink_ease_in = "Constant"
-	-- config.cursor_blink_ease_out = "Constant"
+	config.cursor_blink_ease_in = "EaseIn"
+	config.cursor_blink_ease_out = "EaseOut"
 
 	-- Command palette
 	config.command_palette_rows = 8
-	config.command_palette_bg_color = "#1e1e2e"
-	config.command_palette_fg_color = "#bbbbbb"
+	config.command_palette_bg_color = "#1b1b2b"
+	config.command_palette_fg_color = "#a9b1d6"
 	config.command_palette_font_size = 16
 
 	config.window_close_confirmation = "NeverPrompt"

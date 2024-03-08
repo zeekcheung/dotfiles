@@ -1,4 +1,3 @@
-bottom
 Code
 Code - Insiders
 dconf
@@ -46,3 +45,5 @@ user-dirs.*
 wslu
 xdg-terminals.list
 zsh/plugins
+Electron
+chromium

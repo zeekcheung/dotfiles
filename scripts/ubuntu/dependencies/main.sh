@@ -5,9 +5,6 @@
 # NOTE: This script must be run as root(pass `-u $USER` to prevent `sudo` changing `$USER`)
 # `sudo -u $USER ./main.sh`
 
-# zsh
-bash ./zsh.sh
-
 # starship
 curl -sS https://starship.rs/install.sh | sh
 

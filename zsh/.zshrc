@@ -1,11 +1,44 @@
-# shellcheck disable=SC1091,SC2034,SC2086,SC2155
+# shellcheck disable=SC1091,SC2034,SC2086,SC2128,SC2155,SC2206
 
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# Add custom scripts to PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
+export ZSH_CUSTOM=$ZSH/custom
+
+# Custom oh-my-zsh plugins
+custom_plugins=(
+	zsh-completions
+	zsh-autosuggestions
+	zsh-syntax-highlighting
+)
+
+# Bootstrap oh-my-zsh
+if [ ! -d "$ZSH" ]; then
+	# Install oh-my-zsh
+	echo "Installing oh-my-zsh..."
+	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+	# Install missing plugins
+	for plugin in $custom_plugins; do
+		if [ ! -d "$ZSH_CUSTOM/plugins/$plugin" ]; then
+			echo "Installing $plugin..."
+			git clone --depth=1 https://github.com/zsh-users/$plugin $ZSH_CUSTOM/plugins/$plugin
+		fi
+	done
+
+	# Create symlinks
+	ln -sf $HOME/.config/zsh/.zshrc $HOME/.zshrc
+	ln -sf $HOME/.config/zsh/.zshenv $HOME/.zshenv
+
+	# Reload zsh
+	source $HOME/.zshrc $HOME/.zshenv
+
+	return
+fi
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
@@ -37,13 +70,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Standard plugins can be found in $ZSH/plugins/
 plugins=(
 	git
-	zsh-completions
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	# nvm
 )
 
-# zstyle ':omz:plugins:nvm' lazy yes
+plugins+=(${custom_plugins[@]})
 
 source $ZSH/oh-my-zsh.sh
 
@@ -51,13 +80,6 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-
-case "$XDG_CURRENT_DESKTOP" in
-*GNOME*) alias ex="nautilus" ;;
-*KDE*) alias ex="dolphin" ;;
-*XFCE*) alias ex="thunar" ;;
-*) alias ex="xdg-open" ;;
-esac
 
 package_exist() {
 	command -v "$1" >/dev/null 2>&1
