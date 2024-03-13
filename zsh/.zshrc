@@ -78,6 +78,7 @@ if package_exist tmux; then
 
 	alias t="tmux"
 	alias ta="tmux attach -t"
+	alias td="tmux detach"
 	alias tk="tmux kill-session -t"
 	alias tl="tmux ls"
 	alias tn="tmux new -s"
