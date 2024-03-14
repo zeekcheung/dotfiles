@@ -47,3 +47,6 @@ xdg-terminals.list
 zsh/plugins
 Electron
 chromium
+forge
+zsh/.zcompdump
+zsh/.zsh_history

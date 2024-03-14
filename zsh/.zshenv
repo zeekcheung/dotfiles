@@ -1,24 +1,26 @@
 # shellcheck disable=SC1091,SC2155
 
-# Manually set your language environment
+# language environment
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# n/node.js
+# zsh
+export ZDOTDIR=$HOME/.config/zsh
+export HISTFILE=$ZDOTDIR/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+# default editor
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# n
 export N_PREFIX=$HOME/.n
-export PATH=$N_PREFIX/bin:$PATH
 
 # Rust
 if [ -d "$HOME/.cargo" ]; then
-	export PATH="$HOME/.cargo/bin:$PATH"
 	. "$HOME/.cargo/env"
 fi
-
-# Go
-export GOPATH=$HOME/code/go
-export GOBIN=$GOPATH/bin
-export PATH=$GOBIN:$PATH
-export PATH=/usr/local/go/bin:$PATH
 
 # fzf
 export FZF_DEFAULT_OPTS="
