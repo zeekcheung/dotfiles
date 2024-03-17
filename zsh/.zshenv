@@ -1,14 +1,22 @@
 # shellcheck disable=SC1091,SC2155
 
+# zsh
+export ZDOTDIR=$HOME/.config/zsh
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+# path
+export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$N_PREFIX/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/go/bin:$PATH
+export PATH=$HOME/.local/share/nvim/mason/bin:$PATH
+
 # language environment
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-# zsh
-export ZDOTDIR=$HOME/.config/zsh
-export HISTFILE=$ZDOTDIR/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000
 
 # default editor
 export EDITOR="nvim"
