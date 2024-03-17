@@ -1,21 +1,13 @@
+# language environment
 set -gx LANG en_US.UTF-8
 set -gx LC_ALL en_US.UTF-8
 
-# Nvim
-fish_add_path $HOME/.local/share/nvim/mason/bin
+# default editor
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 # n/node.js
 set -gx N_PREFIX $HOME/.n
-fish_add_path $N_PREFIX/bin
-
-# Rust
-fish_add_path $HOME/.cargo/bin
-
-# Go
-set -gx GOPATH $HOME/code/go
-set -gx GOBIN $GOPATH/bin
-fish_add_path /usr/local/go/bin
-fish_add_path $GOBIN
 
 # fzf
 set -gx FZF_DEFAULT_OPTS "

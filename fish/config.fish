@@ -4,11 +4,14 @@ if status is-interactive
     # remove greeting message
     set -g fish_greeting ""
    
-    # starship
-    set -gx STARSHIP_CONFIG ~/.config/starship.toml
     starship init fish | source
-
-    # zoxide
     zoxide init fish | source
 end
 
+# path
+fish_add_path /usr/local/bin
+fish_add_path $HOME/.local/bin
+fish_add_path $N_PREFIX/bin
+fish_add_path $HOME/.cargo/bin
+fish_add_path $HOME/go/bin
+fish_add_path $HOME/.local/share/nvim/mason/bin
