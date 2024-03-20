@@ -18,7 +18,8 @@ My personal dotfiles.
 
 - Shell
 
-  - [fish-shell](https://github.com/fish-shell/fish-shell)
+  - [zsh](https://www.zsh.org)
+  - [fish](https://github.com/fish-shell/fish-shell)
   - [Nushell](https://github.com/nushell/nushell)
   - [PowerShell](https://github.com/PowerShell/PowerShell)
   - [starship](https://github.com/starship/starship)
@@ -27,18 +28,18 @@ My personal dotfiles.
   - [bat](https://github.com/sharkdp/bat)
   - [bottom](https://github.com/ClementTsang/bottom?tab=readme-ov-file#scoop)
   - [eza](https://github.com/eza-community/eza)
-  - [fd](https://github.com/sharkdp/fd)
   - [fzf](https://github.com/junegunn/fzf)
   - [lazygit](https://github.com/jesseduffield/lazygit)
-  - [lf](https://github.com/gokcehan/lf)
   - [ripgrep](https://github.com/BurntSushi/ripgrep)
   - [tmux](https://github.com/tmux/tmux)
+  - [yazi](https://github.com/sxyazi/yazi)
   - [zoxide](https://github.com/ajeetdsouza/zoxide)
 
 ## ✅ Pre-requisites
 
-- [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701?hl=zh-cn&gl=US)
-- [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#install-powershell-using-winget-recommended)
+- Windows
+  - [Windows Terminal](https://apps.microsoft.com/detail/9N0DX20HK701?hl=zh-cn&gl=US)
+  - [PowerShell 7](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#install-powershell-using-winget-recommended)
 
 ## 🚀 Installation
 
@@ -49,7 +50,7 @@ My personal dotfiles.
    git clone https://github.com/zeekcheung/dotfiles $HOME/.config
 
    # or ssh
-   git clone git@github.com:zeekcheung/dotfiles.git $HOME/.config
+   git clone git@github.com:zeekcheung/dotfiles.git
    ```
 
 2. Run the scripts.

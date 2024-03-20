@@ -62,7 +62,6 @@ $ScoopDeps = @(
   'lazygit'
   'jq'
   'JetBrainsMono-NF'
-  'lf'
   'lua'
   'mingw-winlibs'
   'neovim-nightly'
