@@ -171,7 +171,7 @@ return {
           ['<Tab>'] = 'next_source',
           ['<S-Tab>'] = 'prev_source',
           ['s'] = 'none', -- disable default mappings
-          ['<leftrelease>'] = 'open', -- open node with single left click
+          ['<leftrelease>'] = 'toggle_node',
           ['za'] = 'toggle_node',
         },
       },
@@ -204,8 +204,8 @@ return {
         {
           event = 'neo_tree_buffer_enter',
           handler = function()
-            -- hide signcolumn
-            vim.opt.signcolumn = 'no'
+            -- hide statuscolumn in neo-tree
+            vim.opt.statuscolumn = ''
           end,
         },
       },
@@ -312,21 +312,21 @@ return {
       require('statuscol').setup {
         relculright = true,
         segments = {
-          {
-            text = { builtin.foldfunc },
-            condition = { vim.opt.foldcolumn:get() ~= '0' },
-            click = 'v:lua.ScFa',
-          },
           -- {
-          --   sign = { namespace = { 'diagnostic' }, maxwidth = 1, auto = true },
-          --   click = 'v:lua.ScSa',
+          --   text = { builtin.foldfunc },
+          --   condition = { vim.opt.foldcolumn:get() ~= '0' },
+          --   click = 'v:lua.ScFa',
           -- },
+          {
+            sign = { name = { 'Diagnostic' }, namespace = { 'diagnostic' } },
+            click = 'v:lua.ScSa',
+          },
           {
             text = { builtin.lnumfunc, ' ' },
             condition = { true, builtin.not_empty },
             click = 'v:lua.ScLa',
           },
-          { text = { '%s' }, click = 'v:lua.ScSa' },
+          { sign = { name = { 'GitSigns', 'todo*' }, namespace = { 'git', 'todo' } }, click = 'v:lua.ScSa' },
         },
       }
     end,
