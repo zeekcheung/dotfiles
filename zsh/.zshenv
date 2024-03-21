@@ -26,9 +26,7 @@ export VISUAL="nvim"
 export N_PREFIX=$HOME/.n
 
 # Rust
-if [ -d "$HOME/.cargo" ]; then
-	. "$HOME/.cargo/env"
-fi
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # fzf
 export FZF_DEFAULT_OPTS="
