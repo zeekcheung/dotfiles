@@ -67,7 +67,11 @@ let g:netrw_winsize=25
 let g:netrw_banner=0
 let g:netrw_liststyle=3
 
-colorscheme habamax
+colorscheme sorbet
+
+function! DrawMyColors()
+  hi StatusLine ctermbg=black guibg=black
+endfunction
 
 " --------------------------------------------
 " ----------------- keymaps ------------------
@@ -110,14 +114,14 @@ inoremap <silent> <esc> <esc>:noh<cr><esc>
 
 " Move lines
 " Hack: terminal emulator will send Esc when pressing Alt in vim
-execute "set <A-j>=\ej" 
-execute "set <A-k>=\ek"
-nnoremap <A-j> :m+<CR>
-inoremap <A-j> <Esc>:m+<CR>i
-vnoremap <A-j> :m+<CR>gv=gv
-nnoremap <A-k> :m-2<CR>
-inoremap <A-k> <Esc>:m-2<CR>i
-vnoremap <A-k> :m-2<CR>gv=gv
+" execute "set <A-j>=\ej" 
+" execute "set <A-k>=\ek"
+" nnoremap <A-j> :m+<CR>
+" inoremap <A-j> <Esc>:m+<CR>i
+" vnoremap <A-j> :m+<CR>gv=gv
+" nnoremap <A-k> :m-2<CR>
+" inoremap <A-k> <Esc>:m-2<CR>i
+" vnoremap <A-k> :m-2<CR>gv=gv
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
@@ -148,6 +152,11 @@ inoremap <silent> <C-z> <esc>:undo<cr>
 " --------------------------------------------
 " ----------------- autocmds -----------------
 " --------------------------------------------
+
+augroup MyColors
+  autocmd!
+  autocmd ColorScheme * call DrawMyColors()
+augroup END
 
 " Jump to last edit position when opening files
 silent! source $VIMRUNTIME/defaults.vim
