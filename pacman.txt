@@ -35,6 +35,7 @@ bibata-cursor-theme
 binutils
 bison
 blas
+blueprint-compiler
 bluez
 bluez-libs
 bluez-obex
@@ -110,6 +111,7 @@ fcitx5-material-color
 fcitx5-pinyin-zhwiki
 fcitx5-qt
 fcitx5-rime
+fd
 ffmpeg
 fftw
 file
@@ -130,6 +132,7 @@ fribidi
 fuse-common
 fuse2
 fuse3
+fzf
 gawk
 gc
 gcc
@@ -197,6 +200,7 @@ gnome-weather
 gnupg
 gnutls
 go
+gobject-introspection
 gobject-introspection-runtime
 gom
 google-glog
@@ -614,6 +618,7 @@ lm_sensors
 lmdb
 loupe
 lsb-release
+lsof
 lua
 luajit
 lv2
@@ -628,6 +633,7 @@ marisa
 md4c
 mdadm
 mesa
+meson
 minizip
 mjpegtools
 mkinitcpio
@@ -646,6 +652,7 @@ neovim
 net-snmp
 nettle
 networkmanager
+ninja
 node-gyp
 nodejs
 nodejs-nopt
@@ -705,6 +712,7 @@ pipewire-session-manager
 pixman
 pkgconf
 polkit
+pop-icon-theme
 poppler
 poppler-data
 poppler-glib
@@ -731,6 +739,9 @@ python-installer
 python-jaraco.context
 python-jaraco.functools
 python-jaraco.text
+python-mako
+python-markdown
+python-markupsafe
 python-more-itertools
 python-numpy
 python-ordered-set
@@ -748,6 +759,7 @@ python-setuptools
 python-six
 python-toml
 python-tomli
+python-tqdm
 python-trove-classifiers
 python-typing_extensions
 python-validate-pyproject
@@ -773,6 +785,7 @@ rime-luna-pinyin
 rime-prelude
 rime-stroke
 rime-terra-pinyin
+ripgrep
 rofi
 rtkit
 rtmpdump
@@ -879,6 +892,8 @@ tracker3
 tracker3-miners
 tree-sitter
 tslib
+ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-common
 twolame
 tzdata
 udisks2
@@ -897,6 +912,7 @@ vapoursynth
 vid.stab
 vim
 vim-runtime
+visual-studio-code-bin
 vmaf
 volume_key
 vte-common
@@ -956,6 +972,7 @@ xxhash
 xz
 yaml-cpp
 yarn
+yazi
 yelp
 yelp-xsl
 zbar
