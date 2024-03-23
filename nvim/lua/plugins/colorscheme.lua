@@ -1,3 +1,5 @@
+local darken = require('util.ui').darken
+
 return {
 
   {
@@ -6,7 +8,7 @@ return {
     name = 'catppuccin',
     opts = {
       no_bold = true,
-      -- transparent_background = vim.g.transparent_background,
+      transparent_background = vim.g.transparent_background,
       integrations = {
         aerial = true,
         cmp = true,
@@ -44,7 +46,7 @@ return {
           return {
             CmpItemMenu = { bg = colors.mantle },
             Pmenu = { bg = colors.mantle, fg = '' },
-            PmenuSel = { bg = colors.green, fg = colors.base },
+            PmenuSel = { bg = colors.flamingo, fg = colors.base },
           }
         end,
       },
@@ -53,6 +55,7 @@ return {
 
   {
     'folke/tokyonight.nvim',
+    enabled = false,
     priority = 1000,
     opts = {
       transparent = vim.g.transparent_background,
@@ -64,6 +67,28 @@ return {
         hl.TelescopeSelection = { bg = 'none' }
         hl.TelescopeSelectionCaret = { bg = 'none' }
       end,
+    },
+  },
+
+  {
+    'rose-pine/neovim',
+    enabled = false,
+    name = 'rose-pine',
+    priority = 1000,
+    opts = {
+      highlight_groups = {
+        -- statusline
+        StatusLine = { fg = 'love', bg = 'love', blend = 10 },
+        StatusLineNC = { fg = 'subtle', bg = 'surface' },
+
+        -- transparent telescope
+        TelescopeBorder = { fg = 'highlight_high', bg = 'none' },
+        TelescopeNormal = { bg = 'none' },
+        TelescopePromptNormal = { bg = 'base' },
+        TelescopeResultsNormal = { fg = 'subtle', bg = 'none' },
+        TelescopeSelection = { fg = 'text', bg = 'base' },
+        TelescopeSelectionCaret = { fg = 'rose', bg = 'rose' },
+      },
     },
   },
 }

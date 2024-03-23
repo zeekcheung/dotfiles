@@ -25,13 +25,14 @@ opt.helpheight = 10
 opt.conceallevel = 2
 opt.concealcursor = 'n'
 
--- statusline
+-- status
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = 'yes'
 opt.foldcolumn = '0'
-opt.laststatus = 3
 opt.cmdheight = 0
+opt.laststatus = 3
+opt.statusline = ' %f %m %= %l:%c '
 
 -- indent
 opt.shiftround = true
@@ -120,7 +121,7 @@ end
 vim.g.markdown_recommended_style = 0
 
 -- colorscheme
-local transparent_colorschemes = {}
+local transparent_colorschemes = { 'catppuccin' }
 vim.g.colorscheme = 'catppuccin'
 -- vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)

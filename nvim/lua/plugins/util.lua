@@ -2,7 +2,6 @@
 -- Find more plugins here: https://neovimcraft.com/
 
 local Util = require 'util'
-local Lualine = require 'util.lualine'
 
 local map = Util.silent_map
 local Ui = require 'util.ui'
@@ -18,10 +17,10 @@ return {
   {
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
-    init = function()
-      vim.opt.ruler = false
-      vim.opt.showcmd = false
-    end,
+    -- init = function()
+    --   vim.opt.ruler = false
+    --   vim.opt.showcmd = false
+    -- end,
     opts = function()
       local logo = [[
 ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
@@ -39,7 +38,7 @@ return {
         hide = {
           -- this is taken care of by lualine
           -- enabling this messes up the actual laststatus setting after loading a file
-          statusline = false,
+          statusline = true,
           tabline = true,
           winbar = true,
         },
@@ -122,7 +121,7 @@ return {
       enable_git_status = true,
       sources = { 'filesystem', 'buffers', 'git_status', 'document_symbols' },
       source_selector = {
-        winbar = true,
+        winbar = false,
         content_layout = 'center',
         tabs_layout = 'equal',
         show_separator_on_edge = false,
@@ -222,69 +221,6 @@ return {
           end
         end,
       })
-    end,
-  },
-
-  -- Statusline
-  {
-    'nvim-lualine/lualine.nvim',
-    enabled = true,
-    event = 'VeryLazy',
-    init = function()
-      vim.opt.showmode = false
-      vim.g.lualine_laststatus = vim.o.laststatus
-      if vim.fn.argc(-1) > 0 then
-        -- set an empty statusline till lualine loads
-        vim.o.statusline = ' '
-      else
-        -- hide the statusline on the starter page
-        vim.o.laststatus = 0
-      end
-    end,
-    opts = function()
-      vim.o.laststatus = vim.g.lualine_laststatus
-
-      return {
-        options = {
-          theme = 'auto',
-          globalstatus = true,
-          disabled_filetypes = { statusline = { 'dashboard', 'alpha', 'starter' } },
-          component_separators = '',
-          -- section_separators = '',
-          -- section_separators = { left = '', right = '' },
-        },
-        sections = {
-          lualine_a = {
-            'mode',
-          },
-          lualine_b = {
-            'branch',
-          },
-          lualine_c = {
-            Lualine.filetype_icon(),
-            'filename',
-            Lualine.diagnostics(),
-            -- '%=',
-          },
-          lualine_x = {
-            Lualine.codeium(),
-            Lualine.lspinfo(),
-            Lualine.formatters(),
-            Lualine.linters(),
-            Lualine.filetype(),
-            -- Lualine.indent(),
-            -- 'encoding',
-            -- Lualine.fileformat(),
-          },
-          lualine_y = {
-            'progress',
-          },
-          lualine_z = {
-            'location',
-          },
-        },
-        extensions = { 'neo-tree', 'lazy' },
-      }
     end,
   },
 
@@ -644,49 +580,6 @@ return {
     },
   },
 
-  -- Word highlight
-  {
-    'RRethy/vim-illuminate',
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {
-      providers = {
-        'regex',
-        'lsp',
-        'treesitter',
-      },
-      delay = 200,
-      large_file_cutoff = 2000,
-      large_file_overrides = {
-        providers = { 'lsp' },
-      },
-    },
-    config = function(_, opts)
-      require('illuminate').configure(opts)
-
-      local function map(key, dir, buffer)
-        vim.keymap.set('n', key, function()
-          require('illuminate')['goto_' .. dir .. '_reference'](false)
-        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. ' Reference', buffer = buffer })
-      end
-
-      map(']]', 'next')
-      map('[[', 'prev')
-
-      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-      vim.api.nvim_create_autocmd('FileType', {
-        callback = function()
-          local buffer = vim.api.nvim_get_current_buf()
-          map(']]', 'next', buffer)
-          map('[[', 'prev', buffer)
-        end,
-      })
-    end,
-    keys = {
-      { ']]', desc = 'Next Reference' },
-      { '[[', desc = 'Prev Reference' },
-    },
-  },
-
   -- Color highlight
   {
     'NvChad/nvim-colorizer.lua',
@@ -874,26 +767,6 @@ return {
       { '<C-Left>', '<cmd>SmartResizeLeft<cr>', 'Resize Left' },
       { '<C-Right>', '<cmd>SmartResizeRight<cr>', 'Resize Right' },
     },
-  },
-
-  -- Smooth scroll
-  {
-    'karb94/neoscroll.nvim',
-    event = { 'BufNewFile', 'BufReadPre' },
-    enabled = not vim.g.neovide,
-    config = function()
-      require('neoscroll').setup {
-        mappings = { '<C-u>', '<C-d>', '<C-f>', '<C-b>' },
-        hide_cursor = true,
-        stop_eof = true,
-        respect_scrolloff = false,
-        cursor_scrolls_alone = true,
-        easing_function = nil,
-        pre_hook = nil,
-        post_hook = nil,
-        performance_mode = false,
-      }
-    end,
   },
 
   -- Open URL under the cursor

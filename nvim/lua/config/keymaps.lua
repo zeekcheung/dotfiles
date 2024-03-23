@@ -23,7 +23,7 @@ map('v', '<C-c>', '"+y', { desc = 'Copy selection' })
 map('v', '<C-x>', '"+d', { desc = 'Cut selection' })
 map('i', '<C-v>', '<C-r>+', { desc = 'Paste' })
 map({ 'n', 'i' }, '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
-map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
+-- map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
 map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Move Lines

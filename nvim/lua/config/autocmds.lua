@@ -22,8 +22,8 @@ local function draw_my_highlight()
   end
 
   -- Neotree
-  local neotree_normal_hl = get_hl('NeotreeNormal', true)
-  set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
+  -- local neotree_normal_hl = get_hl('NeotreeNormal', true)
+  -- set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
 
   -- Border highlight
   local normal_hl = get_hl('Normal', true) -- Normal highlight

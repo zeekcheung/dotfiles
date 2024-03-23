@@ -6,8 +6,6 @@ local enabled = {
   'lazy.nvim',
   'nvim-treesitter',
   'nvim-treesitter-textobjects',
-  'flash.nvim',
-  'mini.ai',
   'mini.surround',
 }
 
