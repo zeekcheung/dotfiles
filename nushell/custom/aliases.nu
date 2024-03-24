@@ -9,10 +9,12 @@ export alias gd = git diff
 export alias gl = git log
 export alias gp = git pull & git push
 export alias gt = git status
-
 export alias gg = lazygit
 
+export alias ls = eza --color=auto
 export alias la = ls -a
 export alias ll = ls -l
+export alias l = ls -al
+export alias tree = eza --tree
 
 export alias vi = nvim

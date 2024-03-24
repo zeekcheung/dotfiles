@@ -3,8 +3,8 @@ local wezterm = require("wezterm")
 local M = {}
 
 M.setup = function(config)
-	config.front_end = "OpenGL"
-	config.webgpu_power_preference = "HighPerformance"
+	-- config.front_end = "OpenGL"
+	-- config.webgpu_power_preference = "HighPerformance"
 
 	-- https://wezfurlong.org/wezterm/colorschemes/index.html
 	-- config.color_scheme = "Rosé Pine (base16)"
@@ -62,7 +62,8 @@ M.setup = function(config)
 
 	if is_windows then
 		-- Windows shell
-		config.default_prog = { "pwsh", "-nologo" }
+		-- config.default_prog = { "pwsh", "-nologo" }
+		config.default_prog = { "nu" }
 		-- WSL
 		-- config.default_domain = "WSL:Ubuntu-22.04"
 

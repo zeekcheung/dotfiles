@@ -2,6 +2,7 @@
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -EditMode Windows
 Set-PSReadLineKeyHandler -Chord Tab -Function MenuComplete
+Set-PSReadLineKeyHandler -Key "Ctrl+f" -Function AcceptSuggestion
 
 # Global variables: $Config, $Documents, etc
 $Global:Config = $HOME + '\.config'
@@ -11,38 +12,27 @@ $Global:Music = [Environment]::GetFolderPath('MyMusic')
 $Global:Pictures = [Environment]::GetFolderPath('MyPictures')
 $Global:Videos = [Environment]::GetFolderPath('MyVideos')
 
+# Environment variables
+$env:EDITOR = 'nvim'
+$env:FZF_DEFAULT_OPTS = "
+  --layout=reverse
+  --inline-info
+  --ansi
+  --bind=tab:down,shift-tab:up,ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle
+  --preview='bat --color=always {}'
+  --preview-window=right,60%
+"
+
 Set-Alias ipconfig Get-NetIPAddress
 Set-Alias reboot Restart-Computer
 Set-Alias shutdown top-Computer
+Set-Alias vi nvim
 
 function .. { Set-Location .. }
 function env { Get-ChildItem -Path 'Env:' }
 function path { $env:Path -split ';' }
 function reload { & $PROFILE }
 
-<#
-.SYNOPSIS
-Open config folder with $env:EDITOR
-
-.EXAMPLE
-config, config nvim, config wsl, etc
-#>
-function config {
-  param ([String]$dirname)
-  $target_location = "$Global:Config\$dirname"
-  Push-Location -Path $target_location
-  $command = $env:EDITOR + ' .'
-  Invoke-Expression $command
-  Pop-Location
-}
-
-<#
-.SYNOPSIS
-Create symbolic link
-
-.EXAMPLE
-ln ~\.config\bat $Env:APPDATA\bat
-#>
 function ln {
   param(
     [Parameter(Mandatory = $true, Position = 0)]
@@ -58,13 +48,6 @@ function ln {
   New-Item -ItemType SymbolicLink -Path $Destination -Target (Resolve-Path $Target) -Force | Out-Null
 }
 
-<#
-.SYNOPSIS
-Create files
-
-.EXAMPLE
-touch foo.txt, bar.txt || touch $HOME/foo.bar
-#>
 function touch {
   param(
     [Parameter(ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Position = 0)]
@@ -96,15 +79,6 @@ function which($name) {
   Get-Command $name | Select-Object -ExpandProperty Definition
 }
 
-function Test-CommandExists {
-  Param ($command)
-  $oldPreference = $ErrorActionPreference
-  $ErrorActionPreference = 'stop'
-  try { if (Get-Command $command) { RETURN $true } }
-  Catch { Write-Host "$command does not exist"; RETURN $false }
-  Finally { $ErrorActionPreference = $oldPreference }
-}
-
 function Remove-DefaultAlias {
   param ($name, $scope = 'Global')
   if (Get-Alias $name -ErrorAction SilentlyContinue) {
@@ -112,77 +86,25 @@ function Remove-DefaultAlias {
   }
 }
 
-if (Test-CommandExists bat) {
-  Set-Alias cat bat -Force
-}
+Remove-DefaultAlias ls
+function ls { eza --git --group-directories-first }
+function la { eza -a --git --group-directories-first }
+function ll { eza -l --git --group-directories-first }
+function l { eza -al --git --group-directories-first }
 
-if (Test-CommandExists eza) {
-  Remove-DefaultAlias ls
+Remove-DefaultAlias gc
+Remove-DefaultAlias gp
+function ga { git add $args }
+function gb { git branch $args }
+function gc { git commit -m $args }
+function gd { git diff $args }
+function gs { git stash $args }
+function gp { git pull && git push }
+function gt { git status }
+Set-Alias gg lazygit
 
-  function ls { eza --git --icons --group-directories-first }
-  function la { eza -a --git --icons --group-directories-first }
-  function ll { eza -l --git --icons --group-directories-first }
-}
-else {
-  Set-Alias la 'ls -a'
-  Set-Alias ll 'ls -l'
-}
+# Invoke-Expression (&starship init powershell)
 
-if (Test-CommandExists fzf) {
-  $env:FZF_DEFAULT_OPTS = "
-    --layout=reverse
-    --inline-info
-    --ansi
-    --bind=tab:down,shift-tab:up,ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle
-    --preview='bat --color=always {}'
-    --preview-window=right,60%
-  "
-}
-
-if (Test-CommandExists git) {
-  Remove-DefaultAlias gc
-  Remove-DefaultAlias gp
-
-  function ga { git add $args }
-  function gb { git branch $args }
-  function gc { git commit -m $args }
-  function gd { git diff $args }
-  function gs { git stash $args }
-  function gp { git pull && git push }
-  function gt { git status }
-}
-
-if (Test-CommandExists lazygit) {
-  Set-Alias gg lazygit
-}
-
-if (Test-CommandExists nvim) {
-  $env:EDITOR = 'nvim'
-
-  function vi {
-    $env:NVIM_APPNAME = 'nvim'
-    & nvim $args
-  }
-
-  function lazyvim {
-    $env:NVIM_APPNAME = 'lazyvim'
-    & nvim $args
-  }
-
-  function nvchad {
-    $env:NVIM_APPNAME = 'nvchad'
-    & nvim $args
-  }
-}
-
-if (Test-CommandExists starship) {
-  Invoke-Expression (&starship init powershell)
-}
-
-if (Test-CommandExists zoxide) {
-  Remove-Alias -Name cd -Scope Global -Force
-  Set-Alias cd z -Scope Global -Force
-
-  # zoxide
-  Invoke-Expression (& { (zoxide init powershell | Out-String) })
-}
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
+Remove-Alias -Name cd -Scope Global -Force
+Set-Alias cd z -Scope Global -Force

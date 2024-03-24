@@ -51,6 +51,11 @@ set pumheight=10
 set fillchars=eob:\ ,fold:\ ,vert:\|
 " set listchars=tab:▸\ ,eol:¬
 
+" cursor shape
+let &t_SI.="\e[5 q"
+let &t_SR.="\e[4 q"
+let &t_EI.="\e[1 q"
+
 " miscellaneous
 set cursorline
 set showmatch

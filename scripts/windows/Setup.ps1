@@ -18,18 +18,14 @@ $SymLinks = @{
   "$Config\.gitconfig" = "$USERPROFILE\.gitconfig"
   # lazygit
   "$Config\lazygit" = "$AppData\lazygit"
-  # lf
-  "$Config\lf" = "$LocalAppData\lf"
   # neovim
   "$Config\nvim" = "$LocalAppData\nvim"
-  # lazyvim
-  "$Config\lazyvim" = "$LocalAppData\lazyvim"
-  # nvchad
-  "$Config\nvchad" = "$LocalAppData\nvchad"
   # nushell
   "$Config\nushell" = "$AppData\nushell"
   # powershell
   "$Config\powershell\profile.ps1" = "$Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+  # vim
+  "$Config\vim\.vimrc" = "$USERPROFILE\_vimrc"
   # windows terminal
   "$Config\windows-terminal\settings.json" = "$LocalAppData\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
   # wsl
@@ -39,7 +35,7 @@ $SymLinks = @{
 # Scoop buckets
 $ScoopBuckets = @{
   'main' = 'https://github.com/ScoopInstaller/Main'
-  'extras' = 'https://github.com/lukesampson/scoop-extras.git'
+  'extras' = 'https://github.com/ScoopInstaller/Extras'
   'versions' = 'https://github.com/ScoopInstaller/Versions'
   'nerd-fonts' = 'https://github.com/matthewjberger/scoop-nerd-fonts'
 }
@@ -64,8 +60,8 @@ $ScoopDeps = @(
   'JetBrainsMono-NF'
   'lua'
   'mingw-winlibs'
-  'neovim-nightly'
-  'nodejs20'
+  'neovim'
+  'nodejs'
   'nu'
   'python'
   'ripgrep'
@@ -74,6 +70,7 @@ $ScoopDeps = @(
   'starship'
   'sudo'
   'unzip'
+  'vim-nightly'
   'xmake'
   'yarn'
   'zig'

@@ -4,10 +4,9 @@
   "actions": [
     {
       "command": {
-        "action": "splitPane",
-        "split": "right"
+        "action": "commandPalette"
       },
-      "keys": "ctrl+\\"
+      "keys": "ctrl+shift+p"
     },
     {
       "command": {
@@ -18,9 +17,10 @@
     },
     {
       "command": {
-        "action": "commandPalette"
+        "action": "splitPane",
+        "split": "right"
       },
-      "keys": "ctrl+shift+p"
+      "keys": "ctrl+\\"
     },
     {
       "command": {
@@ -172,7 +172,7 @@
   "confirmCloseAllTabs": false,
   "copyFormatting": "none",
   "copyOnSelect": false,
-  "defaultProfile": "{c3c6ce22-a6ac-44df-9f32-7dd9c532792b}",
+  "defaultProfile": "{aab79973-318f-43b6-a9bc-b4096493753f}",
   "disableAnimations": true,
   "initialCols": 80,
   "initialRows": 20,
@@ -188,11 +188,11 @@
       "colorScheme": "Catppuccin Mocha",
       "cursorShape": "filledBox",
       "font": {
-        "cellHeight": "1.35",
-        "face": "JetBrainsMono Nerd Font",
-        "size": 17.0,
+        "face": "Maple Mono NF",
+        "size": 18.0,
         "weight": "normal"
       },
+      "opacity": 90,
       "padding": "0, 0, -3, -3",
       "scrollbarState": "hidden",
       "useAtlasEngine": true
@@ -201,9 +201,6 @@
       {
         "commandline": "pwsh -nologo",
         "elevate": false,
-        "font": {
-          "face": "JetBrainsMono Nerd Font"
-        },
         "guid": "{c3c6ce22-a6ac-44df-9f32-7dd9c532792b}",
         "hidden": false,
         "icon": "ms-appx:///ProfileIcons/pwsh.png",
@@ -215,6 +212,18 @@
         "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
         "hidden": false,
         "name": "\u547d\u4ee4\u63d0\u793a\u7b26"
+      },
+      {
+        "guid": "{e5a83caa-4c73-52b3-ae6b-bc438d721ef9}",
+        "hidden": false,
+        "name": "Ubuntu 22.04.3 LTS",
+        "source": "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc"
+      },
+      {
+        "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+        "hidden": false,
+        "name": "Nushell",
+        "source": "nu"
       }
     ]
   },
@@ -571,6 +580,7 @@
       "name": "Catppuccin Mocha",
       "tab": {
         "background": "#1E1E2EFF",
+        "iconStyle": "default",
         "showCloseButton": "always",
         "unfocusedBackground": null
       },
@@ -580,9 +590,13 @@
       },
       "window": {
         "applicationTheme": "dark",
+        "experimental.rainbowFrame": false,
+        "frame": null,
+        "unfocusedFrame": null,
         "useMica": false
       }
     }
   ],
   "useAcrylicInTabRow": false
 }
+
