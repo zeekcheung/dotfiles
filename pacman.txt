@@ -18,6 +18,7 @@ appstream
 apr
 apr-util
 archlinux-keyring
+archlinuxcn-keyring
 argon2
 at-spi2-core
 atkmm
@@ -52,6 +53,7 @@ ca-certificates-mozilla
 ca-certificates-utils
 cairo
 cairomm
+cairomm-1.16
 cantarell-fonts
 capnproto
 catppuccin-gtk-theme-mocha
@@ -59,6 +61,7 @@ cblas
 cdparanoia
 chromaprint
 cifs-utils
+cjson
 colord
 colord-gtk-common
 colord-gtk4
@@ -127,6 +130,7 @@ folks
 fontconfig
 freeglut
 freerdp
+freerdp2
 freetype2
 fribidi
 fuse-common
@@ -156,6 +160,7 @@ glib-networking
 glib2
 glibc
 glibmm
+glibmm-2.68
 glslang
 glu
 glycin
@@ -197,6 +202,7 @@ gnome-tweaks
 gnome-user-docs
 gnome-user-share
 gnome-weather
+gnu-free-fonts
 gnupg
 gnutls
 go
@@ -233,6 +239,7 @@ gtk-update-icon-cache
 gtk-vnc
 gtk3
 gtk4
+gtkmm-4.0
 gtkmm3
 gtksourceview4
 gtksourceview5
@@ -248,6 +255,7 @@ gvfs-google
 gvfs-gphoto2
 gvfs-mtp
 gvfs-nfs
+gvfs-onedrive
 gvfs-smb
 gzip
 harfbuzz
@@ -527,6 +535,7 @@ libsecret
 libshout
 libshumate
 libsigc++
+libsigc++-3.0
 libsm
 libsndfile
 libsodium
@@ -643,6 +652,7 @@ mod_dnssd
 mpfr
 mpg123
 msgpack-c
+msgraph
 mtdev
 mutter
 nautilus
@@ -691,6 +701,7 @@ pam
 pambase
 pango
 pangomm
+pangomm-2.48
 papirus-icon-theme
 parted
 paru
@@ -720,6 +731,7 @@ popt
 portaudio
 procps-ng
 protobuf
+protobuf-c
 psmisc
 pulse-native-provider
 python
@@ -766,7 +778,6 @@ python-validate-pyproject
 python-wheel
 python-xlib
 python-yaml
-qqmusic-bin
 qrencode
 qt6-base
 qt6-declarative
@@ -844,6 +855,7 @@ rygel
 sane
 sbc
 sdl2
+sdl2_ttf
 sed
 semver
 serd
@@ -894,9 +906,11 @@ tree-sitter
 tslib
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-common
+ttf-ubuntu-font-family
 twolame
 tzdata
 udisks2
+uhttpmock
 unibilium
 unzip
 upower
