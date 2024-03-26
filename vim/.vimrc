@@ -8,16 +8,20 @@ let maplocalleader=" "
 set nobackup
 set nowritebackup
 set noswapfile
-set undodir=~/.vim/undodir
+set undofile
 set undolevels=10000
+set undodir=~/.vim/undodir
+if !isdirectory(&undodir)
+    call mkdir(&undodir, "p")
+endif
 
 " number line
 set number
 set relativenumber
 
 " indent
-set shiftwidth=2
-set tabstop=2
+set shiftwidth=4
+set tabstop=4
 set expandtab
 set autoindent
 set smartindent
@@ -49,7 +53,7 @@ set pumheight=10
 
 " chars
 set fillchars=eob:\ ,fold:\ ,vert:\|
-" set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸\ ,eol:¬
 
 " cursor shape
 let &t_SI.="\e[5 q"
@@ -59,7 +63,7 @@ let &t_EI.="\e[1 q"
 " miscellaneous
 set cursorline
 set showmatch
-set laststatus=2
+set laststatus=0
 set mouse=a
 set clipboard=unnamedplus
 set autowrite
@@ -71,12 +75,6 @@ set timeoutlen=300
 let g:netrw_winsize=25
 let g:netrw_banner=0
 let g:netrw_liststyle=3
-
-colorscheme sorbet
-
-function! DrawMyColors()
-  hi StatusLine ctermbg=black guibg=black
-endfunction
 
 " --------------------------------------------
 " ----------------- keymaps ------------------
@@ -130,18 +128,13 @@ inoremap <silent> <esc> <esc>:noh<cr><esc>
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
+nnoremap <silent> <leader>qw :close<cr>
 
 " Save file
 nnoremap <silent> <C-s> <esc>:w!<cr><esc>
 xnoremap <silent> <C-s> <esc>:w!<cr><esc>
 snoremap <silent> <C-s> <esc>:w!<cr><esc>
 inoremap <silent> <C-s> <esc>:w!<cr><esc>
-
-" Select all
-nnoremap <silent> <C-a> <esc>ggVG
-vnoremap <silent> <C-a> <esc>ggVG
-xnoremap <silent> <C-a> <esc>ggVG
-inoremap <silent> <C-a> <esc>ggVG
 
 " Split window
 nnoremap <silent> \| :split<cr>
@@ -157,11 +150,6 @@ inoremap <silent> <C-z> <esc>:undo<cr>
 " --------------------------------------------
 " ----------------- autocmds -----------------
 " --------------------------------------------
-
-augroup MyColors
-  autocmd!
-  autocmd ColorScheme * call DrawMyColors()
-augroup END
 
 " Jump to last edit position when opening files
 silent! source $VIMRUNTIME/defaults.vim
@@ -183,7 +171,32 @@ augroup NetrwCustomKeymaps
 augroup END
 
 augroup AutoDeleteNetrwHiddenBuffers
-  au!
-  au FileType netrw setlocal bufhidden=wipe
+    au!
+    au FileType netrw setlocal bufhidden=wipe
 augroup end
+
+" Colorscheme
+let colorscheme="sorbet"
+if findfile("colors/" .colorscheme .".vim", &rtp) != ""
+    execute "colorscheme " . colorscheme
+    hi! StatusLine ctermfg=104 ctermbg=NONE guifg=#888888 guibg=NONE 
+    hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
+    hi! Visual cterm=NONE ctermbg=105 ctermfg=16 guibg=White guifg=Yellow
+    hi! Pmenu ctermbg=NONE
+    hi! PmenuSel ctermbg=105
+else
+    function! DrawMyColors()
+        hi! StatusLine ctermbg=NONE guibg=NONE
+        hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
+        hi! CursorLine cterm=NONE ctermbg=237 guibg=#363841
+        hi! CursorLineNr cterm=NONE
+        hi! LineNr term=underline ctermfg=7 guifg=lightgrey
+    endfunction
+
+    call DrawMyColors()
+    augroup MyColors
+        autocmd!
+        autocmd ColorScheme * call DrawMyColors()
+    augroup END
+endif
 
