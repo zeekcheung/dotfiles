@@ -3,7 +3,7 @@ if not vim.g.neovide then
 end
 
 -- font
-vim.o.guifont = 'JetBrainsMono Nerd Font:h18'
+vim.o.guifont = 'Maple Mono NF:h18'
 vim.g.neovide_scale_factor = 1.0
 -- padding
 vim.g.neovide_padding_top = 0
@@ -13,13 +13,20 @@ vim.g.neovide_padding_left = 0
 -- floating shadow
 -- FIX: Drop shadow causes incorrect rendering of float border
 -- See: https://github.com/neovide/neovide/issues/2113
-vim.g.neovide_floating_shadow = true
+vim.g.neovide_floating_shadow = false
 vim.g.neovide_floating_z_height = 10
 vim.g.neovide_light_angle_degrees = 45
 vim.g.neovide_light_radius = 5
 -- background color
-vim.g.neovide_transparency = 1.0
-vim.g.transparent_background = vim.g.neovide_transparency ~= 1.0
+-- Helper function for transparency formatting
+local alpha = function()
+  return string.format('%x', math.floor(255 * vim.g.transparency))
+end
+-- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+vim.g.transparency = 0.6
+vim.g.neovide_transparency = vim.g.transparency
+vim.g.neovide_background_color = '#1e1e2e' .. alpha()
+-- vim.g.transparent_background = vim.g.neovide_transparency ~= 1.0
 -- -- scroll animation length
 -- vim.g.neovide_scroll_animation_length = 0.3
 -- hiding the mouse when typing
