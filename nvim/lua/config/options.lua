@@ -31,8 +31,8 @@ opt.relativenumber = true
 opt.signcolumn = 'yes'
 opt.foldcolumn = '0'
 opt.cmdheight = 0
-opt.laststatus = 0
-opt.statusline = ' %f %m %= %l:%c '
+opt.laststatus = 3
+-- opt.statusline = ' %f %m %= %l:%c '
 
 -- indent
 opt.shiftround = true

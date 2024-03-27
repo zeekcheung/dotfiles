@@ -45,9 +45,9 @@ map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
 
 -- Buffers
-map('n', '<Tab>', ':bn<cr>', { desc = 'Next buffer' })
-map('n', '<S-Tab>', ':bp<cr>', { desc = 'Previous buffer' })
-map('n', '<leader>bd', ':bd<cr>', { desc = 'Delete current buffer' })
+map('n', '<Tab>', '<cmd>bn<cr>', { desc = 'Next buffer' })
+map('n', '<S-Tab>', '<cmd>bp<cr>', { desc = 'Previous buffer' })
+map('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<leader>bo', function()
   local current_buf = vim.fn.bufnr '%'
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -56,6 +56,19 @@ map('n', '<leader>bo', function()
     end
   end
 end, { desc = 'Delete other buffers' })
+
+-- Tabs
+map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New tab' })
+map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next tab' })
+map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous tab' })
+map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First tab' })
+map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last tab' })
+map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close tab' })
+
+-- Terminal
+map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })
+map('n', '<leader>th', '<cmd>term<cr>', { desc = 'Open horizontal terminal' })
+map('n', '<leader>tv', '<cmd>vert term<cr>', { desc = 'Open vertical terminal' })
 
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
@@ -85,6 +98,12 @@ map('n', '[w', diagnostic_goto(false, 'WARN'), { desc = 'Prev Warning' })
 
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
+
+-- Source
+map('n', '<leader>s', function()
+  vim.cmd 'so %'
+  print('Sourcing ' .. vim.fn.expand '%')
+end, { desc = 'Source current file' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })

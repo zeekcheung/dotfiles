@@ -17,6 +17,7 @@ return {
   {
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
+    dependencies = { 'nvim-lualine/lualine.nvim' },
     -- init = function()
     --   vim.opt.ruler = false
     --   vim.opt.showcmd = false
@@ -31,14 +32,12 @@ return {
 ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
 ]]
 
-      logo = string.rep('\n', 2) .. logo .. '\n'
+      logo = string.rep('\n', 1) .. logo .. '\n'
 
       local opts = {
         theme = 'doom',
         hide = {
-          -- this is taken care of by lualine
-          -- enabling this messes up the actual laststatus setting after loading a file
-          statusline = true,
+          statusline = false,
           tabline = true,
           winbar = true,
         },
@@ -295,9 +294,7 @@ return {
       {
         'ahmedkhalf/project.nvim',
         event = 'VeryLazy',
-        opts = {
-          manual_mode = false,
-        },
+        opts = { manual_mode = false },
         config = function(_, opts)
           require('project_nvim').setup(opts)
           require('telescope').load_extension 'projects'
@@ -362,7 +359,7 @@ return {
           "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
           desc = "Switch Buffer",
         },
-        { '<leader>/', builtin.live_grep, desc = 'Words' },
+        { '<leader>/', builtin.live_grep, desc = 'Find Words' },
         { '<leader>fa', builtin.autocommands, desc = 'Autocmds' },
         { '<leader>fb', builtin.buffers, desc = 'Buffers' },
         { '<leader>fc', function()
@@ -477,6 +474,65 @@ return {
       map( 'n', '<leader>th', '<cmd>ToggleTerm size=' .. newterm_opts['horizontal'].size .. ' direction=horizontal<cr>', { desc = 'ToggleTerm horizontal split' })
       -- stylua: ignore
       map('n', '<leader>tv', '<cmd>ToggleTerm size=' .. newterm_opts['vertical'].size .. ' direction=vertical<cr>', { desc = 'ToggleTerm vertical split' })
+    end,
+  },
+
+  -- Status line
+  {
+    'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
+    opts = function()
+      return {
+        options = {
+          theme = 'auto',
+          globalstatus = true,
+          disabled_filetypes = { statusline = { 'dashboard' } },
+          component_separators = '',
+          section_separators = '',
+        },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = {
+            {
+              'branch',
+              on_click = function()
+                vim.cmd 'Telescope git_branches'
+              end,
+            },
+          },
+          lualine_c = {
+            'filename',
+            {
+              'diagnostics',
+              symbols = {
+                error = icons.diagnostics.Error,
+                warn = icons.diagnostics.Warn,
+                info = icons.diagnostics.Info,
+                hint = icons.diagnostics.Hint,
+              },
+            },
+          },
+          lualine_x = {
+            -- codeium
+            {
+              'vim.fn["codeium#GetStatusString"]()',
+              cond = function()
+                return vim.g.codeium_plugin_enabled
+              end,
+              fmt = function(str)
+                return icons.kinds.Codeium .. str
+              end,
+              on_click = function()
+                vim.cmd 'CodeiumToggle'
+              end,
+            },
+            'encoding',
+            'fileformat',
+            'filetype',
+          },
+        },
+        extensions = { 'neo-tree', 'lazy' },
+      }
     end,
   },
 
@@ -625,8 +681,6 @@ return {
         ['<leader>g'] = { name = '+git' },
         ['<leader>gh'] = { name = '+hunks' },
         ['<leader>q'] = { name = '+quit' },
-        ['<leader>r'] = { name = '+runner' },
-        ['<leader>s'] = { name = '+search' },
         ['<leader>t'] = { name = '+terminal' },
         ['<leader>u'] = { name = '+ui' },
         ['<leader>w'] = { name = '+workspace' },
@@ -700,7 +754,7 @@ return {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
     keys = {
-      { '<leader>rn', ':IncRename ', desc = 'Rename' },
+      { '<leader>r', ':IncRename ', desc = 'Rename' },
     },
     config = true,
   },
@@ -712,11 +766,11 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     keys = {
       {
-        '<leader>sr',
+        '<leader>h',
         function()
           require('spectre').open()
         end,
-        desc = 'Replace in files (Spectre)',
+        desc = 'Replace',
       },
     },
   },
