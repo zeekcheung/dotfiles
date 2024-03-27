@@ -60,13 +60,16 @@ catppuccin-gtk-theme-mocha
 cblas
 cdparanoia
 chromaprint
+chromium
 cifs-utils
 cjson
+cmake
 colord
 colord-gtk-common
 colord-gtk4
 colord-sane
 coreutils
+cppdap
 cracklib
 cryptsetup
 cups-pk-helper
@@ -78,6 +81,8 @@ dbus-broker
 dbus-broker-units
 dbus-python
 dconf
+dconf-editor
+debtap
 debugedit
 default-cursors
 desktop-file-utils
@@ -193,6 +198,8 @@ gnome-remote-desktop
 gnome-session
 gnome-settings-daemon
 gnome-shell
+gnome-shell-extension-dash-to-dock
+gnome-shell-extension-forge-git
 gnome-shell-extensions
 gnome-software
 gnome-system-monitor
@@ -288,6 +295,7 @@ jbigkit
 js115
 json-c
 json-glib
+jsoncpp
 kbd
 kdbusaddons
 keyutils
@@ -629,6 +637,8 @@ loupe
 lsb-release
 lsof
 lua
+lua51
+lua51-lpeg
 luajit
 lv2
 lz4
@@ -657,6 +667,7 @@ mtdev
 mutter
 nautilus
 ncurses
+neofetch
 neon
 neovim
 net-snmp
@@ -722,6 +733,7 @@ pipewire-pulse
 pipewire-session-manager
 pixman
 pkgconf
+pkgfile
 polkit
 pop-icon-theme
 poppler
@@ -789,6 +801,7 @@ qt6-webengine
 raptor
 rav1e
 readline
+rhash
 rime-bopomofo
 rime-cangjie
 rime-essay
@@ -902,8 +915,16 @@ totem-pl-parser
 tpm2-tss
 tracker3
 tracker3-miners
-tree-sitter
+tree-sitter-bash
+tree-sitter-c
+tree-sitter-git
+tree-sitter-lua
+tree-sitter-markdown
+tree-sitter-python
+tree-sitter-query
+tree-sitter-vimdoc
 tslib
+ttf-liberation
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-common
 ttf-ubuntu-font-family
