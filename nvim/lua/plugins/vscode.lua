@@ -24,10 +24,4 @@ return {
       indent = { enable = false },
     },
   },
-  {
-    'folke/flash.nvim',
-    init = function()
-      vim.api.nvim_set_hl(0, 'FlashLabel', { fg = '#f9fafe', bg = '#ff007c', italic = true, bold = true })
-    end,
-  },
 }

@@ -8,30 +8,35 @@ vim.notify = Vscode.notify
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
--- Options
 local opt = vim.opt
-opt.autowrite = true -- Enable auto write
-opt.clipboard = 'unnamedplus' -- Sync with system clipboard
-opt.expandtab = true -- Use spaces instead of tabs
-opt.grepformat = '%f:%l:%c:%m'
-opt.grepprg = 'rg --vimgrep'
-opt.ignorecase = true -- Ignore case
-opt.inccommand = 'nosplit' -- preview incremental substitute
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 2 -- Size of an indent
-opt.smartcase = true -- Don't ignore case with capitals
-opt.smartindent = true -- Insert indents automatically
-opt.spelllang = { 'en' }
+
+-- backup
+opt.autowrite = true
 opt.swapfile = false
-opt.tabstop = 2 -- Number of spaces tabs count for
-opt.timeoutlen = 300
 opt.undofile = true
 opt.undolevels = 10000
-opt.wrap = false -- Disable line wrap
+
+-- indent
+opt.shiftwidth = 2
+opt.shiftround = true
+opt.tabstop = 2
+opt.expandtab = true
+opt.smartindent = true
+
+-- search
+opt.ignorecase = true
+opt.smartcase = true
+
+-- misc
+opt.clipboard = 'unnamedplus'
+opt.inccommand = 'nosplit'
+opt.spelllang = { 'en' }
+opt.timeoutlen = 300
+opt.wrap = false
 
 vim.cmd [[syntax off]]
 -- NOTE: setup colorscheme to make sure vscode use correct highlight groups
-vim.cmd [[colorscheme vim]]
+-- vim.cmd [[colorscheme default]]
 
 -- Keymaps
 -- Make all keymaps silent by default
@@ -104,6 +109,9 @@ local map = Util.silent_map;
   -- quit
   map('n', '<leader>qq', function() call 'workbench.action.closeWindow' end)
   map({ 'n', 'v', 'x' }, '<leader>qw', function() call 'workbench.action.closeActiveEditor' end)
+
+  -- source
+  map('n', '<leader>s', '<cmd>so %<cr>')
 end)()
 
 -- Autocmds
