@@ -128,7 +128,7 @@ inoremap <silent> <esc> <esc>:noh<cr><esc>
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
-nnoremap <silent> <leader>qw :close<cr>
+nnoremap <silent> <leader>qw :close!<cr>
 
 " Save file
 nnoremap <silent> <C-s> <esc>:w!<cr><esc>
@@ -136,9 +136,23 @@ xnoremap <silent> <C-s> <esc>:w!<cr><esc>
 snoremap <silent> <C-s> <esc>:w!<cr><esc>
 inoremap <silent> <C-s> <esc>:w!<cr><esc>
 
+"Source config
+nnoremap <silent> <leader>s :so%<cr>
+
 " Split window
 nnoremap <silent> \| :split<cr>
 nnoremap <silent> \ :vsplit<cr>
+
+" Tab
+nnoremap <silent> <leader><tab><tab> :tabnew<cr>
+nnoremap <silent> <leader><tab>n :tabnext<cr>
+nnoremap <silent> <leader><tab>p :tabprevious<cr>
+nnoremap <silent> <leader><tab>d :tabclose<cr>
+
+" Terminal
+nnoremap <silent> <leader>th :term<cr>
+nnoremap <silent> <leader>tv :vert term<cr>
+tnoremap <silent> <esc> <C-\><C-n>
 
 " Toggle netrw
 nnoremap <silent> <leader>e :Lexplore<cr>
