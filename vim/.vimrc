@@ -60,10 +60,14 @@ let &t_SI.="\e[5 q"
 let &t_SR.="\e[4 q"
 let &t_EI.="\e[1 q"
 
+" statusline
+set laststatus=2
+set statusline=%<%F\ %m\ 
+set statusline+=%=\ 
+set statusline+=%Y\ \ %P\ \ %l:%c
+
 " miscellaneous
 set cursorline
-set showmatch
-set laststatus=0
 set mouse=a
 set clipboard=unnamedplus
 set autowrite
@@ -189,14 +193,24 @@ augroup AutoDeleteNetrwHiddenBuffers
     au FileType netrw setlocal bufhidden=wipe
 augroup end
 
+" Close some filetypes with <q>
+augroup FiletypeClose
+    autocmd!
+    autocmd filetype help nnoremap <buffer> <silent> q :q<cr>
+    autocmd filetype qf nnoremap <buffer> <silent> q :q<cr>
+augroup END
+
 " Colorscheme
 let colorscheme="sorbet"
 if findfile("colors/" .colorscheme .".vim", &rtp) != ""
     execute "colorscheme " . colorscheme
+
+    set noshowcmd
+
     hi! StatusLine ctermfg=104 ctermbg=NONE guifg=#888888 guibg=NONE 
     hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
     hi! Visual cterm=NONE ctermbg=105 ctermfg=16 guibg=White guifg=Yellow
-    hi! Pmenu ctermbg=NONE
+    hi! Pmenu ctermbg=NONE ctermfg=255
     hi! PmenuSel ctermbg=105
 else
     function! DrawMyColors()
