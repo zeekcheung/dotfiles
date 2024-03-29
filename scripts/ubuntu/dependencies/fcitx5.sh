@@ -9,7 +9,7 @@ sudo apt install -y fcitx5 \
 	fcitx5-table-emoji fcitx5-module-emoji \
 	fcitx5-config-qt fcitx5-frontend-{gtk3,gtk4,qt5}
 
-# Change then environment variables on Pop!_OS
+# Change the environment variables on Pop!_OS
 if grep -qi pop /proc/version; then
 	sudo tee /etc/profile.d/z-pop-os-fcitx.sh <<'EOF'
 export GTK_IM_MODULE=""
@@ -18,8 +18,15 @@ export XMODIFIERS=""
 EOF
 fi
 
-# Set fcitx5 as the default input method for current user
-im-config -n fcitx5
+# Set fcitx5 as the default input method
+sudo tee -a /etc/environment <<EOF
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+INPUT_METHOD=fcitx
+GLFW_IM_MODULE=ibus
+EOF
 
 # Install rime-rice
 sudo apt install ruby
