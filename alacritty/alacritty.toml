@@ -38,4 +38,5 @@ bindings = [
   { key = "F11", mods = "None", action = "ToggleFullscreen" },
   { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
   { key = "W", mods = "Control|Shift", action = "Quit" },
+  { key = "X", mods = "Control|Shift", action = "Quit" },
 ]
