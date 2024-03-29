@@ -171,6 +171,12 @@ return {
           ['s'] = 'none', -- disable default mappings
           ['<leftrelease>'] = 'toggle_node',
           ['za'] = 'toggle_node',
+          ['O'] = {
+            function(state)
+              require('lazy.util').open(state.tree:get_node().path, { system = true })
+            end,
+            desc = 'Open with System Application',
+          },
         },
       },
       filesystem = {
