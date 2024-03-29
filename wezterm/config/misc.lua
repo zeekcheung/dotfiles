@@ -3,6 +3,9 @@ local wezterm = require("wezterm")
 local M = {}
 
 M.setup = function(config)
+	-- Environment variables
+	config.term = "wezterm"
+
 	-- config.front_end = "OpenGL"
 	-- config.webgpu_power_preference = "HighPerformance"
 
@@ -38,6 +41,9 @@ M.setup = function(config)
 	config.default_cursor_style = "BlinkingBlock"
 	config.cursor_blink_ease_in = "EaseIn"
 	config.cursor_blink_ease_out = "EaseOut"
+
+	-- Bell
+	config.audible_bell = "Disabled"
 
 	-- Command palette
 	config.command_palette_rows = 8

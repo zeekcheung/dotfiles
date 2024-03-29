@@ -36,9 +36,11 @@ alias tl="tmux ls"
 alias tn="tmux new -s"
 alias tm="tmux new -A -s main"
 
-# kitty
-if grep -q "kitty" <<<"$TERM"; then
+function is_term { grep -q $1 <<<"$TERM" }
+if is_term "kitty"; then
 	alias icat="kitten icat"
+elif is_term "wezterm"; then
+	alias icat="wezterm imgcat"
 fi
 
 # yazi
