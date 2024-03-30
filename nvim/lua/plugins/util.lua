@@ -89,6 +89,7 @@ return {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v3.x',
     cmd = 'Neotree',
+    dependencies = { '3rd/image.nvim' },
     keys = {
       {
         '<leader>e',
@@ -176,6 +177,10 @@ return {
               require('lazy.util').open(state.tree:get_node().path, { system = true })
             end,
             desc = 'Open with System Application',
+          },
+          ['P'] = {
+            'toggle_preview',
+            config = { use_float = false, use_image_nvim = true },
           },
         },
       },
@@ -858,5 +863,44 @@ return {
         },
       }
     end,
+  },
+
+  -- Image preview
+  {
+    '3rd/image.nvim',
+    event = 'VeryLazy',
+    build = function()
+      -- Install magick LuaRock
+      vim.cmd '!luarocks --lua-version=5.1 --local install magick'
+    end,
+    init = function()
+      -- Load magick LuaRock
+      package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?/init.lua;'
+      package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?.lua;'
+    end,
+    opts = {
+      backend = 'kitty',
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { 'markdown', 'vimwiki' }, -- markdown extensions (ie. quarto) can go here
+        },
+        neorg = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { 'norg' },
+        },
+      },
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = nil,
+      max_height_window_percentage = 50,
+      kitty_method = 'normal',
+    },
   },
 }
