@@ -76,9 +76,11 @@ set ttyfast
 set timeoutlen=300
 
 " netrw
-let g:netrw_winsize=25
 let g:netrw_banner=0
+let g:netrw_winsize=25
 let g:netrw_liststyle=3
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_localcopydircmd = 'cp -r'
 
 " colorscheme
 let g:colorscheme="sorbet"
@@ -168,6 +170,15 @@ nnoremap <silent> <leader>e :Lexplore<cr>
 nnoremap <silent> <C-z> :undo<cr>
 inoremap <silent> <C-z> <esc>:undo<cr>
 
+" Netrw
+function! NetrwMapping()
+    nmap <buffer> <C-l> <C-w>l
+    nmap <buffer> H gh
+    nmap <buffer> a %:w<CR>:buffer#<CR>
+    nmap <buffer> r R
+    nmap <buffer> ? <F1>
+endfunction
+
 " --------------------------------------------
 " ----------------- autocmds -----------------
 " --------------------------------------------
@@ -186,21 +197,20 @@ autocmd Filetype c,cpp,h,hpp,python setlocal shiftwidth=4 tabstop=4
 
 " Netrw 
 augroup NetrwCustomKeymaps
-    autocmd FileType netrw {
-      nnoremap <buffer> <silent> <C-l> <C-w>l
-    }
+    autocmd!
+    autocmd FileType netrw call NetrwMapping()
 augroup END
 
 augroup AutoDeleteNetrwHiddenBuffers
-    au!
-    au FileType netrw setlocal bufhidden=wipe
-augroup end
+    autocmd!
+    autocmd FileType netrw setlocal bufhidden=wipe
+augroup END
 
 " Close some filetypes with <q>
 augroup FiletypeClose
     autocmd!
-    autocmd filetype help nnoremap <buffer> <silent> q :q<cr>
-    autocmd filetype qf nnoremap <buffer> <silent> q :q<cr>
+    autocmd FileType help nnoremap <buffer> <silent> q :q<cr>
+    autocmd FileType qf nnoremap <buffer> <silent> q :q<cr>
 augroup END
 
 " Colorscheme
