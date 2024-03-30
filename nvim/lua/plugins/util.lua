@@ -428,8 +428,7 @@ return {
           local direction = term.direction
           local bufnr = term.bufnr
 
-          vim.wo.foldcolumn = '0'
-          vim.wo.signcolumn = 'no'
+          vim.wo.statuscolumn = ''
 
           -- close terminal window and exit running progress
           map('n', 'q', '<cmd>bd!<CR>', { buffer = bufnr, noremap = true, silent = true })
