@@ -80,6 +80,9 @@ let g:netrw_winsize=25
 let g:netrw_banner=0
 let g:netrw_liststyle=3
 
+" colorscheme
+let g:colorscheme="sorbet"
+let g:transparent_background=1
 " --------------------------------------------
 " ----------------- keymaps ------------------
 " --------------------------------------------
@@ -201,19 +204,24 @@ augroup FiletypeClose
 augroup END
 
 " Colorscheme
-let colorscheme="sorbet"
-if findfile("colors/" .colorscheme .".vim", &rtp) != ""
-    execute "colorscheme " . colorscheme
+if findfile("colors/" . g:colorscheme .".vim", &rtp) != ""
+    execute "colorscheme " . g:colorscheme
 
     set noshowcmd
-
+    if g:transparent_background == 1
+        hi! Normal ctermbg=NONE guibg=NONE
+    end
     hi! StatusLine ctermfg=104 ctermbg=NONE guifg=#888888 guibg=NONE 
     hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
     hi! Visual cterm=NONE ctermbg=105 ctermfg=16 guibg=White guifg=Yellow
     hi! Pmenu ctermbg=NONE ctermfg=255
     hi! PmenuSel ctermbg=105
 else
+    " Fallback colorscheme
     function! DrawMyColors()
+        if g:transparent_background == 1
+            hi! Normal ctermbg=NONE guibg=NONE
+        end
         hi! StatusLine ctermbg=NONE guibg=NONE
         hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
         hi! CursorLine cterm=NONE ctermbg=237 guibg=#363841
