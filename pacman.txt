@@ -20,6 +20,7 @@ apr-util
 archlinux-keyring
 archlinuxcn-keyring
 argon2
+asar
 at-spi2-core
 atkmm
 attr
@@ -63,11 +64,13 @@ chromaprint
 chromium
 cifs-utils
 cjson
+clang
 cmake
 colord
 colord-gtk-common
 colord-gtk4
 colord-sane
+compiler-rt
 coreutils
 cppdap
 cracklib
@@ -99,6 +102,7 @@ efibootmgr
 efivar
 egl-wayland
 eglexternalplatform
+electron28
 ell
 enchant
 epiphany
@@ -640,6 +644,7 @@ lua
 lua51
 lua51-lpeg
 luajit
+luarocks
 lv2
 lz4
 lzo
@@ -790,6 +795,7 @@ python-validate-pyproject
 python-wheel
 python-xlib
 python-yaml
+qqmusic-electron
 qrencode
 qt6-base
 qt6-declarative
@@ -924,9 +930,11 @@ tree-sitter-python
 tree-sitter-query
 tree-sitter-vimdoc
 tslib
+ttf-jetbrains-mono
 ttf-liberation
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-common
+ttf-roboto
 ttf-ubuntu-font-family
 twolame
 tzdata
@@ -961,6 +969,9 @@ webkit2gtk-4.1
 webkitgtk-6.0
 webrtc-audio-processing-1
 wechat-universal-bwrap
+wezterm
+wezterm-shell-integration
+wezterm-terminfo
 wget
 which
 wildmidi
@@ -1013,6 +1024,7 @@ yelp-xsl
 zbar
 zeromq
 zimg
+zip
 zix
 zlib
 zoxide
