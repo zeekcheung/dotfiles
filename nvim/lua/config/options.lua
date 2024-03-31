@@ -104,7 +104,8 @@ local is_windows = require('util').is_win()
 if is_windows then
   -- NOTE: We need to add PowerShell to the `PATH` for `vim.fn.executable 'pwsh'` to work
   opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
-  opt.shellcmdflag = '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+  opt.shellcmdflag =
+  '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
   opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
   opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
   opt.shellquote = ''
@@ -135,7 +136,7 @@ vim.g.hover_custom_border = true
 vim.g.hover_silent = true
 
 -- codeium
-vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
+vim.g.codeium_plugin_enabled = true    -- Enable codeium.vim plugin
 vim.g.codeium_enabled = not is_windows -- Disable codeium service
 
 -- nvim-treesitter-context

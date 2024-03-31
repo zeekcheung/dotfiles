@@ -39,7 +39,8 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        lua = { 'stylua' },
+        -- lua = { 'stylua' },
+        -- NOTE: use lus_ls to format, instead of stylua
       },
     },
   },

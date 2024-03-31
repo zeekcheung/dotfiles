@@ -9,80 +9,9 @@ local icons = Ui.icons
 
 return {
   -- Library used by other plugins
-  { 'MunifTanjim/nui.nvim', lazy = true },
-  { 'nvim-lua/plenary.nvim', lazy = true },
+  { 'MunifTanjim/nui.nvim',        lazy = true },
+  { 'nvim-lua/plenary.nvim',       lazy = true },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
-
-  -- Dashboard
-  {
-    'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
-    dependencies = { 'nvim-lualine/lualine.nvim' },
-    -- init = function()
-    --   vim.opt.ruler = false
-    --   vim.opt.showcmd = false
-    -- end,
-    opts = function()
-      local logo = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
-]]
-
-      logo = string.rep('\n', 1) .. logo .. '\n'
-
-      local opts = {
-        theme = 'doom',
-        hide = {
-          statusline = false,
-          tabline = true,
-          winbar = true,
-        },
-        config = {
-          header = vim.split(logo, '\n'),
-          -- stylua: ignore
-          center = {
-            { action = "Telescope find_files", desc = " Files", icon = " ", key = "f" },
-            -- { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent", icon = " ", key = "r" },
-            { action = "Telescope projects", desc = " Projects", icon = " ", key = "p" },
-            { action = "lua require('util').find_configs()", desc = " Config", icon = " ", key = "c" },
-            { action = "lua require('persistence').load()", desc = " Session", icon = " ", key = "s" },
-            { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
-            { action = "qa", desc = " Quit", icon = " ", key = "q" },
-          },
-          footer = function()
-            local stats = require('lazy').stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            return {
-              '⚡ Neovim loaded ' .. stats.loaded .. '/' .. stats.count .. ' plugins in ' .. ms .. 'ms',
-            }
-          end,
-        },
-      }
-
-      for _, button in ipairs(opts.config.center) do
-        button.desc = button.desc .. string.rep(' ', 40 - #button.desc)
-        button.key_format = '  %s'
-      end
-
-      -- close Lazy and re-open when the dashboard is ready
-      if vim.o.filetype == 'lazy' then
-        vim.cmd.close()
-        vim.api.nvim_create_autocmd('User', {
-          pattern = 'DashboardLoaded',
-          callback = function()
-            require('lazy').show()
-          end,
-        })
-      end
-
-      return opts
-    end,
-  },
 
   -- File explorer
   {
@@ -234,50 +163,6 @@ return {
     end,
   },
 
-  -- Status column
-  {
-    'luukvbaal/statuscol.nvim',
-    branch = vim.fn.has 'nvim-0.10' == 1 and '0.10' or 'main',
-    init = function()
-      -- auto change numberwidth based on the lines of current buffer
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = '*',
-        callback = function()
-          -- get the lines of current buffer
-          local lines = vim.api.nvim_buf_line_count(0)
-          if lines > 100 then
-            vim.opt_local.numberwidth = 5
-          elseif lines > 1000 then
-            vim.opt_local.numberwidth = 6
-          end
-        end,
-      })
-    end,
-    config = function()
-      local builtin = require 'statuscol.builtin'
-      require('statuscol').setup {
-        relculright = true,
-        segments = {
-          -- {
-          --   text = { builtin.foldfunc },
-          --   condition = { vim.opt.foldcolumn:get() ~= '0' },
-          --   click = 'v:lua.ScFa',
-          -- },
-          {
-            sign = { name = { 'Diagnostic' }, namespace = { 'diagnostic' } },
-            click = 'v:lua.ScSa',
-          },
-          {
-            text = { builtin.lnumfunc, ' ' },
-            condition = { true, builtin.not_empty },
-            click = 'v:lua.ScLa',
-          },
-          { sign = { name = { 'GitSigns', 'todo*' }, namespace = { 'git', 'todo' } }, click = 'v:lua.ScSa' },
-        },
-      }
-    end,
-  },
-
   -- Fuzzy finder
   {
     'nvim-telescope/telescope.nvim',
@@ -364,36 +249,48 @@ return {
       local builtin = require 'telescope.builtin'
       -- stylua: ignore
       return {
-        { '<C-p>', builtin.find_files, desc = 'Files' },
+        { '<C-p>',      builtin.find_files,   desc = 'Files' },
         {
           "<leader><leader>",
           "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
           desc = "Switch Buffer",
         },
-        { '<leader>/', builtin.live_grep, desc = 'Find Words' },
+        { '<leader>/',  builtin.live_grep,    desc = 'Find Words' },
         { '<leader>fa', builtin.autocommands, desc = 'Autocmds' },
-        { '<leader>fb', builtin.buffers, desc = 'Buffers' },
-        { '<leader>fc', function()
-          builtin.find_files { cwd = vim.fn.stdpath 'config' }
-        end, desc = 'Config' },
-        { '<leader>fd', function()
-          builtin.diagnostics { bufnr = 0 }
-        end, desc = 'Diagnostics' },
-        { '<leader>fD', builtin.diagnostics, desc = 'Workspace diagnostics' },
-        { '<leader>ff', builtin.find_files, desc = 'Files' },
-        { '<leader>fh', builtin.help_tags, desc = 'Help Pages' },
-        { '<leader>fk', builtin.keymaps, desc = 'Key Maps' },
-        { '<leader>fo', builtin.oldfiles, desc = 'Recent Files' },
-        { '<leader>fr', builtin.registers, desc = 'Registers' },
-        { '<leader>fw', builtin.live_grep, desc = 'Words' },
+        { '<leader>fb', builtin.buffers,      desc = 'Buffers' },
+        {
+          '<leader>fc',
+          function()
+            builtin.find_files { cwd = vim.fn.stdpath 'config' }
+          end,
+          desc = 'Config'
+        },
+        {
+          '<leader>fd',
+          function()
+            builtin.diagnostics { bufnr = 0 }
+          end,
+          desc = 'Diagnostics'
+        },
+        { '<leader>fD', builtin.diagnostics,  desc = 'Workspace diagnostics' },
+        { '<leader>ff', builtin.find_files,   desc = 'Files' },
+        { '<leader>fh', builtin.help_tags,    desc = 'Help Pages' },
+        { '<leader>fk', builtin.keymaps,      desc = 'Key Maps' },
+        { '<leader>fo', builtin.oldfiles,     desc = 'Recent Files' },
+        { '<leader>fr', builtin.registers,    desc = 'Registers' },
+        { '<leader>fw', builtin.live_grep,    desc = 'Words' },
         { '<leader>gb', builtin.git_branches, desc = 'Git Branches' },
-        { '<leader>gc', builtin.git_commits, desc = 'Git commits' },
-        { '<leader>gf', builtin.git_files, desc = 'Git files' },
-        { '<leader>gs', builtin.git_stash, desc = 'Git statsh' },
-        { '<leader>gt', builtin.git_status, desc = 'Git status' },
-        { '<leader>uc', function()
-          builtin.colorscheme { enable_preview = true }
-        end, desc = 'Colorscheme' },
+        { '<leader>gc', builtin.git_commits,  desc = 'Git commits' },
+        { '<leader>gf', builtin.git_files,    desc = 'Git files' },
+        { '<leader>gs', builtin.git_stash,    desc = 'Git statsh' },
+        { '<leader>gt', builtin.git_status,   desc = 'Git status' },
+        {
+          '<leader>uc',
+          function()
+            builtin.colorscheme { enable_preview = true }
+          end,
+          desc = 'Colorscheme'
+        },
       }
     end,
   },
@@ -481,195 +378,11 @@ return {
       map('t', '<esc>', [[<C-\><C-n>]])
       map('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = 'ToggleTerm float' })
       -- stylua: ignore
-      map( 'n', '<leader>th', '<cmd>ToggleTerm size=' .. newterm_opts['horizontal'].size .. ' direction=horizontal<cr>', { desc = 'ToggleTerm horizontal split' })
+      map('n', '<leader>th', '<cmd>ToggleTerm size=' .. newterm_opts['horizontal'].size .. ' direction=horizontal<cr>',
+        { desc = 'ToggleTerm horizontal split' })
       -- stylua: ignore
-      map('n', '<leader>tv', '<cmd>ToggleTerm size=' .. newterm_opts['vertical'].size .. ' direction=vertical<cr>', { desc = 'ToggleTerm vertical split' })
-    end,
-  },
-
-  -- Status line
-  {
-    'nvim-lualine/lualine.nvim',
-    event = 'VeryLazy',
-    opts = function()
-      return {
-        options = {
-          theme = 'auto',
-          globalstatus = true,
-          disabled_filetypes = { statusline = { 'dashboard' } },
-          component_separators = '',
-          section_separators = '',
-        },
-        sections = {
-          lualine_a = { 'mode' },
-          lualine_b = {
-            {
-              'branch',
-              on_click = function()
-                vim.cmd 'Telescope git_branches'
-              end,
-            },
-          },
-          lualine_c = {
-            'filename',
-            {
-              'diagnostics',
-              symbols = {
-                error = icons.diagnostics.Error,
-                warn = icons.diagnostics.Warn,
-                info = icons.diagnostics.Info,
-                hint = icons.diagnostics.Hint,
-              },
-            },
-          },
-          lualine_x = {
-            -- codeium
-            {
-              'vim.fn["codeium#GetStatusString"]()',
-              cond = function()
-                return vim.g.codeium_plugin_enabled
-              end,
-              fmt = function(str)
-                return icons.kinds.Codeium .. str
-              end,
-              on_click = function()
-                vim.cmd 'CodeiumToggle'
-              end,
-            },
-            'encoding',
-            'fileformat',
-            'filetype',
-          },
-        },
-        extensions = { 'neo-tree', 'lazy' },
-      }
-    end,
-  },
-
-  -- Better vim.ui
-  {
-    'stevearc/dressing.nvim',
-    lazy = true,
-    init = function()
-      vim.ui.select = function(...)
-        require('lazy').load { plugins = { 'dressing.nvim' } }
-        return vim.ui.select(...)
-      end
-      vim.ui.input = function(...)
-        require('lazy').load { plugins = { 'dressing.nvim' } }
-        return vim.ui.input(...)
-      end
-    end,
-  },
-
-  -- Better notifications
-  {
-    'rcarriga/nvim-notify',
-    enabled = true,
-    keys = {
-      {
-        '<leader>un',
-        -- stylua: ignore
-        function() require('notify').dismiss { silent = true, pending = true } end,
-        desc = 'Dismiss all Notifications',
-      },
-    },
-    opts = {
-      timeout = 2000,
-      top_down = false,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 100 })
-      end,
-    },
-    config = function(_, opts)
-      if vim.g.transparent_background then
-        opts.background_colour = '#000000'
-      end
-
-      require('notify').setup(opts)
-    end,
-  },
-
-  -- Git highlight
-  {
-    'lewis6991/gitsigns.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {
-      signs = {
-        add = { text = '▎' },
-        change = { text = '▎' },
-        delete = { text = '' },
-        topdelete = { text = '' },
-        changedelete = { text = '▎' },
-        untracked = { text = '▎' },
-      },
-      on_attach = function(buffer)
-        local gs = package.loaded.gitsigns
-
-        local function map(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-        end
-
-        -- stylua: ignore start
-        map("n", "]h", gs.next_hunk, "Next Hunk")
-        map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-      end,
-    },
-  },
-
-  -- TODO highlight
-  {
-    'folke/todo-comments.nvim',
-    cmd = { 'TodoTrouble', 'TodoTelescope' },
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {
-      signs = false,
-    },
-    -- stylua: ignore
-    keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-    },
-  },
-
-  -- Color highlight
-  {
-    'NvChad/nvim-colorizer.lua',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = true,
-  },
-
-  -- Bracket highlight
-  {
-    'HiPhish/rainbow-delimiters.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function()
-      vim.g.rainbow_delimiters = {
-        highlight = {
-          'RainbowDelimiterRed',
-          'RainbowDelimiterYellow',
-          'RainbowDelimiterGreen',
-          'RainbowDelimiterBlue',
-          'RainbowDelimiterOrange',
-          'RainbowDelimiterViolet',
-        },
-      }
+      map('n', '<leader>tv', '<cmd>ToggleTerm size=' .. newterm_opts['vertical'].size .. ' direction=vertical<cr>',
+        { desc = 'ToggleTerm vertical split' })
     end,
   },
 
@@ -726,12 +439,12 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     opts = {
       mappings = {
-        add = 'gsa', -- Add surrounding in Normal and Visual modes
-        delete = 'gsd', -- Delete surrounding
-        find = 'gsf', -- Find surrounding (to the right)
-        find_left = 'gsF', -- Find surrounding (to the left)
-        highlight = 'gsh', -- Highlight surrounding
-        replace = 'gsc', -- Change surrounding
+        add = 'gsa',            -- Add surrounding in Normal and Visual modes
+        delete = 'gsd',         -- Delete surrounding
+        find = 'gsf',           -- Find surrounding (to the right)
+        find_left = 'gsF',      -- Find surrounding (to the left)
+        highlight = 'gsh',      -- Highlight surrounding
+        replace = 'gsc',        -- Change surrounding
         update_n_lines = 'gsn', -- Update `n_lines`
       },
     },
@@ -764,7 +477,7 @@ return {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
     keys = {
-      { '<leader>r', ':IncRename ', desc = 'Rename' },
+      { '<leader>rn', ':IncRename ', desc = 'Rename' },
     },
     config = true,
   },
@@ -791,10 +504,12 @@ return {
     cond = vim.g.codeium_plugin_enabled,
     event = { 'VeryLazy' },
     -- stylua: ignore
-    config = function (_, opts)
+    config = function(_, opts)
       vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
+        { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
+        { expr = true, silent = true })
       vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
     end,
   },
@@ -828,9 +543,9 @@ return {
       ignored_buftypes = { 'nofile' },
     },
     keys = {
-      { '<C-Up>', '<cmd>SmartResizeUp<cr>', 'Resize Up' },
-      { '<C-Down>', '<cmd>SmartResizeDown<cr>', 'Resize Down' },
-      { '<C-Left>', '<cmd>SmartResizeLeft<cr>', 'Resize Left' },
+      { '<C-Up>',    '<cmd>SmartResizeUp<cr>',    'Resize Up' },
+      { '<C-Down>',  '<cmd>SmartResizeDown<cr>',  'Resize Down' },
+      { '<C-Left>',  '<cmd>SmartResizeLeft<cr>',  'Resize Left' },
       { '<C-Right>', '<cmd>SmartResizeRight<cr>', 'Resize Right' },
     },
   },

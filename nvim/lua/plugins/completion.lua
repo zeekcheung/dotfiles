@@ -23,7 +23,7 @@ return {
 
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
-      local defaults = require 'cmp.config.default'()
+      local defaults = require 'cmp.config.default' ()
 
       vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
@@ -48,8 +48,8 @@ return {
             if cmp.visible() then
               -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
               cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-            -- this way you will only jump inside the snippet region
+              -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+              -- this way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
             elseif has_words_before() then
@@ -153,7 +153,8 @@ return {
   {
     'L3MON4D3/LuaSnip',
     event = 'InsertEnter',
-    build = (not jit.os:find 'Windows') and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
+    build = (not jit.os:find 'Windows') and
+    "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
     dependencies = {
       'rafamadriz/friendly-snippets',
       event = 'InsertEnter',

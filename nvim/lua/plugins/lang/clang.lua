@@ -28,7 +28,8 @@ return {
               'meson.build',
               'meson_options.txt',
               'build.ninja'
-            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or require('lspconfig.util').find_git_ancestor(
+            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
+            require('lspconfig.util').find_git_ancestor(
               fname
             )
           end,

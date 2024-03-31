@@ -26,7 +26,7 @@ local function draw_my_highlight()
   -- set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
 
   -- Border highlight
-  local normal_hl = get_hl('Normal', true) -- Normal highlight
+  local normal_hl = get_hl('Normal', true)            -- Normal highlight
   local normal_float_hl = get_hl('NormalFloat', true) -- Normal highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
