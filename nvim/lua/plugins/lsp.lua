@@ -131,7 +131,7 @@ return {
         -- Setup borders for hover and signature help
         if vim.g.hover_custom_border then
           server_opts.handlers = {
-            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = vim.g.border_style }),
+            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = vim.g.border_style, silent = vim.g.hover_silent }),
             ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = vim.g.border_style }),
           }
         end

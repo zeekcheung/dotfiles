@@ -132,6 +132,7 @@ vim.g.border_style = 'rounded'
 -- vim.g.border_style = { '', '', '', '', '', '', '', '' }
 vim.g.cmp_custom_border = false
 vim.g.hover_custom_border = true
+vim.g.hover_silent = true
 
 -- codeium
 vim.g.codeium_plugin_enabled = true -- Enable codeium.vim plugin
