@@ -46,7 +46,7 @@ return {
   -- Language servers
   {
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       'mason.nvim',
       'williamboman/mason-lspconfig.nvim',
@@ -114,12 +114,14 @@ return {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
+        local border = require 'util.ui'.border
+
         -- Setup hover and signature help
         server_opts.handlers = {
           ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
-            { border = vim.g.hover_style.border, silent = vim.g.hover_style.silent }),
+            { border = border('HoverBorder'), silent = true }),
           ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-            { border = vim.g.signature_help_style.border }),
+            { border = border('SignatureHelpBorder') }),
         }
 
         -- Setup floating preview

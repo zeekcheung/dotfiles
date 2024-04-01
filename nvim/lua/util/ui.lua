@@ -123,4 +123,20 @@ M.palettes = {
   },
 }
 
+---Border with highlight
+---@param hl_name string Highlight name
+---@return table
+function M.border(hl_name)
+  return {
+    { "╭", hl_name },
+    { "─", hl_name },
+    { "╮", hl_name },
+    { "│", hl_name },
+    { "╯", hl_name },
+    { "─", hl_name },
+    { "╰", hl_name },
+    { "│", hl_name },
+  }
+end
+
 return M

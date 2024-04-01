@@ -292,6 +292,7 @@ return {
   {
     'akinsho/toggleterm.nvim',
     version = '*',
+    event = 'VeryLazy',
     config = function()
       local toggleterm = require 'toggleterm'
 
@@ -413,7 +414,7 @@ return {
   -- Comment
   {
     'echasnovski/mini.comment',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring',
     },
@@ -429,7 +430,7 @@ return {
   -- Surround
   {
     'echasnovski/mini.surround',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       mappings = {
         add = 'gsa',            -- Add surrounding in Normal and Visual modes
@@ -446,7 +447,7 @@ return {
   -- Auto pairs
   {
     'echasnovski/mini.pairs',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {},
     keys = {
       {
@@ -468,6 +469,7 @@ return {
   -- Rename symbols
   {
     'smjonas/inc-rename.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
     cmd = 'IncRename',
     keys = {
       { '<leader>rn', ':IncRename ', desc = 'Rename' },
@@ -479,7 +481,7 @@ return {
   {
     'nvim-pack/nvim-spectre',
     cmd = 'Spectre',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     keys = {
       {
         '<leader>h',
@@ -494,8 +496,8 @@ return {
   -- AI completion
   {
     'Exafunction/codeium.vim',
+    event = 'VeryLazy',
     cond = vim.g.codeium_plugin_enabled,
-    event = { 'VeryLazy' },
     -- stylua: ignore
     config = function(_, opts)
       vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
@@ -523,7 +525,7 @@ return {
   -- Resize windows
   {
     'mrjones2014/smart-splits.nvim',
-    event = 'BufReadPost',
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       -- Ignored filetypes (only while resizing)
       ignored_filetypes = {
@@ -546,7 +548,7 @@ return {
   -- Open URL under the cursor
   {
     'chrishrb/gx.nvim',
-    event = { 'BufNewFile', 'BufReadPre' },
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'nvim-lua/plenary.nvim' },
     cmd = { 'Browse' },
     keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'x' } } },

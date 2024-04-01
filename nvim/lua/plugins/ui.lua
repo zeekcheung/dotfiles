@@ -157,22 +157,22 @@ return {
       require('statuscol').setup {
         relculright = true,
         segments = {
-          -- {
-          --   text = { builtin.foldfunc },
-          --   condition = { vim.opt.foldcolumn:get() ~= '0' },
-          --   click = 'v:lua.ScFa',
-          -- },
-          {
-            sign = { name = { 'Diagnostic' }, namespace = { 'diagnostic' } },
-            condition = { vim.g.diagnostic_opts.signs },
-            click = 'v:lua.ScSa',
-          },
+          { sign = { name = { 'GitSigns', 'todo*' }, namespace = { 'git', 'todo' } }, click = 'v:lua.ScSa' },
           {
             text = { builtin.lnumfunc, ' ' },
             condition = { true, builtin.not_empty },
             click = 'v:lua.ScLa',
           },
-          { sign = { name = { 'GitSigns', 'todo*' }, namespace = { 'git', 'todo' } }, click = 'v:lua.ScSa' },
+          {
+            sign = { name = { 'Diagnostic' }, namespace = { 'diagnostic' } },
+            condition = { vim.g.diagnostic_opts.signs },
+            click = 'v:lua.ScSa',
+          },
+          -- {
+          --   text = { builtin.foldfunc },
+          --   condition = { vim.opt.foldcolumn:get() ~= '0' },
+          --   click = 'v:lua.ScFa',
+          -- },
         },
       }
     end,
@@ -181,7 +181,7 @@ return {
   -- Better vim.ui
   {
     'stevearc/dressing.nvim',
-    lazy = true,
+    event = { 'BufReadPost', 'BufNewFile' },
     init = function()
       vim.ui.select = function(...)
         require('lazy').load { plugins = { 'dressing.nvim' } }
@@ -197,6 +197,7 @@ return {
   -- Better notifications
   {
     'rcarriga/nvim-notify',
+    event = 'VeryLazy',
     enabled = true,
     keys = {
       {
@@ -231,7 +232,7 @@ return {
   -- Git highlight
   {
     'lewis6991/gitsigns.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       signs = {
         add = { text = '▎' },
@@ -269,7 +270,7 @@ return {
   {
     'folke/todo-comments.nvim',
     cmd = { 'TodoTrouble', 'TodoTelescope' },
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       signs = false,
     },
@@ -283,14 +284,14 @@ return {
   -- Color highlight
   {
     'NvChad/nvim-colorizer.lua',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     config = true,
   },
 
   -- Bracket highlight
   {
     'HiPhish/rainbow-delimiters.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile' },
     config = function()
       vim.g.rainbow_delimiters = {
         highlight = {

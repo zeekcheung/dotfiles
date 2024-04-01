@@ -25,6 +25,7 @@ return {
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       local defaults = require 'cmp.config.default' ()
+      local border = require 'util.ui'.border
 
       vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
@@ -69,14 +70,13 @@ return {
             end
           end, { 'i', 's' }),
         },
-        sources = cmp.config.sources({
+        sources = {
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
-          { name = 'path' },
-        }, {
           { name = 'buffer' },
-        }),
+          { name = 'path' },
+        },
         formatting = {
           format = function(_, item)
             local kind_icons = icons.kinds
@@ -99,13 +99,17 @@ return {
 
       opts.window = {
         completion = {
-          border = vim.g.cmp_border,
-          winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          side_padding = 1,
+          -- border = vim.g.cmp_border,
+          border = border('CmpBorder'),
+          winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+          scrollbar = false,
         },
         documentation = {
-          border = vim.g.cmp_border,
-          winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+          border = border('CmpDocBorder'),
+          winhighlight = 'Normal:CmpDoc',
         },
+        -- documentation = cmp.config.disable,
       }
 
       return opts

@@ -32,7 +32,7 @@ require('lazy').setup {
     -- { import = 'plugins.lang.nushell' },
   },
   defaults = {
-    lazy = false,
+    lazy = true,
     version = false, -- always use the latest git commit
   },
   install = { colorscheme = { 'habamax' } },

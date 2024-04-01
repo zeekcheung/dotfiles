@@ -2,6 +2,7 @@ return {
 
   {
     'catppuccin/nvim',
+    lazy = false,
     priority = 1000,
     name = 'catppuccin',
     opts = {
@@ -42,9 +43,13 @@ return {
       highlight_overrides = {
         all = function(colors)
           return {
-            CmpItemMenu = { bg = colors.mantle },
-            Pmenu = { bg = colors.mantle, fg = '' },
-            PmenuSel = { bg = colors.flamingo, fg = colors.base },
+            CmpBorder = { fg = "#4e4d5d" },
+            CmpDocBorder = { link = "CmpBorder" },
+            -- CmpItemMenu = { bg = "#181825" },
+            Pmenu = { fg = '', bg = "#2d2c3c" },
+            PmenuSel = { fg = "#abe9b3", bg = "#1e1d2d" },
+            HoverBorder = { link = "CmpBorder" },
+            SignatureHelpBorder = { link = "CmpBorder" },
           }
         end,
       },
@@ -54,6 +59,7 @@ return {
   {
     'folke/tokyonight.nvim',
     enabled = false,
+    lazy = false,
     priority = 1000,
     opts = {
       transparent = vim.g.transparent_background,
@@ -71,8 +77,9 @@ return {
   {
     'rose-pine/neovim',
     enabled = false,
-    name = 'rose-pine',
+    lazy = false,
     priority = 1000,
+    name = 'rose-pine',
     opts = {
       highlight_groups = {
         -- statusline

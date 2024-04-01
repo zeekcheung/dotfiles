@@ -126,13 +126,7 @@ local transparent_colorschemes = { 'catppuccin' }
 vim.g.colorscheme = 'catppuccin'
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
--- completion style
-vim.g.cmp_border = 'none'
-
--- hover and signature help style
-vim.g.hover_style = { border = 'rounded', silent = true }
-vim.g.signature_help_style = { border = 'rounded' }
-
+-- diagnostic
 vim.g.diagnostic_opts = {
   signs = false,
   underline = true,
