@@ -444,28 +444,6 @@ return {
     },
   },
 
-  -- Auto pairs
-  {
-    'echasnovski/mini.pairs',
-    event = { 'BufReadPost', 'BufNewFile' },
-    opts = {},
-    keys = {
-      {
-        '<leader>up',
-        function()
-          local Util = require 'lazy.core.util'
-          vim.g.minipairs_disable = not vim.g.minipairs_disable
-          if vim.g.minipairs_disable then
-            vim.notify 'Disabled auto pairs'
-          else
-            vim.notify 'Enabled auto pairs'
-          end
-        end,
-        desc = 'Toggle auto pairs',
-      },
-    },
-  },
-
   -- Rename symbols
   {
     'smjonas/inc-rename.nvim',
