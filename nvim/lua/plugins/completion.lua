@@ -9,6 +9,7 @@ return {
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -70,6 +71,7 @@ return {
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
           { name = 'path' },
         }, {
@@ -85,7 +87,7 @@ return {
           end,
         },
         experimental = {
-          ghost_text = false,
+          ghost_text = not vim.g.codeium_plugin_enabled,
         },
         sorting = defaults.sorting,
         performance = {
@@ -95,18 +97,16 @@ return {
         },
       }
 
-      if vim.g.cmp_custom_border then
-        opts.window = {
-          completion = {
-            border = vim.g.border_style,
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-          },
-          documentation = {
-            border = vim.g.border_style,
-            winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
-          },
-        }
-      end
+      opts.window = {
+        completion = {
+          border = vim.g.cmp_border,
+          winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+        },
+        documentation = {
+          border = vim.g.cmp_border,
+          winhighlight = 'Normal:CmpPmenu,FloatBorder:CmpBorder,CursorLine:PmenuSel,Search:None',
+        },
+      }
 
       return opts
     end,
@@ -154,7 +154,7 @@ return {
     'L3MON4D3/LuaSnip',
     event = 'InsertEnter',
     build = (not jit.os:find 'Windows') and
-    "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
+        "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
     dependencies = {
       'rafamadriz/friendly-snippets',
       event = 'InsertEnter',

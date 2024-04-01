@@ -164,6 +164,7 @@ return {
           -- },
           {
             sign = { name = { 'Diagnostic' }, namespace = { 'diagnostic' } },
+            condition = { vim.g.diagnostic_opts.signs },
             click = 'v:lua.ScSa',
           },
           {

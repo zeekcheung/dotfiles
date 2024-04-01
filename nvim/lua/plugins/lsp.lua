@@ -62,22 +62,7 @@ return {
     },
     opts = {
       -- Options for vim.diagnostic.config()
-      diagnostics = {
-        -- signs = false,
-        underline = true,
-        update_in_insert = false,
-        -- virtual_text = {
-        --   spacing = 4,
-        --   source = 'if_many',
-        --   prefix = '●',
-        -- },
-        severity_sort = true,
-        float = {
-          header = false,
-          border = 'rounded',
-          focusable = true,
-        },
-      },
+      diagnostics = vim.g.diagnostic_opts,
       inlay_hints = {
         enabled = true,
       },
@@ -129,15 +114,13 @@ return {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
-        -- Setup borders for hover and signature help
-        if vim.g.hover_custom_border then
-          server_opts.handlers = {
-            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
-              { border = vim.g.border_style, silent = vim.g.hover_silent }),
-            ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-              { border = vim.g.border_style }),
-          }
-        end
+        -- Setup hover and signature help
+        server_opts.handlers = {
+          ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
+            { border = vim.g.hover_style.border, silent = vim.g.hover_style.silent }),
+          ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
+            { border = vim.g.signature_help_style.border }),
+        }
 
         -- Setup floating preview
         local open_floating_preview = vim.lsp.util.open_floating_preview

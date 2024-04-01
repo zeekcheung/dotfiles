@@ -124,20 +124,35 @@ vim.g.markdown_recommended_style = 0
 -- colorscheme
 local transparent_colorschemes = { 'catppuccin' }
 vim.g.colorscheme = 'catppuccin'
--- vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
--- border style
-vim.g.border_style = 'rounded'
--- Top left, Top edge, Top right, Right edge, Bottom right, Bottom edge, Bottom left, Left edge
--- vim.g.border_style = { '', '', '', '', '', '', '', '' }
-vim.g.cmp_custom_border = false
-vim.g.hover_custom_border = true
-vim.g.hover_silent = true
+-- completion style
+vim.g.cmp_border = 'none'
+
+-- hover and signature help style
+vim.g.hover_style = { border = 'rounded', silent = true }
+vim.g.signature_help_style = { border = 'rounded' }
+
+vim.g.diagnostic_opts = {
+  signs = false,
+  underline = true,
+  update_in_insert = false,
+  -- virtual_text = {
+  --   spacing = 4,
+  --   source = 'if_many',
+  --   prefix = '●',
+  -- },
+  severity_sort = true,
+  float = {
+    header = false,
+    border = 'rounded',
+    focusable = true,
+  },
+}
 
 -- codeium
-vim.g.codeium_plugin_enabled = true    -- Enable codeium.vim plugin
-vim.g.codeium_enabled = not is_windows -- Disable codeium service
+vim.g.codeium_plugin_enabled = true
+vim.g.codeium_enabled = not is_windows
 
 -- nvim-treesitter-context
 vim.g.sticky_scroll = true
