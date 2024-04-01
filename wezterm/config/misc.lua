@@ -9,9 +9,9 @@ M.setup = function(config)
   -- config.front_end = "OpenGL"
   -- config.webgpu_power_preference = "HighPerformance"
 
-  -- https://wezfurlong.org/wezterm/colorschemes/index.html
-  -- config.color_scheme = "Rosé Pine (base16)"
+  -- Appearance
   config.color_scheme = "Catppuccin Mocha"
+  config.window_background_opacity = 0.90
 
   -- Font
   config.font = wezterm.font_with_fallback({
