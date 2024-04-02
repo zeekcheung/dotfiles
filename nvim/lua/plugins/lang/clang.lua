@@ -21,17 +21,17 @@ return {
           },
           root_dir = function(fname)
             return require('lspconfig.util').root_pattern(
-              'Makefile',
-              'configure.ac',
-              'configure.in',
-              'config.h.in',
-              'meson.build',
-              'meson_options.txt',
-              'build.ninja'
-            )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
-            require('lspconfig.util').find_git_ancestor(
-              fname
-            )
+                  'Makefile',
+                  'configure.ac',
+                  'configure.in',
+                  'config.h.in',
+                  'meson.build',
+                  'meson_options.txt',
+                  'build.ninja'
+                )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
+                require('lspconfig.util').find_git_ancestor(
+                  fname
+                )
           end,
           capabilities = {
             offsetEncoding = { 'utf-16' },
@@ -99,7 +99,11 @@ return {
             request = 'launch',
             name = 'Launch file',
             program = function()
-              return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+              return vim.fn.input({
+                prompt = 'Path to executable: ',
+                default = vim.fn.getcwd() .. '/',
+                completion = 'file',
+              })
             end,
             cwd = '${workspaceFolder}',
           },

@@ -10,7 +10,7 @@ local function draw_my_highlight()
   local overrided_colorschemes = { 'everforest', 'gruvbox-material', 'gruvbox' }
   local current_colorscheme = vim.g.colorscheme
 
-  local get_hl = vim.api.nvim_get_hl_by_name
+  local get_hl = vim.api.nvim_get_hl
   local set_hl = vim.api.nvim_set_hl
 
   local ns_id = 0 -- Namespace id, set to 0 for global
@@ -26,8 +26,7 @@ local function draw_my_highlight()
   -- set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
 
   -- Border highlight
-  local normal_hl = get_hl('Normal', true)            -- Normal highlight
-  local normal_float_hl = get_hl('NormalFloat', true) -- Normal highlight
+  local normal_hl = get_hl(0, { name = 'Normal' }) -- Normal highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
   set_hl(ns_id, 'FloatBorder', { fg = '#aaaaaa', bg = normal_hl.background })

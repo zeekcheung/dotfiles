@@ -50,6 +50,7 @@ return {
     dependencies = {
       'mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      { 'folke/neodev.nvim', opts = { library = { plugins = false } } },
       {
         'j-hui/fidget.nvim',
         config = function(_, opts)
@@ -139,13 +140,14 @@ return {
         }
 
         -- Setup floating preview
-        local open_floating_preview = vim.lsp.util.open_floating_preview
+        local original_open_floating_preview = vim.lsp.util.open_floating_preview
+        ---@diagnostic disable-next-line
         vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
           opts = opts or {}
           -- opts.border = opts.border or 'single'
           opts.max_width = opts.max_width or 80
           opts.max_height = opts.max_height or 40
-          return open_floating_preview(contents, syntax, opts, ...)
+          return original_open_floating_preview(contents, syntax, opts, ...)
         end
 
         if opts.setup[server] then
@@ -242,6 +244,7 @@ return {
           -- "FormatDisable!" will disable formatting globally
           vim.g.disable_autoformat = true
         else
+          ---@diagnostic disable-next-line
           vim.b.disable_autoformat = true
         end
       end, {
@@ -250,6 +253,7 @@ return {
       })
       -- Create `FormatEnable` command to enable format on save
       create_user_command('FormatEnable', function()
+        ---@diagnostic disable-next-line
         vim.b.disable_autoformat = false
         vim.g.disable_autoformat = false
       end, {
@@ -293,7 +297,7 @@ return {
 
       -- Custom command
       vim.api.nvim_create_user_command('LintInfo', function()
-        vim.notify(vim.inspect(lint.linters_by_ft), 'info', { title = 'Lint Info' })
+        vim.notify(vim.inspect(lint.linters_by_ft), vim.log.levels.INFO, { title = 'Lint Info' })
       end, {})
     end,
   },
