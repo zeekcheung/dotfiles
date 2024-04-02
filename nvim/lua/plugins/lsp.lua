@@ -67,11 +67,11 @@ return {
           bind = true,
           handler_opts = {
             border = require 'util.ui'.border('SignatureHelpBorder'),
-          }
+          },
+          max_width = math.floor(vim.o.columns * 0.75),
+          max_height = math.floor(vim.o.lines * 0.75),
+          hint_enable = false,
         },
-        config = function(_, opts)
-          require 'lsp_signature'.setup(opts)
-        end
       }
 
     },
@@ -136,7 +136,7 @@ return {
           ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
             { border = border('HoverBorder'), silent = true }),
           ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-            { border = border('SignatureHelpBorder') }),
+            { border = border('SignatureHelpBorder'), focusable = false, silent = true }),
         }
 
         -- Setup floating preview
@@ -145,8 +145,8 @@ return {
         vim.lsp.util.open_floating_preview = function(contents, syntax, opts, ...)
           opts = opts or {}
           -- opts.border = opts.border or 'single'
-          opts.max_width = opts.max_width or 80
-          opts.max_height = opts.max_height or 40
+          opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.75)
+          opts.max_height = opts.max_height or math.floor(vim.o.lines * 0.75)
           return original_open_floating_preview(contents, syntax, opts, ...)
         end
 
