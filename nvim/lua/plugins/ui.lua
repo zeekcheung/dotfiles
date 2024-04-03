@@ -136,6 +136,7 @@ return {
   -- Status column
   {
     'luukvbaal/statuscol.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
     branch = vim.fn.has 'nvim-0.10' == 1 and '0.10' or 'main',
     init = function()
       -- auto change numberwidth based on the lines of current buffer
@@ -156,6 +157,7 @@ return {
       local builtin = require 'statuscol.builtin'
       require('statuscol').setup {
         relculright = true,
+        ft_ignore = { 'help', 'dashboard', 'NeoTree' },
         segments = {
           { sign = { name = { 'GitSigns', 'todo*' }, namespace = { 'git', 'todo' } }, click = 'v:lua.ScSa' },
           {
