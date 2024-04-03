@@ -8,7 +8,7 @@ if status is-interactive
     function add_newline --on-event fish_postexec
         echo
     end
-   
+
     starship init fish | source
     zoxide init fish | source
 end
