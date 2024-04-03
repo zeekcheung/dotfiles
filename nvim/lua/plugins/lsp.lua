@@ -216,7 +216,9 @@ return {
       },
     },
     opts = {
-      formatters_by_ft = {},
+      formatters_by_ft = {
+        fish = { 'fish_indent' },
+      },
       lsp_ignore_filetypes = {},
     },
     config = function(_, opts)
