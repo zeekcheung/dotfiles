@@ -5,6 +5,7 @@ source $ZDOTDIR/config/completion.zsh
 source $ZDOTDIR/config/vi-mode.zsh
 source $ZDOTDIR/config/aliases.zsh
 source $ZDOTDIR/config/plugins.zsh
+source $ZDOTDIR/config/hooks.zsh
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
