@@ -331,6 +331,7 @@ return {
           map('n', 'q', '<cmd>bd!<CR>', { buffer = bufnr, noremap = true, silent = true })
 
           if direction ~= 'float' then
+            ---@diagnostic disable-next-line: redefined-local
             local set_newterm_keymap = function(direction)
               local opts = newterm_opts[direction]
               map('n', opts.key, function()
@@ -357,17 +358,17 @@ return {
             map('n', 'q', '<cmd>close<CR>', { buffer = term.bufnr, noremap = true, silent = true })
           end,
           -- function to run on closing the terminal
-          on_close = function(term)
+          on_close = function()
             vim.cmd 'startinsert!'
           end,
         }
 
-        function _lazygit_toggle()
+        function ToggleLazygit()
           lazygit.cmd = 'cd ' .. vim.fn.getcwd() .. ' && lazygit'
           lazygit:toggle()
         end
 
-        map('n', '<leader>gg', '<cmd>lua _lazygit_toggle()<CR>', { desc = 'lazygit' })
+        map('n', '<leader>gg', '<cmd>lua ToggleLazygit()<CR>', { desc = 'lazygit' })
       end
 
       map('t', '<esc>', [[<C-\><C-n>]])
@@ -478,7 +479,7 @@ return {
     event = 'VeryLazy',
     cond = vim.g.codeium_plugin_enabled,
     -- stylua: ignore
-    config = function(_, opts)
+    config = function()
       vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
       vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
         { expr = true, silent = true })

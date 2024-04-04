@@ -42,7 +42,7 @@ return {
       },
       highlight_overrides = {
         ---@diagnostic disable-next-line: unused-local
-        all = function(colors)
+        mocha = function(colors)
           return {
             CmpBorder = { fg = "#4e4d5d" },
             CmpDocBorder = { link = "CmpBorder" },
