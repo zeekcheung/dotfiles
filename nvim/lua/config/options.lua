@@ -144,9 +144,10 @@ vim.g.diagnostic_opts = {
   },
 }
 
+-- scroll
+vim.g.sticky_scroll = true -- enable nvim-treesitter-context
+vim.g.smooth_scroll = true -- enable neoscroll
+
 -- codeium
 vim.g.codeium_plugin_enabled = true
 vim.g.codeium_enabled = not is_windows
-
--- nvim-treesitter-context
-vim.g.sticky_scroll = true

@@ -345,4 +345,12 @@ return {
       }
     end,
   },
+
+  -- Smooth scrolling
+  {
+    'karb94/neoscroll.nvim',
+    enabled = vim.g.smooth_scroll,
+    event = { 'BufReadPost', 'BufNewFile' },
+    opts = {}
+  }
 }
