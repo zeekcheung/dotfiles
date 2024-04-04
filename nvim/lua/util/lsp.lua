@@ -42,6 +42,7 @@ M.autoformat = true
 -- Toggle auto format
 function M.toggle_autoformat()
   if vim.b.autoformat == false then
+    ---@diagnostic disable-next-line: inject-field
     vim.b.autoformat = nil
     M.autoformat = true
   else
@@ -76,6 +77,7 @@ function M.setup_autoformat(client, buffer)
 end
 
 -- Setup lsp keymaps for buffer
+---@diagnostic disable-next-line: unused-local
 function M.setup_lsp_keymaps(client, buffer)
   -- Setup keymaps
   local map = function(keys, func, desc)

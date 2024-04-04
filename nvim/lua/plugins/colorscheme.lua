@@ -41,6 +41,7 @@ return {
         which_key = true,
       },
       highlight_overrides = {
+        ---@diagnostic disable-next-line: unused-local
         all = function(colors)
           return {
             CmpBorder = { fg = "#4e4d5d" },
@@ -63,6 +64,7 @@ return {
     priority = 1000,
     opts = {
       transparent = vim.g.transparent_background,
+      ---@diagnostic disable-next-line: unused-local
       on_highlights = function(hl, colors)
         hl.NeoTreeTitleBar = { fg = '#000000', bg = '#7fbbb3' }
         hl.TelescopeBorder = { fg = '#555555', bg = 'none' }
