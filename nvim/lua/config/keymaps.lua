@@ -52,14 +52,7 @@ map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
 map('n', '<Tab>', '<cmd>bn<cr>', { desc = 'Next buffer' })
 map('n', '<S-Tab>', '<cmd>bp<cr>', { desc = 'Previous buffer' })
 map('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete current buffer' })
-map('n', '<leader>bo', function()
-  local current_buf = vim.fn.bufnr()
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if buf ~= current_buf then
-      vim.api.nvim_buf_delete(buf, { force = true })
-    end
-  end
-end, { desc = 'Delete other buffers' })
+map('n', '<leader>bo', '<cmd>silent! %bd|e#|bd#<cr>', { desc = 'Delete other buffers' })
 
 -- Tabs
 map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New tab' })
@@ -67,7 +60,8 @@ map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next tab' })
 map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous tab' })
 map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First tab' })
 map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last tab' })
-map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close tab' })
+map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close current tab' })
+map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close other tab' })
 
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })
