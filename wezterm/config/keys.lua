@@ -53,7 +53,6 @@ M.setup = function(config)
     { key = "c",          mods = "LEADER",       action = act.SpawnTab("CurrentPaneDomain") },
     -- Close current tab
     { key = "q",          mods = "LEADER",       action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-    { key = "x",          mods = kitty_mod,      action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 
     -- Move between tabs
     { key = "n",          mods = "LEADER",       action = act.ActivateTabRelative(1) },
