@@ -26,6 +26,10 @@ map({ 'n', 'i' }, '<C-z>', '<cmd>undo<cr>', { desc = 'Undo' })
 -- map({ 'n', 'v', 'x', 'i' }, '<C-a>', '<esc>ggVG', { desc = 'Select All' })
 map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
+-- Go to start/end of line
+map('n', 'H', '^', { desc = 'Go to end of line' })
+map('n', 'L', '$', { desc = 'Go to start of line' })
+
 -- Move Lines
 map('n', '<A-j>', '<cmd>m .+1<cr>==', { desc = 'Move down' })
 map('n', '<A-k>', '<cmd>m .-2<cr>==', { desc = 'Move up' })

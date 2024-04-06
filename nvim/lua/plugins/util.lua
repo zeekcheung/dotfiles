@@ -213,6 +213,16 @@ return {
           mappings = {
             n = { ['q'] = actions.close },
             i = {
+              ['<Tab>'] = {
+                actions.move_selection_next,
+                type = 'action',
+                opts = { nowait = true, silent = true },
+              },
+              ['<S-Tab>'] = {
+                actions.move_selection_previous,
+                type = 'action',
+                opts = { nowait = true, silent = true },
+              },
               ['<C-j>'] = {
                 actions.move_selection_next,
                 type = 'action',
@@ -243,7 +253,6 @@ return {
       local builtin = require 'telescope.builtin'
       -- stylua: ignore
       return {
-        { '<C-p>',      builtin.find_files,   desc = 'Files' },
         {
           "<leader><leader>",
           "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
@@ -266,8 +275,16 @@ return {
           end,
           desc = 'Diagnostics'
         },
-        { '<leader>fD', builtin.diagnostics,  desc = 'Workspace diagnostics' },
-        { '<leader>ff', builtin.find_files,   desc = 'Files' },
+        { '<leader>fD', builtin.diagnostics, desc = 'Workspace diagnostics' },
+        { '<leader>ff', builtin.find_files,  desc = 'Files' },
+        {
+          '<leader>fF',
+          function()
+            builtin.find_files({ find_command = { 'rg', '--files', '--hidden', '-g', '!.git' } })
+          end,
+          desc = 'All files'
+        },
+        { '<C-p>',      '<leader>fF',         desc = 'All files',   remap = true },
         { '<leader>fh', builtin.help_tags,    desc = 'Help Pages' },
         { '<leader>fk', builtin.keymaps,      desc = 'Key Maps' },
         { '<leader>fo', builtin.oldfiles,     desc = 'Recent Files' },
