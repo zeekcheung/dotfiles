@@ -1,10 +1,15 @@
 # shellcheck disable=SC1091,SC2155
 
+# xdg
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_CACHE_HOME=$HOME/.cache
+
 # zsh
 export ZDOTDIR=$HOME/.config/zsh
-export HISTFILE=$HOME/.zsh_history
-export HISTSIZE=10000
-export SAVEHIST=10000
+HISTFILE=$XDG_DATA_HOME/zsh/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
 # path
 export PATH=/usr/local/bin:$PATH

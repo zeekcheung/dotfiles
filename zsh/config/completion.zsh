@@ -1,6 +1,9 @@
+ZSH_CACHE_DIR=$XDG_CACHE_HOME/zsh
+mkdir -p $ZSH_CACHE_DIR
+
 # Enable auto completion
 autoload -U compinit
-compinit
+compinit -d $ZSH_CACHE_DIR/.zcompdump
 
 # Load advanced auto completion module
 zmodload zsh/complist
