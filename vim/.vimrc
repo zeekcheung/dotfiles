@@ -52,7 +52,7 @@ set completeopt="menu,menuone,noinsert"
 set pumheight=10
 
 " chars
-set fillchars=eob:\ ,fold:\ ,vert:\|
+set fillchars=eob:\ ,fold:\ ,vert:│
 set listchars=tab:▸\ ,eol:¬
 
 " cursor shape
@@ -74,6 +74,7 @@ set autowrite
 set encoding=utf-8
 set ttyfast
 set timeoutlen=300
+set belloff=all
 
 " netrw
 let g:netrw_banner=0
@@ -102,9 +103,16 @@ nnoremap <silent> <S-Tab> :bn<cr>
 nnoremap <silent> <leader>bd :bd!<cr>
 nnoremap <silent> <leader>x :x!<cr>
 
-" Copy/Cut
+" Misc
 vnoremap <silent> <C-c> "+y
 vnoremap <silent> <C-x> "+d
+inoremap <silent> <C-v> <C-r>+
+nnoremap <silent> <C-z> :undo<cr>
+inoremap <silent> <C-z> <esc>:undo<cr>
+nnoremap <silent> <C-s> <esc>:w!<cr><esc>
+xnoremap <silent> <C-s> <esc>:w!<cr><esc>
+snoremap <silent> <C-s> <esc>:w!<cr><esc>
+inoremap <silent> <C-s> <esc>:w!<cr><esc>
 
 " Move between windows
 nnoremap <silent> <C-l> :<C-u>echo<CR>
@@ -120,30 +128,10 @@ nnorema <silent> <C-Down> :resize -2<cr>
 nnorema <silent> <C-Left> :vertical resize -2<cr>
 nnorema <silent> <C-Right> :vertical resize +2<cr>
 
-" Clear search with <esc>
-nnoremap <silent> <esc> <esc>:noh<cr><esc>
-inoremap <silent> <esc> <esc>:noh<cr><esc>
-
-" Move lines
-" Hack: terminal emulator will send Esc when pressing Alt in vim
-" execute "set <A-j>=\ej" 
-" execute "set <A-k>=\ek"
-" nnoremap <A-j> :m+<CR>
-" inoremap <A-j> <Esc>:m+<CR>i
-" vnoremap <A-j> :m+<CR>gv=gv
-" nnoremap <A-k> :m-2<CR>
-" inoremap <A-k> <Esc>:m-2<CR>i
-" vnoremap <A-k> :m-2<CR>gv=gv
 
 " Quit
 nnoremap <silent> <leader>qq :qa!<cr>
 nnoremap <silent> <leader>qw :close!<cr>
-
-" Save file
-nnoremap <silent> <C-s> <esc>:w!<cr><esc>
-xnoremap <silent> <C-s> <esc>:w!<cr><esc>
-snoremap <silent> <C-s> <esc>:w!<cr><esc>
-inoremap <silent> <C-s> <esc>:w!<cr><esc>
 
 "Source config
 nnoremap <silent> <leader>s :so%<cr>
@@ -178,6 +166,36 @@ function! NetrwMapping()
     nmap <buffer> r R
     nmap <buffer> ? <F1>
 endfunction
+
+" --------------------------------------------
+" ------------------- gvim -------------------
+" --------------------------------------------
+if has("gui_running")
+    set guioptions=""
+    set guifont=Maple\ Mono\ NF\ 18
+    set guicursor+=a:blinkon0
+    let g:transparent_background=0
+
+    " Misc
+    vnoremap <silent> <C-S-c> "+y
+    vnoremap <silent> <C-S-x> "+d
+    inoremap <silent> <C-S-v> <C-r>+
+
+    " Clear search with <esc>
+    nnoremap <silent> <esc> <esc>:noh<cr><esc>
+    inoremap <silent> <esc> <esc>:noh<cr><esc>
+
+    " Move lines
+    " Hack: terminal emulator will send Esc when pressing Alt in vim
+    " execute "set <A-j>=\ej" 
+    " execute "set <A-k>=\ek"
+    nnoremap <A-j> :m+<CR>
+    inoremap <A-j> <Esc>:m+<CR>i
+    vnoremap <A-j> :m+<CR>gv=gv
+    nnoremap <A-k> :m-2<CR>
+    inoremap <A-k> <Esc>:m-2<CR>i
+    vnoremap <A-k> :m-2<CR>gv=gv
+endif
 
 " --------------------------------------------
 " ----------------- autocmds -----------------
@@ -223,7 +241,7 @@ if findfile("colors/" . g:colorscheme .".vim", &rtp) != ""
     end
     hi! StatusLine ctermfg=104 ctermbg=NONE guifg=#888888 guibg=NONE 
     hi! StatusLineNC cterm=NONE ctermbg=NONE gui=NONE guibg=NONE
-    hi! Visual cterm=NONE ctermbg=105 ctermfg=16 guibg=White guifg=Yellow
+    hi! Visual cterm=NONE ctermbg=105 ctermfg=16 guibg=Black guifg=Purple
     hi! Pmenu ctermbg=NONE ctermfg=255
     hi! PmenuSel ctermbg=105
 else
