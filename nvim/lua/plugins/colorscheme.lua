@@ -45,13 +45,13 @@ return {
         ---@diagnostic disable-next-line: unused-local
         mocha = function(colors)
           return {
+            -- CmpItemMenu = { bg = "#181825" },
             CmpBorder = { fg = '#4e4d5d' },
             CmpDocBorder = { link = 'CmpBorder' },
-            -- CmpItemMenu = { bg = "#181825" },
-            Pmenu = { fg = '', bg = '#2d2c3c' },
-            PmenuSel = { fg = '#abe9b3', bg = '#1e1d2d' },
             HoverBorder = { link = 'CmpBorder' },
             SignatureHelpBorder = { link = 'CmpBorder' },
+            Pmenu = { fg = '', bg = '#2d2c3c' },
+            PmenuSel = { fg = '#abe9b3', bg = '#1e1d2d' },
           }
         end,
       },
@@ -100,6 +100,12 @@ return {
         TelescopeResultsNormal = { fg = 'subtle', bg = 'none' },
         TelescopeSelection = { fg = 'text', bg = 'base' },
         -- TelescopeSelectionCaret = { fg = 'rose', bg = 'rose' },
+
+        -- CmpItemMenu = { bg = "#181825" },
+        CmpBorder = { fg = '#4e4d5d' },
+        CmpDocBorder = { link = 'CmpBorder' },
+        HoverBorder = { link = 'CmpBorder' },
+        SignatureHelpBorder = { link = 'CmpBorder' },
       },
     },
   },

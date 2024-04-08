@@ -123,7 +123,7 @@ vim.g.markdown_recommended_style = 0
 
 -- colorscheme
 local transparent_colorschemes = { 'catppuccin', 'rose-pine', 'rose-pine-moon' }
-vim.g.colorscheme = 'catppuccin'
+vim.g.colorscheme = 'rose-pine-moon'
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
 -- diagnostic
