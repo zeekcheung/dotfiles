@@ -1,4 +1,4 @@
-# shellcheck disable=SC1090,SC1091,SC2034,SC2086,SC2128,SC2155,SC2164,SC2206,SC2296
+# shellcheck disable=SC1091,SC1094,SC2086
 
 source $ZDOTDIR/config/options.zsh
 source $ZDOTDIR/config/completion.zsh

@@ -1,4 +1,4 @@
-# shellcheck disable=SC1091,SC2155
+# shellcheck disable=SC1091,SC2034,SC2155
 
 # xdg
 export XDG_CONFIG_HOME=$HOME/.config
