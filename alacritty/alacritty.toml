@@ -31,7 +31,7 @@ blink_interval = 600
 
 [mouse]
 hide_when_typing = true
-bindings = [{ mouse = "Right", mods = "Control", action = "Paste" }]
+bindings = [{ mouse = "Right", action = "PasteSelection" }]
 
 [keyboard]
 bindings = [
