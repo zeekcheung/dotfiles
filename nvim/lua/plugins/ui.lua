@@ -35,14 +35,14 @@ return {
           header = vim.split(logo, '\n'),
           -- stylua: ignore
           center = {
-            { action = "Telescope find_files", desc = " Files", icon = " ", key = "f" },
+            { action = 'Telescope find_files', desc = ' Files', icon = ' ', key = 'f' },
             -- { action = "ene | startinsert", desc = " New file", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent", icon = " ", key = "r" },
-            { action = "Telescope projects", desc = " Projects", icon = " ", key = "p" },
-            { action = "lua require('util').find_configs()", desc = " Config", icon = " ", key = "c" },
-            { action = "lua require('persistence').load()", desc = " Session", icon = " ", key = "s" },
-            { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
-            { action = "qa", desc = " Quit", icon = " ", key = "q" },
+            { action = 'Telescope oldfiles', desc = ' Recent', icon = ' ', key = 'r' },
+            { action = 'Telescope projects', desc = ' Projects', icon = ' ', key = 'p' },
+            { action = "lua require('util').find_configs()", desc = ' Config', icon = ' ', key = 'c' },
+            { action = "lua require('persistence').load()", desc = ' Session', icon = ' ', key = 's' },
+            { action = 'Lazy', desc = ' Lazy', icon = '󰒲 ', key = 'l' },
+            { action = 'qa', desc = ' Quit', icon = ' ', key = 'q' },
           },
           footer = function()
             local stats = require('lazy').stats()
@@ -132,10 +132,10 @@ return {
                 end
               end
             end,
-            icon = ' ',
+            icon = '󰅡',
             on_click = function()
               vim.cmd 'LspInfo'
-            end
+            end,
           },
           -- 'encoding',
           -- 'fileformat',
@@ -290,18 +290,18 @@ return {
         end
 
         -- stylua: ignore start
-        map("n", "]h", gs.next_hunk, "Next Hunk")
-        map("n", "[h", gs.prev_hunk, "Prev Hunk")
-        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
-        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
+        map('n', ']h', gs.next_hunk, 'Next Hunk')
+        map('n', '[h', gs.prev_hunk, 'Prev Hunk')
+        map({ 'n', 'v' }, '<leader>ghs', ':Gitsigns stage_hunk<CR>', 'Stage Hunk')
+        map({ 'n', 'v' }, '<leader>ghr', ':Gitsigns reset_hunk<CR>', 'Reset Hunk')
+        map('n', '<leader>ghS', gs.stage_buffer, 'Stage Buffer')
+        map('n', '<leader>ghu', gs.undo_stage_hunk, 'Undo Stage Hunk')
+        map('n', '<leader>ghR', gs.reset_buffer, 'Reset Buffer')
+        map('n', '<leader>ghp', gs.preview_hunk, 'Preview Hunk')
+        map('n', '<leader>ghb', function() gs.blame_line({ full = true }) end, 'Blame Line')
+        map('n', '<leader>ghd', gs.diffthis, 'Diff This')
+        map('n', '<leader>ghD', function() gs.diffthis('~') end, 'Diff This ~')
+        map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', 'GitSigns Select Hunk')
       end,
     },
   },
@@ -316,8 +316,8 @@ return {
     },
     -- stylua: ignore
     keys = {
-      { "]t", function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
+      { ']t', function() require('todo-comments').jump_next() end, desc = 'Next todo comment' },
+      { '[t', function() require('todo-comments').jump_prev() end, desc = 'Previous todo comment' },
     },
   },
 
@@ -351,6 +351,6 @@ return {
     'karb94/neoscroll.nvim',
     enabled = vim.g.smooth_scroll,
     event = { 'BufReadPost', 'BufNewFile' },
-    opts = {}
-  }
+    opts = {},
+  },
 }

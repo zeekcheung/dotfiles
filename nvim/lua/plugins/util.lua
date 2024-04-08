@@ -74,15 +74,15 @@ return {
         modified = { symbol = icons.file.modified },
         git_status = {
           symbols = {
-            added = "",
-            deleted = "",
-            modified = "",
-            renamed = "",
-            untracked = "",
-            ignored = "",
-            unstaged = "",
-            staged = "",
-            conflict = "",
+            added = '',
+            deleted = '',
+            modified = '',
+            renamed = '',
+            untracked = '',
+            ignored = '',
+            unstaged = '',
+            staged = '',
+            conflict = '',
           },
         },
       },
@@ -211,8 +211,8 @@ return {
             -- preview_cutoff = 0, -- always show file preview
           },
           mappings = {
-            n = { ['q'] = actions.close },
-            i = {
+            n = {
+              ['q'] = actions.close,
               ['<Tab>'] = {
                 actions.move_selection_next,
                 type = 'action',
@@ -223,12 +223,14 @@ return {
                 type = 'action',
                 opts = { nowait = true, silent = true },
               },
-              ['<C-j>'] = {
+            },
+            i = {
+              ['<Tab>'] = {
                 actions.move_selection_next,
                 type = 'action',
                 opts = { nowait = true, silent = true },
               },
-              ['<C-k>'] = {
+              ['<S-Tab>'] = {
                 actions.move_selection_previous,
                 type = 'action',
                 opts = { nowait = true, silent = true },
@@ -254,9 +256,9 @@ return {
       -- stylua: ignore
       return {
         {
-          "<leader><leader>",
-          "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
-          desc = "Switch Buffer",
+          '<leader><leader>',
+          '<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>',
+          desc = 'Switch Buffer',
         },
         { '<leader>/',  builtin.live_grep,    desc = 'Find Words' },
         { '<leader>fa', builtin.autocommands, desc = 'Autocmds' },
@@ -266,14 +268,14 @@ return {
           function()
             builtin.find_files { cwd = vim.fn.stdpath 'config' }
           end,
-          desc = 'Config'
+          desc = 'Config',
         },
         {
           '<leader>fd',
           function()
             builtin.diagnostics { bufnr = 0 }
           end,
-          desc = 'Diagnostics'
+          desc = 'Diagnostics',
         },
         { '<leader>fD', builtin.diagnostics, desc = 'Workspace diagnostics' },
         { '<leader>ff', builtin.find_files,  desc = 'Files' },
@@ -282,7 +284,7 @@ return {
           function()
             builtin.find_files({ find_command = { 'rg', '--files', '--hidden', '-g', '!.git' } })
           end,
-          desc = 'All files'
+          desc = 'All files',
         },
         { '<C-p>',      '<leader>fF',         desc = 'All files',   remap = true },
         { '<leader>fh', builtin.help_tags,    desc = 'Help Pages' },
@@ -300,7 +302,7 @@ return {
           function()
             builtin.colorscheme { enable_preview = true }
           end,
-          desc = 'Colorscheme'
+          desc = 'Colorscheme',
         },
       }
     end,
@@ -513,9 +515,9 @@ return {
     opts = { options = vim.opt.sessionoptions:get() },
     -- stylua: ignore
     keys = {
-      { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
-      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-      { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" },
+      { '<leader>qs', function() require('persistence').load() end,                desc = 'Restore Session' },
+      { '<leader>ql', function() require('persistence').load({ last = true }) end, desc = 'Restore Last Session' },
+      { '<leader>qd', function() require('persistence').stop() end,                desc = "Don't Save Current Session" },
     },
   },
 

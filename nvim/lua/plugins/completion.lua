@@ -158,7 +158,7 @@ return {
     'L3MON4D3/LuaSnip',
     event = 'InsertEnter',
     build = (not jit.os:find 'Windows') and
-        "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
+      "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
     dependencies = {
       'rafamadriz/friendly-snippets',
       event = 'InsertEnter',
@@ -175,7 +175,7 @@ return {
   -- Auto pairs
   {
     'windwp/nvim-autopairs',
-    event = "InsertEnter",
+    event = 'InsertEnter',
     dependencies = { 'hrsh7th/nvim-cmp' },
     opts = {},
     config = function(_, opts)
@@ -187,6 +187,6 @@ return {
         'confirm_done',
         cmp_autopairs.on_confirm_done()
       )
-    end
+    end,
   },
 }

@@ -54,4 +54,5 @@ end
 vim.api.nvim_buf_create_user_command(0, 'CompileCurrentFile', ':lua CompileCurrentFile({silent=true})', {})
 
 -- Set a keymap to compile the current file
-vim.api.nvim_buf_set_keymap(0, 'n', '<F5>', ':lua CompileCurrentFile({silent=true})<cr>', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', '<F5>', ':lua CompileCurrentFile({silent=true})<cr>',
+  { noremap = true, silent = true })

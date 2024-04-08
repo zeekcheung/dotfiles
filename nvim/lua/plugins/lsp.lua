@@ -61,7 +61,7 @@ return {
         end,
       },
       {
-        "ray-x/lsp_signature.nvim",
+        'ray-x/lsp_signature.nvim',
         event = { 'BufReadPost', 'BufNewFile' },
         opts = {
           bind = true,
@@ -72,7 +72,7 @@ return {
           max_height = math.floor(vim.o.lines * 0.75),
           hint_enable = false,
         },
-      }
+      },
 
     },
     opts = {
@@ -120,8 +120,8 @@ return {
 
       local servers = opts.servers
       local capabilities =
-          vim.tbl_deep_extend('force', {}, vim.lsp.protocol.make_client_capabilities(),
-            require('cmp_nvim_lsp').default_capabilities(), opts.capabilities or {})
+        vim.tbl_deep_extend('force', {}, vim.lsp.protocol.make_client_capabilities(),
+          require('cmp_nvim_lsp').default_capabilities(), opts.capabilities or {})
 
       -- Setup language server with `opts.setup`
       local setup_server = function(server)

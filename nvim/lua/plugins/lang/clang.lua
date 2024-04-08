@@ -20,18 +20,20 @@ return {
             { '<leader>cR', '<cmd>ClangdSwitchSourceHeader<cr>', desc = 'Switch Source/Header (C/C++)' },
           },
           root_dir = function(fname)
-            return require('lspconfig.util').root_pattern(
-                  'Makefile',
-                  'configure.ac',
-                  'configure.in',
-                  'config.h.in',
-                  'meson.build',
-                  'meson_options.txt',
-                  'build.ninja'
-                )(fname) or require('lspconfig.util').root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or
-                require('lspconfig.util').find_git_ancestor(
-                  fname
-                )
+            local lspconfig_util = require('lspconfig.util')
+            local root_pattern = lspconfig_util.root_pattern
+            local find_git_ancestor = lspconfig_util.find_git_ancestor
+            return root_pattern(
+                'Makefile',
+                'configure.ac',
+                'configure.in',
+                'config.h.in',
+                'meson.build',
+                'meson_options.txt',
+                'build.ninja'
+              )(fname)
+              or root_pattern('compile_commands.json', 'compile_flags.txt')(fname)
+              or find_git_ancestor(fname)
           end,
           capabilities = {
             offsetEncoding = { 'utf-16' },

@@ -122,7 +122,7 @@ end
 vim.g.markdown_recommended_style = 0
 
 -- colorscheme
-local transparent_colorschemes = { 'catppuccin' }
+local transparent_colorschemes = { 'catppuccin', 'rose-pine', 'rose-pine-moon' }
 vim.g.colorscheme = 'catppuccin'
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
@@ -137,11 +137,7 @@ vim.g.diagnostic_opts = {
   --   prefix = '●',
   -- },
   severity_sort = true,
-  float = {
-    header = false,
-    border = 'rounded',
-    focusable = true,
-  },
+  float = { header = false, border = 'rounded', focusable = true },
 }
 
 -- scroll
