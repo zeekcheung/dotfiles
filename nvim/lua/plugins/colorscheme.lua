@@ -2,6 +2,7 @@ return {
 
   {
     'catppuccin/nvim',
+    cond = string.find(vim.g.colorscheme, 'catppuccin', 1, true) ~= nil,
     lazy = false,
     priority = 1000,
     name = 'catppuccin',
@@ -59,7 +60,7 @@ return {
 
   {
     'folke/tokyonight.nvim',
-    enabled = false,
+    cond = string.find(vim.g.colorscheme, 'tokyonight', 1, true) ~= nil,
     lazy = false,
     priority = 1000,
     opts = {
@@ -78,7 +79,7 @@ return {
 
   {
     'rose-pine/neovim',
-    enabled = false,
+    cond = string.find(vim.g.colorscheme, 'rose-pine', 1, true) ~= nil,
     lazy = false,
     priority = 1000,
     name = 'rose-pine',

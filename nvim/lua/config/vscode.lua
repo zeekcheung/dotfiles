@@ -38,6 +38,10 @@ vim.cmd [[syntax off]]
 -- NOTE: setup colorscheme to make sure vscode use correct highlight groups
 -- vim.cmd [[colorscheme default]]
 
+-- below value is needed to make some plugins work properly
+vim.env.TERM = 'vscode'
+vim.g.colorscheme = ''
+
 -- Keymaps
 -- Make all keymaps silent by default
 local map = Util.silent_map;

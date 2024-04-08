@@ -81,7 +81,7 @@ return {
   -- Horizontal highlights
   {
     'lukas-reineke/headlines.nvim',
-    enabled = false,
+    cond = false,
     opts = function()
       local opts = {}
 

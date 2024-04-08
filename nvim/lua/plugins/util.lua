@@ -577,6 +577,8 @@ return {
   -- Image preview
   {
     '3rd/image.nvim',
+    cond = string.find(vim.env.TERM, 'kitty', 1, true) ~= nil
+      or string.find(vim.env.TERM, 'wezterm', 1, true) ~= nil,
     event = 'VeryLazy',
     build = function()
       -- Install magick LuaRock
