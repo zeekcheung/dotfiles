@@ -2,6 +2,9 @@
 autoload -Uz edit-command-line
 zle -N edit-command-line
 
+# Exit insert mode with jj
+bindkey -M viins 'jj' vi-cmd-mode
+
 # Add text objects in vi mode
 autoload -Uz select-bracketed select-quoted
 zle -N select-quoted
