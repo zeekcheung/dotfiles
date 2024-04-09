@@ -1,4 +1,5 @@
 # misc
+alias c="clear"
 alias cd="z"
 alias ~="cd ~"
 alias ..="cd .."
@@ -9,6 +10,7 @@ alias la="ls -a"
 alias ll="ls -l"
 alias tree="eza --tree"
 # alias tree="tree -C"
+alias open="xdg-open"
 
 # git
 alias ga="git add"
