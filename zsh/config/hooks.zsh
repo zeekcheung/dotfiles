@@ -4,3 +4,8 @@ precmd() {
 		echo
 	}
 }
+
+# Set terminal title
+preexec() {
+	print -Pn "\e]0;$1\a"
+}
