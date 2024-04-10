@@ -1,0 +1,44 @@
+#!/bin/usr/env bash
+
+if [[ ! -d "$HOME/.dotfiles" ]]; then
+	echo "Cannot find dotfiles directory at $HOME/.dotfiles!"
+	exit
+fi
+
+PACKAGES=(
+	alacritty
+	bash
+	bat
+	bin
+	bottom
+	clangd
+	fcitx5
+	fish
+	git
+	gnome
+	go
+	kitty
+	lazygit
+	neofetch
+	neovide
+	nushell
+	nvim
+	obsidian
+	paru
+	powershell
+	rofi
+	starship
+	tmux
+	vim
+	vscode
+	wezterm
+	windows-terminal
+	wsl
+	zsh
+)
+
+# stow the packages
+for package in "${PACKAGES[@]}"; do
+	echo "Stowing $package..."
+	stow -v "$package"
+done

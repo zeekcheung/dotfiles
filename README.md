@@ -1,6 +1,6 @@
 # Dotfiles
 
-My personal dotfiles.
+My personal dotfiles for Linux (Arch && Ubuntu) and Windows.
 
 ## 🎉 Tools
 
@@ -47,18 +47,20 @@ My personal dotfiles.
 
    ```bash
    # use https
-   git clone https://github.com/zeekcheung/dotfiles $HOME/.config
+   git clone https://github.com/zeekcheung/.dotfiles $HOME/.dotfiles
 
    # or ssh
-   git clone git@github.com:zeekcheung/dotfiles.git
+   git clone git@github.com:zeekcheung/.dotfiles.git $HOME/.dotfiles
    ```
 
-2. Run the scripts.
+2. Run the setup scripts.
 
    ```bash
+   cd $HOME/.dotfiles
+
    # Windows
-   pwsh $HOME/.config/scripts/windows/Setup.ps1
+   pwsh setup_windows.ps1
 
    # Ubuntu
-   bash $HOME/.config/scripts/ubuntu/Setup.sh
+   bash setup_ubuntu.sh
    ```

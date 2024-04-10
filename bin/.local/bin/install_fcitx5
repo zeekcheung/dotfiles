@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Change the environment variables on Pop!_OS
+if grep -qi pop /proc/version; then
+	sudo tee /etc/profile.d/z-pop-os-fcitx.sh <<'EOF'
+export GTK_IM_MODULE=""
+export QT_IM_MODULE=""
+export XMODIFIERS=""
+EOF
+fi
+
+# Set fcitx5 as the default input method
+sudo tee -a /etc/environment <<EOF
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+SDL_IM_MODULE=fcitx
+INPUT_METHOD=fcitx
+GLFW_IM_MODULE=ibus
+EOF
+
+# Install rime-rice
+git clone --depth=1 https://github.com/Mark24Code/rime-auto-deploy.git --branch latest /tmp/rime-auto-deploy
+
+cd /tmp/rime-auto-deploy || exit
+
+chmod +x ./installer.rb
+
+./installer.rb
+
+# Make symbolic links for custom config
+ln -sf "$HOME"/.config/fcitx5/rime/default.custom.yaml "$HOME"/.local/share/fcitx5/rime/default.custom.yaml
+ln -sf "$HOME"/.config/fcitx5/rime/rime_ice.custom.yaml "$HOME"/.local/share/fcitx5/rime/rime_ice.custom.yaml
