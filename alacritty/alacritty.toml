@@ -17,7 +17,7 @@ decorations_theme_variant = "Dark"
 dimensions = { lines = 20, columns = 80 }
 # position = { x = 420, y = 120 }
 opacity = 0.90
-dynamic_title = true
+dynamic_title = false
 
 [font]
 normal = { family = "Maple Mono NF", style = "Regular" }
