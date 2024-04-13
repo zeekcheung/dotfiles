@@ -35,4 +35,23 @@ alias tl="tmux ls"
 alias tn="tmux new -s"
 alias tm="tmux new -A -s main"
 
-PS2='[\u@\h \W]\$ '
+# default prompt
+# PS2='[\u@\h \W]\$ '
+
+# custom prompt like starship without git branch
+# PS1='\[\e[1m\e[33m\]\u \[\e[1m\e[36m\]\w\n\[\e[1m\e[32m\]❯ \[\e[0m\]'
+
+parse_git_branch() {
+	# Check if the current directory is a Git repository
+	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		# Retrieve the name of the current branch
+		local branch_name
+		branch_name=$(git symbolic-ref --short HEAD 2>/dev/null)
+		if [ -n "$branch_name" ]; then
+			echo -e "\e[1;37mon \e[1;35m \e[0m\e[1;35m$branch_name\e[0m"
+		fi
+	fi
+}
+
+# custom prompt like starship with git branch
+PS1='\[\e[1m\e[33m\]\u \[\e[1m\e[36m\]\w\[\e[0m\]\[\e[1m\e[32m\] $(parse_git_branch)\[\e[1m\]\n\[\e[1m\e[32m\]❯ \[\e[0m\]'
