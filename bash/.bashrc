@@ -55,3 +55,7 @@ parse_git_branch() {
 
 # custom prompt like starship with git branch
 PS1='\[\e[1m\e[33m\]\u \[\e[1m\e[36m\]\w\[\e[0m\]\[\e[1m\e[32m\] $(parse_git_branch)\[\e[1m\]\n\[\e[1m\e[32m\]❯ \[\e[0m\]'
+
+# add a newline before each prompt except the first line
+PROMPT_COMMAND="export PROMPT_COMMAND=echo"
+alias clear="unset PROMPT_COMMAND; clear; PROMPT_COMMAND='export PROMPT_COMMAND=echo'"
