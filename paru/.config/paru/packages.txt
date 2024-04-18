@@ -28,6 +28,7 @@ audit
 autoconf
 automake
 avahi
+ayatana-ido
 baobab
 base
 base-devel
@@ -101,6 +102,7 @@ dotconf
 double-conversion
 duktape
 e2fsprogs
+editorconfig-core-c
 efibootmgr
 efivar
 egl-wayland
@@ -140,6 +142,7 @@ flatpak
 flatpak-xdg-utils
 flex
 fluidsynth
+folks
 fontconfig
 freeglut
 freerdp
@@ -188,6 +191,8 @@ gnome-characters
 gnome-clocks
 gnome-color-manager
 gnome-connections
+gnome-console
+gnome-contacts
 gnome-control-center
 gnome-desktop
 gnome-desktop-4
@@ -196,7 +201,9 @@ gnome-disk-utility
 gnome-font-viewer
 gnome-keyring
 gnome-logs
+gnome-maps
 gnome-menus
+gnome-music
 gnome-online-accounts
 gnome-remote-desktop
 gnome-session
@@ -207,6 +214,8 @@ gnome-shell-extension-forge-git
 gnome-shell-extensions
 gnome-software
 gnome-system-monitor
+gnome-text-editor
+gnome-tour
 gnome-tweaks
 gnome-user-docs
 gnome-user-share
@@ -266,6 +275,7 @@ gvfs-mtp
 gvfs-nfs
 gvfs-onedrive
 gvfs-smb
+gvim
 gzip
 harfbuzz
 harfbuzz-icu
@@ -302,7 +312,6 @@ kbd
 kdbusaddons
 keyutils
 kitemviews
-kitty
 kitty-shell-integration
 kitty-terminfo
 kmod
@@ -379,6 +388,8 @@ libatasmart
 libavc1394
 libavif
 libavtp
+libayatana-appindicator
+libayatana-indicator
 libb2
 libblockdev
 libblockdev-crypto
@@ -405,8 +416,11 @@ libcloudproviders
 libcolord
 libcue
 libcups
+libcurl-gnutls
 libdaemon
 libdatrie
+libdbusmenu-glib
+libdbusmenu-gtk3
 libdc1394
 libdca
 libde265
@@ -545,6 +559,7 @@ libsasl
 libseccomp
 libsecret
 libshout
+libshumate
 libsigc++
 libsigc++-3.0
 libsm
@@ -751,6 +766,7 @@ popt
 portaudio
 procps-ng
 protobuf
+protobuf-c
 psmisc
 pulse-native-provider
 python
@@ -885,6 +901,7 @@ sdl2
 sdl2_ttf
 sed
 semver
+sequoia-sqv
 serd
 shaderc
 shadow
@@ -904,11 +921,13 @@ speech-dispatcher
 speex
 speexdsp
 spirv-tools
+spotify-launcher
 sqlite
 sratom
 srt
 starship
 startup-notification
+stow
 sudo
 sushi
 svt-av1
@@ -959,8 +978,11 @@ v2raya-git
 v4l-utils
 vapoursynth
 vid.stab
+vim-runtime
 vmaf
 volume_key
+vte-common
+vte4
 vulkan-headers
 vulkan-icd-loader
 vulkan-intel
@@ -1020,6 +1042,7 @@ yazi
 yelp
 yelp-xsl
 zbar
+zenity
 zeromq
 zimg
 zip
