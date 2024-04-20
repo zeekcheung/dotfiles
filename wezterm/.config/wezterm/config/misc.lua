@@ -10,7 +10,7 @@ M.setup = function(config)
   -- config.webgpu_power_preference = "HighPerformance"
 
   -- Appearance
-  config.color_scheme = 'Rosé Pine Moon (base16)'
+  config.color_scheme = 'rose-pine-moon'
   config.window_background_opacity = 0.90
 
   -- Font
