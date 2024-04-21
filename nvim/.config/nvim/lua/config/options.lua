@@ -90,6 +90,7 @@ opt.inccommand = 'nosplit'
 opt.formatoptions = 'jcroqlnt'
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep'
+opt.keywordprg = ":silent! help"
 opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
 opt.shortmess:append { W = true, I = true, c = true, C = true }
 if vim.fn.has 'nvim-0.10' == 1 then
@@ -114,7 +115,7 @@ vim.g.markdown_recommended_style = 0
 -- colorscheme
 local transparent_colorschemes = { 'catppuccin', 'rose-pine', 'rose-pine-moon' }
 vim.g.colorscheme = 'rose-pine-moon'
-vim.g.fallback_colorscheme = 'habamax'
+vim.g.fallback_colorscheme = vim.fn.has 'nvim-0.10' == 1 and 'sorbet' or 'habamax'
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
 -- diagnostic
