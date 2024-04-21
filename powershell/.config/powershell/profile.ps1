@@ -23,6 +23,8 @@ $env:FZF_DEFAULT_OPTS = "
   --preview-window=right,60%
 "
 
+# Aliases
+Set-Alias alias Set-Alias
 Set-Alias ipconfig Get-NetIPAddress
 Set-Alias reboot Restart-Computer
 Set-Alias shutdown top-Computer
