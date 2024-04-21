@@ -13,7 +13,7 @@ opt.swapfile = false
 opt.autowrite = true
 opt.undofile = true
 opt.undolevels = 10000
-
+ 
 -- appearance
 opt.termguicolors = true
 opt.cursorline = true
@@ -96,21 +96,11 @@ if vim.fn.has 'nvim-0.10' == 1 then
   opt.smoothscroll = true
 end
 
-local is_windows = require('util').is_win()
-
--- Change default shell to PowerShell on Windows
--- NOTE: Codeium cannot use PowerShell to authenticate
--- so we need to comment it out when we authenticate with Codeium
-if is_windows then
-  -- NOTE: We need to add PowerShell to the `PATH` for `vim.fn.executable 'pwsh'` to work
-  opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
-  opt.shellcmdflag =
-  '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-  opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
-  opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-  opt.shellquote = ''
-  opt.shellxquote = ''
-end
+-- netrw
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25
+vim.g.netrw_liststyle = 3
+vim.g.netrw_localcopydircmd = 'cp -r'
 
 -- Disable some default providers
 -- See `:h provider` for more info
@@ -124,6 +114,7 @@ vim.g.markdown_recommended_style = 0
 -- colorscheme
 local transparent_colorschemes = { 'catppuccin', 'rose-pine', 'rose-pine-moon' }
 vim.g.colorscheme = 'rose-pine-moon'
+vim.g.fallback_colorscheme = 'habamax'
 vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
 
 -- diagnostic
@@ -146,4 +137,25 @@ vim.g.smooth_scroll = true -- enable neoscroll
 
 -- codeium
 vim.g.codeium_plugin_enabled = true
-vim.g.codeium_enabled = not is_windows
+vim.g.codeium_enabled = true
+
+-- Windows specific options
+if vim.fn.has('win32') ~= 0 then
+  opt.cmdheight = 1 -- Setting cmdheight to 0 will cause some issues to netrw
+  opt.statusline = ' %f %m %= %P %l:%c '
+  opt.ruler = false
+  opt.showcmd = false
+
+  -- Change default shell to PowerShell on Windows
+  -- NOTE:
+  -- 1. Codeium cannot use PowerShell to authenticate
+  --    so we need to comment it out when we authenticate with Codeium
+  -- 2. We need to add PowerShell to the `PATH` for `vim.fn.executable 'pwsh'` to work
+  opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
+  opt.shellcmdflag =
+  '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+  opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
+  opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  opt.shellquote = ''
+  opt.shellxquote = ''
+end

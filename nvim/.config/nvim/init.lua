@@ -11,5 +11,7 @@ else
   require 'config.neovide'
 end
 
--- plugins
-require 'config.lazy'
+if vim.fn.has('unix') ~= 0 then
+  -- only enable plugins on unix
+  require 'config.lazy'
+end

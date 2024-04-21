@@ -7,29 +7,18 @@ local autocmd = vim.api.nvim_create_autocmd
 
 -- Custom highlight group
 local function draw_my_highlight()
-  local overrided_colorschemes = { 'everforest', 'gruvbox-material', 'gruvbox' }
-  local current_colorscheme = vim.g.colorscheme
-
   local get_hl = vim.api.nvim_get_hl
   local set_hl = vim.api.nvim_set_hl
-
   local ns_id = 0 -- Namespace id, set to 0 for global
 
-  -- Override highlight groups for specfic colorschemes
-  if vim.tbl_contains(overrided_colorschemes, current_colorscheme) then
-    -- Split highlight
-    set_hl(ns_id, 'WinSeparator', { bg = 'NONE', fg = '#33333f' })
-  end
-
-  -- Neotree
-  -- local neotree_normal_hl = get_hl('NeotreeNormal', true)
-  -- set_hl(ns_id, 'NeotreeFloatBorder', { bg = neotree_normal_hl.background })
+  -- Split highlight
+  set_hl(ns_id, 'WinSeparator', { bg = 'NONE', fg = '#4e4d5d' })
 
   -- Border highlight
   local normal_hl = get_hl(0, { name = 'Normal' }) -- Normal highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
-  set_hl(ns_id, 'FloatBorder', { fg = '#aaaaaa', bg = normal_hl.background })
+  set_hl(ns_id, 'FloatBorder', { fg = '#4e4d5d', bg = normal_hl.background })
 
   -- Bracket highlight
   set_hl(ns_id, 'RainbowDelimiterRed', { fg = '#e67e80' })
@@ -45,8 +34,15 @@ autocmd({ 'VimEnter' }, {
   group = augroup('setup_colorscheme', { clear = true }),
   callback = function()
     -- Setup colorscheme
-    vim.cmd('colorscheme ' .. vim.g.colorscheme)
+    local success, _ = pcall(function()
+      vim.cmd('colorscheme ' .. vim.g.colorscheme)
+    end)
+    -- Setup fallback colorscheme
+    if not success then
+      vim.cmd('colorscheme ' .. vim.g.fallback_colorscheme)
+    end
 
+    -- Setup custom highlight group
     draw_my_highlight()
   end,
 })
@@ -104,6 +100,21 @@ autocmd({ 'VimResized' }, {
     local current_tab = vim.fn.tabpagenr()
     vim.cmd 'tabdo wincmd ='
     vim.cmd('tabnext ' .. current_tab)
+  end,
+})
+
+-- Setup some keymaps for netrw
+autocmd('FileType', {
+  group = augroup('netrw_keymaps', { clear = true }),
+  pattern = { 'netrw' },
+  callback = function(event)
+    local buf_map = vim.api.nvim_buf_set_keymap
+    local buf = event.buf
+    buf_map(buf, 'n', '<C-l>', '<C-w>l',              { noremap = true, silent = true })
+    buf_map(buf, 'n', 'H',     'gh',                  { noremap = true, silent = true })
+    buf_map(buf, 'n', 'a',     '%:w<CR>:buffer#<CR>', { noremap = true, silent = true })
+    buf_map(buf, 'n', 'r',     'R',                   { noremap = true, silent = true })
+    buf_map(buf, 'n', '?',     '<F1>',                { noremap = true, silent = true })
   end,
 })
 
