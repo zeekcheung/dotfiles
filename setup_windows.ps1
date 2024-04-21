@@ -1,7 +1,8 @@
 # Setup script for Windows
 
-$AppData = $env:APPDATA
-$LocalAppData = $env:LOCALAPPDATA
+$AppData = $Env:APPDATA
+$LocalAppData = $Env:LOCALAPPDATA
+$USERPROFILE = $Env:USERPROFILE
 
 $Dotfiles = "$HOME\.dotfiles"
 $Documents = [Environment]::GetFolderPath('MyDocuments')
@@ -33,47 +34,45 @@ $SymLinks = @{
 }
 
 # Scoop buckets
-$ScoopBuckets = @{
-  'main' = 'https://github.com/ScoopInstaller/Main'
-  'extras' = 'https://github.com/ScoopInstaller/Extras'
-  'versions' = 'https://github.com/ScoopInstaller/Versions'
-  'nerd-fonts' = 'https://github.com/matthewjberger/scoop-nerd-fonts'
-}
+$ScoopBuckets = @(
+  'main'
+  'extras'
+  'versions'
+)
 
-# Scoop dependencies
-$ScoopDeps = @(
+# Scoop packages
+$ScoopPackages = @(
   '7zip'
   'bat'
   # 'bottom'
   'cacert'
   'curl'
   'dark'
-  'deno'
+  # 'deno'
   'eza'
   'fd'
   'fzf'
-  # "git"
   'gzip'
-  'go'
+  # 'go'
   'lazygit'
-  'jq'
-  'JetBrainsMono-NF'
-  'lua'
-  'mingw-winlibs'
+  # 'jq'
+  # 'JetBrainsMono-NF'
+  # 'lua'
+  # 'mingw-winlibs'
   'neovim'
-  'nodejs'
-  'nu'
-  'python'
-  'ripgrep'
-  'rust'
+  # 'nodejs'
+  # 'nu'
+  # 'python'
+  # 'ripgrep'
+  # 'rust'
   'sed'
-  'starship'
-  'sudo'
+  # 'starship'
+  # 'sudo'
   'unzip'
-  'vim-nightly'
-  'xmake'
-  'yarn'
-  'zig'
+  # 'vim-nightly'
+  # 'xmake'
+  # 'yarn'
+  # 'zig'
   'zoxide'
 )
 
@@ -102,18 +101,18 @@ else {
 # Add missing buckets
 Write-Host 'Adding missing scoop buckets...'
 $AddedBuckets = scoop bucket list
-foreach ($ScoopBucket in $ScoopBuckets.GetEnumerator()) {
-  if ($AddedBuckets -notcontains $ScoopBucket.Key) {
-    scoop bucket add $ScoopBucket.Key $ScoopBucket.Value
+foreach ($Bucket in $ScoopBuckets) {
+  if ($AddedBuckets -notcontains $Bucket) {
+    scoop bucket add $Bucket
   }
 }
 
-# Install missing dependencies
-Write-Host 'Installing missing dependencies...'
-$InstalledScoopDeps = scoop list
-foreach ($ScoopDep in $ScoopDeps) {
-  if ($InstalledScoopDeps -notcontains $ScoopDep) {
-    scoop install $ScoopDep
+# Install missing packages
+Write-Host 'Installing missing packages...'
+$InstalledScoopPackages = scoop list
+foreach ($Package in $ScoopPackages) {
+  if ($InstalledScoopPackages -notcontains $Package) {
+    scoop install $Package
   }
 }
 
@@ -121,7 +120,7 @@ foreach ($ScoopDep in $ScoopDeps) {
 # Install-Module -Name PSFzf -Scope CurrentUser -Force
 
 # Refresh Path
-$env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
+$Env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')
 
 # Create Symbolic Links
 Write-Host 'Creating Symbolic Links...'
