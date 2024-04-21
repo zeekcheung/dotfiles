@@ -110,3 +110,52 @@ Set-Alias gg lazygit
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 Remove-Alias -Name cd -Scope Global -Force
 Set-Alias cd z -Scope Global -Force
+
+function Get-GitBranch {
+  # Check if the current directory is a Git repository
+  if (Test-Path -Path ".git" -PathType Container) {
+    try {
+      # Retrieve the name of the current branch
+      $branchName = git symbolic-ref --short HEAD
+      if ($branchName) {
+        return " on  $branchName"
+      }
+    } catch {
+      # Handle any errors silently
+    }
+  }
+  return ''
+}
+
+# custom prompt
+$firstPrompt = $true
+function prompt {
+  $user = $Env:USERNAME
+  $dir = Get-Location
+  $gitBranch = Get-GitBranch
+  
+  # Define colors
+  $userColor = "Yellow"
+  $dirColor = "Cyan"
+  $branchColor = "Magenta"
+  $promptSymbolColor = "Green"
+
+  # Add a newline before the prompt for subsequent prompts
+  if ($firstPrompt) {
+    $global:firstPrompt = $false
+  } else {
+    Write-Host ""
+  }
+  
+  # Format prompt components with colors
+  Write-Host "$user " -NoNewLine  -ForegroundColor $userColor
+  if ($gitBranch -ne '') {
+    Write-Host "$dir" -NoNewLine -ForegroundColor $dirColor
+    Write-Host "$gitBranch" -ForegroundColor $branchColor
+  } else {
+    Write-Host "$dir" -ForegroundColor $dirColor
+  }
+  Write-Host '❯' -NoNewLine -ForegroundColor $promptSymbolColor
+  
+  return " "
+}
