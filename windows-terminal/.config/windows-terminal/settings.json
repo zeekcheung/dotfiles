@@ -172,7 +172,7 @@
   "confirmCloseAllTabs": false,
   "copyFormatting": "none",
   "copyOnSelect": false,
-  "defaultProfile": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+  "defaultProfile": "{c3c6ce22-a6ac-44df-9f32-7dd9c532792b}",
   "disableAnimations": true,
   "initialCols": 80,
   "initialRows": 20,
@@ -218,12 +218,6 @@
         "hidden": false,
         "name": "Ubuntu 22.04.3 LTS",
         "source": "CanonicalGroupLimited.Ubuntu22.04LTS_79rhkp1fndgsc"
-      },
-      {
-        "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
-        "hidden": false,
-        "name": "Nushell",
-        "source": "nu"
       }
     ]
   },
