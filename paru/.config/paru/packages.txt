@@ -950,7 +950,6 @@ tracker3
 tracker3-miners
 tree-sitter-bash
 tree-sitter-c
-tree-sitter-git
 tree-sitter-lua
 tree-sitter-markdown
 tree-sitter-python
@@ -974,7 +973,7 @@ util-linux-libs
 v2ray
 v2ray-domain-list-community
 v2ray-geoip
-v2raya-git
+v2raya
 v4l-utils
 vapoursynth
 vid.stab
