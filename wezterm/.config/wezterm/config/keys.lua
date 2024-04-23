@@ -60,6 +60,10 @@ M.setup = function(config)
     { key = 'Tab',        mods = 'LEADER',       action = act.ActivateTabRelative(1) },
     { key = 'Tab',        mods = kitty_mod,      action = act.ActivateTabRelative(-1) },
   }
+
+  for i = 0, 9 do
+    table.insert(config.keys, { key = tostring(i), mods = 'LEADER', action = act.ActivateTab(i) })
+  end
 end
 
 return M
