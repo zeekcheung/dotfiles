@@ -164,7 +164,7 @@ return {
         sections = statusline,
         -- winbar = winbar,
         -- inactive_winbar = winbar,
-        extensions = { 'neo-tree', 'lazy' },
+        extensions = { 'lazy', 'mason', 'neo-tree', 'toggleterm' },
       }
     end,
   },
