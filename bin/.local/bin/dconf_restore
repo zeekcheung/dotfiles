@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+dconf load / <"$HOME/.dotfiles/gnome/.config/gnome/dconf-settings.ini"
