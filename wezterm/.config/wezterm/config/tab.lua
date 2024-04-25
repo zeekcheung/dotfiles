@@ -37,7 +37,7 @@ function M.title(tab, tabs, max_width)
   local is_active_prev = (tab_index == active_tab_index - 1) or (active_tab_index == 0 and tab_index == #tabs - 1)
   local active_flag = is_active and '*' or (is_active_prev and '-' or ' ')
 
-  return ' ' .. tab_index .. ':' .. title .. active_flag
+  return ' ' .. tab_index + 1 .. ':' .. title .. active_flag
 end
 
 function M.setup(config)
