@@ -2,9 +2,12 @@
 
 # shellcheck disable=SC1090,SC1091
 
+# TODO: test if this script runs correctly
+sudo apt update && sudo apt upgrade
+
 # essential tools
-sudo apt install -y zsh curl unzip \
-	vim-gtk tmux \
+sudo apt install -y curl unzip \
+	zsh tmux \
 	build-essential cmake \
 	python3 python3-pip \
 	bat fd-find fzf ripgrep neofetch
@@ -24,19 +27,32 @@ sudo ln -sf "$HOME/n/bin/npx" /usr/bin/npx
 # rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
+# cargo mirror
+mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
+cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
+[source.crates-io]
+replace-with = 'mirror'
+
+[source.mirror]
+registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
+EOF
 
 # golang
-wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
-rm go1.21.0.linux-amd64.tar.gz
-export PATH=$HOME/go/bin:$PATH
-source ~/.bashrc
+go_version="1.22.2"
+go_archive_name="go${go_version}.linux-amd64.tar.gz"
+# go_archive_server="https://go.dev/dl"
+go_archive_server="https://mirrors.ustc.edu.cn/golang/"
+
+wget "${go_archive_server}/${go_archive_name}" -P /tmp
+sudo tar -C /usr/local -xzf "/tmp/${go_archive_name}"
+export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
 sudo ln -sf "$HOME/go/bin/lazygit" /usr/bin/lazygit
 
 # bat is installed as batcat instead of bat on Debian/Ubuntu
+mkdir -p "$HOME"/.local/bin
 ln -sf /usr/bin/batcat "$HOME"/.local/bin/bat
 
 # zoxide
@@ -49,9 +65,9 @@ cargo install eza
 curl -sS https://starship.rs/install.sh | sh
 
 if grep -qi Microsoft /proc/version; then
-	# WSL dependencies
+	# WSL packages
 	sudo apt install -y wslu xdg-utils
-else
+elif [ -n "$DESKTOP_SESSION" ]; then
 	# Ubuntu desktop dependencies
 	sudo apt install -y gnome-tweaks gnome-shell-extensions gnome-browser-connector \
 		libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev pkg-config \
@@ -71,16 +87,23 @@ else
 		fcitx5-config-qt fcitx5-frontend-{gtk3,gtk4,qt5} \
 		ruby
 
-	install_fcitx5
+	sh "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
 
 	# v2raya
-	wget https://github.com/v2rayA/v2rayA/releases/download/v2.2.4.7/installer_debian_x64_2.2.4.7.deb
-	wget https://github.com/v2rayA/v2raya-apt/raw/master/pool/main/v/v2ray/v2ray_5.12.1_amd64.deb
-	sudo dpkg -i installer_debian_x64_2.2.4.7.deb
-	sudo dpkg -i v2ray_5.12.1_amd64.deb
-	sudo systemctl start v2raya.service
-	sudo systemctl enable v2raya.service
-	rm installer_debian_x64_2.2.4.7.deb v2ray_5.12.1_amd64.deb
+	v2raya_version="2.2.5.1"
+	v2raya_archive_name="installer_debian_x64_${v2raya_version}.deb"
+	v2raya_archive_server="https://github.com/v2rayA/v2rayA/releases/download/"
+	wget "${v2raya_archive_server}/${v2raya_version}/${v2raya_archive_name}" -P /tmp
+	sudo dpkg -i /tmp/${v2raya_archive_name}
+
+	# v2ray
+	v2ray_version="5.14.1"
+	v2ray_archive_name="v2ray_${v2ray_version}_amd64.deb"
+	v2ray_archive_server="https://github.com/v2rayA/v2raya-apt/blob/master/pool/main/v/v2ray/"
+	wget "${v2ray_archive_server}/${v2ray_archive_name}" -P /tmp
+	sudo dpkg -i /tmp/${v2ray_archive_name}
+
+	sudo systemctl enable --now v2raya
 fi
 
-stow_packages
+sh "$HOME/.dotfiles/bin/.local/bin/stow_packages"
