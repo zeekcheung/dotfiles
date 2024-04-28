@@ -6,15 +6,15 @@
 sudo apt update && sudo apt upgrade
 
 # essential tools
-sudo apt install -y curl unzip \
-	zsh tmux \
+sudo apt install -y curl unzip stow \
+	zsh tmux xsel \
 	build-essential cmake \
 	python3 python3-pip \
 	bat fd-find fzf ripgrep neofetch
 
 # neovim
-sudo add-apt-repository ppa:neovim-ppa/stable -y
-# sudo add-apt-repository ppa:neovim-ppa/unstable -y
+# sudo add-apt-repository ppa:neovim-ppa/stable -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install -y neovim
 
@@ -28,14 +28,14 @@ sudo ln -sf "$HOME/n/bin/npx" /usr/bin/npx
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
 # cargo mirror
-mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
-cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
-[source.crates-io]
-replace-with = 'mirror'
-
-[source.mirror]
-registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
-EOF
+# mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
+# cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
+# [source.crates-io]
+# replace-with = 'mirror'
+# 
+# [source.mirror]
+# registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
+# EOF
 
 # golang
 go_version="1.22.2"
@@ -46,6 +46,10 @@ go_archive_server="https://mirrors.ustc.edu.cn/golang/"
 wget "${go_archive_server}/${go_archive_name}" -P /tmp
 sudo tar -C /usr/local -xzf "/tmp/${go_archive_name}"
 export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
+
+# goproxy
+export GO111MODULE=on
+export GOPROXY=https://goproxy.cn
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
@@ -92,18 +96,18 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 	# v2raya
 	v2raya_version="2.2.5.1"
 	v2raya_archive_name="installer_debian_x64_${v2raya_version}.deb"
-	v2raya_archive_server="https://github.com/v2rayA/v2rayA/releases/download/"
-	wget "${v2raya_archive_server}/${v2raya_version}/${v2raya_archive_name}" -P /tmp
+	v2raya_archive_server="https://github.com/v2rayA/v2rayA/releases/download"
+	wget "${v2raya_archive_server}/v${v2raya_version}/${v2raya_archive_name}" -P /tmp
 	sudo dpkg -i /tmp/${v2raya_archive_name}
 
 	# v2ray
 	v2ray_version="5.14.1"
 	v2ray_archive_name="v2ray_${v2ray_version}_amd64.deb"
-	v2ray_archive_server="https://github.com/v2rayA/v2raya-apt/blob/master/pool/main/v/v2ray/"
+	v2ray_archive_server="https://github.com/v2rayA/v2raya-apt/blob/master/pool/main/v/v2ray"
 	wget "${v2ray_archive_server}/${v2ray_archive_name}" -P /tmp
 	sudo dpkg -i /tmp/${v2ray_archive_name}
 
 	sudo systemctl enable --now v2raya
 fi
 
-sh "$HOME/.dotfiles/bin/.local/bin/stow_packages"
+bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
