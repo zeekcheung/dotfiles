@@ -102,15 +102,12 @@ dotconf
 double-conversion
 duktape
 e2fsprogs
-editorconfig-core-c
 efibootmgr
 efivar
 egl-wayland
 eglexternalplatform
-electron28
 ell
 enchant
-epiphany
 esbuild
 evince
 evolution-data-server
@@ -142,7 +139,6 @@ flatpak
 flatpak-xdg-utils
 flex
 fluidsynth
-folks
 fontconfig
 freeglut
 freerdp
@@ -188,11 +184,8 @@ gnome-browser-connector
 gnome-calculator
 gnome-calendar
 gnome-characters
-gnome-clocks
 gnome-color-manager
 gnome-connections
-gnome-console
-gnome-contacts
 gnome-control-center
 gnome-desktop
 gnome-desktop-4
@@ -201,9 +194,7 @@ gnome-disk-utility
 gnome-font-viewer
 gnome-keyring
 gnome-logs
-gnome-maps
 gnome-menus
-gnome-music
 gnome-online-accounts
 gnome-remote-desktop
 gnome-session
@@ -212,14 +203,10 @@ gnome-shell
 gnome-shell-extension-dash-to-dock
 gnome-shell-extension-forge-git
 gnome-shell-extensions
-gnome-software
 gnome-system-monitor
-gnome-text-editor
-gnome-tour
 gnome-tweaks
 gnome-user-docs
 gnome-user-share
-gnome-weather
 gnu-free-fonts
 gnupg
 gnutls
@@ -244,6 +231,7 @@ gsm
 gsound
 gspell
 gssdp
+gst-devtools-libs
 gst-editing-services
 gst-plugin-gtk
 gst-plugin-pipewire
@@ -252,6 +240,7 @@ gst-plugins-bad-libs
 gst-plugins-base
 gst-plugins-base-libs
 gst-plugins-good
+gst-python
 gstreamer
 gtk-update-icon-cache
 gtk-vnc
@@ -275,7 +264,6 @@ gvfs-mtp
 gvfs-nfs
 gvfs-onedrive
 gvfs-smb
-gvim
 gzip
 harfbuzz
 harfbuzz-icu
@@ -312,6 +300,7 @@ kbd
 kdbusaddons
 keyutils
 kitemviews
+kitty
 kitty-shell-integration
 kitty-terminfo
 kmod
@@ -559,7 +548,6 @@ libsasl
 libseccomp
 libsecret
 libshout
-libshumate
 libsigc++
 libsigc++-3.0
 libsm
@@ -681,6 +669,7 @@ mkinitcpio
 mkinitcpio-busybox
 mobile-broadband-provider-info
 mod_dnssd
+mpdecimal
 mpfr
 mpg123
 msgpack-c
@@ -766,7 +755,6 @@ popt
 portaudio
 procps-ng
 protobuf
-protobuf-c
 psmisc
 pulse-native-provider
 python
@@ -819,7 +807,6 @@ python-validate-pyproject
 python-wheel
 python-xlib
 python-yaml
-qqmusic-electron
 qrencode
 qt6-base
 qt6-declarative
@@ -950,6 +937,7 @@ tracker3
 tracker3-miners
 tree-sitter-bash
 tree-sitter-c
+tree-sitter-git
 tree-sitter-lua
 tree-sitter-markdown
 tree-sitter-python
@@ -980,8 +968,6 @@ vid.stab
 vim-runtime
 vmaf
 volume_key
-vte-common
-vte4
 vulkan-headers
 vulkan-icd-loader
 vulkan-intel
