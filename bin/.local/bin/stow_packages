@@ -1,4 +1,4 @@
-#!/bin/usr/env bash
+#!/usr/bin/env bash
 
 if [[ ! -d "$HOME/.dotfiles" ]]; then
 	echo "Cannot find dotfiles directory at $HOME/.dotfiles!"
@@ -6,35 +6,35 @@ if [[ ! -d "$HOME/.dotfiles" ]]; then
 fi
 
 PACKAGES=(
-	alacritty
-	bash
-	bat
-	bin
-	bottom
-	clangd
-	fcitx5
-	fish
-	git
-	gnome
-	go
-	kitty
-	lazygit
-	neofetch
-	neovide
-	nushell
-	nvim
-	obsidian
-	paru
-	powershell
-	rofi
-	starship
-	tmux
-	vim
-	vscode
-	wezterm
-	windows-terminal
-	wsl
-	zsh
+	"alacritty"
+	"bash"
+	"bat"
+	"bin"
+	"bottom"
+	"clangd"
+	"fcitx5"
+	"fish"
+	"git"
+	"gnome"
+	"go"
+	"kitty"
+	"lazygit"
+	"neofetch"
+	"neovide"
+	"nushell"
+	"nvim"
+	"obsidian"
+	"paru"
+	"powershell"
+	"rofi"
+	"starship"
+	"tmux"
+	"vim"
+	"vscode"
+	"wezterm"
+	"windows-terminal"
+	"wsl"
+	"zsh"
 )
 
 # stow the packages
