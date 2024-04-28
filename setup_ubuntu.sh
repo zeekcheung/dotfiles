@@ -2,6 +2,9 @@
 
 # shellcheck disable=SC1090,SC1091
 
+# github520
+sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+
 # TODO: test if this script runs correctly
 sudo apt update && sudo apt upgrade
 
@@ -32,7 +35,7 @@ source "$HOME/.cargo/env"
 # cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
 # [source.crates-io]
 # replace-with = 'mirror'
-# 
+#
 # [source.mirror]
 # registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 # EOF
@@ -93,18 +96,20 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 
 	sh "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
 
+	ghproxy="https://mirror.ghproxy.com"
+
 	# v2raya
 	v2raya_version="2.2.5.1"
 	v2raya_archive_name="installer_debian_x64_${v2raya_version}.deb"
 	v2raya_archive_server="https://github.com/v2rayA/v2rayA/releases/download"
-	wget "${v2raya_archive_server}/v${v2raya_version}/${v2raya_archive_name}" -P /tmp
+	wget "${ghproxy}/${v2raya_archive_server}/v${v2raya_version}/${v2raya_archive_name}" -P /tmp
 	sudo dpkg -i /tmp/${v2raya_archive_name}
 
 	# v2ray
 	v2ray_version="5.14.1"
 	v2ray_archive_name="v2ray_${v2ray_version}_amd64.deb"
-	v2ray_archive_server="https://github.com/v2rayA/v2raya-apt/blob/master/pool/main/v/v2ray"
-	wget "${v2ray_archive_server}/${v2ray_archive_name}" -P /tmp
+	v2ray_archive_server="https://github.com/v2rayA/v2raya-apt/raw/master/pool/main/v/v2ray"
+	wget "${ghproxy}/${v2ray_archive_server}/${v2ray_archive_name}" -P /tmp
 	sudo dpkg -i /tmp/${v2ray_archive_name}
 
 	sudo systemctl enable --now v2raya
