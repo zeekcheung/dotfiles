@@ -3,10 +3,10 @@ Type=Application
 Name=Alacritty
 GenericName=Terminal emulator
 Comment=A fast, cross-platform, OpenGL terminal emulator
+Categories=System;TerminalEmulator;
 TryExec=alacritty
 Exec=alacritty
-Icon=/usr/share/pixmaps/Alacritty.svg
-Categories=System;TerminalEmulator;
+Icon=Alacritty
 
 [Desktop Action New]
 Name=New Terminal

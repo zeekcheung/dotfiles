@@ -15,9 +15,12 @@ cargo build --release
 sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
 
 # Desktop entry
-sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
-# sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
-sudo ln -sf "$HOME"/.config/alacritty/assets/Alacritty.svg /usr/share/pixmaps/Alacritty.svg
+cp target/release/alacritty "$HOME/.local/bin" # or anywhere else in $PATH
 # sudo desktop-file-install extra/linux/Alacritty.desktop
-sudo ln -sf "$HOME"/.config/alacritty/assets/Alacritty.desktop /usr/share/applications/Alacritty.desktop
+cp "$HOME/.config/alacritty/assets/Alacritty.desktop" "$HOME/.local/share/applications"
+# sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+cp "$HOME/.config/alacritty/assets/Alacritty.svg" "$HOME/.local/share/pixmaps"
+sed -i "s|Icon=Alacritty|Icon=$HOME/.local/share/pixmaps/Alacritty.svg|g" "$HOME/.local/share/applications/Alacritty.desktop"
+
+# Update desktop datebase
 sudo update-desktop-database
