@@ -13,6 +13,7 @@ sudo apt install -y curl unzip stow \
 	zsh tmux xsel \
 	build-essential cmake \
 	python3 python3-pip \
+	luarocks \
 	bat fd-find fzf ripgrep neofetch
 
 # neovim

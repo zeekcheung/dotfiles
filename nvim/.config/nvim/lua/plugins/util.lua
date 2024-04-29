@@ -588,7 +588,8 @@ return {
     event = 'VeryLazy',
     build = function()
       -- Install magick LuaRock
-      vim.cmd '!luarocks --lua-version=5.1 --local install magick'
+      vim.cmd '!luarocks install magick'
+      -- vim.cmd '!luarocks --lua-version=5.1 --local install magick'
     end,
     init = function()
       -- Load magick LuaRock
