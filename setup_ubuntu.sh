@@ -2,8 +2,16 @@
 
 # shellcheck disable=SC1090,SC1091
 
-# github520
+# github dns
 sudo bash -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+
+# github proxy
+ghproxy="https://mirror.ghproxy.com"
+
+# necessary directories
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.local/share/applications"
+mkdir -p "$HOME/.local/share/pixmaps"
 
 # update and upgrade package sources
 sudo apt update && sudo apt upgrade
@@ -17,15 +25,11 @@ sudo apt install -y curl unzip stow \
 	bat fd-find fzf ripgrep neofetch
 
 # neovim
-# sudo add-apt-repository ppa:neovim-ppa/stable -y
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install -y neovim
-
-# mkdir
-mkdir -p "$HOME/.local/bin"
-mkdir -p "$HOME/.local/share/applications"
-mkdir -p "$HOME/.local/share/pixmaps"
+nvim_version="0.9.5"
+nvim_appimage_name="nvim.appimage"
+nvim_appimage_server="https://github.com/neovim/neovim/releases/download/v$nvim_version"
+wget "$ghproxy/$nvim_appimage_server/$nvim_appimage_name" -O "$HOME/.local/bin/nvim"
+chmod +x "$HOME/.local/bin/nvim"
 
 # n (nodejs)
 n_prefix="$HOME/.n"
@@ -101,8 +105,6 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 		ruby
 
 	bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
-
-	ghproxy="https://mirror.ghproxy.com"
 
 	# v2raya
 	v2raya_version="2.2.5.1"
