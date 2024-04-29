@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Define the os_info associative array
+declare -A os_info
+
+# Function to populate the os_info associative array with OS information
+populate_os_info() {
+	while IFS='=' read -r key value; do
+		# Remove leading and trailing double quotes
+		value=$(sed 's/^"//; s/"$//' <<<"$value")
+		os_info["$key"]="$value"
+	done </etc/os-release
+}
+
+# Check if os_info.sh is being sourced or executed directly
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	# Executed directly: Populate os_info and output to screen
+	populate_os_info
+	# Output the os_info associative array to the screen
+	for key in "${!os_info[@]}"; do
+		echo "$key: ${os_info[$key]}"
+	done
+else
+	# Sourced by another script: Populate os_info and export it
+	populate_os_info
+	export os_info
+fi
