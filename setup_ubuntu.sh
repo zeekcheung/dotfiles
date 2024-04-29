@@ -121,6 +121,10 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 	sudo dpkg -i /tmp/${v2ray_archive_name}
 
 	sudo systemctl enable --now v2raya
+
+	# dconf settings
+	bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
 fi
 
+# stow
 bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
