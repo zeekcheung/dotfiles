@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-dconf dump / >"$HOME/.dotfiles/gnome/.config/gnome/dconf-settings.ini"
+# shellcheck disable=SC1091,SC2154
+
+source "$(dirname "$0")/os_info"
+
+os_name="${os_info[NAME]}"
+os_version="${os_info[VERSION_ID]}"
+
+output_file="$HOME/.dotfiles/gnome/.config/gnome/dconf_settings_${os_name}_${os_version}.ini"
+
+dconf dump / >"$output_file"
+
+echo "dconf settings saved to $output_file"
