@@ -2,16 +2,14 @@
 
 # shellcheck disable=SC1090,SC1091
 
+# make local directories
+bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
+
 # github dns
 sudo bash -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
 
 # github proxy
 ghproxy="https://mirror.ghproxy.com"
-
-# necessary directories
-mkdir -p "$HOME/.local/bin"
-mkdir -p "$HOME/.local/share/applications"
-mkdir -p "$HOME/.local/share/pixmaps"
 
 # update and upgrade package sources
 sudo apt update && sudo apt upgrade
