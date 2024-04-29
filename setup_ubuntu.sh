@@ -81,7 +81,7 @@ if grep -qi Microsoft /proc/version; then
 	sudo apt install -y wslu xdg-utils
 elif [ -n "$DESKTOP_SESSION" ]; then
 	# Ubuntu desktop dependencies
-	sudo apt install -y gnome-tweaks gnome-shell-extensions gnome-browser-connector \
+	sudo apt install -y gnome-tweaks gnome-shell-extensions gnome-shell-extension-manager \
 		libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev pkg-config \
 		gpick gimp
 
