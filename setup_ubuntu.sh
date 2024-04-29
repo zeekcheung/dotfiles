@@ -3,9 +3,9 @@
 # shellcheck disable=SC1090,SC1091
 
 # github520
-sudo sh -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+sudo bash -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
 
-# TODO: test if this script runs correctly
+# update and upgrade package sources
 sudo apt update && sudo apt upgrade
 
 # essential tools
@@ -21,11 +21,17 @@ sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install -y neovim
 
-# n/nodejs
-curl -L https://bit.ly/n-install | N_PREFIX="$HOME/.n" bash -s -- -y
-sudo ln -sf "$HOME/n/bin/node" /usr/bin/node
-sudo ln -sf "$HOME/n/bin/npm" /usr/bin/npm
-sudo ln -sf "$HOME/n/bin/npx" /usr/bin/npx
+# mkdir
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.local/share/applications"
+mkdir -p "$HOME/.local/share/pixmaps"
+
+# n (nodejs)
+n_prefix="$HOME/.n"
+curl -L https://bit.ly/n-install | N_PREFIX=$n_prefix bash -s -- -y
+ln -sf "$n_prefix/bin/node" "$HOME/.local/bin/node"
+ln -sf "$n_prefix/bin/npm" "$HOME/.local/bin/npm"
+ln -sf "$n_prefix/bin/npx" "$HOME/.local/bin/npx"
 
 # rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -56,10 +62,9 @@ export GOPROXY=https://goproxy.cn
 
 # lazygit
 go install github.com/jesseduffield/lazygit@latest
-sudo ln -sf "$HOME/go/bin/lazygit" /usr/bin/lazygit
+ln -sf "$HOME/go/bin/lazygit" "$HOME/.local/bin/lazygit"
 
 # bat is installed as batcat instead of bat on Debian/Ubuntu
-mkdir -p "$HOME"/.local/bin
 ln -sf /usr/bin/batcat "$HOME"/.local/bin/bat
 
 # zoxide
@@ -94,7 +99,7 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 		fcitx5-config-qt fcitx5-frontend-{gtk3,gtk4,qt5} \
 		ruby
 
-	sh "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
+	bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
 
 	ghproxy="https://mirror.ghproxy.com"
 
