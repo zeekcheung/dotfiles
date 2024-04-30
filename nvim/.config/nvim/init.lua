@@ -11,7 +11,7 @@ else
   require 'config.neovide'
 end
 
-if vim.fn.has('unix') ~= 0 then
-  -- only enable plugins on unix
+if not (vim.fn.has('win32') == 1) then
+  -- enable plugins if not on Windows
   require 'config.lazy'
 end

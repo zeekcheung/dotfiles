@@ -2,9 +2,10 @@
 -- Find more plugins here: https://neovimcraft.com/
 
 local Util = require 'util'
+local Ui = require 'util.ui'
 
 local map = Util.silent_map
-local Ui = require 'util.ui'
+local get_default_lua_version = Util.get_default_lua_version
 local icons = Ui.icons
 
 return {
@@ -563,7 +564,7 @@ return {
     config = function()
       require('gx').setup {
         -- `sudo apt install wslu xdg-utils -y`
-        open_browser_app = require('util').is_win() and 'powershell.exe' or 'xdg-open',
+        open_browser_app = vim.fn.has('win32') == 1 and 'powershell.exe' or 'xdg-open',
         -- open_browser_args = { "--background" },
         handlers = {
           plugin = true,
@@ -583,13 +584,21 @@ return {
   -- Image preview
   {
     '3rd/image.nvim',
+    enabled = vim.fn.executable('luarocks') == 1,
     cond = string.find(vim.env.TERM, 'kitty', 1, true) ~= nil
       or string.find(vim.env.TERM, 'wezterm', 1, true) ~= nil,
     event = 'VeryLazy',
     build = function()
+      local default_lua_version = get_default_lua_version() or 'unknown'
+      local is_lua5_1 = string.find(default_lua_version, '5.1', 1, true) ~= nil
+      local is_lua5_4 = string.find(default_lua_version, '5.4', 1, true) ~= nil
+
       -- Install magick LuaRock
-      vim.cmd '!luarocks install magick'
-      -- vim.cmd '!luarocks --lua-version=5.1 --local install magick'
+      if is_lua5_1 then
+        vim.cmd '!luarocks install magick'
+      elseif is_lua5_4 then
+        vim.cmd '!luarocks --lua-version=5.1 --local install magick'
+      end
     end,
     init = function()
       -- Load magick LuaRock
