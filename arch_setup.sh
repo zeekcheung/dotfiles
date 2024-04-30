@@ -51,6 +51,7 @@ bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
 service_packages=(
 	"gdm"
 	"v2raya"
+	"bluetooth"
 )
 
 echo "Enabling some system service..."
