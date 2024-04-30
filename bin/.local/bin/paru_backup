@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC1091,SC2154
+
+source "$(dirname "$0")/paru_outfile"
+
+paru -Qq >"$packages_file"
+
+echo "Done. Check $packages_file to see the list of installed packages."

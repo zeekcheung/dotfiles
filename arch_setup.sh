@@ -34,10 +34,9 @@ git clone --depth=1 https://aur.archlinux.org/paru.git /tmp/paru
 cd /tmp/paru || return
 makepkg -si
 
-# install indispensable packages
-packages_file="$HOME/.dotfiles/paru/.config/paru/packages.txt"
-echo "Installing indispensable packages"
-paru -S --needed - <"$packages_file"
+# restore packages
+echo "Restoring packages..."
+bash "$HOME/.dotfiles/bin/.local/bin/paru_restore"
 
 # install fcitx5
 bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"

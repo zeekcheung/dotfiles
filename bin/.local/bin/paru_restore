@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC1091,SC2154
+
+source "$(dirname "$0")/paru_outfile"
+
+ignored_packages=(
+	"catppuccin-gtk-theme-mocha"
+	"gnome-shell-extension-forge-git"
+	"python-hid-parser"
+	"wechat-universal-bwrap"
+)
+
+# create a temporary copy of the file
+cp "$packages_file" /tmp
+packages_file_name=$(basename "$packages_file")
+tmp_packages_file="/tmp/$packages_file_name"
+
+# remove the ignored packages from the temporary copy
+for package in "${ignored_packages[@]}"; do
+	sed -i "/$package/d" "$tmp_packages_file"
+done
+
+paru -S --noconfirm --needed - <"$tmp_packages_file"

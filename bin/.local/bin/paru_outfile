@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+packages_file="$HOME/.dotfiles/paru/.config/paru/packages.txt"
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  echo "$packages_file"
+else
+  export packages_file
+fi
