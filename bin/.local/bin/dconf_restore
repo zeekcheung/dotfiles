@@ -9,6 +9,8 @@ os_version="${os_info[VERSION_ID]}"
 
 output_file="$HOME/.dotfiles/gnome/.config/gnome/dconf_settings_${os_name}_${os_version}.ini"
 
-dconf load / <"$output_file"
+tr_output_file=$(echo "$output_file" | tr " " "_")
 
-echo "dconf settings restored from $output_file"
+dconf load / <"$tr_output_file"
+
+echo "dconf settings restored from $tr_output_file"
