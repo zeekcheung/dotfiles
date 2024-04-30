@@ -2,8 +2,9 @@
 
 # NOTE:
 # this script is run inside the chroot:
-# $ curl https://raw.githubusercontent.com/zeekcheung/.dotfiles/master/arch_preinstall_chroot.sh -o preinstall_chroot.sh
-# $ bash preinstall_chroot.sh
+# $ curl https://raw.githubusercontent.com/zeekcheung/.dotfiles/master/arch_preinstall_chroot.sh -o /tmp/preinstall_chroot.sh
+# $ bash /tmp/preinstall_chroot.sh
+# $ exit
 # $ exit
 
 # set timezone
@@ -35,8 +36,8 @@ echo "127.0.0.1 localhost" >/etc/hosts
 echo "::1 localhost" >>/etc/hosts
 echo "127.0.1.1 $hostname" >>/etc/hosts
 
-# set root password
-echo "Setting root password..."
+# set password for root
+echo "Setting password for root..."
 passwd root
 
 # install ucode
@@ -54,26 +55,28 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # enable dhcpcd (ethernet)
 echo "Enabling dhcpcd..."
-systemctl enable --now dhcpcd
+systemctl enable dhcpcd
 
 # enable iwd (wireless)
 # echo "Enabling iwd..."
-# systemctl enable --now iwd
+# systemctl enable iwd
 # iwctl
 
 # enable NetworkManager
 echo "Enabling NetworkManager..."
-systemctl enable --now NetworkManager
+systemctl enable NetworkManager
+
+# enable sudo for wheel group
+echo "Enabling sudo for wheel group..."
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
 
 # create user
-echo "Creating user..."
-useradd -m -G wheel -s /bin/zsh zeek
-echo "Setting user password..."
-passwd zeek
-
-# enable sudo
-echo "Enabling sudo..."
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+username="zeek"
+shell="/bin/zsh"
+echo "Creating user $username..."
+useradd -m -G wheel -s $shell $username
+echo "Setting password for $username..."
+passwd $username
 
 # setup swap
 echo "Setting up swap..."

@@ -8,7 +8,7 @@
 # $ reboot
 
 # set font
-setfont ter-132b
+# setfont ter-132b
 
 # disable reflector service
 systemctl stop reflector.service
@@ -58,7 +58,7 @@ echo "Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" | cat - /
 rm /tmp/mirrorlist.tmp
 
 # install base system
-pacstrap --noconfirm /mnt \
+pacstrap /mnt \
 	base base-devel linux linux-headers linux-firmware \
 	dhcpcd iwd networkmanager openssh curl git \
 	zsh neovim tmux xsel
