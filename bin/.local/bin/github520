@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+echo "Setting dns for github with GitHub520..."
+
+# github dns
+sudo bash -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+
+sudo cat /etc/hosts

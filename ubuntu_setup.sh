@@ -6,7 +6,7 @@
 bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
 
 # github dns
-sudo bash -c 'sed -i "/# GitHub520 Host Start/Q" /etc/hosts && curl https://raw.hellogithub.com/hosts >> /etc/hosts'
+bash "$HOME/.dotfiles/bin/.local/bin/github520"
 
 # github proxy
 ghproxy="https://mirror.ghproxy.com"
