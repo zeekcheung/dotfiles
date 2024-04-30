@@ -2,14 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-source "$(dirname "$0")/os_info"
-
-os_name="${os_info[NAME]}"
-os_version="${os_info[VERSION_ID]}"
-
-output_file="$HOME/.dotfiles/gnome/.config/gnome/dconf_settings_${os_name}_${os_version}.ini"
-
-tr_output_file=$(echo "$output_file" | tr " " "_")
+source "$(dirname "$0")/dconf_outfile"
 
 dconf dump / >"$tr_output_file"
 

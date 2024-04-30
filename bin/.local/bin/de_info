@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Define the desktop_info associative array
-declare -A de_info
+declare -A de_info_arr
 
 # Function to populate the desktop_info associative array with desktop environment information
 populate_desktop_info() {
-	de_info["DESKTOP_TYPE"]="${XDG_CURRENT_DESKTOP:-Unknown}"
-	de_info["SESSION_TYPE"]="${XDG_SESSION_TYPE:-Unknown}"
+	de_info_arr["DESKTOP_TYPE"]="${XDG_CURRENT_DESKTOP:-Unknown}"
+	de_info_arr["SESSION_TYPE"]="${XDG_SESSION_TYPE:-Unknown}"
 }
 
 # Check if desktop_info.sh is being sourced or executed directly
@@ -14,11 +14,11 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
 	# Executed directly: Populate desktop_info and output to screen
 	populate_desktop_info
 	# Output the desktop_info associative array to the screen
-	for key in "${!de_info[@]}"; do
-		echo "$key: ${de_info[$key]}"
+	for key in "${!de_info_arr[@]}"; do
+		echo "$key: ${de_info_arr[$key]}"
 	done
 else
 	# Sourced by another script: Populate desktop_info and export it
 	populate_desktop_info
-	export de_info
+	export de_info_arr
 fi

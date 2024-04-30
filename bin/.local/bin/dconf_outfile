@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# shellcheck disable=SC1091,SC2154
+
+source "$(dirname "$0")/os_info"
+
+os_name="${os_info_arr[NAME]}"
+os_version="${os_info_arr[VERSION_ID]}"
+
+output_file="$HOME/.dotfiles/gnome/.config/gnome/dconf_settings_${os_name}_${os_version}.ini"
+
+tr_output_file=$(echo "$output_file" | tr " " "_")
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	echo "$tr_output_file"
+else
+	export tr_output_file
+fi

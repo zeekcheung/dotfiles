@@ -4,7 +4,7 @@
 
 source "$(dirname "$0")/de_info"
 
-desktop_type="${de_info[DESKTOP_TYPE]}"
+desktop_type="${de_info_arr[DESKTOP_TYPE]}"
 
 if echo "$desktop_type" | grep -qi "gnome"; then
 	echo "Current desktop environment is Gnome, restoring dconf settings..."
