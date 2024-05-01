@@ -1,70 +1,112 @@
 #!/usr/bin/env bash
 
-# NOTE:
-# this script is run in arch live iso:
-# $ curl https://raw.githubusercontent.com/zeekcheung/.dotfiles/master/arch_preinstall_iso.sh -o preinstall_iso.sh
-# $ bash preinstall_iso.sh
-# $ unmount -R /mnt
+# Arch Linux Pre-installation Script (ISO Environment)
+#
+# Description:
+# This script automates the pre-installation tasks for setting up Arch Linux on a system.
+# It partitions the disk, sets up the filesystems, installs the base system,
+# configures mirrors for pacman, generates fstab, and optionally runs another
+# script within the chroot environment.
+#
+# Usage:
+# $ curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch_preinstall_iso.sh -o arch_preinstall_iso.sh
+# $ bash arch_preinstall_iso.sh
 # $ reboot
 
-# set font
-# setfont ter-132b
+# Exit immediately if any command fails
+set -e
 
-# disable reflector service
+# Partition specifications
+paritition_disk="/dev/sda"
+partitions=(
+	"name=efi  size=800M typecode=ef00 fs_type=vfat"
+	"name=root size=100G typecode=8300 fs_type=ext4"
+	"name=home size=0    typecode=8300 fs_type=ext4"
+)
+
+# Mirror servers
+mirror_servers=(
+	"https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch"
+	"https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch"
+)
+
+# Packages to install
+packages=(
+	"base" "base-devel" "linux" "linux-headers" "linux-firmware"
+	"dhcpcd" "iwd" "networkmanager" "openssh" "git"
+	"zsh" "neovim" "tmux" "xsel"
+)
+
+echo "=== Starting Arch Linux pre-installation for ISO ==="
+
+# Disable reflector service
+echo "Disabling reflector service..."
 systemctl stop reflector.service
 
-# sync time
+# Sync time
+echo "Syncing time..."
 timedatectl set-ntp true
 
-# create gpt partition table on /dev/sda
-sgdisk --clear \
-	/dev/sda
+# Create GPT partition table on $disk
+echo "Creating GPT partition table on $paritition_disk..."
+sgdisk --clear "$paritition_disk"
 
-# create EFI partition (/dev/sda1, 800M)
-sgdisk --new=1:0:+800M \
-	--typecode=1:ef00 \
-	--change-name=1:"EFI System Partition" \
-	/dev/sda
+# Create partitions
+echo "Creating partitions and filesystems..."
+for ((i = 0; i < ${#partitions[@]}; i++)); do
+	partition=$(echo "${partitions[$i]}" | tr -s ' ')
 
-# create root partition (/dev/sda2, 100G)
-sgdisk --new=2:0:+100G \
-	--typecode=2:8300 \
-	--change-name=2:"Root Partition" \
-	/dev/sda
+	partnum=$((i + 1))
+	name=$(echo "$partition" | cut -d ' ' -f1 | cut -d '=' -f2)
+	size=$(echo "$partition" | cut -d ' ' -f2 | cut -d '=' -f2)
+	typecode=$(echo "$partition" | cut -d ' ' -f3 | cut -d '=' -f2)
+	fs_type=$(echo "$partition" | cut -d ' ' -f4 | cut -d '=' -f2)
 
-# create home partition (/dev/sda3, rest of the disk)
-sgdisk --new=3:0:0 \
-	--typecode=3:8300 \
-	--change-name=3:"Home Partition" \
-	/dev/sda
+	sgdisk \
+		--new="$partnum":"0":"$size" \
+		--typecode="$partnum":"$typecode" \
+		--change-name="$partnum":"$name" \
+		$paritition_disk
 
-# make filesystems
-mkfs.vfat /dev/sda1 # fat32 filesystem for EFI partition
-mkfs.ext4 /dev/sda2 # ext4 filesystem for root partition
-mkfs.ext4 /dev/sda3 # ext4 filesystem for home partition
+	mkfs -t "$fs_type" "$paritition_disk$partnum"
+done
 
-# mount partitions
-mount /dev/sda2 /mnt # mount root partition
+# Mount partitions
+echo "Mounting partitions..."
+mount "${paritition_disk}2" /mnt # mount root partition
 mkdir /mnt/efi
-mount /dev/sda1 /mnt/efi # mount EFI partition
+mount "${paritition_disk}1" /mnt/efi # mount EFI partition
 mkdir /mnt/home
-mount /dev/sda3 /mnt/home # mount home partition
+mount "${paritition_disk}3" /mnt/home # mount home partition
 
-# select mirror for pacman
-echo "Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist >/tmp/mirrorlist.tmp
-echo "Server = https://mirrors.ustc.edu.cn/archlinux/\$repo/os/\$arch" | cat - /tmp/mirrorlist.tmp >/etc/pacman.d/mirrorlist
+# Set mirrors for pacman
+echo "Setting mirrors for pacman..."
+for server in "${mirror_servers[@]}"; do
+	echo "Server = $server" | cat - /tmp/mirrorlist.tmp >/etc/pacman.d/mirrorlist
+done
 
-# clean up temporary file
-rm /tmp/mirrorlist.tmp
+# Install base system
+echo "Installing base system..."
+pacstrap /mnt "${packages[@]}"
 
-# install base system
-pacstrap /mnt \
-	base base-devel linux linux-headers linux-firmware \
-	dhcpcd iwd networkmanager openssh curl git \
-	zsh neovim tmux xsel
-
-# generate fstab
+# Generate fstab
+echo "Generating fstab..."
 genfstab -U /mnt >>/mnt/etc/fstab
 
-# chroot
-arch-chroot /mnt
+# Download arch_preinstall_chroot.sh script
+if [ ! -f arch_preinstall_chroot.sh ]; then
+	echo "Downloading arch_preinstall_chroot.sh script..."
+	curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch_preinstall_chroot.sh -o arch_preinstall_chroot.sh
+fi
+
+# Run the script within the chroot environment
+echo "Running arch_preinstall_chroot.sh script within the chroot environment..."
+cp arch_preinstall_chroot.sh /mnt/tmp # Copy the script to the chroot environment
+chroot /mnt /bin/bash -c "/bin/bash /tmp/arch_preinstall_chroot.sh"
+
+# Unmount partitions
+echo "Unmounting partitions..."
+umount -R /mnt
+
+# Done
+echo "=== Arch Linux pre-installation for ISO completed ==="
