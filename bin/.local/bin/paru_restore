@@ -4,6 +4,7 @@
 
 source "$(dirname "$0")/paru_outfile"
 
+ignore_flag=false
 ignored_packages=(
 	"catppuccin-gtk-theme-mocha"
 	"gnome-shell-extension-forge-git"
@@ -11,14 +12,23 @@ ignored_packages=(
 	"wechat-universal-bwrap"
 )
 
-# create a temporary copy of the file
-cp "$packages_file" /tmp
-packages_file_name=$(basename "$packages_file")
-tmp_packages_file="/tmp/$packages_file_name"
+if [ "$1" = "-i" ] || [ "$1" = "--ignore" ]; then
+	ignore_flag=true
+fi
 
-# remove the ignored packages from the temporary copy
-for package in "${ignored_packages[@]}"; do
-	sed -i "/$package/d" "$tmp_packages_file"
-done
+if [ "$ignore_flag" = true ]; then
+	# create a temporary copy of the file
+	cp "$packages_file" /tmp
+	packages_file_name=$(basename "$packages_file")
+	tmp_packages_file="/tmp/$packages_file_name"
 
-paru -S --noconfirm --needed - <"$tmp_packages_file"
+	# remove the ignored packages from the temporary copy
+	for package in "${ignored_packages[@]}"; do
+		sed -i "/$package/d" "$tmp_packages_file"
+	done
+
+	packages_file=$tmp_packages_file
+fi
+
+cat "$packages_file"
+# paru -S --noconfirm --needed - <"$packages_file"

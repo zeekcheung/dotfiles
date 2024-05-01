@@ -36,7 +36,7 @@ makepkg -si
 
 # restore packages
 echo "Restoring packages..."
-bash "$HOME/.dotfiles/bin/.local/bin/paru_restore"
+bash "$HOME/.dotfiles/bin/.local/bin/paru_restore" --ignore
 
 # install fcitx5
 bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
