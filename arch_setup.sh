@@ -2,15 +2,15 @@
 
 # shellcheck disable=SC1091,SC2154
 
-# make local directories
+# Make local directories
 bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
 
-# set dns for github
+# Set dns for github
 bash "$HOME/.dotfiles/bin/.local/bin/github520"
 
 pacman_conf="/etc/pacman.conf"
 
-# add archlinuxcn package repository
+# Add archlinuxcn package repository
 archlinuxcn_name="archlinuxcn"
 archlinuxcn_server="https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch"
 
@@ -24,30 +24,41 @@ if ! grep -q "\[${archlinuxcn_name}\]" "$pacman_conf"; then
 	sudo pacman -Sy archlinuxcn-keyring --noconfirm
 fi
 
-# update and upgrade package sources
+# Update and upgrade package sources
 echo "Updating system..."
 sudo pacman -Syyu --noconfirm
 
-# install paru
+# Config mirrors for cargo
+mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
+
+cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
+[source.crates-io]
+replace-with = 'ustc'
+
+[source.ustc]
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
+EOF
+
+# Install paru
 echo "Installing paru..."
 git clone --depth=1 https://aur.archlinux.org/paru.git /tmp/paru
 cd /tmp/paru || return
 makepkg -si
 
-# restore packages
+# Restore packages
 echo "Restoring packages..."
 bash "$HOME/.dotfiles/bin/.local/bin/paru_restore" --ignore
 
-# install fcitx5
+# Install fcitx5
 bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
 
-# stow packages
+# Stow packages
 bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
 
-# restore dconf settings in gnome
+# Restore dconf settings in gnome
 bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
 
-# enable system services for some packages
+# Enable system services for some packages
 service_packages=(
 	"gdm"
 	"v2raya"
@@ -61,7 +72,7 @@ for package in "${service_packages[@]}"; do
 	fi
 done
 
-# change some desktop file
+# Change some desktop file
 echo "Changing desktop file for alacritty..."
 cp "$HOME/.config/alacritty/assets/Alacritty.desktop" "$HOME/.local/share/applications"
 cp "$HOME/.config/alacritty/assets/Alacritty.svg" "$HOME/.local/share/pixmaps"

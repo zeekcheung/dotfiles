@@ -2,19 +2,19 @@
 
 # shellcheck disable=SC1090,SC1091
 
-# make local directories
+# Make local directories
 bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
 
-# github dns
+# Github dns
 bash "$HOME/.dotfiles/bin/.local/bin/github520"
 
-# github proxy
+# Github proxy
 ghproxy="https://mirror.ghproxy.com"
 
-# update and upgrade package sources
+# Update and upgrade package sources
 sudo apt update && sudo apt upgrade
 
-# essential tools
+# Essential tools
 sudo apt install -y curl unzip stow \
 	zsh tmux xsel \
 	build-essential cmake \
@@ -22,7 +22,7 @@ sudo apt install -y curl unzip stow \
 	luarocks \
 	bat fd-find fzf ripgrep neofetch
 
-# neovim
+# Neovim
 nvim_version="0.9.5"
 nvim_appimage_name="nvim.appimage"
 nvim_appimage_server="https://github.com/neovim/neovim/releases/download/v$nvim_version"
@@ -36,20 +36,21 @@ ln -sf "$n_prefix/bin/node" "$HOME/.local/bin/node"
 ln -sf "$n_prefix/bin/npm" "$HOME/.local/bin/npm"
 ln -sf "$n_prefix/bin/npx" "$HOME/.local/bin/npx"
 
-# rust
+# Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 source "$HOME/.cargo/env"
 # cargo mirror
-# mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
-# cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
-# [source.crates-io]
-# replace-with = 'mirror'
-#
-# [source.mirror]
-# registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
-# EOF
+mkdir -vp "${CARGO_HOME:-$HOME/.cargo}"
 
-# golang
+cat <<EOF | tee -a "${CARGO_HOME:-$HOME/.cargo}"/config
+[source.crates-io]
+replace-with = 'ustc'
+
+[source.ustc]
+registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
+EOF
+
+# Golang
 go_version="1.22.2"
 go_archive_name="go${go_version}.linux-amd64.tar.gz"
 # go_archive_server="https://go.dev/dl"
