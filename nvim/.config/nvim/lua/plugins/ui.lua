@@ -238,7 +238,7 @@ return {
   {
     'rcarriga/nvim-notify',
     event = 'VeryLazy',
-    enabled = true,
+    enabled = false,
     keys = {
       {
         '<leader>un',
