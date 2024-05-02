@@ -62,6 +62,8 @@ capnproto
 catppuccin-gtk-theme-mocha
 cblas
 cdparanoia
+cfitsio
+chafa
 chromaprint
 chromium
 cifs-utils
@@ -139,6 +141,7 @@ flatpak
 flatpak-xdg-utils
 flex
 fluidsynth
+fmt
 fontconfig
 freeglut
 freerdp
@@ -272,6 +275,7 @@ hidapi
 highway
 http-parser
 hwdata
+hwloc
 hyphen
 iana-etc
 icu
@@ -401,6 +405,7 @@ libcap
 libcap-ng
 libcdio
 libcdio-paranoia
+libcgif
 libcloudproviders
 libcolord
 libcue
@@ -550,6 +555,7 @@ libsecret
 libshout
 libsigc++
 libsigc++-3.0
+libsixel
 libsm
 libsndfile
 libsodium
@@ -582,6 +588,7 @@ libuv
 libva
 libvdpau
 libverto
+libvips
 libvncserver
 libvorbis
 libvpl
@@ -701,10 +708,12 @@ nvidia
 nvidia-settings
 nvidia-utils
 ocl-icd
+onetbb
 oniguruma
 openal
 opencc
 opencore-amr
+opencv
 openexr
 openjpeg2
 openssh
@@ -768,7 +777,6 @@ python-clickgen
 python-evdev
 python-fastjsonschema
 python-gobject
-python-hid-parser
 python-hypothesis
 python-inflect
 python-iniconfig
@@ -904,6 +912,7 @@ sord
 sound-theme-freedesktop
 soundtouch
 spandsp
+spdlog
 speech-dispatcher
 speex
 speexdsp
@@ -948,9 +957,11 @@ ttf-liberation
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-common
 ttf-ubuntu-font-family
+turbo-base64
 twolame
 tzdata
 udisks2
+ueberzugpp
 uhttpmock
 unibilium
 unzip
@@ -964,6 +975,7 @@ v2ray-geoip
 v2raya
 v4l-utils
 vapoursynth
+verdict
 vid.stab
 vim-runtime
 vmaf
@@ -991,6 +1003,7 @@ xcb-imdkit
 xcb-proto
 xcb-util
 xcb-util-cursor
+xcb-util-errors
 xcb-util-image
 xcb-util-keysyms
 xcb-util-renderutil
