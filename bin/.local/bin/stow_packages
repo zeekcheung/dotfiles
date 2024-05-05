@@ -1,46 +1,17 @@
 #!/usr/bin/env bash
 
+# Check if the dotfiles directory exists
 if [[ ! -d "$HOME/.dotfiles" ]]; then
 	echo "Cannot find dotfiles directory at $HOME/.dotfiles!"
 	exit
 fi
 
-PACKAGES=(
-	"alacritty"
-	"backgrounds"
-	"bash"
-	"bat"
-	"bin"
-	"bottom"
-	"clangd"
-	"fcitx5"
-	"fish"
-	"fonts"
-	"git"
-	"gnome"
-	"go"
-	"kitty"
-	"lazygit"
-	"neofetch"
-	"neovide"
-	"nushell"
-	"nvim"
-	"obsidian"
-	"paru"
-	"powershell"
-	"rofi"
-	"starship"
-	"tmux"
-	"vim"
-	"vscode"
-	"wezterm"
-	"windows-terminal"
-	"wsl"
-	"zsh"
-)
+# Get the list of packages from the dotfiles directory
+PACKAGES=$(find "$HOME/.dotfiles" -maxdepth 1 -mindepth 1 -type d -not -path "*/.git" -exec basename {} \; | sort)
 
-# stow the packages
-for package in "${PACKAGES[@]}"; do
+# Stow the packages
+while IFS= read -r package; do
 	echo "Stowing $package..."
 	stow -v "$package"
-done
+	# stow --verbose --adopt "$package"
+done <<<"$PACKAGES"
