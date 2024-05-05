@@ -1,13 +1,15 @@
 return {
+  -- Syntax highlighting
   {
     'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
       if type(opts.ensure_installed) == 'table' then
-        vim.list_extend(opts.ensure_installed, { 'typescript', 'tsx' })
+        vim.list_extend(opts.ensure_installed, { 'html', 'css', 'javascript', 'jsdoc', 'typescript', 'tsx' })
       end
     end,
   },
 
+  -- Language server
   {
     'neovim/nvim-lspconfig',
     opts = {
@@ -74,6 +76,7 @@ return {
     end,
   },
 
+  -- Formatter
   {
     'stevearc/conform.nvim',
     optional = true,
@@ -93,6 +96,7 @@ return {
     },
   },
 
+  -- Linter
   {
     'mfussenegger/nvim-lint',
     optional = true,
