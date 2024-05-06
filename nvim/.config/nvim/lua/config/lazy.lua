@@ -16,21 +16,6 @@ require('lazy').setup {
   ui = { border = 'rounded' },
   spec = {
     { import = 'plugins' },
-
-    { import = 'plugins.lang.lua' },
-    { import = 'plugins.lang.markdown' },
-    -- { import = 'plugins.lang.clang' },
-    -- { import = 'plugins.lang.rust' },
-    -- { import = 'plugins.lang.web' },
-
-    { import = 'plugins.lang.bash' },
-    -- { import = 'plugins.lang.powershell' },
-    -- { import = 'plugins.lang.nushell' },
-
-    { import = 'plugins.lang.json' },
-    { import = 'plugins.lang.toml' },
-    { import = 'plugins.lang.yaml' },
-    { import = 'plugins.lang.dot' },
   },
   defaults = {
     lazy = true,

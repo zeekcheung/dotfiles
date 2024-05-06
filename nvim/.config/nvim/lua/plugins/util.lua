@@ -635,4 +635,34 @@ return {
       kitty_method = 'normal',
     },
   },
+
+
+  -- Markdown preview
+  {
+    'iamcco/markdown-preview.nvim',
+    enabled = false,
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    build = function()
+      local is_win = vim.loop.os_uname().sysname:find 'Windows' ~= nil
+
+      if is_win then
+        local install_path = vim.fn.stdpath 'data' .. '/lazy/markdown-preview.nvim/app'
+        vim.cmd('!cd ' .. install_path .. ' && ./install.cmd')
+      else
+        vim.fn['mkdp#util#install']()
+      end
+    end,
+    keys = {
+      {
+        '<leader>cp',
+        ft = 'markdown',
+        '<cmd>MarkdownPreviewToggle<cr>',
+        desc = 'Markdown Preview',
+      },
+    },
+    config = function()
+      vim.cmd [[do FileType]]
+    end,
+  },
+
 }
