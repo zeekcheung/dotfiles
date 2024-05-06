@@ -1,4 +1,6 @@
-local icons = require('util.ui').icons
+local Ui = require('util.ui')
+local icons = Ui.icons
+local border_with_highlight = Ui.border_with_highlight
 
 return {
 
@@ -25,7 +27,6 @@ return {
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       local defaults = require 'cmp.config.default' ()
-      local border = require 'util.ui'.border
 
       vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
@@ -101,12 +102,12 @@ return {
         completion = {
           side_padding = 1,
           -- border = vim.g.cmp_border,
-          border = border('CmpBorder'),
+          border = border_with_highlight('CmpBorder'),
           winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
           scrollbar = false,
         },
         documentation = {
-          border = border('CmpDocBorder'),
+          border = border_with_highlight('CmpDocBorder'),
           winhighlight = 'Normal:CmpDoc',
         },
         -- documentation = cmp.config.disable,

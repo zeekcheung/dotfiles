@@ -1,7 +1,7 @@
 local Lsp = require 'util.lsp'
 local Ui = require 'util.ui'
 local icons = Ui.icons
-local border = Ui.border
+local border_with_highlight = Ui.border_with_highlight
 
 ---@type string
 local xdg_config_home = vim.env.XDG_CONFIG_HOME or vim.env.HOME .. '/.config'
@@ -81,7 +81,7 @@ return {
         opts = {
           bind = true,
           handler_opts = {
-            border = require 'util.ui'.border('SignatureHelpBorder'),
+            border = border_with_highlight('SignatureHelpBorder'),
           },
           max_width = math.floor(vim.o.columns * 0.75),
           max_height = math.floor(vim.o.lines * 0.75),
@@ -243,9 +243,9 @@ return {
         -- Setup hover and signature help
         server_opts.handlers = {
           ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
-            { border = border('HoverBorder'), silent = true }),
+            { border = border_with_highlight('HoverBorder'), silent = true }),
           ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-            { border = border('SignatureHelpBorder'), focusable = false, silent = true }),
+            { border = border_with_highlight('SignatureHelpBorder'), focusable = false, silent = true }),
         }
 
         -- Setup floating preview

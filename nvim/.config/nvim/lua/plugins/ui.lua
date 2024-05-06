@@ -346,7 +346,7 @@ return {
     end,
   },
 
-  -- Horizontal highlights
+  -- Better markdown headlines
   {
     'lukas-reineke/headlines.nvim',
     cond = false,

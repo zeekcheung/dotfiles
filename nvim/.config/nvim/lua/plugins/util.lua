@@ -5,7 +5,6 @@ local Util = require 'util'
 local Ui = require 'util.ui'
 
 local map = Util.silent_map
-local get_default_lua_version = Util.get_default_lua_version
 local icons = Ui.icons
 
 return {
@@ -19,7 +18,6 @@ return {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v3.x',
     cmd = 'Neotree',
-    dependencies = { '3rd/image.nvim' },
     keys = {
       {
         '<leader>e',
@@ -104,7 +102,7 @@ return {
           },
           ['P'] = {
             'toggle_preview',
-            config = { use_float = false, use_image_nvim = true },
+            config = { use_float = true, use_image_nvim = true },
           },
         },
       },
@@ -217,8 +215,8 @@ return {
           layout_config = {
             horizontal = { prompt_position = 'top', preview_width = 0.55 },
             vertical = { mirror = false },
-            -- width = 0.87,
-            -- height = 0.80,
+            width = 0.87,
+            height = 0.80,
             -- preview_cutoff = 0, -- always show file preview
           },
           mappings = {
@@ -276,16 +274,12 @@ return {
         { '<leader>fb', builtin.buffers,      desc = 'Buffers' },
         {
           '<leader>fc',
-          function()
-            builtin.find_files { cwd = vim.fn.stdpath 'config' }
-          end,
+          function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end,
           desc = 'Config',
         },
         {
           '<leader>fd',
-          function()
-            builtin.diagnostics { bufnr = 0 }
-          end,
+          function() builtin.diagnostics { bufnr = 0 } end,
           desc = 'Diagnostics',
         },
         { '<leader>fD', builtin.diagnostics, desc = 'Workspace diagnostics' },
@@ -310,9 +304,7 @@ return {
         { '<leader>gt', builtin.git_status,   desc = 'Git status' },
         {
           '<leader>uc',
-          function()
-            builtin.colorscheme { enable_preview = true }
-          end,
+          function() builtin.colorscheme { enable_preview = true } end,
           desc = 'Colorscheme',
         },
       }
@@ -493,13 +485,7 @@ return {
     cmd = 'Spectre',
     event = { 'BufReadPost', 'BufNewFile' },
     keys = {
-      {
-        '<leader>h',
-        function()
-          require('spectre').open()
-        end,
-        desc = 'Replace',
-      },
+      { '<leader>h', '<cmd>Spectre<cr>', desc = 'Replace' },
     },
   },
 
@@ -536,17 +522,7 @@ return {
   {
     'mrjones2014/smart-splits.nvim',
     event = { 'BufReadPost', 'BufNewFile' },
-    opts = {
-      -- Ignored filetypes (only while resizing)
-      ignored_filetypes = {
-        'nofile',
-        'quickfix',
-        'qf',
-        'prompt',
-      },
-      -- Ignored buffer types (only while resizing)
-      ignored_buftypes = { 'nofile' },
-    },
+    opts = {},
     keys = {
       { '<C-Up>',    '<cmd>SmartResizeUp<cr>',    'Resize Up' },
       { '<C-Down>',  '<cmd>SmartResizeDown<cr>',  'Resize Down' },
@@ -563,106 +539,32 @@ return {
     cmd = { 'Browse' },
     keys = { { 'gx', '<cmd>Browse<cr>', mode = { 'n', 'x' } } },
     init = function()
-      vim.g.netrw_nogx = 1 -- disable netrw gx
+      vim.g.netrw_nogx = 1
     end,
-    config = function()
-      require('gx').setup {
-        -- `sudo apt install wslu xdg-utils -y`
-        open_browser_app = vim.fn.has('win32') == 1 and 'powershell.exe' or 'xdg-open',
-        -- open_browser_args = { "--background" },
-        handlers = {
-          plugin = true,
-          github = true,
-          brewfile = true,
-          package_json = true,
-          search = true,
-        },
-        handler_options = {
-          search_engine = 'google',
-          -- search_engine = "https://search.brave.com/search?q=",
-        },
-      }
-    end,
+    config = true,
   },
 
   -- Image preview
   {
     '3rd/image.nvim',
-    enabled = false,
-    -- enabled = vim.fn.executable('luarocks') == 1,
-    cond = string.find(vim.env.TERM, 'kitty', 1, true) ~= nil
-      or string.find(vim.env.TERM, 'wezterm', 1, true) ~= nil,
     event = 'VeryLazy',
-    build = function()
-      local default_lua_version = get_default_lua_version() or 'unknown'
-      local is_lua5_1 = string.find(default_lua_version, '5.1', 1, true) ~= nil
-      local is_lua5_4 = string.find(default_lua_version, '5.4', 1, true) ~= nil
-
-      -- Install magick LuaRock
-      if is_lua5_1 then
-        vim.cmd '!luarocks install magick'
-      elseif is_lua5_4 then
-        vim.cmd '!luarocks --lua-version=5.1 --local install magick'
-      end
-    end,
-    init = function()
-      -- Load magick LuaRock
-      package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?/init.lua;'
-      package.path = package.path .. ';' .. vim.fn.expand '$HOME' .. '/.luarocks/share/lua/5.1/?.lua;'
-    end,
-    opts = {
-      backend = 'kitty',
-      integrations = {
-        markdown = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { 'markdown', 'vimwiki' }, -- markdown extensions (ie. quarto) can go here
-        },
-        neorg = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { 'norg' },
-        },
-      },
-      max_width = nil,
-      max_height = nil,
-      max_width_window_percentage = nil,
-      max_height_window_percentage = 50,
-      kitty_method = 'normal',
-    },
-  },
-
-
-  -- Markdown preview
-  {
-    'iamcco/markdown-preview.nvim',
     enabled = false,
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    build = function()
-      local is_win = vim.loop.os_uname().sysname:find 'Windows' ~= nil
-
-      if is_win then
-        local install_path = vim.fn.stdpath 'data' .. '/lazy/markdown-preview.nvim/app'
-        vim.cmd('!cd ' .. install_path .. ' && ./install.cmd')
-      else
-        vim.fn['mkdp#util#install']()
-      end
-    end,
-    keys = {
+    dependencies = {
       {
-        '<leader>cp',
-        ft = 'markdown',
-        '<cmd>MarkdownPreviewToggle<cr>',
-        desc = 'Markdown Preview',
+        'vhyrro/luarocks.nvim',
+        priority = 1000,
+        opts = {
+          rocks = { 'magick' },
+        },
       },
     },
-    config = function()
-      vim.cmd [[do FileType]]
-    end,
+    opts = {
+      -- backend = (string.find(vim.env.TERM, 'kitty', 1, true) ~= nil
+      --     or string.find(vim.env.TERM, 'wezterm', 1, true) ~= nil)
+      --   and 'kitty' or 'ueberzug',
+      editor_only_render_when_focused = true,
+      tmux_show_only_in_active_window = true,
+    },
   },
 
 }

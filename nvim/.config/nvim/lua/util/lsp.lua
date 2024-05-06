@@ -1,9 +1,6 @@
 -- NOTE: Some util functions for lsp
 local M = {}
 
--- lsp root patterns
-M.root_patterns = { '.git', 'lua' }
-
 -- Call on_acttach(client, buffer) when LspAttach
 ---@param on_attach fun(client, buffer)
 function M.on_lsp_attach(on_attach)
@@ -14,66 +11,6 @@ function M.on_lsp_attach(on_attach)
       on_attach(client, buffer)
     end,
   })
-end
-
--- Format current buffer
----@param opts? {force?:boolean}
-function M.format(opts)
-  local buf = vim.api.nvim_get_current_buf()
-  if vim.b.autoformat == false and not (opts and opts.force) then
-    return
-  end
-  local ft = vim.bo[buf].filetype
-  local have_nls = #require('null-ls.sources').get_available(ft, 'NULL_LS_FORMATTING') > 0
-
-  vim.lsp.buf.format(vim.tbl_deep_extend('force', {
-    bufnr = buf,
-    filter = function(client)
-      if have_nls then
-        return client.name == 'null-ls'
-      end
-      return client.name ~= 'null-ls'
-    end,
-  }, M.opts('nvim-lspconfig').format or {}))
-end
-
--- Whether enable auto format
-M.autoformat = true
--- Toggle auto format
-function M.toggle_autoformat()
-  if vim.b.autoformat == false then
-    ---@diagnostic disable-next-line: inject-field
-    vim.b.autoformat = nil
-    M.autoformat = true
-  else
-    M.autoformat = not M.autoformat
-  end
-  if M.autoformat then
-    vim.notify 'Enabled format on save'
-  else
-    vim.notify 'Disabled format on save'
-  end
-end
-
--- Setup auto format for buffer
-function M.setup_autoformat(client, buffer)
-  -- don't format if client disabled it
-  if client.config and client.config.capabilities and client.config.capabilities.documentFormattingProvider == false then
-    return
-  end
-
-  -- Config auto format
-  if client.supports_method 'textDocument/formatting' then
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      group = vim.api.nvim_create_augroup('LspFormat.' .. buffer, {}),
-      buffer = buffer,
-      callback = function()
-        if M.autoformat then
-          M.format()
-        end
-      end,
-    })
-  end
 end
 
 -- Setup lsp keymaps for buffer

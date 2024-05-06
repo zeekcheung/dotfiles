@@ -20,7 +20,7 @@ local default_compile_args = {
 ---Compile the current file
 ---@param args? {compiler?:string, compile_args?:string, output?:string, silent?:boolean}
 function CompileCurrentFile(args)
-  local args = args or {}
+  args = args or {}
   local filename = vim.fn.expand '%'
   local compiler = args.compiler or default_compiler
   local compile_args = args.compile_args
