@@ -63,6 +63,7 @@ service_packages=(
 	"gdm"
 	"v2raya"
 	"bluetooth"
+	"power-profiles-daemon"
 )
 
 echo "Enabling some system service..."
