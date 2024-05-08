@@ -1,10 +1,10 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 
-    # remove greeting message
+    # Remove greeting message
     set -g fish_greeting ""
 
-    # add newline after each command
+    # Add newline after each command
     function add_newline --on-event fish_postexec
         echo
     end
