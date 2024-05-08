@@ -21,6 +21,9 @@ HOSTNAME="arch"
 USERNAME="zeek"
 USER_SHELL="/bin/zsh"
 PLATFORM="intel"
+ENABLE_INTEL_GRAPHICS=true
+ENABLE_NVIDIA_GRAPHICS=true
+ENABLE_WAYLAND_WITH_NVIDIA=false
 SWAP_SIZE="4096" # in MB
 
 echo "=== Starting Arch Linux pre-installation for Chroot ==="
@@ -64,12 +67,31 @@ passwd root
 echo "Installing microcode..."
 pacman -S --noconfirm --needed $PLATFORM-ucode
 
+# Install graphics driver
+if $ENABLE_INTEL_GRAPHICS; then
+	echo "Installing intel graphics driver..."
+	pacman -S --noconfirm --needed mesa lib32-mesa vulkan-intel lib32-vulkan-intel
+elif $ENABLE_NVIDIA_GRAPHICS; then
+	echo "Installing nvidia graphics driver..."
+	pacman -S --noconfirm --needed nvidia nvidia-settings lib32-nvidia-utils
+fi
+
 # Install bootloader
 echo "Installing bootloader..."
 pacman -S --noconfirm --needed grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+# Change grub parameters
 sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=5 nowatchdog"/g' /etc/default/grub
+# Enable wayland with nvidia
+if $ENABLE_WAYLAND_WITH_NVIDIA; then
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=5 nowatchdog nvidia_drm.modeset=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1"/g' /etc/default/grub
+	systemctl enable nvidia-suspend.service
+	systemctl enable nvidia-hibernate.service
+	systemctl enable nvidia-resume.service
+else
+	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=5 nowatchdog"/g' /etc/default/grub
+fi
+# Generate grub config
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable dhcpcd (Ethernet)
