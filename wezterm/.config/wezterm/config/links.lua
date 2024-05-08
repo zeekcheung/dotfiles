@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function(config)
+function M.setup(config)
   config.hyperlink_rules = {
     -- Linkify things that look like URLs and the host has a TLD name.
     --

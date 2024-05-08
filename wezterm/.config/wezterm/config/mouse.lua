@@ -3,7 +3,7 @@ local act = wezterm.action
 
 local M = {}
 
-M.setup = function(config)
+function M.setup(config)
   config.mouse_bindings = {
     -- Bind 'Up' event of CTRL-Click to open hyperlinks
     { event = { Up = { streak = 1, button = 'Left' } },   mods = 'CTRL', action = act.OpenLinkAtMouseCursor },

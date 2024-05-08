@@ -2,7 +2,7 @@ local wezterm = require('wezterm')
 
 local M = {}
 
-M.setup = function(config)
+function M.setup(config)
   -- Environment variables
   config.term = 'wezterm'
 
