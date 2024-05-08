@@ -9,8 +9,10 @@ M.setup = function(config)
   -- config.front_end = "OpenGL"
   -- config.webgpu_power_preference = "HighPerformance"
 
-  -- Appearance
+  -- Cppearance
   config.color_scheme = 'rose-pine-moon'
+  wezterm.add_to_config_reload_watch_list(config.color_scheme .. '.toml')
+
   config.window_background_opacity = 0.90
 
   -- Font
