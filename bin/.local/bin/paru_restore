@@ -30,5 +30,4 @@ if [ "$ignore_flag" = true ]; then
 	packages_file=$tmp_packages_file
 fi
 
-cat "$packages_file"
-# paru -S --noconfirm --needed - <"$packages_file"
+paru -S --noconfirm --needed - <"$packages_file"
