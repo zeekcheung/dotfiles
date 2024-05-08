@@ -1,9 +1,10 @@
 # shellcheck disable=SC1091,SC2034,SC2155
 
 # xdg
+export XDG_CACHE_HOME=$HOME/.cache
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_DATA_HOME=$HOME/.local/share
-export XDG_CACHE_HOME=$HOME/.cache
+export XDG_STATE_HOME=$HOME/.local/state
 
 # zsh
 HISTFILE=$XDG_DATA_HOME/zsh/.zsh_history
