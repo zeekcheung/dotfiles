@@ -14,17 +14,17 @@ ansi = [
   "#f6c177",
   "#9ccfd8",
   "#c4a7e7",
-  "#ebbcba",
+  "#ea9a97",
   "#e0def4",
 ]
 brights = [
-  "817c9c",
+  "#6e6a86",
   "#eb6f92",
   "#3e8fb0",
   "#f6c177",
   "#9ccfd8",
   "#c4a7e7",
-  "#ebbcba",
+  "#ea9a97",
   "#e0def4",
 ]
 
@@ -37,8 +37,8 @@ fg_color = "#e0def4"
 bg_color = "#393552"
 
 [colors.tab_bar.inactive_tab]
-fg_color = "#232136"
-bg_color = "#6e6a86"
+fg_color = "#6e6a86"
+bg_color = "#232136"
 
 [colors.tab_bar.inactive_tab_hover]
 fg_color = "#e0def4"
@@ -46,8 +46,8 @@ bg_color = "#393552"
 # intensity = "Bold"
 
 [colors.tab_bar.new_tab]
-fg_color = "#232136"
-bg_color = "#6e6a86"
+fg_color = "#6e6a86"
+bg_color = "#232136"
 
 [colors.tab_bar.new_tab_hover]
 fg_color = "#e0def4"
