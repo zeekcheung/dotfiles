@@ -9,10 +9,11 @@ function M.setup(config)
   -- config.front_end = "OpenGL"
   -- config.webgpu_power_preference = "HighPerformance"
 
-  -- Cppearance
+  -- Colorscheme
   config.color_scheme = 'rose-pine-moon'
   wezterm.add_to_config_reload_watch_list(config.color_scheme .. '.toml')
 
+  -- Opacity
   config.window_background_opacity = 0.90
 
   -- Font
@@ -22,6 +23,7 @@ function M.setup(config)
     { family = 'Terminus',                weight = 'Regular' },
   })
   config.font_size = 18
+  -- config.underline_thickness = '200%'
 
   -- Dimensions
   config.initial_cols = 80
@@ -36,6 +38,12 @@ function M.setup(config)
     active_titlebar_bg = '#181825',
     inactive_titlebar_bg = '#11111b',
   }
+
+  -- Format window title
+  ---@diagnostic disable-next-line: unused-local, redefined-local
+  wezterm.on('format-window-title', function(tab, pane, tabs, panes, config)
+    return tab.active_pane.title
+  end)
 
   config.animation_fps = 60
 
