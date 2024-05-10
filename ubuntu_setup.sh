@@ -127,3 +127,6 @@ fi
 
 # stow
 bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
+
+# desktop files
+bash "$HOME/.dotfiles/bin/.local/bin/custom_desktop_files"
