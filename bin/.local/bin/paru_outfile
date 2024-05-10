@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-packages_file="$HOME/.dotfiles/paru/.config/paru/packages.txt"
+# shellcheck disable=SC1091,SC2154
+
+source "$(dirname "$0")/de_info"
+
+desktop_type=$(echo "${de_info_arr[DESKTOP_TYPE]}" | tr "[:upper:]" "[:lower:]")
+
+packages_file="$HOME/.dotfiles/paru/.config/paru/packages_${desktop_type}.txt"
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  echo "$packages_file"
+	echo "$packages_file"
 else
-  export packages_file
+	export packages_file
 fi

@@ -6,4 +6,4 @@ source "$(dirname "$0")/paru_outfile"
 
 paru -Qq >"$packages_file"
 
-echo "Done. Check $packages_file to see the list of installed packages."
+echo "Check $packages_file to see the list of installed packages."
