@@ -2,6 +2,31 @@
 
 # shellcheck disable=SC1091,SC2154
 
+DESKTOP_ENVIRONMENT="gnome" # "gnome" | "kde"
+INPUT_METHOD="fcitx5"
+
+BASE_PACKAGES=(
+	"sof-firmware" "alsa-firmware" "alsa-ucm-conf"         # Audio firmware
+	"bluez" "bluez-utils" "bluez-obex"                     # Bluetooth
+	"ntfs-3g"                                              # ntfs support
+	"adobe-source-han-serif-cn-fonts" "wqy-zenhei"         # Chinese fonts
+	"noto-fonts-cjk" "noto-fonts-emoji" "noto-fonts-extra" # Emoji and extra fonts
+	"firefox" "chromium"                                   # Browsers
+	"git" "wget" "curl"                                    # network tools
+)
+
+EXTRA_PACKAGES=(
+	"alacritty" "kitty" "wezterm"                                              # Terminal Emulators
+	"zsh" "fish" "man-db"                                                      # Shell
+	"eza" "fd" "ripgrep" "starship" "yazi" "zoxide" "fastfetch" "stow"         # Terminal tools
+	"neovim" "tmux" "xsel"                                                     # Editor
+	"clang" "cmake" "make" "go" "lua" "luarocks" "nodejs" "yarn" "ruby" "rust" # Languages
+	"rofi" "solaar" "spotify-launcher" "v2raya"                                # Desktop apps
+	"bibata-cursor-theme" "papirus-icon-theme" "pop-icon-theme"                # Desktop themes
+)
+
+echo "=== Starting Arch Linux setup ==="
+
 # Make local directories
 bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
 
@@ -39,47 +64,66 @@ replace-with = 'ustc'
 registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
 EOF
 
+# Install base packages with pacman
+echo "Installing base packages..."
+sudo pacman -S --needed --noconfirm "${BASE_PACKAGES[@]}"
+
 # Install paru
 echo "Installing paru..."
 git clone --depth=1 https://aur.archlinux.org/paru.git /tmp/paru
 cd /tmp/paru || return
 makepkg -si
 
-# Restore packages
-echo "Restoring packages..."
-bash "$HOME/.dotfiles/bin/.local/bin/paru_restore" --ignore
+# Install extra packages with paru
+echo "Installing extra packages..."
+paru -S --needed --noconfirm "${EXTRA_PACKAGES[@]}"
 
-# Install fcitx5
-bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
+# Install desktop environment
+if [ "$DESKTOP_ENVIRONMENT" = "gnome" ]; then
+	# Install gnome
+	paru -S --needed --noconfirm \
+		gnome gdm gnome-tweaks gnome-shell-extensions power-profiles-daemon \
+		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git
+	# catppuccin-gtk-theme-mocha
+
+	# Enable systemd service
+	sudo systemctl enable gdm
+	sudo systemctl enable power-profiles-daemon
+
+	# Restore dconf settings in gnome
+	bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
+elif [ "$DESKTOP_ENVIRONMENT" = "kde" ]; then
+	# Install kde
+	paru -S --needed --noconfirm \
+		plasma-meta sddm dolphin ark \
+		p7zip unrar unarchiver lzop lrzip \
+		packagekit-qt5 packagekit appstream-qt appstream \
+		gwenview kate bind
+
+	# Enable systemd service
+	sudo systemctl enable sddm
+fi
+
+# Install input method
+if [ "$INPUT_METHOD" = "fcitx5" ]; then
+	# Install fcitx5
+	paru -S --needed --noconfirm \
+		fcitx5-im fcitx5-rime fcitx5-chinese-addons fcitx5-material-color fcitx5-pinyin-zhwiki
+
+	bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
+fi
 
 # Stow packages
 bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
 
-# Restore dconf settings in gnome
-bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
-
-# Enable system services for some packages
-service_packages=(
-	"gdm"
-	"v2raya"
-	"bluetooth"
-	"power-profiles-daemon"
-)
-
+# Enable system services
 echo "Enabling some system service..."
-for package in "${service_packages[@]}"; do
-	if grep -q "$package" "$packages_file"; then
-		sudo systemctl enable --now "$package.service"
-	fi
-done
+sudo systemctl enable v2raya
+sudo systemctl enable bluetooth
 
-# Change some desktop file
-echo "Changing desktop file for alacritty..."
-cp "$HOME/.config/alacritty/assets/Alacritty.desktop" "$HOME/.local/share/applications"
-cp "$HOME/.config/alacritty/assets/Alacritty.svg" "$HOME/.local/share/pixmaps"
-sed -i "s|Icon=Alacritty|Icon=$HOME/.local/share/pixmaps/Alacritty.svg|g" "$HOME/.local/share/applications/Alacritty.desktop"
+# Change some desktop files
+bash "$HOME/.dotfiles/bin/.local/bin/custom_desktop_files"
 
-echo "Changing desktop file for kitty..."
-cp "$HOME/.config/kitty/assets/kitty.desktop" "$HOME/.local/share/applications/kitty.desktop"
-cp "$HOME/.config/kitty/assets/kitty.png" "$HOME/.local/share/pixmaps/kitty.png"
-sed -i "s|Icon=kitty|Icon=$HOME/.local/share/pixmaps/kitty.png|g" "$HOME/.local/share/applications/kitty.desktop"
+# Finish
+echo "=== Arch Linux setup finished ==="
+echo "Please reboot your computer."

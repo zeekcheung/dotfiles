@@ -23,7 +23,7 @@ USER_SHELL="/bin/zsh"
 PLATFORM="intel"
 ENABLE_INTEL_GRAPHICS=true
 ENABLE_NVIDIA_GRAPHICS=true
-ENABLE_WAYLAND_WITH_NVIDIA=false
+ENABLE_WAYLAND=false
 SWAP_SIZE="4096" # in MB
 
 echo "=== Starting Arch Linux pre-installation for Chroot ==="
@@ -83,7 +83,7 @@ grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 # Change grub parameters
 sed -i 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/g' /etc/default/grub
 # Enable wayland with nvidia
-if $ENABLE_WAYLAND_WITH_NVIDIA; then
+if $ENABLE_WAYLAND && $ENABLE_NVIDIA_GRAPHICS; then
 	sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=5 nowatchdog nvidia_drm.modeset=1 nvidia.NVreg_PreserveVideoMemoryAllocations=1"/g' /etc/default/grub
 	systemctl enable nvidia-suspend.service
 	systemctl enable nvidia-hibernate.service
