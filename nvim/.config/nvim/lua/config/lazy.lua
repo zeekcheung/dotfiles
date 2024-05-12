@@ -24,7 +24,7 @@ require('lazy').setup {
   install = { colorscheme = { 'catppuccin' } },
   checker = {
     enabled = false,
-    notify = true,     -- get a notification when new updates are found
+    notify = true, -- get a notification when new updates are found
     frequency = 60480, -- check for updates every week
   },
   change_detection = {

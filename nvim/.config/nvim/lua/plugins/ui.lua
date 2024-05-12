@@ -81,7 +81,12 @@ return {
     opts = function()
       local statusline = {
         lualine_a = {
-          { 'mode', fmt = function(str) return str:sub(1, 1) end },
+          {
+            'mode',
+            fmt = function(str)
+              return str:sub(1, 1)
+            end,
+          },
         },
         lualine_b = {
           {
@@ -94,7 +99,7 @@ return {
           },
         },
         lualine_c = {
-          { 'filetype', icon_only = true,                 separator = '', padding = { left = 1, right = 0 } },
+          { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
           { 'filename', padding = { left = 0, right = 1 } },
           {
             'diagnostics',
@@ -385,5 +390,4 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {},
   },
-
 }

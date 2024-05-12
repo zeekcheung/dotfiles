@@ -9,8 +9,8 @@ local icons = Ui.icons
 
 return {
   -- Library used by other plugins
-  { 'MunifTanjim/nui.nvim',        lazy = true },
-  { 'nvim-lua/plenary.nvim',       lazy = true },
+  { 'MunifTanjim/nui.nvim', lazy = true },
+  { 'nvim-lua/plenary.nvim', lazy = true },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
 
   -- File explorer
@@ -457,12 +457,12 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
       mappings = {
-        add = 'gsa',            -- Add surrounding in Normal and Visual modes
-        delete = 'gsd',         -- Delete surrounding
-        find = 'gsf',           -- Find surrounding (to the right)
-        find_left = 'gsF',      -- Find surrounding (to the left)
-        highlight = 'gsh',      -- Highlight surrounding
-        replace = 'gsc',        -- Change surrounding
+        add = 'gsa', -- Add surrounding in Normal and Visual modes
+        delete = 'gsd', -- Delete surrounding
+        find = 'gsf', -- Find surrounding (to the right)
+        find_left = 'gsF', -- Find surrounding (to the left)
+        highlight = 'gsh', -- Highlight surrounding
+        replace = 'gsc', -- Change surrounding
         update_n_lines = 'gsn', -- Update `n_lines`
       },
     },
@@ -524,9 +524,9 @@ return {
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {},
     keys = {
-      { '<C-Up>',    '<cmd>SmartResizeUp<cr>',    'Resize Up' },
-      { '<C-Down>',  '<cmd>SmartResizeDown<cr>',  'Resize Down' },
-      { '<C-Left>',  '<cmd>SmartResizeLeft<cr>',  'Resize Left' },
+      { '<C-Up>', '<cmd>SmartResizeUp<cr>', 'Resize Up' },
+      { '<C-Down>', '<cmd>SmartResizeDown<cr>', 'Resize Down' },
+      { '<C-Left>', '<cmd>SmartResizeLeft<cr>', 'Resize Left' },
       { '<C-Right>', '<cmd>SmartResizeRight<cr>', 'Resize Right' },
     },
   },
@@ -566,5 +566,4 @@ return {
       tmux_show_only_in_active_window = true,
     },
   },
-
 }

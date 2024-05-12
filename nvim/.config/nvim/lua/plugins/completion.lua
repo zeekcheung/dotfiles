@@ -1,4 +1,4 @@
-local Ui = require('util.ui')
+local Ui = require 'util.ui'
 local icons = Ui.icons
 local border_with_highlight = Ui.border_with_highlight
 
@@ -26,7 +26,7 @@ return {
 
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
-      local defaults = require 'cmp.config.default' ()
+      local defaults = require 'cmp.config.default'()
 
       vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
 
@@ -102,12 +102,12 @@ return {
         completion = {
           side_padding = 1,
           -- border = vim.g.cmp_border,
-          border = border_with_highlight('CmpBorder'),
+          border = border_with_highlight 'CmpBorder',
           winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
           scrollbar = false,
         },
         documentation = {
-          border = border_with_highlight('CmpDocBorder'),
+          border = border_with_highlight 'CmpDocBorder',
           winhighlight = 'Normal:CmpDoc',
         },
         -- documentation = cmp.config.disable,
@@ -158,8 +158,9 @@ return {
   {
     'L3MON4D3/LuaSnip',
     event = 'InsertEnter',
-    build = (not jit.os:find 'Windows') and
-      "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp" or nil,
+    build = (not jit.os:find 'Windows')
+        and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
+      or nil,
     dependencies = {
       'rafamadriz/friendly-snippets',
       event = 'InsertEnter',
@@ -182,13 +183,9 @@ return {
     config = function(_, opts)
       require('nvim-autopairs').setup(opts)
       -- Insert `(` after select function or method item
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp = require('cmp')
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
+      local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
+      local cmp = require 'cmp'
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
     end,
   },
-
 }

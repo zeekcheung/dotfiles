@@ -22,6 +22,7 @@ return {
       ensure_installed = {
         'shfmt',
         'shellcheck',
+        'stylua',
         'prettier',
         'eslint_d',
         'markdownlint',
@@ -81,14 +82,13 @@ return {
         opts = {
           bind = true,
           handler_opts = {
-            border = border_with_highlight('SignatureHelpBorder'),
+            border = border_with_highlight 'SignatureHelpBorder',
           },
           max_width = math.floor(vim.o.columns * 0.75),
           max_height = math.floor(vim.o.lines * 0.75),
           hint_enable = false,
         },
       },
-
     },
     opts = {
       -- Options for vim.diagnostic.config()
@@ -137,20 +137,20 @@ return {
         },
         clangd = {
           root_dir = function(fname)
-            local lspconfig_util = require('lspconfig.util')
+            local lspconfig_util = require 'lspconfig.util'
             local root_pattern = lspconfig_util.root_pattern
             local find_git_ancestor = lspconfig_util.find_git_ancestor
             return root_pattern(
-                'Makefile',
-                'configure.ac',
-                'configure.in',
-                'config.h.in',
-                'meson.build',
-                'meson_options.txt',
-                'build.ninja'
-              )(fname)
-              or root_pattern('compile_commands.json', 'compile_flags.txt')(fname)
-              or find_git_ancestor(fname)
+              'Makefile',
+              'configure.ac',
+              'configure.in',
+              'config.h.in',
+              'meson.build',
+              'meson_options.txt',
+              'build.ninja'
+            )(fname) or root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or find_git_ancestor(
+              fname
+            )
           end,
           capabilities = {
             offsetEncoding = { 'utf-16' },
@@ -230,9 +230,13 @@ return {
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
       local servers = opts.servers
-      local capabilities =
-        vim.tbl_deep_extend('force', {}, vim.lsp.protocol.make_client_capabilities(),
-          require('cmp_nvim_lsp').default_capabilities(), opts.capabilities or {})
+      local capabilities = vim.tbl_deep_extend(
+        'force',
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require('cmp_nvim_lsp').default_capabilities(),
+        opts.capabilities or {}
+      )
 
       -- Setup language server with `opts.setup`
       local setup_server = function(server)
@@ -242,10 +246,14 @@ return {
 
         -- Setup hover and signature help
         server_opts.handlers = {
-          ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
-            { border = border_with_highlight('HoverBorder'), silent = true }),
-          ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-            { border = border_with_highlight('SignatureHelpBorder'), focusable = false, silent = true }),
+          ['textDocument/hover'] = vim.lsp.with(
+            vim.lsp.handlers.hover,
+            { border = border_with_highlight 'HoverBorder', silent = true }
+          ),
+          ['textDocument/signatureHelp'] = vim.lsp.with(
+            vim.lsp.handlers.signature_help,
+            { border = border_with_highlight 'SignatureHelpBorder', focusable = false, silent = true }
+          ),
         }
 
         -- Setup floating preview
@@ -326,7 +334,7 @@ return {
     },
     opts = {
       formatters_by_ft = {
-        -- lua = { 'stylua' },
+        lua = { 'stylua' },
         -- shell
         sh = { 'shfmt' },
         zsh = { 'shfmt' },
@@ -491,7 +499,7 @@ return {
     cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
     keys = {
       { '<c-space>', desc = 'Increment selection' },
-      { '<bs>',      desc = 'Decrement selection', mode = 'x' },
+      { '<bs>', desc = 'Decrement selection', mode = 'x' },
     },
     ---@diagnostic disable-next-line: missing-fields
     opts = {
@@ -559,7 +567,7 @@ return {
       end
 
       -- Define some filetypes
-      vim.filetype.add({
+      vim.filetype.add {
         extension = {
           rasi = 'rasi',
           rofi = 'rasi',
@@ -576,13 +584,19 @@ return {
           ['.*/hypr/.+%.conf'] = 'hyprlang',
           ['%.env%.[%w_.-]+'] = 'dotenv',
         },
-      })
+      }
 
       -- Add parsers
-      add_parser('git_config')
-      if have_config('hypr') then add_parser('hypr') end
-      if have_config('fish') then add_parser('fish') end
-      if have_config('rofi') or have_config('wofi') then add_parser('rasi') end
+      add_parser 'git_config'
+      if have_config 'hypr' then
+        add_parser 'hypr'
+      end
+      if have_config 'fish' then
+        add_parser 'fish'
+      end
+      if have_config 'rofi' or have_config 'wofi' then
+        add_parser 'rasi'
+      end
 
       if type(opts.ensure_installed) == 'table' then
         ---@type table<string, boolean>
@@ -621,5 +635,4 @@ return {
     lazy = true,
     version = false, -- last release is way too old
   },
-
 }

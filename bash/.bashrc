@@ -5,16 +5,19 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias c="clear"
 alias ~='cd ~'
 alias ..='cd ..'
+alias mkdir='mkdir -p'
 alias ls='ls --color=auto'
 alias l='ls -al'
 alias ll='ls -l'
 alias la='ls -a'
 alias tree="tree -C"
-alias open="xdg-open"
+alias df='df -h'
+alias du='du -h'
 alias grep='grep --color=auto'
+alias open="xdg-open"
+alias cl="clear"
 
 alias ga="git add"
 alias gb="git branch"

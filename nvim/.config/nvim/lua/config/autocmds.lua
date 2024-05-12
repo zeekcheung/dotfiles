@@ -110,11 +110,11 @@ autocmd('FileType', {
   callback = function(event)
     local buf_map = vim.api.nvim_buf_set_keymap
     local buf = event.buf
-    buf_map(buf, 'n', '<C-l>', '<C-w>l',              { noremap = true, silent = true })
-    buf_map(buf, 'n', 'H',     'gh',                  { noremap = true, silent = true })
-    buf_map(buf, 'n', 'a',     '%:w<CR>:buffer#<CR>', { noremap = true, silent = true })
-    buf_map(buf, 'n', 'r',     'R',                   { noremap = true, silent = true })
-    buf_map(buf, 'n', '?',     '<F1>',                { noremap = true, silent = true })
+    buf_map(buf, 'n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
+    buf_map(buf, 'n', 'H', 'gh', { noremap = true, silent = true })
+    buf_map(buf, 'n', 'a', '%:w<CR>:buffer#<CR>', { noremap = true, silent = true })
+    buf_map(buf, 'n', 'r', 'R', { noremap = true, silent = true })
+    buf_map(buf, 'n', '?', '<F1>', { noremap = true, silent = true })
   end,
 })
 

@@ -1,4 +1,4 @@
-local wezterm = require('wezterm')
+local wezterm = require 'wezterm'
 
 local M = {}
 
@@ -17,11 +17,11 @@ function M.setup(config)
   config.window_background_opacity = 0.90
 
   -- Font
-  config.font = wezterm.font_with_fallback({
-    { family = 'Maple Mono NF',           weight = 'Regular', italic = false },
+  config.font = wezterm.font_with_fallback {
+    { family = 'Maple Mono NF', weight = 'Regular', italic = false },
     { family = 'JetBrainsMono Nerd Font', weight = 'Regular', italic = false },
-    { family = 'Terminus',                weight = 'Regular' },
-  })
+    { family = 'Terminus', weight = 'Regular' },
+  }
   config.font_size = 18
   -- config.underline_thickness = '200%'
 
@@ -69,8 +69,8 @@ function M.setup(config)
   -- Wezterm panes -> Tmux panes
   config.default_workspace = 'main'
 
-  local is_linux = wezterm.target_triple:find('linux')
-  local is_windows = wezterm.target_triple:find('windows')
+  local is_linux = wezterm.target_triple:find 'linux'
+  local is_windows = wezterm.target_triple:find 'windows'
 
   if is_linux then
     config.integrated_title_button_style = 'Gnome'
@@ -84,9 +84,9 @@ function M.setup(config)
     -- config.default_domain = "WSL:Ubuntu-22.04"
 
     config.launch_menu = {
-      { label = 'PowerShell',   args = { 'pwsh', '-nologo' } },
+      { label = 'PowerShell', args = { 'pwsh', '-nologo' } },
       { label = 'Ubuntu-22.04', args = { 'wsl', '~' } },
-      { label = 'cmd',          args = { 'cmd', '/k' } },
+      { label = 'cmd', args = { 'cmd', '/k' } },
     }
 
     -- Change scale to 125%: 96 * 1.25 = 120

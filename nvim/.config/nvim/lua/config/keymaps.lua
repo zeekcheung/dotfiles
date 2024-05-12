@@ -75,8 +75,12 @@ map({ 'n', 'v', 'x' }, '<leader>qw', '<cmd>exit<cr>', { desc = 'Quit current win
 -- Clear search
 map({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
 -- Clear search, diff update and redraw
-map('n', '<leader>ur', '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>',
-  { desc = 'Redraw / clear hlsearch / diff update' })
+map(
+  'n',
+  '<leader>ur',
+  '<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>',
+  { desc = 'Redraw / clear hlsearch / diff update' }
+)
 
 -- Diagnostic
 local diagnostic_goto = function(next, severity)

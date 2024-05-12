@@ -1,4 +1,4 @@
-local wezterm = require('wezterm')
+local wezterm = require 'wezterm'
 
 local M = {}
 
@@ -34,13 +34,14 @@ function M.setup_status()
     local palette = M.palette
     local workspace = window:active_workspace()
     local hostname = wezterm.hostname()
-    local date = wezterm.strftime('%Y-%m-%d %H:%M')
+    local date = wezterm.strftime '%Y-%m-%d %H:%M'
 
     local left_status = M.tab_bar_style == 'tmux'
-      and {
-        { Foreground = { Color = palette.green } },
-        { Text = '[' .. workspace .. ']' },
-      } or {}
+        and {
+          { Foreground = { Color = palette.green } },
+          { Text = '[' .. workspace .. ']' },
+        }
+      or {}
 
     local right_status = {
       { Foreground = { Color = palette.blue } },
@@ -136,10 +137,10 @@ function M.setup_tab_title()
       end
 
       res = is_active
-        and {
-          -- { Attribute = { Intensity = 'Bold' } },
-          -- { Attribute = { Italic = true } },
-        }
+          and {
+            -- { Attribute = { Intensity = 'Bold' } },
+            -- { Attribute = { Italic = true } },
+          }
         or {}
       res[#res + 1] = { Foreground = { Color = tab_title_fg } }
       res[#res + 1] = { Background = { Color = tab_title_bg } }
@@ -186,8 +187,7 @@ function M.setup(config)
   config.unzoom_on_switch_pane = true
   config.colors = {
     tab_bar = {
-      background = opacity ~= 1
-        and string.format('rgba(%s,%s)', table.concat(hex_to_rgb(tab_bar_bg), ','), 0.5)
+      background = opacity ~= 1 and string.format('rgba(%s,%s)', table.concat(hex_to_rgb(tab_bar_bg), ','), 0.5)
         or tab_bar_bg,
     },
   }
