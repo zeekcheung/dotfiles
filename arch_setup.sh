@@ -83,15 +83,15 @@ if [ "$DESKTOP_ENVIRONMENT" = "gnome" ]; then
 	# Install gnome
 	paru -S --needed --noconfirm \
 		gnome gdm gnome-tweaks gnome-shell-extensions power-profiles-daemon \
-		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git
-	# catppuccin-gtk-theme-mocha
+		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git \
+		catppuccin-gtk-theme-macchiato
 
 	# Enable systemd service
 	sudo systemctl enable gdm
 	sudo systemctl enable power-profiles-daemon
 
 	# Restore dconf settings in gnome
-	bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
+	bash "$HOME/.dotfiles/bin/.local/bin/dconf_restore"
 elif [ "$DESKTOP_ENVIRONMENT" = "kde" ]; then
 	# Install kde
 	paru -S --needed --noconfirm \

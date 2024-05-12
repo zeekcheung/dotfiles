@@ -59,7 +59,7 @@ cairomm
 cairomm-1.16
 cantarell-fonts
 capnproto
-catppuccin-gtk-theme-mocha
+catppuccin-gtk-theme-macchiato
 cblas
 cdparanoia
 cfitsio
@@ -88,7 +88,6 @@ db5.3
 dbus
 dbus-broker
 dbus-broker-units
-dbus-python
 dconf
 dconf-editor
 debtap
@@ -791,6 +790,7 @@ python-autocommand
 python-build
 python-cairo
 python-clickgen
+python-dbus
 python-evdev
 python-fastjsonschema
 python-gobject
