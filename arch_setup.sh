@@ -121,9 +121,6 @@ echo "Enabling some system service..."
 sudo systemctl enable v2raya
 sudo systemctl enable bluetooth
 
-# Change some desktop files
-bash "$HOME/.dotfiles/bin/.local/bin/custom_desktop_files"
-
 # Finish
 echo "=== Arch Linux setup finished ==="
 echo "Please reboot your computer."

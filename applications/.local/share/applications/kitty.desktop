@@ -6,5 +6,5 @@ GenericName=Terminal emulator
 Comment=Fast, feature-rich, GPU based terminal
 TryExec=kitty
 Exec=kitty -1
-Icon=kitty
+Icon=kitty-dark
 Categories=System;TerminalEmulator;
