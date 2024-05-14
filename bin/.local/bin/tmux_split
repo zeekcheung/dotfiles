@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Check pane dimensions and split accordingly
+if [[ $(($(tmux display -p '8*#{pane_width}-20*#{pane_height}'))) -lt 0 ]]; then
+    tmux splitw -v -c '#{pane_current_path}'
+else
+    tmux splitw -h -c '#{pane_current_path}'
+fi
