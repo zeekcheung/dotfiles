@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-DESKTOP_ENVIRONMENT="gnome" # "gnome" | "kde"
+DESKTOP_ENVIRONMENT="gnome_minimal" # "gnome" | "gnome_minimal" | "kde"
 INPUT_METHOD="fcitx5"
 
 BASE_PACKAGES=(
@@ -79,10 +79,18 @@ echo "Installing extra packages..."
 paru -S --needed --noconfirm "${EXTRA_PACKAGES[@]}"
 
 # Install desktop environment
-if [ "$DESKTOP_ENVIRONMENT" = "gnome" ]; then
-	# Install gnome
+if grep -qi "gnome" "$DESKTOP_ENVIRONMENT"; then
+	if [ "$DESKTOP_ENVIRONMENT" = "gnome_minimal" ]; then
+		# Install minimal gnome
+		paru -S --needed --noconfirm \
+			gnome-shell gnome-control-center gnome-keyring nautilus
+	elif [ "$DESKTOP_ENVIRONMENT" = "gnome" ]; then
+		# Install full gnome
+		paru -S --needed --noconfirm gnome
+	fi
+	# Install other gnome packages
 	paru -S --needed --noconfirm \
-		gnome gdm gnome-tweaks gnome-shell-extensions power-profiles-daemon \
+		gdm gnome-tweaks gnome-shell-extensions power-profiles-daemon \
 		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git \
 		catppuccin-gtk-theme-macchiato
 
