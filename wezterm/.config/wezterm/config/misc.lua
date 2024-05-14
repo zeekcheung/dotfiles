@@ -6,7 +6,7 @@ function M.setup(config)
   -- Environment variables
   config.term = 'wezterm'
 
-  -- config.front_end = "OpenGL"
+  config.front_end = 'WebGpu'
   -- config.webgpu_power_preference = "HighPerformance"
 
   -- Colorscheme
@@ -19,10 +19,10 @@ function M.setup(config)
   -- Font
   config.font = wezterm.font_with_fallback {
     { family = 'Maple Mono NF', weight = 'Regular', italic = false },
-    { family = 'JetBrainsMono Nerd Font', weight = 'Regular', italic = false },
-    { family = 'Terminus', weight = 'Regular' },
+    { family = 'JetBrains Mono', weight = 'Regular', italic = false },
   }
   config.font_size = 18
+  config.freetype_load_flags = 'NO_HINTING'
   -- config.underline_thickness = '200%'
 
   -- Dimensions
