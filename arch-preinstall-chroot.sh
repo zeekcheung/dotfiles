@@ -7,8 +7,8 @@
 # after the base system has been installed on Arch Linux.
 #
 # Usage:
-# $ curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch_preinstall_chroot.sh -o arch_preinstall_chroot.sh
-# $ bash arch_preinstall_chroot.sh
+# $ curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch-preinstall-chroot.sh -o arch-preinstall-chroot.sh
+# $ bash arch-preinstall-chroot.sh
 
 # Exit immediately if any command fails
 set -e

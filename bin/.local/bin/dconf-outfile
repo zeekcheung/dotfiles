@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-source "$(dirname "$0")/os_info"
+source "$(dirname "$0")/os-info"
 
 os_name="${os_info_arr[NAME]}"
 os_version="${os_info_arr[VERSION_ID]}"

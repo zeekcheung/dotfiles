@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-source "$(dirname "$0")/paru_outfile"
+source "$(dirname "$0")/paru-outfile"
 
 paru -Qq >"$packages_file"
 

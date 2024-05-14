@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-source "$(dirname "$0")/de_info"
+source "$(dirname "$0")/de-info"
 
 desktop_type=$(echo "${de_info_arr[DESKTOP_TYPE]}" | tr "[:upper:]" "[:lower:]")
 

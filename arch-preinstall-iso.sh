@@ -9,8 +9,8 @@
 # script within the chroot environment.
 #
 # Usage:
-# $ curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch_preinstall_iso.sh -o arch_preinstall_iso.sh
-# $ bash arch_preinstall_iso.sh
+# $ curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch-preinstall-iso.sh -o arch-preinstall-iso.sh
+# $ bash arch-preinstall-iso.sh
 # $ reboot
 
 # Exit immediately if any command fails
@@ -96,13 +96,13 @@ genfstab -U /mnt >>/mnt/etc/fstab
 # Download arch_preinstall_chroot.sh script
 if [ ! -f arch_preinstall_chroot.sh ]; then
 	echo "Downloading arch_preinstall_chroot.sh script..."
-	curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch_preinstall_chroot.sh -o arch_preinstall_chroot.sh
+	curl -fsSL https://raw.githubusercontent.com/zeekcheung/.dotfiles/main/arch-preinstall-chroot.sh -o arch-preinstall-chroot.sh
 fi
 
 # Run the script within the chroot environment
-echo "Running arch_preinstall_chroot.sh script within the chroot environment..."
+echo "Running arch-preinstall-chroot.sh script within the chroot environment..."
 cp arch_preinstall_chroot.sh /mnt/tmp # Copy the script to the chroot environment
-chroot /mnt /bin/bash -c "/bin/bash /tmp/arch_preinstall_chroot.sh"
+chroot /mnt /bin/bash -c "/bin/bash /tmp/arch-preinstall-chroot.sh"
 
 # Unmount partitions
 echo "Unmounting partitions..."

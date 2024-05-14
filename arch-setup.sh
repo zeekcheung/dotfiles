@@ -28,7 +28,7 @@ EXTRA_PACKAGES=(
 echo "=== Starting Arch Linux setup ==="
 
 # Make local directories
-bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
+bash "$HOME/.dotfiles/bin/.local/bin/mkdir-local"
 
 # Set dns for github
 bash "$HOME/.dotfiles/bin/.local/bin/github520"
@@ -99,7 +99,7 @@ if grep -qi "gnome" "$DESKTOP_ENVIRONMENT"; then
 	sudo systemctl enable power-profiles-daemon
 
 	# Restore dconf settings in gnome
-	bash "$HOME/.dotfiles/bin/.local/bin/dconf_restore"
+	bash "$HOME/.dotfiles/bin/.local/bin/dconf-restore"
 elif [ "$DESKTOP_ENVIRONMENT" = "kde" ]; then
 	# Install kde
 	paru -S --needed --noconfirm \
@@ -118,11 +118,11 @@ if [ "$INPUT_METHOD" = "fcitx5" ]; then
 	paru -S --needed --noconfirm \
 		fcitx5-im fcitx5-rime fcitx5-chinese-addons fcitx5-material-color fcitx5-pinyin-zhwiki
 
-	bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
+	bash "$HOME/.dotfiles/bin/.local/bin/install-fcitx5"
 fi
 
 # Stow packages
-bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
+bash "$HOME/.dotfiles/bin/.local/bin/stow-packages"
 
 # Enable system services
 echo "Enabling some system service..."

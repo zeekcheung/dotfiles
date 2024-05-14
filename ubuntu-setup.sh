@@ -3,7 +3,7 @@
 # shellcheck disable=SC1090,SC1091
 
 # Make local directories
-bash "$HOME/.dotfiles/bin/.local/bin/mkdir_local"
+bash "$HOME/.dotfiles/bin/.local/bin/mkdir-local"
 
 # Github dns
 bash "$HOME/.dotfiles/bin/.local/bin/github520"
@@ -103,7 +103,7 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 		fcitx5-config-qt fcitx5-frontend-{gtk3,gtk4,qt5} \
 		ruby
 
-	bash "$HOME/.dotfiles/bin/.local/bin/install_fcitx5"
+	bash "$HOME/.dotfiles/bin/.local/bin/install-fcitx5"
 
 	# v2raya
 	v2raya_version="2.2.5.1"
@@ -122,8 +122,8 @@ elif [ -n "$DESKTOP_SESSION" ]; then
 	sudo systemctl enable --now v2raya
 
 	# dconf settings
-	bash "$HOME/.dotfiles/bin/.local/bin/gnome_restore"
+	bash "$HOME/.dotfiles/bin/.local/bin/gnome-restore"
 fi
 
 # stow
-bash "$HOME/.dotfiles/bin/.local/bin/stow_packages"
+bash "$HOME/.dotfiles/bin/.local/bin/stow-packages"

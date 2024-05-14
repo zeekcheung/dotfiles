@@ -2,7 +2,7 @@
 
 # shellcheck disable=SC1091,SC2154
 
-source "$(dirname "$0")/dconf_outfile"
+source "$(dirname "$0")/dconf-outfile"
 
 dconf load / <"$tr_output_file"
 

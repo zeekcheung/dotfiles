@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Install kitty nightly and dont launch it
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+	installer=nightly launch=n
+
+# Desktop integration
+ln -sf "$HOME/.local/kitty.app/bin/kitty" "$HOME/.local/kitty.app/bin/kitten" "$HOME/.local/bin/"
