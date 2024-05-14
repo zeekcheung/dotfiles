@@ -6,7 +6,7 @@ Comment=A fast, cross-platform, OpenGL terminal emulator
 Categories=System;TerminalEmulator;
 TryExec=alacritty
 Exec=alacritty
-Icon=Alacritty
+Icon=Alacritty-circle
 
 [Desktop Action New]
 Name=New Terminal
