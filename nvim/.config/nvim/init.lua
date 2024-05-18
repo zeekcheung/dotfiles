@@ -6,6 +6,7 @@ else
   require 'config.options'
   require 'config.keymaps'
   require 'config.autocmds'
+  require 'config.netrw'
 
   -- neovide
   require 'config.neovide'

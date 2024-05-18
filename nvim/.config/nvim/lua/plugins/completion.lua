@@ -3,11 +3,9 @@ local icons = Ui.icons
 local border_with_highlight = Ui.border_with_highlight
 
 return {
-
   -- Completion
   {
     'hrsh7th/nvim-cmp',
-    version = false, -- last release is way too old
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
@@ -157,6 +155,7 @@ return {
   -- Snippets
   {
     'L3MON4D3/LuaSnip',
+    -- enabled = vim.fn.has 'nvim-0.10' ~= 1,
     event = 'InsertEnter',
     build = (not jit.os:find 'Windows')
         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
@@ -186,6 +185,22 @@ return {
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp = require 'cmp'
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+    end,
+  },
+
+  -- AI completion
+  {
+    'Exafunction/codeium.vim',
+    event = 'VeryLazy',
+    cond = vim.g.codeium_plugin_enabled,
+    -- stylua: ignore
+    config = function()
+      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
+        { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
+        { expr = true, silent = true })
+      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
     end,
   },
 }

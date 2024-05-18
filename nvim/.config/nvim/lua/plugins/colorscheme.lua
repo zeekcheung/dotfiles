@@ -1,5 +1,4 @@
 return {
-
   {
     'rose-pine/neovim',
     -- cond = string.find(vim.g.colorscheme, 'rose-pine', 1, true) ~= nil,

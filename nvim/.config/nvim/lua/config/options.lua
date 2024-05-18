@@ -23,7 +23,7 @@ opt.helpheight = 10
 
 -- conceal
 opt.conceallevel = 2
-opt.concealcursor = 'n'
+-- opt.concealcursor = 'n'
 
 -- status
 opt.number = true
@@ -95,18 +95,6 @@ opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'glob
 opt.shortmess:append { W = true, I = true, c = true, C = true }
 if vim.fn.has 'nvim-0.10' == 1 then
   opt.smoothscroll = true
-end
-
--- netrw
-vim.g.netrw_banner = 0
-vim.g.netrw_winsize = 25
-vim.g.netrw_liststyle = 3
-vim.g.netrw_localcopydircmd = 'cp -r'
-
--- Disable some default providers
--- See `:h provider` for more info
-for _, provider in ipairs { 'node', 'perl', 'python3', 'ruby' } do
-  vim.g['loaded_' .. provider .. '_provider'] = 0
 end
 
 -- Fix markdown indentation settings

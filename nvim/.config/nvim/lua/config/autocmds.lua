@@ -103,21 +103,6 @@ autocmd({ 'VimResized' }, {
   end,
 })
 
--- Setup some keymaps for netrw
-autocmd('FileType', {
-  group = augroup('netrw_keymaps', { clear = true }),
-  pattern = { 'netrw' },
-  callback = function(event)
-    local buf_map = vim.api.nvim_buf_set_keymap
-    local buf = event.buf
-    buf_map(buf, 'n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
-    buf_map(buf, 'n', 'H', 'gh', { noremap = true, silent = true })
-    buf_map(buf, 'n', 'a', '%:w<CR>:buffer#<CR>', { noremap = true, silent = true })
-    buf_map(buf, 'n', 'r', 'R', { noremap = true, silent = true })
-    buf_map(buf, 'n', '?', '<F1>', { noremap = true, silent = true })
-  end,
-})
-
 -- Close some filetypes with <q>
 autocmd('FileType', {
   group = augroup('close_with_q', { clear = true }),
@@ -168,7 +153,7 @@ autocmd('FileType', {
   group = augroup('json_conceal', { clear = true }),
   pattern = { 'json', 'jsonc', 'json5' },
   callback = function()
-    vim.wo.conceallevel = 0
+    vim.opt_local.conceallevel = 0
   end,
 })
 
@@ -178,16 +163,5 @@ autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = '*.json',
   callback = function()
     vim.bo.filetype = 'jsonc'
-  end,
-})
-
--- Remove extra new lines at the end of formatted PowerShell files
-autocmd('BufWritePost', {
-  group = augroup('powershell_newline', { clear = true }),
-  pattern = '*.ps1',
-  callback = function()
-    local winview = vim.fn.winsaveview()
-    vim.cmd [[%s/\n\%$//ge]]
-    vim.fn.winrestview(winview)
   end,
 })
