@@ -20,7 +20,7 @@ EXTRA_PACKAGES=(
 	"alacritty" "kitty" "wezterm"                                              # Terminal Emulators
 	"zsh" "fish" "man-db"                                                      # Shell
 	"htop" "eza" "fd" "ripgrep" "starship" "yazi" "zoxide" "fastfetch" "stow"  # Terminal tools
-	"neovim" "tmux" "xsel"                                                     # Editor
+	"neovim" "bob" "tmux" "xsel"                                               # Editor
 	"clang" "cmake" "make" "go" "lua" "luarocks" "nodejs" "yarn" "ruby" "rust" # Languages
 	"rofi" "solaar" "spotify-launcher" "v2raya"                                # Desktop apps
 	"bibata-cursor-theme" "papirus-icon-theme" "pop-icon-theme"                # Desktop themes

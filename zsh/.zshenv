@@ -17,7 +17,8 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$N_PREFIX/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 export PATH=/usr/local/go/bin:$HOME/go/bin:$PATH
-export PATH=$HOME/.local/share/nvim/mason/bin:$PATH
+export PATH=$XDG_DATA_HOME/nvim/mason/bin:$PATH
+export PATH=$XDG_DATA_HOME/bob/nvim-bin:$PATH
 
 # language environment
 export LANG=en_US.UTF-8

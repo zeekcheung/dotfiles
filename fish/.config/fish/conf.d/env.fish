@@ -23,6 +23,7 @@ fish_add_path $N_PREFIX/bin
 fish_add_path $HOME/.cargo/bin
 fish_add_path $HOME/go/bin
 fish_add_path $XDG_DATA_HOME/nvim/mason/bin
+fish_add_path $XDG_DATA_HOME/share/bob/nvim-bin
 
 # fzf
 set -gx FZF_DEFAULT_OPTS "
