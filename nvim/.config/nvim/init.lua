@@ -1,3 +1,7 @@
+if vim.loader then
+  vim.loader.enable()
+end
+
 if vim.g.vscode then
   -- vscode-neovim
   require 'config.vscode'
