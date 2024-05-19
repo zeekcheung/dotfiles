@@ -4,6 +4,7 @@
 
 DESKTOP_ENVIRONMENT="gnome_minimal" # "gnome" | "gnome_minimal" | "kde"
 INPUT_METHOD="fcitx5"
+DEFAULT_TERMINAL="kitty" # "alacritty" | "kitty" | "wezterm"
 
 BASE_PACKAGES=(
 	"sof-firmware" "alsa-firmware" "alsa-ucm-conf"         # Audio firmware
@@ -18,7 +19,7 @@ BASE_PACKAGES=(
 EXTRA_PACKAGES=(
 	"alacritty" "kitty" "wezterm"                                              # Terminal Emulators
 	"zsh" "fish" "man-db"                                                      # Shell
-	"eza" "fd" "ripgrep" "starship" "yazi" "zoxide" "fastfetch" "stow"         # Terminal tools
+	"htop" "eza" "fd" "ripgrep" "starship" "yazi" "zoxide" "fastfetch" "stow"  # Terminal tools
 	"neovim" "tmux" "xsel"                                                     # Editor
 	"clang" "cmake" "make" "go" "lua" "luarocks" "nodejs" "yarn" "ruby" "rust" # Languages
 	"rofi" "solaar" "spotify-launcher" "v2raya"                                # Desktop apps
@@ -97,6 +98,9 @@ if grep -qi "gnome" "$DESKTOP_ENVIRONMENT"; then
 	# Enable systemd service
 	sudo systemctl enable gdm
 	sudo systemctl enable power-profiles-daemon
+
+	# Replace gnome-console with $DEFAULT_TERMINAL
+	sudo ln -sf /usr/bin/$DEFAULT_TERMINAL /usr/bin/kgx
 
 	# Restore dconf settings in gnome
 	bash "$HOME/.dotfiles/bin/.local/bin/dconf-restore"
