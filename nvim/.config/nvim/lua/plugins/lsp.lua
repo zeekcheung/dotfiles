@@ -106,21 +106,23 @@ return {
           },
         },
         lua_ls = {
-          Lua = {
-            telemetry = { enable = false },
-            diagnostics = {
-              globals = { 'vim' },
-            },
-            hint = {
-              enable = true,
-            },
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.api.nvim_get_runtime_file('lua', true),
+          settings = {
+            Lua = {
+              telemetry = { enable = false },
+              diagnostics = {
+                globals = { 'vim' },
               },
-              maxPreload = 100000,
-              preloadFileSize = 10000,
+              hint = {
+                enable = true,
+              },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.api.nvim_get_runtime_file('lua', true),
+                },
+                maxPreload = 100000,
+                preloadFileSize = 10000,
+              },
             },
           },
         },
