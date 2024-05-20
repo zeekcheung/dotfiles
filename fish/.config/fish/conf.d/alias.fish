@@ -5,7 +5,12 @@ alias la "ls -a"
 alias ll "ls -l"
 alias tree "eza --tree"
 # alias tree "tree -C"
+alias df "df -h"
+alias du "du -h"
+alias f fzf
+alias vf 'vi $(fzf)'
 alias grep "grep --color=auto"
+alias cl clear
 
 alias ga "git add"
 alias gb "git branch"

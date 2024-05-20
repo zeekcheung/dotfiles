@@ -13,6 +13,7 @@ alias tree="eza --tree"
 alias df="df -h"
 alias du="du -h"
 alias f="fzf"
+alias vf='vi $(fzf)'
 alias grep="grep --color=auto"
 alias open="xdg-open"
 alias cl="clear"
