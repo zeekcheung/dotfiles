@@ -55,13 +55,10 @@ return {
           -- lsp
           {
             function()
-              local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-              local clients = vim.lsp.get_active_clients()
+              local clients = vim.lsp.get_clients()
+              local client_names = {}
               for _, client in ipairs(clients) do
-                local filetypes = client.config.filetypes
-                if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                  return client.name
-                end
+                table.insert(client_names, client.name)
               end
             end,
             icon = '󰅡',

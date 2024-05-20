@@ -2,6 +2,8 @@ if not vim.g.neovide then
   return
 end
 
+vim.g.smooth_scroll = false
+
 -- font
 vim.o.guifont = 'Maple Mono NF:h18'
 vim.g.neovide_scale_factor = 1.0
@@ -23,7 +25,7 @@ local alpha = function()
   return string.format('%x', math.floor(255 * vim.g.transparency))
 end
 -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
-vim.g.transparency = 0.6
+vim.g.transparency = 1.0
 vim.g.neovide_transparency = vim.g.transparency
 vim.g.neovide_background_color = '#1e1e2e' .. alpha()
 -- vim.g.transparent_background = vim.g.neovide_transparency ~= 1.0
@@ -52,7 +54,7 @@ vim.g.neovide_profiler = false
 -- -- animation length
 -- vim.g.neovide_cursor_animation_length = 0.13
 -- -- animation trail size
-vim.g.neovide_cursor_trail_size = 0
+-- vim.g.neovide_cursor_trail_size = 0
 -- -- antialiasing
 -- vim.g.neovide_cursor_antialiasing = true
 -- -- animate in insert mode

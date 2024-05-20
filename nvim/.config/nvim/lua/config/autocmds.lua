@@ -18,7 +18,7 @@ local function draw_my_highlight()
   local normal_hl = get_hl(0, { name = 'Normal' }) -- Normal highlight
   set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
   set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
-  set_hl(ns_id, 'FloatBorder', { fg = '#4e4d5d', bg = normal_hl.background })
+  set_hl(ns_id, 'FloatBorder', { fg = '#4e4d5d', bg = normal_hl.bg })
 
   -- Bracket highlight
   set_hl(ns_id, 'RainbowDelimiterRed', { fg = '#e67e80' })
