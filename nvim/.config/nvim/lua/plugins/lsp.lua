@@ -79,12 +79,21 @@ return {
         },
       },
     },
-    opts = {
-      -- Only neovim >= 0.10.0 support inlay hints
-      inlay_hints = { enabled = true },
-      capabilities = {},
-      -- Servers listed below will be automatically installed via mason
-      servers = {
+    config = function()
+      -- Setup keymaps and inlay hints on LspAttach
+      Lsp.on_attach(function(client, buffer)
+        Lsp.setup_keymaps(client, buffer)
+        Lsp.setup_inlay_hints(client, buffer)
+      end)
+
+      -- Setup diagnostics icons in signcolumn
+      Lsp.setup_diagnostics_icons()
+
+      -- Setup diagnostics options
+      Lsp.setup_diagnostics_options()
+
+      -- Servers listed below will be automatically installed via mason-lspconfig
+      local servers = {
         bashls = { filetypes = { 'sh', 'zsh' } },
         -- powershell_es = {},
         marksman = {},
@@ -182,64 +191,25 @@ return {
             },
           },
         },
-      },
-    },
-    config = function(_, opts)
-      -- Setup keymaps and inlay hints on LspAttach
-      Lsp.on_attach(function(client, buffer)
-        Lsp.setup_keymaps(client, buffer)
-        if opts.inlay_hints.enabled then
-          Lsp.setup_inlay_hints(client, buffer)
-        end
-      end)
+      }
 
-      -- Setup diagnostics icons in signcolumn
-      Lsp.setup_diagnostics_icons()
-
-      -- Setup diagnostics options
-      Lsp.setup_diagnostics_options()
-
-      local servers = opts.servers
-      local function setup_server(server)
-        Lsp.setup_server { name = server, capabilities = opts.capabilities, options = servers[server] }
-      end
-
-      local have_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
-
-      -- Get all the servers that are available via mason-lspconfig
-      local function get_mason_lspconfig_servers()
-        local all_mason_lspconfig_servers = {}
-        if have_mason_lspconfig then
-          all_mason_lspconfig_servers = vim.tbl_keys(require('mason-lspconfig.mappings.server').lspconfig_to_package)
-        end
-        return all_mason_lspconfig_servers
-      end
-
-      -- Generate ensure_installed for mason-lspconfig
-      local function generate_ensure_installed(mason_lspconfig_servers)
-        local ensure_installed = {}
-        for server, server_opts in pairs(servers) do
-          if server_opts then
-            server_opts = server_opts == true and {} or server_opts
-            -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-            if server_opts.mason == false or not vim.tbl_contains(mason_lspconfig_servers, server) then
-              setup_server(server)
-            else
-              ensure_installed[#ensure_installed + 1] = server
-            end
-          end
-        end
-
-        return ensure_installed
-      end
+      local mason_lspconfig = require 'mason-lspconfig'
+      local ensure_installed = vim.tbl_keys(servers or {})
 
       -- Setup mason-lspconfig
-      if have_mason_lspconfig then
-        mason_lspconfig.setup {
-          ensure_installed = generate_ensure_installed(get_mason_lspconfig_servers()),
-        }
-        mason_lspconfig.setup_handlers { setup_server }
-      end
+      mason_lspconfig.setup {
+        -- Automatically install servers
+        ensure_installed = ensure_installed,
+        handlers = {
+          -- The first entry (without a key) will be the default handler
+          -- and will be called for each installed server that doesn't have
+          -- a dedicated handler.
+          function(server_name)
+            local server_opts = servers[server_name] or {}
+            Lsp.setup_server { server_name = server_name, server_opts = server_opts }
+          end,
+        },
+      }
 
       -- Avoid denols and tsserver run on the same time
       if Lsp.get_lsp_config 'denols' and Lsp.get_lsp_config 'tsserver' then

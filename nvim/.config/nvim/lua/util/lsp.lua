@@ -27,6 +27,7 @@ function M.setup_keymaps(client, buffer)
 
   map('<leader>rn', vim.lsp.buf.rename, 'Rename')
   map('<leader>ca', vim.lsp.buf.code_action, 'Code Action')
+  map('<leader>d', vim.diagnostic.open_float, 'Line Diagnostics')
 
   map('gd', require('telescope.builtin').lsp_definitions, 'Goto Definition')
   map('gr', require('telescope.builtin').lsp_references, 'Goto References')
@@ -77,11 +78,9 @@ function M.setup_diagnostics_options()
   vim.diagnostic.config(vim.g.diagnostic_opts)
 end
 
--- Setup hover and signatureHelp handlers for language server
----@param server_opts table
-function M.setup_handlers(server_opts)
-  -- Setup hover and signature help
-  server_opts.handlers = {
+-- Generate hover and signatureHelp handlers for language servers
+function M.hover_signature_handlers()
+  return {
     ['textDocument/hover'] = vim.lsp.with(
       vim.lsp.handlers.hover,
       { border = border_with_highlight 'HoverBorder', silent = true }
@@ -93,7 +92,7 @@ function M.setup_handlers(server_opts)
   }
 end
 
--- Setup floating preview
+-- Modify floating preview
 function M.modify_floating_preview()
   local original_open_floating_preview = vim.lsp.util.open_floating_preview
   ---@diagnostic disable-next-line
@@ -107,7 +106,7 @@ function M.modify_floating_preview()
 end
 
 -- Setup language server with options or setup function
---- @param opts {name: string, capabilities?: table, options?: table}
+--- @param opts {server_name: string, server_opts?: table, capabilities?: table }
 function M.setup_server(opts)
   local capabilities = vim.tbl_deep_extend(
     'force',
@@ -116,15 +115,17 @@ function M.setup_server(opts)
     require('cmp_nvim_lsp').default_capabilities(),
     opts.capabilities or {}
   )
+  local hover_signature_handlers = M.hover_signature_handlers()
 
+  -- Add capabilities and handlers to server options
   local server_opts = vim.tbl_deep_extend('force', {
     capabilities = vim.deepcopy(capabilities),
-  }, opts.options or {})
+    handlers = vim.deepcopy(hover_signature_handlers),
+  }, opts.server_opts or {})
 
-  M.setup_handlers(server_opts)
   M.modify_floating_preview()
 
-  require('lspconfig')[opts.name].setup(server_opts)
+  require('lspconfig')[opts.server_name].setup(server_opts)
 end
 
 -- Get configs of language server
