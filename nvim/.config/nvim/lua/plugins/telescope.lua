@@ -84,6 +84,9 @@ return {
           },
         },
         pickers = {
+          find_files = {
+            follow = true,
+          },
           buffers = {
             initial_mode = 'normal',
             mappings = {
@@ -108,11 +111,7 @@ return {
         { '<leader>/',  builtin.live_grep,    desc = 'Find Words' },
         { '<leader>fa', builtin.autocommands, desc = 'Autocmds' },
         { '<leader>fb', builtin.buffers,      desc = 'Buffers' },
-        {
-          '<leader>fc',
-          function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end,
-          desc = 'Config',
-        },
+        { '<leader>fc', require("util").find_configs, desc = 'Config' },
         {
           '<leader>fd',
           function() builtin.diagnostics { bufnr = 0 } end,
