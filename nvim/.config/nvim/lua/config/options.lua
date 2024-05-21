@@ -127,24 +127,3 @@ vim.g.smooth_scroll = true -- enable neoscroll
 -- codeium
 vim.g.codeium_plugin_enabled = true
 vim.g.codeium_enabled = true
-
--- Windows specific options
-if vim.fn.has 'win32' ~= 0 then
-  opt.cmdheight = 1 -- Setting cmdheight to 0 will cause some issues to netrw
-  opt.statusline = ' %f %m %= %P %l:%c '
-  opt.ruler = false
-  opt.showcmd = false
-
-  -- Change default shell to PowerShell on Windows
-  -- NOTE:
-  -- 1. Codeium cannot use PowerShell to authenticate
-  --    so we need to comment it out when we authenticate with Codeium
-  -- 2. We need to add PowerShell to the `PATH` for `vim.fn.executable 'pwsh'` to work
-  opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'Powershell'
-  opt.shellcmdflag =
-    '-NoLogo -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-  opt.shellredir = '-RedirectStandardOutput %s -NoNewWindow -Wait'
-  opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-  opt.shellquote = ''
-  opt.shellxquote = ''
-end

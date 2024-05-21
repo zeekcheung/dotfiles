@@ -77,8 +77,18 @@ map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close other tab' })
 
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })
-map('n', '<leader>th', '<cmd>term<cr>', { desc = 'Open horizontal terminal' })
-map('n', '<leader>tv', '<cmd>vert term<cr>', { desc = 'Open vertical terminal' })
+map('n', '<leader>th', function()
+  open_terminal 'horizontal'
+end, { desc = 'Open horizontal terminal' })
+map('n', '<leader>tv', function()
+  open_terminal 'vertical'
+end, { desc = 'Open vertical terminal' })
+map('n', '<leader>tf', function()
+  open_terminal 'float'
+end, { desc = 'Open floating terminal' })
+map('n', '<leader>gg', function()
+  open_lazygit()
+end, { desc = 'Open lazygit' })
 
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
