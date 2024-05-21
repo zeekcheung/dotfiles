@@ -3,6 +3,10 @@ local M = {}
 -- NOTE: Some util functions
 
 -- Make all keymaps silent by default
+--- @param mode string|string[]
+--- @param lhs string
+--- @param rhs string|function
+--- @param opts? vim.keymap.set.Opts
 function M.silent_map(mode, lhs, rhs, opts)
   local keymap_set = vim.keymap.set
   opts = opts or {}

@@ -2,15 +2,17 @@
 -- Setting Keymaps
 -- See `:h vim.keymap.set()` for more info
 
-local Util = require 'util'
-local map = Util.silent_map
+local map = require('util').silent_map
+local smart_resize_window = require('util.resize').smart_resize_window
+local open_terminal = require('util.terminal').open_terminal
+local open_lazygit = require('util.terminal').open_lazygit
 
 -- Better escape
 map('i', 'jj', '<esc>', { desc = 'Better Escape' })
 
 -- Better indenting
-map('v', '<', '<gv')
-map('v', '>', '>gv')
+map('v', '<', '<gv', { desc = 'Indent left' })
+map('v', '>', '>gv', { desc = 'Indent right' })
 
 -- Better up/down when lines wrap
 map({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true })
@@ -38,7 +40,7 @@ map('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move up' })
 map('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move down' })
 map('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move up' })
 
--- Split
+-- Window splits
 map('n', '|', '<cmd>split<cr>', { desc = 'Horizontal Split' })
 map('n', '\\', '<cmd>vsplit<cr>', { desc = 'Vertical Split' })
 
@@ -47,6 +49,16 @@ map('n', '<C-h>', '<C-w>h', { desc = 'Go to left window', remap = true })
 map('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', remap = true })
 map('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', remap = true })
 map('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', remap = true })
+
+-- Window resizing
+-- stylua: ignore
+map('n', '<C-Left>', function() smart_resize_window 'left' end, { desc = 'Resize window left' })
+-- stylua: ignore
+map('n', '<C-Right>', function() smart_resize_window 'right' end, { desc = 'Resize window right' })
+-- stylua: ignore
+map('n', '<C-Up>', function() smart_resize_window 'up' end, { desc = 'Resize window up' })
+-- stylua: ignore
+map('n', '<C-Down>', function() smart_resize_window 'down' end, { desc = 'Resize window down' })
 
 -- Buffers
 map('n', '<Tab>', '<cmd>bn<cr>', { desc = 'Next buffer' })
@@ -84,12 +96,6 @@ map(
 
 -- Lazy
 map('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
-
--- Source
-map('n', '<leader>s', function()
-  vim.cmd 'so %'
-  print('Sourcing ' .. vim.fn.expand '%')
-end, { desc = 'Source current file' })
 
 -- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
 map('n', 'n', "'Nn'[v:searchforward].'zv'", { expr = true, desc = 'Next search result' })

@@ -82,19 +82,6 @@ return {
     end,
   },
 
-  -- Resize windows
-  {
-    'mrjones2014/smart-splits.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    opts = {},
-    keys = {
-      { '<C-Up>', '<cmd>SmartResizeUp<cr>', 'Resize Up' },
-      { '<C-Down>', '<cmd>SmartResizeDown<cr>', 'Resize Down' },
-      { '<C-Left>', '<cmd>SmartResizeLeft<cr>', 'Resize Left' },
-      { '<C-Right>', '<cmd>SmartResizeRight<cr>', 'Resize Right' },
-    },
-  },
-
   -- Smooth scrolling
   {
     'karb94/neoscroll.nvim',
