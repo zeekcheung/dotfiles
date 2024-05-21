@@ -3,7 +3,6 @@ return {
   {
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
-    dependencies = { 'nvim-lualine/lualine.nvim' },
     -- init = function()
     --   vim.opt.ruler = false
     --   vim.opt.showcmd = false
@@ -23,7 +22,7 @@ return {
       local opts = {
         theme = 'doom',
         hide = {
-          statusline = false,
+          statusline = true,
           tabline = true,
           winbar = true,
         },

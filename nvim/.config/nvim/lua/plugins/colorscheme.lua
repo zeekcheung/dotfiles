@@ -14,8 +14,14 @@ return {
       },
       highlight_groups = {
         -- statusline
-        StatusLine = { fg = 'love', bg = 'love', blend = 10 },
+        StatusLine = { fg = 'rose', bg = 'love', blend = vim.g.transparent_background and 0 or 10 },
         StatusLineNC = { fg = 'subtle', bg = 'surface' },
+        StatusLineNormal = { fg = 'black', bg = 'rose', bold = true },
+        StatusLineInsert = { fg = 'black', bg = 'foam', bold = true },
+        StatusLineVisual = { fg = 'black', bg = 'iris', bold = true },
+        StatusLineReplace = { fg = 'black', bg = 'pine', bold = true },
+        StatusLineCommand = { fg = 'black', bg = 'love', bold = true },
+        StatusLineTerminal = { fg = 'black', bg = 'gold', bold = true },
 
         -- transparent telescope
         TelescopeBorder = { fg = 'highlight_high', bg = 'none' },

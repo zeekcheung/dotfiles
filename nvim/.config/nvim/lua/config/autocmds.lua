@@ -55,6 +55,15 @@ autocmd({ 'ColorScheme' }, {
   end,
 })
 
+-- Auto redraw statusline
+autocmd({ 'WinEnter', 'BufEnter', 'CursorHold', 'CursorHoldI', 'ModeChanged' }, {
+  group = augroup('update_statusline', { clear = true }),
+  pattern = '*',
+  callback = function()
+    vim.opt_local.statusline = require('util.statusline').statusline()
+  end,
+})
+
 -- Highlight on yank
 autocmd('TextYankPost', {
   group = augroup('highlight_yank', { clear = true }),

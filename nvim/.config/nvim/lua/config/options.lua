@@ -32,7 +32,7 @@ opt.signcolumn = 'yes'
 opt.foldcolumn = '0'
 opt.cmdheight = 0
 opt.laststatus = 3
--- opt.statusline = ' %f %m %= %l:%c '
+opt.statusline = [[%!v:lua.require'util.statusline'.statusline()]]
 
 -- indent
 opt.shiftround = true
