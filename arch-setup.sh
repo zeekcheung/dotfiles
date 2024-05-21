@@ -92,8 +92,8 @@ if grep -qi "gnome" "$DESKTOP_ENVIRONMENT"; then
 	# Install other gnome packages
 	paru -S --needed --noconfirm \
 		gdm gnome-tweaks gnome-shell-extensions power-profiles-daemon \
-		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git \
-		catppuccin-gtk-theme-macchiato
+		gnome-shell-extension-dash-to-dock gnome-shell-extension-forge-git
+	# catppuccin-gtk-theme-macchiato
 
 	# Enable systemd service
 	sudo systemctl enable gdm
