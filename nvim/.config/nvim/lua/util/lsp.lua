@@ -1,6 +1,5 @@
-local Ui = require 'util.ui'
-local border_with_highlight = Ui.border_with_highlight
-local icons = require('util.ui').icons
+local icons = require 'util.icons'
+local border_with_highlight = require('util.highlight').border_with_highlight
 
 -- Some util functions for lsp
 local M = {}

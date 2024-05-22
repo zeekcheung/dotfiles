@@ -1,23 +1,5 @@
-local M = {}
-
----Border with highlight
----@param hl_name string Highlight name
----@return table
-function M.border_with_highlight(hl_name)
-  return {
-    { '╭', hl_name },
-    { '─', hl_name },
-    { '╮', hl_name },
-    { '│', hl_name },
-    { '╯', hl_name },
-    { '─', hl_name },
-    { '╰', hl_name },
-    { '│', hl_name },
-  }
-end
-
 -- NOTE: Search more icons: https://www.nerdfonts.com/cheat-sheet
-M.icons = {
+return {
   misc = {
     dots = '󰇘',
   },
@@ -107,5 +89,3 @@ M.icons = {
     Variable = '󰀫 ',
   },
 }
-
-return M

@@ -1,81 +1,23 @@
 local Lsp = require 'util.lsp'
 
 return {
-  -- Installer for language servers, formatters, linters
-  {
-    'williamboman/mason.nvim',
-    cmd = 'Mason',
-    opts = {
-      -- Tools listed below will be automatically installed
-      ensure_installed = {
-        'shfmt',
-        'shellcheck',
-        'stylua',
-        'prettier',
-        'eslint_d',
-        'markdownlint',
-      },
-      ui = {
-        icons = {
-          package_pending = ' ',
-          package_installed = '󰄳 ',
-          package_uninstalled = '󰚌 ',
-        },
-      },
-    },
-    config = function(_, opts)
-      -- Setup mason
-      require('mason').setup(opts)
-
-      local mason_registry = require 'mason-registry'
-
-      local function install_missing_packages()
-        for _, tool in ipairs(opts.ensure_installed) do
-          local p = mason_registry.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end
-
-      -- Automatically install missing tools
-      if mason_registry.refresh then
-        mason_registry.refresh(install_missing_packages)
-      else
-        install_missing_packages()
-      end
-    end,
-  },
-
   -- Language servers
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPost', 'BufNewFile' },
     dependencies = {
-      'mason.nvim',
+      'williamboman/mason.nvim',
       'williamboman/mason-lspconfig.nvim',
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       'b0o/SchemaStore.nvim',
-      { 'folke/neodev.nvim', opts = { library = { plugins = false } } },
       {
         'j-hui/fidget.nvim',
-        config = function(_, opts)
-          if vim.g.transparent_background then
-            opts.notification = { window = { winblend = 0 } }
-          end
-          require('fidget').setup(opts)
-        end,
-      },
-      {
-        'ray-x/lsp_signature.nvim',
-        event = { 'BufReadPost', 'BufNewFile' },
         opts = {
-          bind = true,
-          handler_opts = {
-            border = require('util.ui').border_with_highlight 'SignatureHelpBorder',
+          notification = {
+            window = {
+              winblend = vim.g.transparent_background and 0 or 10,
+            },
           },
-          max_width = math.floor(vim.o.columns * 0.75),
-          max_height = math.floor(vim.o.lines * 0.75),
-          hint_enable = false,
         },
       },
     },
@@ -92,42 +34,28 @@ return {
       -- Setup diagnostics options
       Lsp.setup_diagnostics_options()
 
-      -- Servers listed below will be automatically installed via mason-lspconfig
+      -- Servers listed below will be automatically installed
       local servers = {
         bashls = { filetypes = { 'sh', 'zsh' } },
         -- powershell_es = {},
         marksman = {},
         taplo = {},
         yamlls = {},
-        jsonls = {
-          -- Lazy-load schemastore when needed
-          on_new_config = function(new_config)
-            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
-          end,
-          settings = {
-            json = {
-              format = {
-                enable = true,
-              },
-              validate = { enable = true },
-            },
-          },
-        },
+        jsonls = {},
+        clangd = {},
+        tsserver = {},
         lua_ls = {
           settings = {
             Lua = {
               telemetry = { enable = false },
-              diagnostics = {
-                globals = { 'vim' },
-              },
-              hint = {
-                enable = true,
-              },
+              diagnostics = { globals = { 'vim' } },
+              hint = { enable = true },
               workspace = {
                 checkThirdParty = false,
                 library = {
-                  vim.api.nvim_get_runtime_file('lua', true),
+                  [vim.fn.expand '$VIMRUNTIME/lua'] = true,
+                  [vim.fn.expand '$VIMRUNTIME/lua/vim/lsp'] = true,
+                  [vim.fn.stdpath 'data' .. '/lazy/lazy.nvim/lua/lazy'] = true,
                 },
                 maxPreload = 100000,
                 preloadFileSize = 10000,
@@ -135,75 +63,31 @@ return {
             },
           },
         },
-        clangd = {
-          root_dir = function(fname)
-            local lspconfig_util = require 'lspconfig.util'
-            local root_pattern = lspconfig_util.root_pattern
-            local find_git_ancestor = lspconfig_util.find_git_ancestor
-            return root_pattern(
-              'Makefile',
-              'configure.ac',
-              'configure.in',
-              'config.h.in',
-              'meson.build',
-              'meson_options.txt',
-              'build.ninja'
-            )(fname) or root_pattern('compile_commands.json', 'compile_flags.txt')(fname) or find_git_ancestor(
-              fname
-            )
-          end,
-          capabilities = {
-            offsetEncoding = { 'utf-16' },
-          },
-          cmd = {
-            'clangd',
-            '--background-index',
-            '--clang-tidy',
-            '--header-insertion=iwyu',
-            '--completion-style=detailed',
-            '--function-arg-placeholders',
-            '--fallback-style=llvm',
-          },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            clangdFileStatus = true,
-          },
-        },
-        tsserver = {
-          settings = {
-            typescript = {
-              format = {
-                indentSize = vim.o.shiftwidth,
-                convertTabsToSpaces = vim.o.expandtab,
-                tabSize = vim.o.tabstop,
-              },
-            },
-            javascript = {
-              format = {
-                indentSize = vim.o.shiftwidth,
-                convertTabsToSpaces = vim.o.expandtab,
-                tabSize = vim.o.tabstop,
-              },
-            },
-            completions = {
-              completeFunctionCalls = true,
-            },
+      }
+
+      -- Tools listed below will be automatically installed
+      local ensure_installed = vim.list_extend({
+        'shfmt',
+        'shellcheck',
+        'stylua',
+        'prettier',
+        'eslint_d',
+        'markdownlint',
+      }, vim.tbl_keys(servers or {}))
+
+      -- Setup mason and mason-lspconfig
+      require('mason').setup {
+        ui = {
+          icons = {
+            package_pending = ' ',
+            package_installed = '󰄳 ',
+            package_uninstalled = '󰚌 ',
           },
         },
       }
-
-      local mason_lspconfig = require 'mason-lspconfig'
-      local ensure_installed = vim.tbl_keys(servers or {})
-
-      -- Setup mason-lspconfig
-      mason_lspconfig.setup {
-        -- Automatically install servers
-        ensure_installed = ensure_installed,
+      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      require('mason-lspconfig').setup {
         handlers = {
-          -- The first entry (without a key) will be the default handler
-          -- and will be called for each installed server that doesn't have
-          -- a dedicated handler.
           function(server_name)
             local server_opts = servers[server_name] or {}
             Lsp.setup_server { server_name = server_name, server_opts = server_opts }

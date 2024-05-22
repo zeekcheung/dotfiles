@@ -1,6 +1,5 @@
-local Ui = require 'util.ui'
-local icons = Ui.icons
-local border_with_highlight = Ui.border_with_highlight
+local icons = require 'util.icons'
+local border_with_highlight = require('util.highlight').border_with_highlight
 
 return {
   -- Completion
@@ -9,7 +8,6 @@ return {
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
-      -- 'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -26,19 +24,33 @@ return {
       local luasnip = require 'luasnip'
       local defaults = require 'cmp.config.default'()
 
-      vim.api.nvim_set_hl(0, 'CmpGhostText', { link = 'Comment', default = true })
-
-      local opts = {
-        completion = {
-          -- completeopt = "menu,menuone,noselect",
-          completeopt = 'menu,menuone,noinsert',
-        },
+      return {
+        completion = { completeopt = 'menu,menuone,noinsert' },
         snippet = {
           expand = function(args)
             require('luasnip').lsp_expand(args.body)
           end,
         },
-
+        sources = {
+          { name = 'nvim_lsp' },
+          { name = 'luasnip' },
+          { name = 'buffer' },
+          { name = 'path' },
+        },
+        window = {
+          completion = {
+            side_padding = 1,
+            -- border = vim.g.cmp_border,
+            border = border_with_highlight 'CmpBorder',
+            winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+            scrollbar = false,
+          },
+          documentation = {
+            border = border_with_highlight 'CmpDocBorder',
+            winhighlight = 'Normal:CmpDoc',
+          },
+          -- documentation = cmp.config.disable,
+        },
         mapping = cmp.mapping.preset.insert {
           ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
           ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
@@ -69,13 +81,6 @@ return {
             end
           end, { 'i', 's' }),
         },
-        sources = {
-          { name = 'nvim_lsp' },
-          -- { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
-          { name = 'buffer' },
-          { name = 'path' },
-        },
         formatting = {
           format = function(_, item)
             local kind_icons = icons.kinds
@@ -95,60 +100,52 @@ return {
           max_view_entries = 7,
         },
       }
-
-      opts.window = {
-        completion = {
-          side_padding = 1,
-          -- border = vim.g.cmp_border,
-          border = border_with_highlight 'CmpBorder',
-          winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
-          scrollbar = false,
-        },
-        documentation = {
-          border = border_with_highlight 'CmpDocBorder',
-          winhighlight = 'Normal:CmpDoc',
-        },
-        -- documentation = cmp.config.disable,
-      }
-
-      return opts
     end,
     config = function(_, opts)
-      for _, source in ipairs(opts.sources) do
-        source.group_index = source.group_index or 1
-      end
-
       local cmp = require 'cmp'
+      local has_cmp_cmdline, _ = pcall(require, 'cmp_cmdline')
       cmp.setup(opts)
 
-      -- `/` cmdline setup.
-      cmp.setup.cmdline('/', {
-        completion = {
-          completeopt = 'menu,menuone,noselect',
-        },
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' },
-        },
-      })
-
-      -- `:` cmdline setup.
-      cmp.setup.cmdline(':', {
-        completion = {
-          completeopt = 'menu,menuone,noselect',
-        },
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' },
-        }, {
-          {
-            name = 'cmdline',
-            option = {
-              ignore_cmds = { 'Man', '!' },
-            },
+      if has_cmp_cmdline then
+        -- `/` cmdline setup.
+        cmp.setup.cmdline('/', {
+          completion = {
+            completeopt = 'menu,menuone,noselect',
           },
-        }),
-      })
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = {
+            { name = 'buffer' },
+          },
+        })
+
+        -- `:` cmdline setup.
+        cmp.setup.cmdline(':', {
+          completion = {
+            completeopt = 'menu,menuone,noselect',
+          },
+          mapping = cmp.mapping.preset.cmdline(),
+          sources = cmp.config.sources({
+            { name = 'path' },
+          }, {
+            {
+              name = 'cmdline',
+              option = {
+                ignore_cmds = { 'Man', '!' },
+              },
+            },
+          }),
+        })
+      end
+
+      -- insert `(` after select function or method item
+      cmp.event:on('confirm_done', function(event)
+        local entry = event.entry
+        local item = entry:get_completion_item()
+
+        if item.kind == cmp.lsp.CompletionItemKind.Function or item.kind == cmp.lsp.CompletionItemKind.Method then
+          vim.api.nvim_put({ '()' }, 'c', true, false)
+        end
+      end)
     end,
   },
 
@@ -171,21 +168,5 @@ return {
       history = true,
       delete_check_events = 'TextChanged',
     },
-  },
-
-  -- AI completion
-  {
-    'Exafunction/codeium.vim',
-    event = 'VeryLazy',
-    cond = vim.g.codeium_plugin_enabled,
-    -- stylua: ignore
-    config = function()
-      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
-        { expr = true, silent = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
-        { expr = true, silent = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-    end,
   },
 }

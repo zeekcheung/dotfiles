@@ -1,4 +1,4 @@
-local icons = require('util.ui').icons
+local icons = require 'util.icons'
 
 return {
   -- File explorer

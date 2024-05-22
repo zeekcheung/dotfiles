@@ -2,32 +2,10 @@
 -- Setting Autocmds
 -- See `:h autocmd` for more info
 
+local draw_my_highlight = require('util.highlight').draw_my_highlight
+
 local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
-
--- Custom highlight group
-local function draw_my_highlight()
-  local get_hl = vim.api.nvim_get_hl
-  local set_hl = vim.api.nvim_set_hl
-  local ns_id = 0 -- Namespace id, set to 0 for global
-
-  -- Split highlight
-  set_hl(ns_id, 'WinSeparator', { bg = 'NONE', fg = '#4e4d5d' })
-
-  -- Border highlight
-  local normal_hl = get_hl(0, { name = 'Normal' }) -- Normal highlight
-  set_hl(ns_id, 'NormalFloat', { link = 'Normal' })
-  set_hl(ns_id, 'LspInfoBorder', { link = 'Normal' })
-  set_hl(ns_id, 'FloatBorder', { fg = '#4e4d5d', bg = normal_hl.bg })
-
-  -- Bracket highlight
-  set_hl(ns_id, 'RainbowDelimiterRed', { fg = '#e67e80' })
-  set_hl(ns_id, 'RainbowDelimiterYellow', { fg = '#dbbc7f' })
-  set_hl(ns_id, 'RainbowDelimiterBlue', { fg = '#7fbbb3' })
-  set_hl(ns_id, 'RainbowDelimiterOrange', { fg = '#e69875' })
-  set_hl(ns_id, 'RainbowDelimiterGreen', { fg = '#a7c080' })
-  set_hl(ns_id, 'RainbowDelimiterViolet', { fg = '#d699b6' })
-end
 
 -- Setup colorscheme
 autocmd({ 'VimEnter' }, {
@@ -90,18 +68,6 @@ autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
   command = 'checktime',
 })
 
--- Auto create dir when saving a file, in case some intermediate directory does not exist
-autocmd({ 'BufWritePre' }, {
-  group = augroup('auto_create_dir', { clear = true }),
-  callback = function(event)
-    if event.match:match '^%w%w+://' then
-      return
-    end
-    local file = vim.loop.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ':p:h'), 'p')
-  end,
-})
-
 -- Resize splits if window got resized
 autocmd({ 'VimResized' }, {
   group = augroup('resize_splits', { clear = true }),
@@ -134,43 +100,5 @@ autocmd('FileType', {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = event.buf, silent = true })
-  end,
-})
-
--- Wrap and check for spell in text filetypes
-autocmd('FileType', {
-  group = augroup('wrap_spell', { clear = true }),
-  pattern = { 'gitcommit', 'markdown' },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
-})
-
--- Change indent size for different filetypes
-autocmd('FileType', {
-  group = augroup('change_options', { clear = true }),
-  pattern = { 'c', 'h', 'cpp', 'nu', 'fish', 'vim' },
-  callback = function()
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-  end,
-})
-
--- Disable conceal of json
-autocmd('FileType', {
-  group = augroup('json_conceal', { clear = true }),
-  pattern = { 'json', 'jsonc', 'json5' },
-  callback = function()
-    vim.opt_local.conceallevel = 0
-  end,
-})
-
--- Change json filetype to jsonc
-autocmd({ 'BufRead', 'BufNewFile' }, {
-  group = augroup('json_to_jsonc', { clear = true }),
-  pattern = '*.json',
-  callback = function()
-    vim.bo.filetype = 'jsonc'
   end,
 })

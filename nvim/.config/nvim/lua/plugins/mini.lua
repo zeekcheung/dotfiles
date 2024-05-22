@@ -3,14 +3,16 @@ return {
   event = { 'VimEnter', 'VeryLazy' },
   config = function()
     -- Animation
-    vim.opt.mousescroll = 'ver:1,hor:1'
-    require('mini.animate').setup {
-      cursor = { enable = false },
-      scroll = { enable = true },
-      resize = { enable = false },
-      open = { enable = false },
-      close = { enable = false },
-    }
+    if vim.g.mini_animate then
+      vim.opt.mousescroll = 'ver:1,hor:1'
+      require('mini.animate').setup {
+        cursor = { enable = false },
+        scroll = { enable = true },
+        resize = { enable = false },
+        open = { enable = false },
+        close = { enable = false },
+      }
+    end
 
     -- Comment
     if vim.fn.has 'nvim-0.10' ~= 1 then
@@ -18,8 +20,8 @@ return {
     end
 
     -- Highlight cursor word
-    require('mini.cursorword').setup()
-    vim.api.nvim_set_hl(0, 'MiniCursorword', { link = 'LspReferenceRead' })
+    -- require('mini.cursorword').setup()
+    -- vim.api.nvim_set_hl(0, 'MiniCursorword', { link = 'LspReferenceRead' })
     -- vim.api.nvim_set_hl(0, 'MiniCursorwordCurrent', { link = 'LspReferenceText' })
 
     -- Git hunk
@@ -80,6 +82,7 @@ return {
 
     -- Dashboard
     require('mini.starter').setup {
+      evaluate_single = true,
       footer = 'Simplicity is the soul of efficiency.',
     }
 

@@ -91,7 +91,6 @@ opt.formatoptions = 'jcroqlnt'
 opt.grepformat = '%f:%l:%c:%m'
 opt.grepprg = 'rg --vimgrep'
 opt.keywordprg = ':silent! help'
-opt.sessionoptions = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help', 'globals', 'skiprtp', 'folds' }
 opt.shortmess:append { W = true, I = true, c = true, C = true }
 if vim.fn.has 'nvim-0.10' == 1 then
   opt.smoothscroll = true
@@ -101,10 +100,20 @@ end
 vim.g.markdown_recommended_style = 0
 
 -- colorscheme
-local transparent_colorschemes = { 'catppuccin', 'rose-pine', 'rose-pine-moon' }
 vim.g.colorscheme = 'rose-pine-moon'
 vim.g.fallback_colorscheme = vim.fn.has 'nvim-0.10' == 1 and 'sorbet' or 'habamax'
-vim.g.transparent_background = vim.tbl_contains(transparent_colorschemes, vim.g.colorscheme)
+
+-- transparent
+vim.g.transparent_background = true
+opt.pumblend = vim.g.transparent_background and 0 or 10
+
+-- scroll
+vim.g.sticky_scroll = true -- enable nvim-treesitter-context
+vim.g.mini_animate = true -- enable mini.animate
+
+-- codeium
+vim.g.codeium_plugin_enabled = true
+vim.g.codeium_enabled = true
 
 -- diagnostic
 vim.g.diagnostic_opts = {
@@ -119,11 +128,3 @@ vim.g.diagnostic_opts = {
   severity_sort = true,
   float = { header = false, border = 'rounded', focusable = true },
 }
-
--- scroll
-vim.g.sticky_scroll = true -- enable nvim-treesitter-context
-vim.g.smooth_scroll = true -- enable neoscroll
-
--- codeium
-vim.g.codeium_plugin_enabled = true
-vim.g.codeium_enabled = true

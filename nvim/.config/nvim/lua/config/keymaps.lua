@@ -20,6 +20,10 @@ map({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { expr = true })
 map({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 map({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 
+-- Completion
+map('i', [[<Tab>]], [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
+map('i', [[<S-Tab>]], [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+
 -- Misc
 map('v', '<C-c>', '"+y', { desc = 'Copy selection' })
 map('v', '<C-x>', '"+d', { desc = 'Cut selection' })
@@ -65,15 +69,6 @@ map('n', '<Tab>', '<cmd>bn<cr>', { desc = 'Next buffer' })
 map('n', '<S-Tab>', '<cmd>bp<cr>', { desc = 'Previous buffer' })
 map('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<leader>bo', '<cmd>silent! %bd|e#|bd#<cr>', { desc = 'Delete other buffers' })
-
--- Tabs
-map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New tab' })
-map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next tab' })
-map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous tab' })
-map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First tab' })
-map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last tab' })
-map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close current tab' })
-map('n', '<leader><tab>o', '<cmd>tabonly<cr>', { desc = 'Close other tab' })
 
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })

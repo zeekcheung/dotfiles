@@ -21,21 +21,11 @@ require('lazy').setup {
     lazy = true,
     version = false, -- always use the latest git commit
   },
-  install = { colorscheme = { 'catppuccin' } },
-  checker = {
-    enabled = false,
-    notify = true, -- get a notification when new updates are found
-    frequency = 60480, -- check for updates every week
-  },
-  change_detection = {
-    enabled = true,
-    notify = false, -- get a notification when changes are found
-  },
+  install = { colorscheme = { 'habamax' } },
+  checker = { enabled = false },
+  change_detection = { enabled = false },
   performance = {
-    cache = {
-      enabled = true,
-      -- disable_events = {},
-    },
+    cache = { enabled = true },
     rtp = {
       -- disable some rtp plugins
       disabled_plugins = {

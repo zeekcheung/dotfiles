@@ -10,13 +10,12 @@ else
   require 'config.options'
   require 'config.keymaps'
   require 'config.autocmds'
+  require 'config.filetypes'
   require 'config.netrw'
 
   -- neovide
   require 'config.neovide'
 end
 
-if not (vim.fn.has 'win32' == 1) then
-  -- enable plugins if not on Windows
-  require 'config.lazy'
-end
+-- plugins
+require 'config.lazy'
