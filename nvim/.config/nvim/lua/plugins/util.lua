@@ -25,6 +25,24 @@ return {
     end,
   },
 
+  -- Bracket highlight
+  {
+    'HiPhish/rainbow-delimiters.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
+    config = function()
+      vim.g.rainbow_delimiters = {
+        highlight = {
+          'RainbowDelimiterRed',
+          'RainbowDelimiterYellow',
+          'RainbowDelimiterGreen',
+          'RainbowDelimiterBlue',
+          'RainbowDelimiterOrange',
+          'RainbowDelimiterViolet',
+        },
+      }
+    end,
+  },
+
   -- Better gx
   {
     'chrishrb/gx.nvim',
@@ -36,19 +54,6 @@ return {
       vim.g.netrw_nogx = 1
     end,
     config = true,
-  },
-
-  -- Session manager
-  {
-    'folke/persistence.nvim',
-    event = 'BufReadPre',
-    opts = { options = vim.opt.sessionoptions:get() },
-    -- stylua: ignore
-    keys = {
-      { '<leader>qs', function() require('persistence').load() end,                desc = 'Restore Session' },
-      { '<leader>ql', function() require('persistence').load({ last = true }) end, desc = 'Restore Last Session' },
-      { '<leader>qd', function() require('persistence').stop() end,                desc = "Don't Save Current Session" },
-    },
   },
 
   -- Keybindings popup
@@ -80,13 +85,5 @@ return {
       wk.setup(opts)
       wk.register(opts.defaults)
     end,
-  },
-
-  -- Smooth scrolling
-  {
-    'karb94/neoscroll.nvim',
-    cond = vim.g.smooth_scroll,
-    event = { 'BufReadPost', 'BufNewFile' },
-    opts = {},
   },
 }

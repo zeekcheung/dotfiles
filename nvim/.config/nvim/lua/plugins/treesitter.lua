@@ -129,8 +129,11 @@ return {
   -- Show context of the current function
   {
     'nvim-treesitter/nvim-treesitter-context',
-    cond = vim.g.sticky_scroll,
     event = { 'BufReadPre', 'BufNewFile' },
-    opts = { mode = 'cursor', max_lines = 3 },
+    opts = {
+      enable = vim.g.sticky_scroll,
+      mode = 'cursor',
+      max_lines = 5,
+    },
   },
 }
