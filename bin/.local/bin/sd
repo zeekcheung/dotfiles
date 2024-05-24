@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Script to run stow in any location
+
+DOTDIR="$HOME/.dotfiles"
+
+# Ensure the directory exists
+if [ ! -d "$DOTDIR" ]; then
+	echo "Error: $DOTDIR does not exist"
+	exit 1
+fi
+
+# Run stow with the given arguments in the dotfiles directory
+# and go back to the current directory
+cd "$DOTDIR" && stow "$@" && cd "$OLDPWD" || exit
