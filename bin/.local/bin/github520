@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to set github520 dns
+
 echo "Setting dns for github with GitHub520..."
 
 # github dns

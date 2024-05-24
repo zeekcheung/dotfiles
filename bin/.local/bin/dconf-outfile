@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to generate dconf settings file name
+
 # shellcheck disable=SC1091,SC2154
 
 source "$(dirname "$0")/os-info"

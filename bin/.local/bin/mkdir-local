@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to create local directories
+
 dirs=(
 	"$HOME/.local/bin"
 	"$HOME/.local/share/applications"

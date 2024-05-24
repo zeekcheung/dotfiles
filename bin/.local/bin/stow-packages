@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to stow all packages in the dotfiles directory
+
 # Check if the dotfiles directory exists
 if [[ ! -d "$HOME/.dotfiles" ]]; then
 	echo "Cannot find dotfiles directory at $HOME/.dotfiles!"

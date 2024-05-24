@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to install fonts
+
 declare -a fonts=(
 	# FiraCode
 	# Hack

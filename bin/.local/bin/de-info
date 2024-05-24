@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to output information about the current desktop environment
+
 # Define the desktop_info associative array
 declare -A de_info_arr
 

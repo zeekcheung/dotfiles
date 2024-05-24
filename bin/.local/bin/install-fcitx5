@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to install fcitx5
+
 # Change the environment variables on Pop!_OS
 if grep -qi pop /proc/version; then
 	sudo tee /etc/profile.d/z-pop-os-fcitx.sh <<'EOF'

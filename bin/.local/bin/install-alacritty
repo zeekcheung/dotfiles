@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to install alacritty
+
 # Clone the source code
 git clone --depth=1 https://github.com/alacritty/alacritty.git /tmp/alacritty
 cd /tmp/alacritty || exit

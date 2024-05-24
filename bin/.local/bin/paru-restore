@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to restore paru installed packages
+
 # shellcheck disable=SC1091,SC2154
 
 source "$(dirname "$0")/paru-outfile"

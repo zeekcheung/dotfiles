@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Script to install kitty
+
 # Install kitty nightly and dont launch it
 curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
 	installer=nightly launch=n
