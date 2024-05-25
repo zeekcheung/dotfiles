@@ -21,10 +21,6 @@ opt.wrap = true
 opt.winminwidth = 5
 opt.helpheight = 10
 
--- conceal
-opt.conceallevel = 2
--- opt.concealcursor = 'n'
-
 -- status
 opt.number = true
 opt.relativenumber = true
