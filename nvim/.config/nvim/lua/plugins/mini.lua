@@ -60,6 +60,13 @@ return {
     -- Session
     require('mini.sessions').setup {
       verbose = { read = false, write = false, delete = false },
+      hooks = {
+        pre = {
+          write = function()
+            vim.cmd 'Neotree close'
+          end,
+        },
+      },
     }
 
     -- Session commands
@@ -79,6 +86,9 @@ return {
     create_user_command('SessionSelect', function()
       require('mini.sessions').select()
     end, { nargs = '?' })
+
+    -- Auto write last session on VimLeave
+    vim.api.nvim_create_autocmd('VimLeavePre', { command = 'SessionWrite' })
 
     -- Dashboard
     require('mini.starter').setup {
