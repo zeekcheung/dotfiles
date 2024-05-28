@@ -13,7 +13,6 @@ alias tree="eza --tree"
 alias df="df -h"
 alias du="du -h"
 alias f="fzf"
-alias vf='vi $(fzf)'
 alias grep="grep --color=auto"
 alias open="xdg-open"
 alias cl="clear"
@@ -44,6 +43,13 @@ alias tl="tmux ls"
 alias tn="tmux new -s"
 alias tm="tmux new -A -s main"
 
+# fuzzy find a file and open in vim
+function vf() {
+  file=$(fzf)
+  [ -n "$file" ] && vi "$file"
+}
+
+# imgcat
 function is_term { grep -q $1 <<<"$TERM" }
 if is_term "kitty"; then
 	alias icat="kitten icat"

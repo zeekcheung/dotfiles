@@ -8,7 +8,6 @@ alias tree "eza --tree"
 alias df "df -h"
 alias du "du -h"
 alias f fzf
-alias vf 'vi $(fzf)'
 alias grep "grep --color=auto"
 alias cl clear
 
@@ -34,6 +33,13 @@ alias tk "tmux kill-session -t"
 alias tl "tmux ls"
 alias tn "tmux new -s"
 alias tm "tmux new -A -s main"
+
+function vf
+    set file (fzf)
+    if [ -n "$file" ]; and [ -f "$file" ]
+        vi "$file"
+    end
+end
 
 function y
     set tmp (mktemp -t "yazi-cwd.XXXXXX")
