@@ -13,6 +13,10 @@ set -gx LC_ALL en_US.UTF-8
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
+# man pager
+set -gx MANPAGER "sh -c 'col -bx | bat --theme=ansi -l man -p'"
+set -gx MANROFFOPT -c
+
 # n/node.js
 set -gx N_PREFIX $HOME/.n
 

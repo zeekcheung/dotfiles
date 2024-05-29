@@ -28,6 +28,10 @@ export LC_ALL=en_US.UTF-8
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+# man pager
+export MANPAGER="sh -c 'col -bx | bat --theme=ansi -l man -p'"
+export MANROFFOPT="-c"
+
 # n
 export N_PREFIX=$HOME/.n
 
