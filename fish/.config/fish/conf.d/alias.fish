@@ -34,6 +34,10 @@ alias tl "tmux ls"
 alias tn "tmux new -s"
 alias tm "tmux new -A -s main"
 
+function where
+    whereis $argv | tr " " "\n" | tail -n +2
+end
+
 function vf
     set file (fzf)
     if [ -n "$file" ]; and [ -f "$file" ]
