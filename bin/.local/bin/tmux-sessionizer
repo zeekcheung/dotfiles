@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Ensure fd and fzf are installed
+if ! command -v fd &>/dev/null || ! command -v fzf &>/dev/null; then
+	echo "fd and fzf are required for this script."
+	exit 1
+fi
+
+# Directories to search for projects
+PROJECT_DIRS=("$HOME/projects" "$HOME/personal" "$HOME/work")
+
+# Check if inside a tmux session
+if [ -z "$TMUX" ]; then
+	echo "Not inside a tmux session. Please start a tmux session first."
+	exit 1
+fi
+
+# Get the list of directories in the project directories
+PROJECTS=""
+for DIR in "${PROJECT_DIRS[@]}"; do
+	if [ -d "$DIR" ]; then
+		PROJECTS+=$(fd -t d --max-depth 1 --min-depth 1 . "$DIR")$'\n'
+	fi
+done
+
+# Use fzf to select a project directory
+SELECTED=$(echo "$PROJECTS" | fzf --prompt="Select a project: " --preview="" --height=40% --reverse)
+
+# Check if a project was selected
+if [ -z "$SELECTED" ]; then
+	echo "No project selected."
+	exit 1
+fi
+
+# Extract the project name
+PROJECT_NAME=$(basename "$SELECTED")
+
+# Check if a tmux session with the project name already exists
+if tmux has-session -t "$PROJECT_NAME" 2>/dev/null; then
+	tmux switch-client -t "$PROJECT_NAME"
+else
+	tmux new-session -d -s "$PROJECT_NAME" -c "$SELECTED"
+	tmux switch-client -t "$PROJECT_NAME"
+fi
