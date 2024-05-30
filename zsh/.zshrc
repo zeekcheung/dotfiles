@@ -9,5 +9,6 @@ source $ZDOTDIR/aliases.zsh
 source $ZDOTDIR/plugins.zsh
 source $ZDOTDIR/hooks.zsh
 
+eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"

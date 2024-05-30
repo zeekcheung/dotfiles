@@ -9,6 +9,7 @@ if status is-interactive
         echo
     end
 
+    fzf --fish | source
     starship init fish | source
     zoxide init fish | source
     alias cd z
