@@ -78,14 +78,16 @@ set belloff=all
 
 " netrw
 let g:netrw_banner=0
-let g:netrw_winsize=25
+let g:netrw_winsize=30
+let g:netrw_altv=1
 let g:netrw_liststyle=3
-let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_browse_style=4
+let g:netrw_list_hide = ',\(^\|\s\s\)\zs\.\S\+'
 let g:netrw_localcopydircmd = 'cp -r'
 
 " colorscheme
 let g:colorscheme="sorbet"
-let g:transparent_background=1
+let g:transparent_background=0
 " --------------------------------------------
 " ----------------- keymaps ------------------
 " --------------------------------------------

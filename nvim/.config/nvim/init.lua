@@ -11,7 +11,6 @@ else
   require 'config.keymaps'
   require 'config.autocmds'
   require 'config.filetypes'
-  require 'config.netrw'
 
   -- neovide
   require 'config.neovide'

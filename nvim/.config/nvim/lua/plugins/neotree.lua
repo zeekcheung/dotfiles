@@ -7,30 +7,31 @@ return {
     branch = 'v3.x',
     cmd = 'Neotree',
     keys = {
-      {
-        '<leader>e',
-        function()
-          require('neo-tree.command').execute { toggle = true, dir = vim.loop.cwd() }
-        end,
-        desc = 'Explorer',
-      },
-      -- { '<C-e>', '<leader>e', desc = 'Explorer', remap = true },
+      { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Explorer' },
     },
-    deactivate = function()
-      vim.cmd [[Neotree close]]
-    end,
     init = function()
-      if vim.fn.argc(-1) == 1 then
-        ---@diagnostic disable-next-line: param-type-mismatch
-        local stat = vim.loop.fs_stat(vim.fn.argv(0))
-        if stat and stat.type == 'directory' then
-          require 'neo-tree'
-        end
-      end
-
-      -- Disable netrw
       vim.g.loaded_netrw = 1
       vim.g.loaded_netrwPlugin = 1
+
+      vim.api.nvim_create_autocmd('BufEnter', {
+        group = vim.api.nvim_create_augroup('Neotree_start_directory', { clear = true }),
+        desc = 'Start Neo-tree with directory',
+        once = true,
+        callback = function()
+          if package.loaded['neo-tree'] then
+            return
+          else
+            ---@diagnostic disable-next-line: undefined-field
+            local stats = vim.uv.fs_stat(vim.fn.argv(0))
+            if stats and stats.type == 'directory' then
+              require 'neo-tree'
+            end
+          end
+        end,
+      })
+    end,
+    deactivate = function()
+      vim.cmd [[Neotree close]]
     end,
     opts = {
       use_popups_for_input = true,
@@ -95,8 +96,8 @@ return {
         },
       },
       filesystem = {
-        bind_to_cwd = false,
-        follow_current_file = { enabled = true },
+        bind_to_cwd = true,
+        follow_current_file = { enabled = false },
         use_libuv_file_watcher = true,
         filtered_items = {
           visible = false,
@@ -129,24 +130,11 @@ return {
         {
           event = 'neo_tree_buffer_enter',
           handler = function()
-            -- hide statuscolumn in neo-tree
-            vim.opt.statuscolumn = ''
+            vim.opt_local.signcolumn = 'no'
+            vim.opt_local.statuscolumn = ''
           end,
         },
       },
     },
-    config = function(_, opts)
-      require('neo-tree').setup(opts)
-
-      -- refresh git status after lazygit is closed
-      vim.api.nvim_create_autocmd('TermClose', {
-        pattern = '*lazygit',
-        callback = function()
-          if package.loaded['neo-tree.sources.git_status'] then
-            require('neo-tree.sources.git_status').refresh()
-          end
-        end,
-      })
-    end,
   },
 }

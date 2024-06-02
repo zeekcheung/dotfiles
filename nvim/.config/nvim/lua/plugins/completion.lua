@@ -1,16 +1,14 @@
-local icons = require 'util.icons'
 local border_with_highlight = require('util.highlight').border_with_highlight
 
 return {
   -- Completion
   {
     'hrsh7th/nvim-cmp',
-    event = { 'InsertEnter', 'CmdlineEnter' },
+    event = 'InsertEnter',
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
       'saadparwaiz1/cmp_luasnip',
     },
     opts = function()
@@ -81,17 +79,10 @@ return {
             end
           end, { 'i', 's' }),
         },
-        formatting = {
-          format = function(_, item)
-            local kind_icons = icons.kinds
-            if kind_icons[item.kind] then
-              item.kind = kind_icons[item.kind] .. item.kind
-            end
-            return item
-          end,
-        },
         experimental = {
-          ghost_text = not vim.g.codeium_plugin_enabled,
+          ghost_text = {
+            hg_group = 'CmpGhostText',
+          },
         },
         sorting = defaults.sorting,
         performance = {
@@ -99,43 +90,20 @@ return {
           confirm_resolve_timeout = 0,
           max_view_entries = 7,
         },
+        formatting = {
+          format = function(_, item)
+            local icons = require('util.icons').kinds
+            if icons[item.kind] then
+              item.kind = icons[item.kind] .. item.kind
+            end
+            return item
+          end,
+        },
       }
     end,
     config = function(_, opts)
       local cmp = require 'cmp'
-      local has_cmp_cmdline, _ = pcall(require, 'cmp_cmdline')
       cmp.setup(opts)
-
-      if has_cmp_cmdline then
-        -- `/` cmdline setup.
-        cmp.setup.cmdline('/', {
-          completion = {
-            completeopt = 'menu,menuone,noselect',
-          },
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = {
-            { name = 'buffer' },
-          },
-        })
-
-        -- `:` cmdline setup.
-        cmp.setup.cmdline(':', {
-          completion = {
-            completeopt = 'menu,menuone,noselect',
-          },
-          mapping = cmp.mapping.preset.cmdline(),
-          sources = cmp.config.sources({
-            { name = 'path' },
-          }, {
-            {
-              name = 'cmdline',
-              option = {
-                ignore_cmds = { 'Man', '!' },
-              },
-            },
-          }),
-        })
-      end
 
       -- insert `(` after select function or method item
       cmp.event:on('confirm_done', function(event)
@@ -154,6 +122,7 @@ return {
     'L3MON4D3/LuaSnip',
     -- enabled = vim.fn.has 'nvim-0.10' ~= 1,
     event = 'InsertEnter',
+    ---@diagnostic disable-next-line: undefined-global
     build = (not jit.os:find 'Windows')
         and "echo 'NOTE: jsregexp is optional, so not a big deal if it fails to build'; make install_jsregexp"
       or nil,
@@ -167,6 +136,102 @@ return {
     opts = {
       history = true,
       delete_check_events = 'TextChanged',
+    },
+  },
+
+  -- Command line completion
+  {
+    'hrsh7th/cmp-cmdline',
+    event = 'CmdlineEnter',
+    dependencies = { 'hrsh7th/nvim-cmp' },
+    config = function()
+      local cmp = require 'cmp'
+
+      -- `/` cmdline setup.
+      cmp.setup.cmdline('/', {
+        completion = {
+          completeopt = 'menu,menuone,noselect',
+        },
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' },
+        },
+      })
+
+      -- `:` cmdline setup.
+      cmp.setup.cmdline(':', {
+        completion = {
+          completeopt = 'menu,menuone,noselect',
+        },
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' },
+        }, {
+          {
+            name = 'cmdline',
+            option = {
+              ignore_cmds = { 'Man', '!' },
+            },
+          },
+        }),
+      })
+    end,
+  },
+
+  -- Codeium
+  {
+    'Exafunction/codeium.vim',
+    enabled = false,
+    event = 'VeryLazy',
+    dependencies = {
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+        end,
+      },
+    },
+    config = function()
+      vim.keymap.set('i', '<C-f>', function()
+        return vim.fn['codeium#Accept']()
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-.>', function()
+        return vim.fn['codeium#CycleCompletions'](1)
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-,>', function()
+        return vim.fn['codeium#CycleCompletions'](-1)
+      end, { expr = true, silent = true })
+      vim.keymap.set('i', '<c-l>', function()
+        return vim.fn['codeium#Clear']()
+      end, { expr = true, silent = true })
+    end,
+  },
+
+  -- Supermaven
+  {
+    'supermaven-inc/supermaven-nvim',
+    enabled = true,
+    event = 'VeryLazy',
+    dependencies = {
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+          -- table.insert(opts.sources, 1, {
+          --   name = 'supermaven',
+          --   group_index = 1,
+          --   priority = 1000,
+          -- })
+        end,
+      },
+    },
+    opts = {
+      keymaps = {
+        accept_suggestion = '<C-f>',
+        accept_word = '<A-f>',
+        clear_suggestion = '<C-l>',
+      },
+      -- disable_inline_completion = true,
     },
   },
 }

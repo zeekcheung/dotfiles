@@ -10,7 +10,6 @@ return {
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       'b0o/SchemaStore.nvim',
-      { 'folke/lazydev.nvim', ft = 'lua' },
       {
         'j-hui/fidget.nvim',
         opts = {
@@ -19,6 +18,20 @@ return {
               winblend = vim.g.transparent_background and 0 or 10,
             },
           },
+        },
+        {
+          'folke/lazydev.nvim',
+          ft = 'lua',
+          cmd = 'LazyDev',
+          opts = {},
+        },
+        {
+          'smjonas/inc-rename.nvim',
+          cmd = 'IncRename',
+          keys = {
+            { '<leader>rn', ':IncRename ', desc = 'Rename' },
+          },
+          config = true,
         },
       },
     },
@@ -213,6 +226,7 @@ return {
         -- shell
         sh = { 'shellcheck' },
         -- zsh = { 'shellcheck' },
+        fish = { 'fish' },
         -- webdev
         javascript = { 'eslint_d' },
         jaavascriptreact = { 'eslint_d' },

@@ -17,31 +17,28 @@ return {
     ---@diagnostic disable-next-line: missing-fields
     opts = {
       ensure_installed = {
+        -- c/cpp
+        'c',
+        'cpp',
+        -- scripts
+        'lua',
         'bash',
-        -- json
-        'json',
-        'json5',
-        'jsonc',
-        -- markdown
-        'markdown',
-        'markdown_inline',
+        'fish',
         -- vim
         'vim',
         'vimdoc',
+        -- markdown
+        'markdown',
+        'markdown_inline',
         -- misc
         'diff',
         'regex',
         'query',
-        'toml',
         'xml',
+        'json',
+        'jsonc',
         'yaml',
-        -- lua
-        'lua',
-        'luadoc',
-        'luap',
-        -- c/cpp
-        'c',
-        'cpp',
+        'toml',
         -- webdev
         -- 'html',
         -- 'css',
@@ -112,7 +109,6 @@ return {
       },
     },
     config = function(_, opts)
-      require('util.treesitter').add_dotfiles_parsers(opts)
       require('nvim-treesitter.configs').setup(opts)
     end,
   },

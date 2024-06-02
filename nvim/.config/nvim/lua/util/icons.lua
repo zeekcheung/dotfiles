@@ -1,20 +1,6 @@
 -- NOTE: Search more icons: https://www.nerdfonts.com/cheat-sheet
 return {
-  misc = {
-    dots = '󰇘',
-  },
-  dap = {
-    Stopped = { '󰁕 ', 'DiagnosticWarn', 'DapStoppedLine' },
-    Breakpoint = ' ',
-    BreakpointCondition = ' ',
-    BreakpointRejected = { ' ', 'DiagnosticError' },
-    LogPoint = '.>',
-  },
   diagnostics = {
-    -- Error = '● ',
-    -- Warn = '● ',
-    -- Hint = '● ',
-    -- Info = '● ',
     Error = ' ',
     Warn = ' ',
     Hint = ' ',
@@ -24,16 +10,6 @@ return {
     modified = ' ',
     readOnly = ' ',
     default = '󰈙 ',
-  },
-  fold = {
-    closed = ' ',
-    opened = ' ',
-    separator = ' ',
-  },
-  folder = {
-    closed = ' ',
-    empty = ' ',
-    open = ' ',
   },
   git = {
     added = ' ',
@@ -81,6 +57,7 @@ return {
     Snippet = ' ',
     String = ' ',
     Struct = '󰆼 ',
+    Supermaven = ' ',
     TabNine = '󰏚 ',
     Text = ' ',
     TypeParameter = ' ',

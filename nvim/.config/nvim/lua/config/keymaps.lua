@@ -1,7 +1,3 @@
--- NOTE:
--- Setting Keymaps
--- See `:h vim.keymap.set()` for more info
-
 local map = require('util').silent_map
 local smart_resize_window = require('util.resize').smart_resize_window
 local open_terminal = require('util.terminal').open_terminal
@@ -70,6 +66,14 @@ map('n', '<S-Tab>', '<cmd>bp<cr>', { desc = 'Previous buffer' })
 map('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete current buffer' })
 map('n', '<leader>bo', '<cmd>silent! %bd|e#|bd#<cr>', { desc = 'Delete other buffers' })
 
+-- Tabs
+map('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
+map('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
+map('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
+map('n', '<leader><tab>n', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
+map('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
+map('n', '<leader><tab>p', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
+
 -- Terminal
 map('t', '<esc>', [[<C-\><C-n>]], { desc = 'Escape terminal mode' })
 map('n', '<leader>th', function()
@@ -84,6 +88,9 @@ end, { desc = 'Open floating terminal' })
 map('n', '<leader>gg', function()
   open_lazygit()
 end, { desc = 'Open lazygit' })
+
+-- Netrw
+map('n', '<leader>e', '<cmd>Lex<cr>', { desc = 'Open netrw' })
 
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })

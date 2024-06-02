@@ -1,7 +1,3 @@
--- NOTE:
--- Setting options
--- See `:h vim.o` for more info
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
@@ -26,9 +22,10 @@ opt.number = true
 opt.relativenumber = true
 opt.signcolumn = 'yes'
 opt.foldcolumn = '0'
-opt.cmdheight = 0
 opt.laststatus = 3
-opt.statusline = [[%!v:lua.require'util.statusline'.statusline()]]
+opt.statusline = ' %f %m %= %P  %l:%c '
+opt.showmode = false
+opt.showcmd = false
 
 -- indent
 opt.shiftround = true
@@ -83,10 +80,6 @@ opt.timeoutlen = 300
 opt.updatetime = 200
 opt.virtualedit = 'block'
 opt.inccommand = 'nosplit'
-opt.formatoptions = 'jcroqlnt'
-opt.grepformat = '%f:%l:%c:%m'
-opt.grepprg = 'rg --vimgrep'
-opt.keywordprg = ':silent! help'
 opt.shortmess:append { W = true, I = true, c = true, C = true }
 if vim.fn.has 'nvim-0.10' == 1 then
   opt.smoothscroll = true
@@ -105,22 +98,4 @@ opt.pumblend = vim.g.transparent_background and 0 or 10
 
 -- scroll
 vim.g.sticky_scroll = true -- enable nvim-treesitter-context
-vim.g.mini_animate = true -- enable mini.animate
-
--- codeium
-vim.g.codeium_plugin_enabled = true
-vim.g.codeium_enabled = true
-
--- diagnostic
-vim.g.diagnostic_opts = {
-  signs = false,
-  underline = true,
-  update_in_insert = false,
-  -- virtual_text = {
-  --   spacing = 4,
-  --   source = 'if_many',
-  --   prefix = '●',
-  -- },
-  severity_sort = true,
-  float = { header = false, border = 'rounded', focusable = true },
-}
+vim.g.mini_animate = false -- enable mini.animate

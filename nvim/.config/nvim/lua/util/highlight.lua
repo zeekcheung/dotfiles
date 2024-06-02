@@ -4,6 +4,7 @@ local M = {}
 M.highlights = {
   -- window
   WinSeparator = { bg = 'NONE', fg = '#4e4d5d' },
+  CursorLineNr = { bg = 'NONE' },
   -- border
   NormalFloat = { link = 'Normal' },
   FloatBorder = { fg = '#4e4d5d', bg = 'NONE' },
@@ -16,14 +17,8 @@ M.highlights = {
   CmpDocBorder = { link = 'CmpBorder' },
   CmpGhostText = { link = 'Comment', default = true },
   -- statusline
-  StatusLine = { fg = '#ea9a97', bg = '#eb6f92', blend = vim.g.transparent_background and 0 or 10 },
-  StatusLineNC = { fg = '#908caa', bg = '#2a273f' },
-  StatusLineNormal = { fg = 'black', bg = '#ea9a97', bold = true },
-  StatusLineInsert = { fg = 'black', bg = '#9ccfd8', bold = true },
-  StatusLineVisual = { fg = 'black', bg = '#c4a7e7', bold = true },
-  StatusLineReplace = { fg = 'black', bg = '#3e8fb0', bold = true },
-  StatusLineCommand = { fg = 'black', bg = '#eb6f92', bold = true },
-  StatusLineTerminal = { fg = 'black', bg = '#eb6f92', bold = true },
+  -- StatusLine = { fg = '#ea9a97', bg = '#eb6f92', blend = vim.g.transparent_background and 0 or 10 },
+  -- StatusLineNC = { fg = '#908caa', bg = '#2a273f' },
   -- telescope
   TelescopeBorder = { fg = '#56526e', bg = 'none' },
   TelescopeNormal = { bg = 'none' },

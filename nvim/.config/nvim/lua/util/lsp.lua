@@ -74,7 +74,11 @@ end
 
 -- Setup diagnostics options
 function M.setup_diagnostics_options()
-  vim.diagnostic.config(vim.g.diagnostic_opts)
+  vim.diagnostic.config {
+    signs = false,
+    update_in_insert = false,
+    float = { border = 'rounded', focusable = true },
+  }
 end
 
 -- Generate hover and signatureHelp handlers for language servers

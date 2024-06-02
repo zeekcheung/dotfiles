@@ -9,34 +9,11 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = '\\'
 
 local opt = vim.opt
-
--- backup
-opt.autowrite = true
-opt.swapfile = false
-opt.undofile = true
-opt.undolevels = 10000
-
--- indent
-opt.shiftwidth = 2
-opt.shiftround = true
-opt.tabstop = 2
-opt.expandtab = true
-opt.smartindent = true
-
--- search
-opt.ignorecase = true
-opt.smartcase = true
-
--- misc
 opt.clipboard = 'unnamedplus'
 opt.inccommand = 'nosplit'
-opt.spelllang = { 'en' }
 opt.timeoutlen = 300
-opt.wrap = false
 
 vim.cmd [[syntax off]]
--- NOTE: setup colorscheme to make sure vscode use correct highlight groups
--- vim.cmd [[colorscheme default]]
 
 -- below value is needed to make some plugins work properly
 vim.env.TERM = 'vscode'
@@ -51,7 +28,6 @@ local map = Util.silent_map;
   -- buffers/tabs
   map('n', '<tab>', function() call 'workbench.action.previousEditor' end)
   map('n', '<S-tab>', function() call 'workbench.action.nextEditor' end)
-  map('n', '<leader>x', function() call 'workbench.action.closeActiveEditor' end)
   map('n', '<leader>bd', function() call 'workbench.action.closeActiveEditor' end)
   map('n', '<leader>bc', function() call 'workbench.action.closeAllEditors' end)
 
@@ -65,12 +41,7 @@ local map = Util.silent_map;
   map('n', '<leader>fm', function() call 'editor.action.formatDocument' end)
 
   -- find
-  map('n', '<leader>fc', function() call 'workbench.action.openSettings' end)
   map('n', '<leader>ff', function() call 'workbench.action.quickOpen' end)
-  map('n', '<leader>fk', function() call 'workbench.action.openGlobalKeybindings' end)
-  map('n', '<leader>fn', function() call 'notifications.showList' end)
-  map('n', '<leader>fs', function() call 'workbench.action.gotoSymbol' end)
-  map('n', '<leader>fw', function() call 'workbench.action.findInFiles' end)
 
   -- fold
   map('n', 'za', function() call 'editor.toggleFold' end)
@@ -94,7 +65,6 @@ local map = Util.silent_map;
   map('n', '<leader>e', function() call 'workbench.action.toggleSidebarVisibility' end)
   map('n', '<leader>z', function() call 'workbench.action.toggleZenMode' end)
   map('n', '<leader>uc', function() call 'workbench.action.selectTheme' end)
-  map('n', '<leader>up', function() call 'workbench.actions.view.problems' end)
   map('n', '<leader>uw', function() call 'editor.action.toggleWordWrap' end)
 
   -- undo/redo
@@ -113,9 +83,6 @@ local map = Util.silent_map;
   -- quit
   map('n', '<leader>qq', function() call 'workbench.action.closeWindow' end)
   map({ 'n', 'v', 'x' }, '<leader>qw', function() call 'workbench.action.closeActiveEditor' end)
-
-  -- source
-  map('n', '<leader>s', '<cmd>so %<cr>')
 end)()
 
 -- Autocmds
