@@ -207,10 +207,33 @@ return {
     end,
   },
 
+  {
+    'Exafunction/codeium.nvim',
+    enabled = false,
+    event = 'VeryLazy',
+    cmd = 'Codeium',
+    opts = {
+      enable_chat = true,
+    },
+    dependencies = {
+      {
+        'nvim-cmp',
+        opts = function(_, opts)
+          opts.experimental.ghost_text = false
+          table.insert(opts.sources, 1, {
+            name = 'codeium',
+            group_index = 1,
+            priority = 100,
+          })
+        end,
+      },
+    },
+  },
+
   -- Supermaven
   {
     'supermaven-inc/supermaven-nvim',
-    enabled = true,
+    enabled = false,
     event = 'VeryLazy',
     dependencies = {
       {
@@ -220,7 +243,7 @@ return {
           -- table.insert(opts.sources, 1, {
           --   name = 'supermaven',
           --   group_index = 1,
-          --   priority = 1000,
+          --   priority = 100,
           -- })
         end,
       },
