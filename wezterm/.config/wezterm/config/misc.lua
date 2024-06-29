@@ -7,14 +7,14 @@ function M.setup(config)
   config.term = 'wezterm'
 
   config.front_end = 'WebGpu'
-  -- config.webgpu_power_preference = "HighPerformance"
+  config.webgpu_power_preference = 'HighPerformance'
 
   -- Colorscheme
   config.color_scheme = 'rose-pine-moon'
   wezterm.add_to_config_reload_watch_list(config.color_scheme .. '.toml')
 
   -- Opacity
-  config.window_background_opacity = 0.90
+  -- config.window_background_opacity = 0.90
 
   -- Font
   config.font = wezterm.font_with_fallback {

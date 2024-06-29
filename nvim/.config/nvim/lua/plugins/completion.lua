@@ -181,7 +181,7 @@ return {
   -- Codeium
   {
     'Exafunction/codeium.vim',
-    enabled = false,
+    enabled = true,
     event = 'VeryLazy',
     dependencies = {
       {

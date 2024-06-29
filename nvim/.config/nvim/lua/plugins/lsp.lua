@@ -19,20 +19,20 @@ return {
             },
           },
         },
-        {
-          'folke/lazydev.nvim',
-          ft = 'lua',
-          cmd = 'LazyDev',
-          opts = {},
+      },
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua',
+        cmd = 'LazyDev',
+        opts = {},
+      },
+      {
+        'smjonas/inc-rename.nvim',
+        cmd = 'IncRename',
+        keys = {
+          { '<leader>rn', ':IncRename ', desc = 'Rename' },
         },
-        {
-          'smjonas/inc-rename.nvim',
-          cmd = 'IncRename',
-          keys = {
-            { '<leader>rn', ':IncRename ', desc = 'Rename' },
-          },
-          config = true,
-        },
+        config = true,
       },
     },
     config = function()

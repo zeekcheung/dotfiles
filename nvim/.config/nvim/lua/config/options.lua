@@ -93,7 +93,7 @@ vim.g.colorscheme = 'rose-pine-moon'
 vim.g.fallback_colorscheme = vim.fn.has 'nvim-0.10' == 1 and 'sorbet' or 'habamax'
 
 -- transparent
-vim.g.transparent_background = true
+vim.g.transparent_background = false
 opt.pumblend = vim.g.transparent_background and 0 or 10
 
 -- scroll
