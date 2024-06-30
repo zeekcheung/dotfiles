@@ -8,6 +8,7 @@ source $ZDOTDIR/vi-mode.zsh
 source $ZDOTDIR/aliases.zsh
 source $ZDOTDIR/plugins.zsh
 source $ZDOTDIR/hooks.zsh
+source $ZDOTDIR/proxy.zsh
 
 eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
