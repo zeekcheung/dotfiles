@@ -6,10 +6,10 @@ end
 vim.g.mini_animate = false
 
 -- font
-vim.o.guifont = 'Maple Mono NF:h18'
+vim.o.guifont = "Maple Mono NF:h18"
 
 -- background color
-vim.g.neovide_background_color = '#232136'
+vim.g.neovide_background_color = "#232136"
 vim.g.transparent_background = false
 
 -- floating shadow
@@ -19,19 +19,19 @@ vim.g.neovide_floating_shadow = false
 
 -- misc
 vim.g.neovide_hide_mouse_when_typing = true
-vim.g.neovide_cursor_vfx_mode = 'railgun'
+vim.g.neovide_cursor_vfx_mode = "railgun"
 
 -- keymaps
 local map = vim.keymap.set
 
-map('v', '<C-S-c>', '"+y', { desc = 'Copy' })
-map('v', '<C-S-x>', '"+d', { desc = 'Cut' })
-map({ 'i', 'c' }, '<C-S-v>', '<C-r>+', { desc = 'Paste' })
-map('t', '<C-S-v>', '<C-\\><C-N>"+pi', { noremap = true, silent = true })
+map("v", "<C-S-c>", '"+y', { desc = "Copy" })
+map("v", "<C-S-x>", '"+d', { desc = "Cut" })
+map({ "i", "c" }, "<C-S-v>", "<C-r>+", { desc = "Paste" })
+map("t", "<C-S-v>", '<C-\\><C-N>"+pi', { noremap = true, silent = true })
 
-map('n', '<F11>', function()
+map("n", "<F11>", function()
   vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
-end, { desc = 'Toggle full screen' });
+end, { desc = "Toggle full screen" });
 
 -- stylua: ignore
 (function()

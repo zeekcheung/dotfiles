@@ -11,10 +11,10 @@ function M.smart_resize_window(direction, size)
   local in_bottom_left = row ~= 0 and col == 0
   local in_bottom_right = row ~= 0 and col ~= 0
 
-  local to_left = direction == 'left'
-  local to_right = direction == 'right'
-  local to_up = direction == 'up'
-  local to_down = direction == 'down'
+  local to_left = direction == "left"
+  local to_right = direction == "right"
+  local to_up = direction == "up"
+  local to_down = direction == "down"
 
   local width = vim.api.nvim_win_get_width(0)
   local height = vim.api.nvim_win_get_height(0)
