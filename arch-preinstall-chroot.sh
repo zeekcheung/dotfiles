@@ -71,7 +71,9 @@ pacman -S --noconfirm --needed $PLATFORM-ucode
 if $ENABLE_INTEL_GRAPHICS; then
 	echo "Installing intel graphics driver..."
 	pacman -S --noconfirm --needed mesa lib32-mesa vulkan-intel lib32-vulkan-intel
-elif $ENABLE_NVIDIA_GRAPHICS; then
+fi
+
+if $ENABLE_NVIDIA_GRAPHICS; then
 	echo "Installing nvidia graphics driver..."
 	pacman -S --noconfirm --needed nvidia nvidia-settings lib32-nvidia-utils
 fi
