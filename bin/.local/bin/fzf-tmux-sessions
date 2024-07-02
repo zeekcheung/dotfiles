@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Script to switch tmux sessions with fzf
+
+SESSIONS=$(tmux list-sessions -F "#{session_name}")
+
+# Use fzf to select a project directory
+SELECTED=$(
+  printf "%s\n" "${SESSIONS[@]}" |
+    fzf \
+      --height=40% \
+      --reverse \
+      --preview="" \
+)
+
+# Check if a session was selected
+if [ -z "$SELECTED" ]; then
+  echo "No sessions selected."
+  exit 1
+fi
+
+tmux switch-client -t "$SELECTED"
