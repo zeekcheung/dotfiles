@@ -1,0 +1,411 @@
+{
+  "$help": "https://aka.ms/terminal-documentation",
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "actions": [
+    {
+      "command": "closePane",
+      "id": "User.closePane"
+    }
+  ],
+  "alwaysShowNotificationIcon": false,
+  "centerOnLaunch": true,
+  "copyFormatting": "none",
+  "copyOnSelect": true,
+  "defaultInputScope": "alphanumericHalfWidth",
+  "defaultProfile": "{a3aaaed6-23aa-4124-b1c8-18c7640779f0}",
+  "disableAnimations": true,
+  "disabledProfileSources": ["Windows.Terminal.Azure", "Windows.Terminal.VisualStudio"],
+  "initialCols": 80,
+  "initialPosition": ",",
+  "initialRows": 20,
+  "keybindings": [
+    {
+      "id": "Terminal.MoveFocusDown",
+      "keys": "ctrl+shift+j"
+    },
+    {
+      "id": "Terminal.DuplicatePaneAuto",
+      "keys": "alt+shift+d"
+    },
+    {
+      "id": "Terminal.DuplicatePaneDown",
+      "keys": "ctrl+\\"
+    },
+    {
+      "id": "Terminal.DuplicatePaneRight",
+      "keys": "ctrl+shift+\\"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+minus"
+    },
+    {
+      "id": "User.closePane",
+      "keys": "ctrl+shift+x"
+    },
+    {
+      "id": null,
+      "keys": "enter"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+plus"
+    },
+    {
+      "id": null,
+      "keys": "alt+down"
+    },
+    {
+      "id": "Terminal.MoveFocusLeft",
+      "keys": "ctrl+shift+h"
+    },
+    {
+      "id": null,
+      "keys": "alt+left"
+    },
+    {
+      "id": "Terminal.MoveFocusRight",
+      "keys": "ctrl+shift+l"
+    },
+    {
+      "id": null,
+      "keys": "alt+right"
+    },
+    {
+      "id": "Terminal.MoveFocusUp",
+      "keys": "ctrl+shift+k"
+    },
+    {
+      "id": null,
+      "keys": "alt+up"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+down"
+    },
+    {
+      "id": "Terminal.ResizePaneLeft",
+      "keys": "ctrl+shift+left"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+left"
+    },
+    {
+      "id": "Terminal.ResizePaneRight",
+      "keys": "ctrl+shift+right"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+right"
+    },
+    {
+      "id": null,
+      "keys": "alt+shift+up"
+    }
+  ],
+  "newTabMenu": [
+    {
+      "type": "remainingProfiles"
+    }
+  ],
+  "profiles": {
+    "defaults": {
+      "adjustIndistinguishableColors": "never",
+      "antialiasingMode": "cleartype",
+      "bellStyle": "none",
+      "colorScheme": {
+        "dark": "Catppuccin Mocha",
+        "light": "Catppuccin Latte"
+      },
+      "cursorShape": "filledBox",
+      "font": {
+        "builtinGlyphs": true,
+        "face": "Maple Mono NF, Cascadia Code",
+        "size": 14
+      },
+      "intenseTextStyle": "bright",
+      "padding": "0",
+      "scrollbarState": "hidden",
+      "startingDirectory": "%USERPROFILE%",
+      "useAcrylic": true
+    },
+    "list": [
+      {
+        "commandline": "cmd /k",
+        "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+        "hidden": false,
+        "name": "Command Prompt"
+      },
+      {
+        "commandline": "powershell -nologo",
+        "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+        "hidden": false,
+        "name": "Windows PowerShell"
+      },
+      {
+        "commandline": "pwsh -nologo",
+        "guid": "{67e252c5-d2d2-4250-9a2b-bf91f64d670a}",
+        "hidden": false,
+        "icon": "ms-appx:///ProfileIcons/pwsh.png",
+        "name": "PowerShell"
+      },
+      {
+        "commandline": "bash",
+        "guid": "{d0441dc6-6f7d-485a-978d-95a11265781f}",
+        "hidden": false,
+        "icon": "C:\\Program Files\\Git\\mingw64\\share\\git\\git-for-windows.ico",
+        "name": "Git Bash"
+      },
+      {
+        "commandline": "nu",
+        "guid": "{a3aaaed6-23aa-4124-b1c8-18c7640779f0}",
+        "hidden": false,
+        "icon": "C:\\Program Files\\nu\\nu.ico",
+        "name": "NuShell"
+      }
+    ]
+  },
+  "schemes": [
+    {
+      "background": "#EFF1F5",
+      "black": "#5C5F77",
+      "blue": "#1E66F5",
+      "brightBlack": "#ACB0BE",
+      "brightBlue": "#1E66F5",
+      "brightCyan": "#179299",
+      "brightGreen": "#40A02B",
+      "brightPurple": "#EA76CB",
+      "brightRed": "#D20F39",
+      "brightWhite": "#BCC0CC",
+      "brightYellow": "#DF8E1D",
+      "cursorColor": "#DC8A78",
+      "cyan": "#179299",
+      "foreground": "#4C4F69",
+      "green": "#40A02B",
+      "name": "Catppuccin Latte",
+      "purple": "#EA76CB",
+      "red": "#D20F39",
+      "selectionBackground": "#ACB0BE",
+      "white": "#ACB0BE",
+      "yellow": "#DF8E1D"
+    },
+    {
+      "background": "#1E1E2E",
+      "black": "#45475A",
+      "blue": "#89B4FA",
+      "brightBlack": "#585B70",
+      "brightBlue": "#89B4FA",
+      "brightCyan": "#94E2D5",
+      "brightGreen": "#A6E3A1",
+      "brightPurple": "#F5C2E7",
+      "brightRed": "#F38BA8",
+      "brightWhite": "#A6ADC8",
+      "brightYellow": "#F9E2AF",
+      "cursorColor": "#F5E0DC",
+      "cyan": "#94E2D5",
+      "foreground": "#CDD6F4",
+      "green": "#A6E3A1",
+      "name": "Catppuccin Mocha",
+      "purple": "#F5C2E7",
+      "red": "#F38BA8",
+      "selectionBackground": "#585B70",
+      "white": "#BAC2DE",
+      "yellow": "#F9E2AF"
+    },
+    {
+      "background": "#1A1B26",
+      "black": "#15161E",
+      "blue": "#7AA2F7",
+      "brightBlack": "#414868",
+      "brightBlue": "#7AA2F7",
+      "brightCyan": "#7DCFFF",
+      "brightGreen": "#9ECE6A",
+      "brightPurple": "#9D7CD8",
+      "brightRed": "#F7768E",
+      "brightWhite": "#C0CAF5",
+      "brightYellow": "#E0AF68",
+      "cursorColor": "#C0CAF5",
+      "cyan": "#7DCFFF",
+      "foreground": "#C0CAF5",
+      "green": "#9ECE6A",
+      "name": "Tokyo Night",
+      "purple": "#BB9AF7",
+      "red": "#F7768E",
+      "selectionBackground": "#283457",
+      "white": "#A9B1D6",
+      "yellow": "#E0AF68"
+    },
+    {
+      "background": "#E1E2E7",
+      "black": "#B4B5B9",
+      "blue": "#2E7DE9",
+      "brightBlack": "#A1A6C5",
+      "brightBlue": "#2E7DE9",
+      "brightCyan": "#007197",
+      "brightGreen": "#587539",
+      "brightPurple": "#7847BD",
+      "brightRed": "#F52A65",
+      "brightWhite": "#3760BF",
+      "brightYellow": "#8C6C3E",
+      "cursorColor": "#3760BF",
+      "cyan": "#007197",
+      "foreground": "#3760BF",
+      "green": "#587539",
+      "name": "Tokyo Night Day",
+      "purple": "#9854F1",
+      "red": "#F52A65",
+      "selectionBackground": "#B7C1E3",
+      "white": "#6172B0",
+      "yellow": "#8C6C3E"
+    },
+    {
+      "background": "#222436",
+      "black": "#1B1D2B",
+      "blue": "#82AAFF",
+      "brightBlack": "#444A73",
+      "brightBlue": "#82AAFF",
+      "brightCyan": "#86E1FC",
+      "brightGreen": "#C3E88D",
+      "brightPurple": "#FCA7EA",
+      "brightRed": "#FF757F",
+      "brightWhite": "#C8D3F5",
+      "brightYellow": "#FFC777",
+      "cursorColor": "#C8D3F5",
+      "cyan": "#86E1FC",
+      "foreground": "#C8D3F5",
+      "green": "#C3E88D",
+      "name": "Tokyo Night Moon",
+      "purple": "#C099FF",
+      "red": "#FF757F",
+      "selectionBackground": "#2D3F76",
+      "white": "#828BB8",
+      "yellow": "#FFC777"
+    },
+    {
+      "name": "rose-pine",
+      "cursorColor": "#6e6a86",
+      "selectionBackground": "#403d52",
+      "background": "#191724",
+      "foreground": "#e0def4",
+      "black": "#26233a",
+      "blue": "#9ccfd8",
+      "cyan": "#ebbcba",
+      "green": "#31748f",
+      "purple": "#c4a7e7",
+      "red": "#eb6f92",
+      "white": "#e0def4",
+      "yellow": "#f6c177",
+      "brightBlack": "#908caa",
+      "brightBlue": "#9ccfd8",
+      "brightCyan": "#ebbcba",
+      "brightGreen": "#31748f",
+      "brightPurple": "#c4a7e7",
+      "brightRed": "#eb6f92",
+      "brightWhite": "#e0def4",
+      "brightYellow": "#f6c177"
+    },
+    {
+      "name": "rose-pine-moon",
+      "cursorColor": "#6e6a86",
+      "selectionBackground": "#44415a",
+      "background": "#232136",
+      "foreground": "#e0def4",
+      "black": "#393552",
+      "blue": "#9ccfd8",
+      "cyan": "#ea9a97",
+      "green": "#3e8fb0",
+      "purple": "#c4a7e7",
+      "red": "#eb6f92",
+      "white": "#e0def4",
+      "yellow": "#f6c177",
+      "brightBlack": "#908caa",
+      "brightBlue": "#9ccfd8",
+      "brightCyan": "#ea9a97",
+      "brightGreen": "#3e8fb0",
+      "brightPurple": "#c4a7e7",
+      "brightRed": "#eb6f92",
+      "brightWhite": "#e0def4",
+      "brightYellow": "#f6c177"
+    },
+    {
+      "name": "rose-pine-dawn",
+      "cursorColor": "#9893a5",
+      "selectionBackground": "#dfdad9",
+      "background": "#faf4ed",
+      "foreground": "#575279",
+      "black": "#f2e9e1",
+      "blue": "#56949f",
+      "cyan": "#d7827e",
+      "green": "#286983",
+      "purple": "#907aa9",
+      "red": "#b4637a",
+      "white": "#575279",
+      "yellow": "#ea9d34",
+      "brightBlack": "#797593",
+      "brightBlue": "#56949f",
+      "brightCyan": "#d7827e",
+      "brightGreen": "#286983",
+      "brightPurple": "#907aa9",
+      "brightRed": "#b4637a",
+      "brightWhite": "#575279",
+      "brightYellow": "#ea9d34"
+    }
+  ],
+  "tabSwitcherMode": "disabled",
+  "theme": {
+    "dark": "dark",
+    "light": "light"
+  },
+  "themes": [
+    {
+      "name": "rose-pine",
+      "tab": {
+        "background": "#191724FF",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#26233AFF",
+        "unfocusedBackground": "#1F1D2EFF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "useMica": false
+      }
+    },
+    {
+      "name": "rose-pine-moon",
+      "tab": {
+        "background": "#232136FF",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#393552FF",
+        "unfocusedBackground": "#2A273FFF"
+      },
+      "window": {
+        "applicationTheme": "dark",
+        "useMica": false
+      }
+    },
+    {
+      "name": "rose-pine-dawn",
+      "tab": {
+        "background": "#FAF4EDFF",
+        "showCloseButton": "always",
+        "unfocusedBackground": null
+      },
+      "tabRow": {
+        "background": "#F2E9E1FF",
+        "unfocusedBackground": "#FFFAF3FF"
+      },
+      "window": {
+        "applicationTheme": "light",
+        "useMica": false
+      }
+    }
+  ],
+  "warning.confirmCloseAllTabs": false
+}

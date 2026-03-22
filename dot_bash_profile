@@ -1,0 +1,15 @@
+# ~/.bash_profile
+# ====================
+# This file is executed for LOGIN SHELL.
+#
+# Default loading order for Bash:
+# --------------------------------
+# LOGIN SHELL: ~/.bash_profile → ~/.bash_login → ~/.profile
+# NON-LOGIN SHELL: ~/.bashrc only
+#
+# Note: If ~/.bash_profile exists, ~/.profile won't be read automatically.
+#
+# Current loading order for Bash:
+# ~/.bash_profile → ~/.bashrc → ~/.profile
+
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"

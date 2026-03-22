@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NotepadPlus>
+    <!--
+	You can organize you Macro menu & Run menu by adding the attribute 'FolderName="My sub-menu name"' to any Macro or Command node.
+	This will place the corresponding node within a "My sub-menu name" sub-menu in the appropriate menu. Please consider the following examples:
+	-->
+    <InternalCommands>
+        <Shortcut id="41007" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="41008" Ctrl="yes" Alt="no" Shift="yes" Key="83" />
+        <Shortcut id="41017" Ctrl="no" Alt="no" Shift="no" Key="113" />
+        <Shortcut id="43006" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="42002" Ctrl="yes" Alt="no" Shift="yes" Key="67" nth="1" />
+        <Shortcut id="42005" Ctrl="yes" Alt="no" Shift="yes" Key="86" nth="1" />
+        <Shortcut id="42014" Ctrl="no" Alt="yes" Shift="no" Key="75" />
+        <Shortcut id="42015" Ctrl="no" Alt="yes" Shift="no" Key="74" />
+        <Shortcut id="42022" Ctrl="yes" Alt="no" Shift="no" Key="191" />
+        <Shortcut id="42035" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="42036" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="42023" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="43007" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="43005" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="48011" Ctrl="yes" Alt="no" Shift="no" Key="188" />
+        <Shortcut id="50004" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="50003" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="44095" Ctrl="yes" Alt="no" Shift="no" Key="9" />
+        <Shortcut id="44096" Ctrl="yes" Alt="no" Shift="yes" Key="9" />
+        <Shortcut id="44098" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="44099" Ctrl="no" Alt="no" Shift="no" Key="0" />
+        <Shortcut id="42002" Ctrl="yes" Alt="no" Shift="no" Key="67" />
+        <Shortcut id="42005" Ctrl="yes" Alt="no" Shift="no" Key="86" />
+    </InternalCommands>
+    <Macros>
+        <Macro name="Trim Trailing Space and Save" Ctrl="no" Alt="yes" Shift="yes" Key="83">
+            <Action type="2" message="0" wParam="42024" lParam="0" sParam="" />
+            <Action type="2" message="0" wParam="41006" lParam="0" sParam="" />
+        </Macro>
+    </Macros>
+    <UserDefinedCommands>
+        <Command name="Get PHP help" Ctrl="no" Alt="yes" Shift="no" Key="112">https://www.php.net/$(CURRENT_WORD)</Command>
+        <Command name="Wikipedia Search" Ctrl="no" Alt="yes" Shift="no" Key="114">https://en.wikipedia.org/wiki/Special:Search?search=$(CURRENT_WORD)</Command>
+        <Command name="Open selected file path in new instance" Ctrl="no" Alt="yes" Shift="no" Key="117">$(NPP_FULL_FILE_PATH) $(CURRENT_WORD) -nosession -multiInst</Command>
+    </UserDefinedCommands>
+    <PluginCommands />
+    <ScintillaKeys />
+</NotepadPlus>
