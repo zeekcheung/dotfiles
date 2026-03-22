@@ -151,7 +151,7 @@ now(function()
   vim.opt.relativenumber = true
   vim.opt.wrap = false
   vim.opt.list = false
-  vim.opt.wildmode = "longest:full,full"
+  vim.opt.wildmode = "noselect:lastused,full"
   vim.opt.winblend = 0
   vim.opt.pumblend = 0
   vim.opt.helpheight = 10
@@ -676,6 +676,15 @@ later(function()
       { mode = { "n", "x" }, keys = "s" }, -- `s` key (mini.surround, etc.)
       { mode = { "n", "x" }, keys = "z" }, -- `z` key
     },
+  })
+end)
+
+-- Command line tweaks
+later(function()
+  require("mini.cmdline").setup({
+    autocomplete = { enable = true, delay = 100 },
+    autocorrect = { enable = false },
+    autopeek = { enable = false },
   })
 end)
 

@@ -145,10 +145,17 @@
 				"hidden": false,
 				"name": "Command Prompt"
 			},
+			// {
+			// 	"commandline": "powershell -nologo",
+			// 	"guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+			// 	"hidden": false,
+			// 	"name": "PowerShell"
+			// },
 			{
-				"commandline": "powershell -nologo",
-				"guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+				"commandline": "pwsh -nologo",
+				"guid": "{67e252c5-d2d2-4250-9a2b-bf91f64d670a}",
 				"hidden": false,
+				"icon": "ms-appx:///ProfileIcons/pwsh.png",
 				"name": "PowerShell"
 			},
 			{

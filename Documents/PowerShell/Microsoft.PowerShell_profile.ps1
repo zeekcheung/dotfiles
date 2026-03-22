@@ -1,8 +1,18 @@
-# Environment variables
-$env:EDITOR = @("nvim", "vim", "code", "notepad++", "notepad") |
+# shell
+$env:SHELL = "pwsh"
+
+# editor
+$env:EDITOR = @("nvim", "vim", "zed", "code", "notepad++", "notepad") |
   Where-Object { Get-Command $_ -ErrorAction SilentlyContinue } |
   Select-Object -First 1
 
+# mise
+$env:DOT_ROOT = "~/.local/share/chezmoi"
+$env:NOTE_ROOT = "~/OneDrive/Notes"
+$env:PROJECT_ROOT = "~/Projects"
+
+# fzf
+$env:FZF_DEFAULT_COMMAND = "fd --type file --hidden"
 $env:FZF_DEFAULT_OPTS = @"
 --ansi
 --cycle
@@ -14,27 +24,21 @@ $env:FZF_DEFAULT_OPTS = @"
 --color=bg:-1
 --color=gutter:-1
 "@
+$env:FZF_ALT_C_COMMAND = "fd --type directory --hidden"
+$env:FZF_ALT_C_OPTS = "--preview 'eza --tree {}'"
+$env:FZF_CTRL_T_COMMAND = "fd --type file --hidden"
+$env:FZF_CTRL_T_OPTS = "--preview 'bat --color=always --theme=ansi --decorations=never {}'"
 
+# ripgrep
+$env:RIPGREP_CONFIG_PATH = "~/.ripgreprc"
+
+# gcc/g++
 $env:CC = "gcc"
 $env:CXX = "g++"
 
-fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
-
-$env:FNM_MULTISHELL_PATH = "$env:LOCALAPPDATA\fnm_multishells\17184_1745943454228"
-$env:FNM_VERSION_FILE_STRATEGY = "local"
-$env:FNM_DIR = "$env:APPDATA\fnm"
-$env:FNM_LOGLEVEL = "info"
-$env:FNM_NODE_DIST_MIRROR = "https://nodejs.org/dist"
-$env:FNM_COREPACK_ENABLED = "true"
-$env:FNM_RESOLVE_ENGINES = "true"
-$env:FNM_ARCH = "x64"
-
-# Note: VSCode cannot resolve below settings
-if (-not $env:VSCODE_PID)
-{
-  $Host.UI.RawUI.WindowTitle = "pwsh.exe"
-  Import-Module -Name Microsoft.WinGet.CommandNotFound
-}
+# rustup
+$env:RUSTUP_DIST_SERVER = "https://rsproxy.cn"
+$env:RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup"
 
 # Enhance command suggestions
 Set-PSReadLineOption -PredictionSource History
@@ -47,7 +51,6 @@ Set-Alias alias Set-Alias
 Set-Alias ipconfig Get-NetIPAddress
 Set-Alias reboot Restart-Computer
 Set-Alias shutdown top-Computer
-Set-Alias vi nvim
 
 function ..
 {
@@ -139,39 +142,27 @@ function gc
 {
   git commit $args
 }
-function gcm
+function gC
 {
-  git commit -m $args
-}
-function gca
-{
-  git commit --amend --no-edit $args
-}
-function gco
-{
-  git checkout $args
+  git commit --amend $args
 }
 function gd
 {
   git diff $args
 }
-function gl
-{
-  git log $args
-}
 function gf
 {
   git fetch $args
 }
-function gpl
+function gl
 {
-  git pull $args
+  git log $args
 }
-function gps
+function gp
 {
   git push $args
 }
-function gpsf
+function gP
 {
   git push --force $args
 }
@@ -187,9 +178,38 @@ function gri
 {
   git rebase --interactive $args
 }
-function gst
+function gs
+{
+  git stash
+}
+function gt
 {
   git status
+}
+function gu
+{
+  git pull $args
+}
+
+function cz
+{
+  chezmoi $args
+}
+function cza
+{
+  chezmoi apply $args
+}
+function czc
+{
+  chezmoi cd $args
+}
+function cze
+{
+  chezmoi edit $args
+}
+function czu
+{
+  chezmoi update $args
 }
 
 # carapace
@@ -199,4 +219,5 @@ Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 carapace _carapace | Out-String | Invoke-Expression
 
 Invoke-Expression (&starship init powershell)
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
+Invoke-Expression (&zoxide init powershell | Out-String)
+Invoke-Expression (&mise activate pwsh | Out-String)

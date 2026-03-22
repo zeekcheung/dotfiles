@@ -34,7 +34,7 @@ $env.config.menus = [
     style: {
         text: { fg: "green" }
         selected_text: {
-          fg: "white_bold"
+          fg: "black_bold"
           bg: "green"
         }
         description_text: "yellow"
@@ -137,9 +137,6 @@ alias gt = git status
 alias gu = git pull --rebase
 alias gg = lazygit
 
-alias vi = nvim
-alias diff = nvim -d
-
 alias cz = chezmoi
 alias cza = chezmoi apply
 alias czc = chezmoi cd
@@ -150,6 +147,11 @@ alias czu = chezmoi update
 
 # List files in the directory
 def files_in_dir [dir?: string] { ls -as (if ($dir | is-empty) { $env.PWD } else { $dir | path expand }) | get name }
+
+# Open a file with the editor
+def vi [...args] {
+    run-external $env.EDITOR ...$args
+}
 
 # Fuzzy find a file and open it with the editor
 export def vf [target?: string@files_in_dir] {

@@ -21,6 +21,8 @@
 	},
 	"ui_font_family": ".SystemUIFont",
 	"ui_font_size": 20,
+	"agent_buffer_font_size": 16,
+	"agent_ui_font_size": 16,
 	"buffer_font_family": "Maple Mono NF",
 	"buffer_font_size": 20,
 	"text_rendering_mode": "platform_default",
@@ -137,44 +139,6 @@
 	"tab_size": 2,
 	"use_smartcase_search": true,
 
-	// --- AI & Collaboration ---
-	"edit_predictions": {
-		"mode": "subtle",
-		"provider": "zed"
-	},
-	"agent": {
-		"favorite_models": [],
-		"model_parameters": [],
-		"enable_feedback": false
-	},
-	"calls": {
-		"mute_on_join": true
-	},
-
-	// --- System & Extensions ---
-	"session": {
-		"trust_all_worktrees": true
-	},
-	"telemetry": {
-		"diagnostics": false,
-		"metrics": false
-	},
-	"auto_update": true,
-	"auto_install_extensions": {
-		"material-icon-theme": true,
-		"comment": true,
-		"tsgo": true,
-		"biome": true,
-		"lua": true,
-		"nu": true,
-		"ini": true,
-		"xml": true,
-		"toml": true,
-		"log": true,
-		"git-firefly": true,
-		"editorconfig": true
-	},
-
 	// --- Languages & LSP ---
 	"languages": {
 		"JavaScript": {
@@ -221,6 +185,7 @@
 			"language_servers": ["ty", "ruff"]
 		},
 		"Markdown": {
+			// TODO: Setup LSP (marksman) for markdown
 			"language_servers": ["marksman"],
 			"prettier": { "allowed": true },
 			"format_on_save": "on",
@@ -228,6 +193,7 @@
 			"remove_trailing_whitespace_on_save": true
 		},
 		"YAML": { "prettier": { "allowed": true } },
+		// TODO: Setup LSP (taplo) for toml
 		// "Astro": { "formatter": { "language_server": { "name": "biome" } } },
 		"CSS": { "formatter": { "language_server": { "name": "biome" } } },
 		// "GraphQL": { "formatter": { "language_server": { "name": "biome" } } },
@@ -266,5 +232,75 @@
 		"ini": [".shellcheckrc", ".sqlfluff", ".desktop", "dunstrc"],
 		"HTML": ["*.hbs", "*.html", "*.handlebars", "*.mustache"],
 		"Git Config": ["dot_gitconfig"]
+	},
+
+	// --- System & Extensions ---
+	"session": {
+		"trust_all_worktrees": true
+	},
+	"telemetry": {
+		"diagnostics": false,
+		"metrics": false
+	},
+	"calls": {
+		"mute_on_join": true
+	},
+	"auto_update": true,
+	"auto_install_extensions": {
+		"material-icon-theme": true,
+		"comment": true,
+		"tsgo": true,
+		"biome": true,
+		"lua": true,
+		"nu": true,
+		"ini": true,
+		"xml": true,
+		"toml": true,
+		"log": true,
+		"git-firefly": true,
+		"editorconfig": true
+	},
+
+	// --- AI ---
+	"edit_predictions": {
+		"mode": "subtle",
+		"provider": "zed"
+	},
+	"agent": {
+		"default_profile": "minimal",
+		"default_model": {
+			"provider": "openrouter",
+			"model": "qwen/qwen3.6-plus:free",
+			"enable_thinking": false
+		},
+		"favorite_models": [
+			{
+				"provider": "openrouter",
+				"model": "qwen/qwen3.6-plus:free",
+				"enable_thinking": false
+			},
+			{
+				"provider": "openrouter",
+				"model": "qwen/qwen3-next-80b-a3b-instruct:free",
+				"enable_thinking": false
+			},
+			{
+				"provider": "openrouter",
+				"model": "qwen/qwen3-coder:free",
+				"enable_thinking": false
+			},
+			{
+				"provider": "openrouter",
+				"model": "minimax/minimax-m2.5:free",
+				"enable_thinking": false
+			},
+			{
+				"provider": "openrouter",
+				"model": "nvidia/nemotron-3-super-120b-a12b:free",
+				"enable_thinking": false
+			}
+		],
+		"model_parameters": [],
+		"enable_feedback": false
 	}
 }

@@ -110,7 +110,8 @@
 			"space u h": "editor::ToggleInlayHints",
 			"space u n": "editor::ToggleLineNumbers",
 			"space u r": "editor::ToggleRelativeLineNumbers",
-			"space u w": "editor::ToggleSoftWrap"
+			"space u w": "editor::ToggleSoftWrap",
+			"space tab tab": "workspace::NewFile"
 		}
 	},
 	{

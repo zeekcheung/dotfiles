@@ -2,13 +2,11 @@
 $env.SHELL = "nu"
 
 # editor
-$env.EDITOR = ""
-for $editor in ["nvim" "vim" "vi" "zed" "notepad++" "notepad"] {
-  if (((which $editor) | length) > 0) {
-    $env.EDITOR = $editor
-    break
-  }
-}
+$env.EDITOR = (
+    ["nvim", "vim", "vi", "zed", "notepad++", "notepad"]
+    | where { |it| (which $it | is-not-empty) }
+    | first
+)
 
 # misc
 $env.DOT_ROOT = "~/.local/share/chezmoi"
