@@ -1,0 +1,6 @@
+{
+  indent: 2
+  line_length: 120
+  margin: 1
+  exclude: ["vendor/**", "target/**"]
+}

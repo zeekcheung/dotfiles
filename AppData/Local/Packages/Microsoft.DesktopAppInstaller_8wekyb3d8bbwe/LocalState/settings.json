@@ -1,0 +1,17 @@
+{
+  "$schema": "https://aka.ms/winget-settings.schema.json",
+
+  "installBehavior": {
+    "preferences": {
+      "scope": "machine"
+    }
+  },
+  "telemetry": {
+    "disable": true
+  },
+  "experimentalFeatures": {
+    "sourcePriority": true,
+    "experimentalARG": true,
+    "experimentalCMD": true
+  }
+}

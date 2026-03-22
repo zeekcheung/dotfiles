@@ -1,0 +1,24 @@
+# See https://www.chezmoi.io/reference/special-files/chezmoiignore/
+# Check the ignored files with `chezmoi ignored`
+
+{{ if eq .chezmoi.os "windows" }}
+
+.config/*
+!.config/starship.toml
+.local/share
+
+{{ else }}
+
+*.ps1
+AppData
+Documents
+
+{{ end }}
+
+README.md
+node_modules
+package.json
+bun.lock
+stylua.toml
+nufmt.nuon
+PSScriptAnalyzerSettings.psd1

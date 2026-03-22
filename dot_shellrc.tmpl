@@ -1,0 +1,91 @@
+# vim: foldmethod=marker
+# chezmoi:template: left-delimiter="# [[" right-delimiter="]]"
+
+# Alias {{{
+
+# General
+alias du="du --human-readable"
+alias grep="grep --color=always"
+alias ls="ls --color=always --group-directories-first"
+alias l="ls -la"
+alias la="ls -a"
+alias ll="ls -l"
+alias tree="eza --color=always --tree"
+alias cat="bat -p"
+alias v="nvim"
+alias vi="nvim"
+alias diff="nvim -d"
+alias f="fzf"
+alias py="python3"
+alias pn="pnpm"
+alias fetch="fastfetch"
+
+# Git
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gC="git commit --amend"
+alias gd="git diff"
+alias gf="git fetch"
+alias gl="git log"
+alias gp="git push"
+alias gP="git push --force"
+alias gr="git rebase"
+alias grc="git rebase --continue"
+alias gri="git rebase --interactive"
+alias gs="git stash"
+alias gt="git status"
+alias gu="git pull --rebase"
+alias gg="lazygit"
+
+# Chezmoi
+alias cz="chezmoi"
+alias cza="chezmoi apply"
+alias czc="chezmoi cd"
+alias czd="chezmoi destroy"
+alias cze="chezmoi edit"
+alias czu="chezmoi update"
+
+# [[- if eq .chezmoi.os "arch" ]]
+
+# Paru
+alias p="paru"
+alias pas="paru -S"
+alias par="paru -Rns"
+alias paq="paru -Q"
+alias pau="paru -Syyu"
+
+# [[- end ]]
+
+# }}}
+
+# Function {{{
+
+# Summarize disk usage of current directory with sorting
+dus() {
+  du -h "${1:-.}" --max-depth=1 | sort -h
+}
+
+# Fuzzy find a file and open it with vi
+vf() (
+  cd -- "${1:-.}" || return
+  file=$(fzf) && vi "$file"
+)
+
+# Fuzzy find a dotfile and open it with vi
+dot() (
+  cd -- "$DOT_HOME" || return
+  vf
+)
+
+# Fuzzy find a note file and open it with vi
+note() (
+  cd -- "$NOTE_HOME" || return
+  if [[ -n $1 ]]; then
+    vi "$1"
+  else
+    vf
+  fi
+)
+
+# }}}

@@ -1,0 +1,90 @@
+patch:
+  app_options:
+    acad.exe: { ascii_mode: true, vim_mode: true }
+    cmd.exe: { ascii_mode: true, vim_mode: true }
+    code.exe: { ascii_mode: true, vim_mode: true }
+    conhost.exe: { ascii_mode: true }
+    devenv.exe: { ascii_mode: true, vim_mode: true }
+    firefox.exe: { ascii_mode: false, vim_mode: true }
+    msedge.exe: { ascii_mode: false, vim_mode: true }
+    neovide.exe: { ascii_mode: true, vim_mode: true }
+    "nvim-qt.exe": { ascii_mode: true, vim_mode: true }
+    obsidian.exe: { ascii_mode: true, vim_mode: true }
+    powershell.exe: { ascii_mode: true, vim_mode: true }
+    pwsh.exe: { ascii_mode: true, vim_mode: true }
+    rider64.exe: { ascii_mode: true, vim_mode: true }
+    ugraf.exe: { ascii_mode: true, vim_mode: true }
+    "wezterm-gui.exe": { ascii_mode: true, vim_mode: true }
+    windowsterminal.exe: { ascii_mode: true, vim_mode: true }
+    wt.exe: { ascii_mode: true, vim_mode: true }
+    zed.exe: { ascii_mode: true, vim_mode: true }
+  global_ascii: false
+  preset_color_schemes:
+    "4o-mast-dark":
+      {
+        author: "4o, based on Mastodon theme dark",
+        back_color: 0x372C28,
+        border_color: 0x372C28,
+        candidate_text_color: 0xFFFFFF,
+        comment_text_color: 0xC8AE9B,
+        hilited_back_color: 0x221B19,
+        hilited_candidate_back_color: 0xFF8D8C,
+        hilited_candidate_label_color: 0xFFFFFF,
+        hilited_candidate_text_color: 0xE0E0E0,
+        hilited_comment_text_color: 0xFFFFFF,
+        hilited_label_color: 0xE0E0E0,
+        hilited_text_color: 0xC8AE9B,
+        label_color: 0xFFFFFF,
+        name: "毛象 / 暗色",
+        text_color: 0xFFFFFF,
+      }
+    win11dark:
+      {
+        name: "Win11暗色 / Win11Dark",
+        color_format: rgba,
+        back_color: 0x2C2C2C,
+        border_color: 0x002C2C2C,
+        hilited_candidate_back_color: 0x383838,
+        hilited_label_color: 0xf9f9f9,
+        label_color: 0xf9f9f9,
+        shadow_color: 0x20000000,
+        text_color: 0xf9f9f9,
+      }
+    win11light:
+      {
+        name: " Win11浅色 / Win11light",
+        color_format: rgba,
+        back_color: 0xf1f3f5,
+        border_color: 0xd8dadc,
+        hilited_candidate_back_color: 0xd4d4ff,
+        hilited_label_color: 0x000000,
+        label_color: 0x2c2d2d,
+        shadow_color: 0x20000000,
+        text_color: 0x2c2d2d,
+      }
+  show_notifications: false
+  style:
+    color_scheme: win11light
+    color_scheme_dark: win11dark
+    comment_font_point: 14
+    font_point: 14
+    horizontal: true
+    inline_preedit: true
+    preedit_type: composition
+    label_font_point: 14
+    label_format: "%s"
+    layout:
+      {
+        border: 1,
+        candidate_spacing: 24,
+        corner_radius: 0,
+        hilite_padding: 10,
+        hilite_padding_x: 10,
+        hilite_spacing: 8,
+        margin_x: 10,
+        margin_y: 5,
+        min_width: 10,
+        round_corner: 8,
+        shadow_radius: 0,
+      }
+    mark_text: ""
