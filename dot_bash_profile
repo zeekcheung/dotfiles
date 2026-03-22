@@ -1,0 +1,2 @@
+# Only works in login shell, and will not read ~/.profile and ~/.bashrc automatically
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"

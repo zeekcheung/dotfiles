@@ -1,0 +1,34 @@
+# Shared environment variables, aliases, and functions
+[ -f "$HOME/.profile" ] && source "$HOME/.profile"
+
+# Options
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s cmdhist
+shopt -s histappend
+
+HISTFILE="$HOME/.bash_history"
+HISTSIZE=10000
+
+# Completion
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
+
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+  source /usr/share/bash-completion/bash_completion
+fi
+
+BASH_COMPLETION_DIR="~/.bash_completion.d"
+if [ -d "$BASH_COMPLETION_DIR" ]; then
+  for file in "$BASH_COMPLETION_DIR/*"; do
+    source "$file"
+  done
+fi
+
+# Tools
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+source <(carapace _carapace)
+eval "$(starship init bash)"
+eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
+eval "$(mise activate bash)"

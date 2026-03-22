@@ -1,0 +1,208 @@
+let mapleader=" "
+let maplocalleader="\\"
+
+set number
+set relativenumber
+set cursorline
+set virtualedit=onemore
+set timeoutlen=250
+set scrolloff=4
+set clipboard=unnamed
+set autoindent
+set shiftwidth=4
+set expandtab
+set smartcase
+set ignorecase
+set magic
+set hlsearch
+set incsearch
+set vsvim_useeditorindent
+set vsvim_hidemarks=<>[]^.'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+" https://learn.microsoft.com/en-us/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022
+
+" Better Escape
+inoremap jj <Esc>
+
+" Better Indent
+vnoremap < <gv
+vnoremap > >gv
+
+" Better Paste
+nnoremap p "+p
+vnoremap p pgvy
+
+" Commenting
+nnoremap gcc :vsc Edit.ToggleLineComment<CR>
+vnoremap gc :vsc Edit.ToggleLineComment<CR>
+
+" Format Document
+nnoremap <leader>cf :vsc Edit.FormatDocument<CR>
+
+" Quit All
+nnoremap <leader>qq :qa<CR>
+" Quit Current
+nnoremap <leader>qw :exit<CR>
+
+" FIXME: Split Window Below
+nnoremap <leader>- :vsc Window.SplitWindowHorizontally<CR>
+nnoremap | :vsc Window.SplitWindowHorizontally<CR>
+" FIXME: Split Window Right
+nnoremap <leader>| :vsc Window.SplitWindowVertically<CR>
+nnoremap \\ :vsc Window.SplitWindowVertically<CR>
+
+" Delete Window
+nnoremap <leader>wd :exit<CR>
+
+" Window Navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+" FIXME: Goto Top Window
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" New File
+nnoremap <leader>fn :vsc File.NewFile<CR>
+
+" Next Buffer
+" nnoremap <tab> :vsc Window.NextTab<CR>
+" Previous Buffer
+" nnoremap <S-tab> :vsc Window.PreviousTab<CR>
+" Next Buffer
+nnoremap ]b :vsc Window.NextTab<CR>
+" Previous Buffer
+nnoremap [b :vsc Window.PreviousTab<CR>
+
+" Switch to Other Buffer
+nnoremap <leader>bb <C-^>
+nnoremap <leader>` <C-^>
+
+" FIXME: Delete Buffer
+nnoremap <leader>bd :vsc Window.Close<CR>
+" TODO: Delete Buffers to the left
+" TODO: Delete Buffers to the right
+" TODO: Toggle pin
+
+" New Tab
+nnoremap <leader><tab><tab> :vsc File.NewFile<CR>
+" FIXME: Close Tab
+nnoremap <leader><tab>d :vsc Window.Close<CR>
+" Next Tab
+nnoremap <leader><tab>n :tabn<CR>
+" Previous Tab
+nnoremap <leader><tab>p :tabp<CR>
+" First Tab
+nnoremap <leader><tab>f :tabfirst<CR>
+" Last Tab
+nnoremap <leader><tab>l :tablast<CR>
+
+" Escape and Clear hlsearch
+nmap <esc> :nohlsearch<CR>
+nmap <leader>ur :nohlsearch<CR>
+
+" TODO: Location List
+" TODO: Quickfix List
+" Next Quickfix
+nnoremap ]q :vsc View.NextError<CR>
+" Previous Quickfix
+nnoremap [q :vsc View.PreviousError<CR>
+" Next Diagnostic
+nnoremap ]d :vsc View.NextError<CR>
+" Previous Diagnostic
+nnoremap [d :vsc View.PreviousError<CR>
+" Next Warning
+nnoremap ]w :vsc View.NextError<CR>
+" Previous Warning
+nnoremap [w :vsc View.PreviousError<CR>
+" Next Error
+nnoremap ]e :vsc View.NextError<CR>
+" Previous Error
+nnoremap [e :vsc View.PreviousError<CR>
+
+" Hover
+nnoremap K :vsc Edit.QuickInfo<CR>
+" Diagnostic
+nnoremap <leader>cd :vsc Edit.QuickInfo<CR>
+
+" Goto Definition
+nnoremap gd :vsc Edit.GoToDefinition<CR>
+" FIXME: Goto References
+nnoremap gr :vsc Edit.GoToReference<CR>
+" TODO: Goto Implementation
+nnoremap gI :vsc Edit.GoToImplementation<CR>
+" TODO: Goto Type Definition
+nnoremap gy :vsc Edit.GoToTypeDefinition<CR>
+" FIXME: Next Reference
+nnoremap ]] :vsc CodeRush.NextReference<CR>
+" FIXME: Previous Reference
+nnoremap [[ :vsc CodeRush.PreviouReference<CR>
+
+" TODO: Code Action
+nnoremap <leader>ca :vsc Edit.QuickInfo<CR>
+" TODO: Source Action
+nnoremap <leader>cA :vsc Edit.QuickInfo<CR>
+
+" TODO: Rename File
+nnoremap <leader>rf :vsc File.Rename<CR>
+" Rename Symbol
+nnoremap <leader>cr :vsc Refactor.Rename<CR>
+
+" FIXME: Find Files
+nnoremap <leader><space> :vsc Edit.GoToAll<CR>
+nnoremap <leader>ff :vsc Edit.GoToAll<CR>
+
+" FIXME: Grep
+nnoremap <leader/ :vsc Window.WindowSearch<CR>
+
+" FIXME: Find Config Files
+nnoremap <leader>fc :vsc View.Configure<CR>
+
+" FIXME: Find Recent Files
+nnoremap <leader>fr :vsc Edit.GotoRecent<CR>
+
+" FIXME: Search symbols
+nnoremap <leader>ss :vsc Edit.QuickFindSymbol<CR>
+
+" FIXME: Search Word
+nnoremap <leader>sg :vsc Window.QuickLaunch<CR>
+
+" FIXME: Git
+nnoremap <leader>gg :vsc View.GitWindow<CR>
+
+" TODO: Git Commits
+
+" TODO: Git Status
+
+" TODO: Git Blame line
+
+" TODO: Git History
+
+" TODO: Git Log
+
+" FIXME: Toggle Colorscheme
+nnoremap <leader>uc :vsc Project.Theme<CR>
+
+" Toggle Wrap
+nnoremap <leader>uw :vsc Edit.ToggleWordWrap<CR>
+
+" FIXME: Toggle Spell
+nnoremap <leader>us :vsc Edit.ToggleSpellChecker<CR>
+" nnoremap <leader>us :vsc ToggleSpellChecker<CR>
+
+" Toggle Terminal
+nnoremap <leader>th :vsc View.Terminal<CR>
+
+" TODO: Toggle Explorer
+nnoremap <leader>e :vsc View.SolutionExplorer<CR>
+
+" Toggle Diagnostics
+nnoremap <leader>ud :vsc View.ErrorList<CR>
+
+" FIXME: Toggle Symbol Outline
+nnoremap <leader>cs :vscView.DocumentOutline<CR>
+
+" TODO: Notifications
+nnoremap <leader>un :vsc View.Notifications<CR>
+
+" Plugins
+nnoremap <leader>l :vsc ManageExtensions<CR>
