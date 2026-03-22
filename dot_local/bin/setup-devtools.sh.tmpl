@@ -1,0 +1,102 @@
+# vim: foldmethod=marker
+# chezmoi:template: left-delimiter="# [[" right-delimiter="]]"
+
+# Script to install language-servers, formatters, and linters
+
+set -e
+
+# Prelude {{{
+
+# Load profile
+[ -f "$HOME/.profile" ] && . "$HOME/.profile"
+
+# Check if command exists
+exists() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+# }}}
+
+# go packages {{{
+
+install_go_packages() {
+  if ! exists go; then
+    echo "go must be installed."
+    return 1
+  fi
+
+  go install mvdan.cc/sh/v3/cmd/shfmt@latest
+  go install golang.org/x/tools/gopls@latest
+  go install mvdan.cc/gofumpt@latest
+  go install golang.org/x/tools/cmd/goimports@latest
+}
+
+install_go_packages
+
+# }}}
+
+# npm packages {{{
+
+install_npm_packages() {
+  if ! exists bun; then
+    echo "bun must be installed."
+    return 1
+  fi
+
+  bun install -g bash-language-server
+  bun install -g @johnnymorganz/stylua-bin
+  bun install -g typescript
+  # bun install -g @vtsls/language-server
+  bun install -g vscode-langservers-extracted
+  bun install -g yaml-language-server
+  bun install -g @fsouza/prettierd
+  bun install -g oxlint
+  bun install -g oxfmt
+  bun install -g tombi
+  bun install -g rumdl
+}
+
+install_npm_packages
+
+# }}}
+
+# python packages {{{
+
+install_python_packages() {
+  if ! exists uv; then
+    echo "uv must be installed."
+    return 1
+  fi
+
+  uv tool install ty@latest
+  uv tool install ruff@latest
+  uv tool install sqruff@latest
+}
+
+install_python_packages
+
+# }}}
+
+# binary packages {{{
+
+install_binary_packages() {
+  GH_PROXY="https://v6.gh-proxy.org"
+
+  download() {
+    local out="$BIN_DIR/${2##*/}"
+    [[ -z "${FORCE:-}" && -f "$out" ]] && return
+    curl -f -# -L "${GH_PROXY:+${GH_PROXY%/}/}$1" -o "$out" || {
+      echo "failed to download $1"
+      return 1
+    }
+  }
+
+  # [[if eq .chezmoi.os "windows" -]]
+  download "https://github.com/zeekcheung/nufmt/releases/latest/download/nufmt-windows-x86_64.exe" "nufmt.exe"
+  download "https://github.com/artempyanykh/marksman/releases/latest/download/marksman.exe" "marksman.exe"
+  # [[- end]]
+}
+
+install_binary_packages
+
+# }}}
