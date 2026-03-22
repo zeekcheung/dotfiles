@@ -1,0 +1,380 @@
+let mapleader=" "
+let maplocalleader="\\"
+
+set number
+set relativenumber
+set cursorline
+" set wrap
+set novisualbell
+set virtualedit=block
+set timeoutlen=250
+
+set scrolloff=4
+set sidescrolloff=8
+
+set autowrite
+set clipboard=unnamed
+
+set autoindent
+set smartindent
+set shiftround
+set shiftwidth=4
+set expandtab
+
+set smartcase
+set ignorecase
+set magic
+set hlsearch
+set incsearch
+
+" Go to Left Window
+nmap <C-h> <C-w>h
+" Go to Lower Window
+nmap <C-j> <C-w>j
+" Go to Upper Window
+nmap <C-k> <C-w>k
+" Go to Right Window
+nmap <C-l> <C-w>l
+
+" FIX: Increase Window Height
+" nmap <C-Up> <Action>(IncrementWindowHeight)
+" " Decrease Window Height
+" nmap <C-Down> <Action>(DecrementWindowHeight)
+" " Decrease Window Width
+" nmap <C-Left> <Action>(DecrementWindowWidth)
+" " Increase Window Width
+" nmap <C-Right> <Action>(IncrementWindowWidth)
+
+" Move Down
+nmap <A-j> <Action>(MoveLineDown)
+vmap <A-j> <Action>(MoveLineDown)
+imap <A-j> <Esc><Action>(MoveLineDown)i
+
+" Move Up
+nmap <A-k> <Action>(MoveLineUp)
+vmap <A-k> <Action>(MoveLineUp)
+imap <A-k> <Esc><Action>(MoveLineUp)i
+
+" Prev Buffer
+nmap <S-tab> <Action>(PreviousTab)
+" Next Buffer
+nmap <Tab> <Action>(NextTab)
+
+" Prev Buffer (alternative)
+nmap [b <Action>(PreviousTab)
+" Next Buffer (alternative)
+nmap ]b <Action>(NextTab)
+
+" Switch to Other Buffer
+nnoremap <leader>bb <C-^>
+" Switch to Other Buffer (alternative)
+nnoremap <leader>` <C-^>
+" Delete Buffer
+nmap <leader>bd <Action>(CloseContent)
+" Delete Other Buffers
+nmap <leader>bo <Action>(CloseAllEditorsButActive)
+
+" Escape and Clear hlsearch
+nmap <esc> :nohlsearch<CR>
+nmap <leader>ur :nohlsearch<CR>
+
+" Add Comment Below
+nmap gco o<c-o>gcc
+" Add Comment Above
+nmap gcO O<c-o>gcc
+
+" Plugins
+nmap <leader>l <Action>(WelcomeScreen.Plugins)
+
+" New File
+nmap <leader>fn <Action>(NewElementSamePlace)
+
+" Location List
+nmap <leader>xl <Action>(ActivateProblemsViewToolWindow)
+" Quickfix List
+nmap <leader>xq <Action>(ActivateProblemsViewToolWindow)
+
+" Previous Quickfix
+nmap [q <Action>(GotoPreviousError)
+" Next Quickfix
+nmap ]q <Action>(GotoNextError)
+
+" Format
+nmap <leader>cf <Action>(ReformatCode)
+vmap <leader>cf <Action>(ReformatCode)
+
+nmap <leader>cd <Action>(ActivateProblemsViewToolWindow)
+" Next Diagnostic
+nmap ]d <Action>(GotoNextError)
+" Prev Diagnostic
+nmap [d <Action>(GotoPreviousError)
+" Next Error
+nmap ]e <Action>(GotoNextError)
+" Prev Error
+nmap [e <Action>(GotoPreviousError)
+" Next Warning
+nmap ]w <Action>(GotoNextError)
+" Prev Warning
+nmap [w <Action>(GotoPreviousError)
+
+" Toggle Wrap
+nmap <leader>uw :setlocal wrap!<CR>
+" Toggle Relative Number
+nmap <leader>uL :set relativenumber!<CR>
+" Toggle Diagnostics
+nmap <leader>ud <Action>(ActivateProblemsViewToolWindow)
+" Toggle Line Numbers
+nmap <leader>ul :set number!<CR>
+" Toggle Background
+nmap <leader>ub <Action>(ChangeLaf)
+" Toggle Inlay Hints
+nmap <leader>uh <Action>(ToggleInlayHintsGloballyAction)
+
+" Git
+nmap <leader>gg <Action>(ActivateCommitToolWindow)
+" Git Blame Line
+nmap <leader>gb <Action>(Annotate)
+" Git Browse
+nmap <leader>gB <Action>(Vcs.Show.Log)
+" Git History
+nmap <leader>gf <Action>(Vcs.ShowTabbedFileHistory)
+" Git Log
+nmap <leader>gl <Action>(Vcs.Show.Log)
+
+" Quit All
+nmap <leader>qq <Action>(Exit)
+
+" Inspect Pos
+nmap <leader>ui <Action>(ActivateStructureToolWindow)
+
+" FIX: Changelog
+" nmap <leader>L <Action>(WhatsNewAction)
+
+" Terminal
+nmap <leader>th <Action>(ActivateTerminalToolWindow)
+
+" Split Window Below.  :split<cr> doesn't work.
+nmap <leader>- <c-w>s
+nmap <bar> <c-w>s
+" Split Window Right
+nmap <leader><bar> <c-w>v
+nmap \\ <c-w>v
+
+" Delete Window
+nmap <leader>wd <Action>(CloseContent)
+nmap <leader>qw <Action>(CloseContent)
+" Toggle Maximize
+nmap <leader>wm <Action>(ToggleDistractionFreeMode)
+
+" Last Tab
+nmap <leader><tab>l <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Close Other Tabs
+nmap <leader><tab>o :<cr>
+" First Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" New Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(StoreNewLayout)
+" Next Tab
+nmap <leader><tab>] <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Previous Tab
+nmap <leader><tab>[ <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+" Close Tab
+nmap <leader><tab>f <Action>(StoreDefaultLayout)<Action>(ChangeToolWindowLayout)
+
+" Goto Definition
+nmap gd <Action>(GotoDeclaration)
+" References
+nmap gr <Action>(FindUsages)
+" Goto Implementation
+nmap gI <Action>(GotoImplementation)
+" Goto Type Definition
+nmap gy <Action>(GotoTypeDeclaration)
+" Goto Declaration
+nmap gD <Action>(GotoDeclaration)
+" Signature Help
+nmap gK <Action>(ParameterInfo)
+" Code Action
+nmap <leader>ca <Action>(RefactoringMenu)
+vmap <leader>ca <Action>(RefactoringMenu)
+" FIX: Rename File
+" nmap <leader>cR <Action>(RenameFile)
+" Rename
+nmap <leader>cr <Action>(RenameElement)
+" Source Action
+nmap <leader>cA <Action>(ShowIntentionActions)
+" Next Reference
+nmap ]] <Action>(GotoNextElementUnderCaretUsage)
+" Prev Reference
+nmap [[ <Action>(GotoPrevElementUnderCaretUsage)
+
+" Delete buffers to the left
+nmap <leader>bl <Action>(CloseAllToTheLeft)
+" Toggle pin
+nmap <leader>bp <Action>(PinActiveTabToggle)
+" Delete Non-Pinned Buffers
+nmap <leader>bP <Action>(CloseAllUnpinnedEditors)
+" Delete buffers to the right
+nmap <leader>br <Action>(CloseAllToTheRight)
+
+" FIX: Explorer
+" nmap <leader>e <Action>(ActivateProjectToolWindow)
+
+" Git Explorer
+nmap <leader>ge <Action>(ActivateVersionControlToolWindow)
+
+" Notifications
+nmap <leader>snd <Action>(ClearAllNotifications)
+nmap <leader>un <Action>(ClearAllNotifications)
+
+" Find Files
+nmap <leader><space> <Action>(GotoFile)
+" Switch Buffer
+nmap <leader>, <Action>(Switcher)
+" Grep
+nmap <leader>/ <Action>(FindInPath)
+" Command History
+nmap <leader>: :history<cr>
+" Buffers
+nmap <leader>fb <Action>(Switcher)
+" Find Config File
+nmap <leader>fc <Action>(ShowSettings)
+" Find Files
+nmap <leader>ff <Action>(GotoFile)
+" Recent
+nmap <leader>fr <Action>(RecentFiles)
+" Commits
+nmap <leader>gc <Action>(Vcs.Show.Log)
+" Status
+nmap <leader>gs <Action>(Vcs.Show.Log)
+" Registers
+nmap <leader>s" :registers<cr>
+" Buffer
+nmap <leader>sb <Action>(Switcher)
+" Command History
+nmap <leader>sc :history<cr>
+" Commands
+nmap <leader>sC <Action>(GotoAction)
+" Diagnostics
+nmap <leader>sd <Action>(ActivateProblemsViewToolWindow)
+" Grep
+nmap <leader>sg <Action>(FindInPath)
+" Help Pages
+nmap <leader>sh <Action>(HelpTopics)
+" Search Highlight Groups
+nmap <leader>sH <Action>(HighlightUsagesInFile)
+" Jumplist
+nmap <leader>sj <Action>(RecentLocations)
+" Key Maps
+nmap <leader>sk :map<cr>
+" Location List
+nmap <leader>sl <Action>(ActivateProblemsViewToolWindow)
+" Jump to Mark
+nmap <leader>sm :marks<cr>
+" Man Pages
+nmap <leader>sM <Action>(ShowDocumentation)
+" Options
+nmap <leader>so <Action>(ShowSettings)
+" Quickfix List
+nmap <leader>sq <Action>(ActivateProblemsViewToolWindow)
+" Goto Symbol
+nmap <leader>ss <Action>(GotoSymbol)
+" Word
+nmap <leader>sw mzviw<Action>(FindInPath)<esc>`z
+" Selection
+vmap <leader>sw <Action>(FindInPath)
+" Colorscheme with Preview
+nmap <leader>uC <Action>(ChangeLaf)
+
+" Run with Args
+nmap <leader>da <Action>(ChooseRunConfiguration)
+" Toggle Breakpoint
+nmap <leader>db <Action>(ToggleLineBreakpoint)
+" Breakpoint Condition
+nmap <leader>dB <Action>(AddConditionalBreakpoint)
+" Continue
+nmap <leader>dc <Action>(Resume)
+" Run to Cursor
+nmap <leader>dC <Action>(ForceRunToCursor)
+" Go to Line (No Execute)
+nmap <leader>dg :echo 'Not yet implemented.'<cr>
+" Step Into
+nmap <leader>di <Action>(StepInto)
+" Down
+nmap <leader>dj <Action>(GotoNextError)
+" Up
+nmap <leader>dk <Action>(GotoPreviousError)
+" Run Last
+nmap <leader>dl <Action>(Debug)
+" Step Out
+nmap <leader>do <Action>(StepOut)
+" Step Over
+nmap <leader>dO <Action>(StepOver)
+" Pause
+nmap <leader>dp <Action>(Pause)
+" Toggle REPL
+nmap <leader>dr <Action>(JShell.Console)
+" Session
+nmap <leader>ds :echo 'Not yet implmented.'<cr>
+" Terminate
+nmap <leader>dt <Action>(Stop)
+" Widgets
+nmap <leader>dw :echo 'There is no equivalent mapping for Widgets.'<cr>
+
+" Todo
+nmap <leader>st <Action>(ActivateTODOToolWindow)
+" Previous Todo Comment
+nmap [t ?\(TODO\|FIX\|HACK\|WARN\|PERF\|NOTE\|TEST\):<cr>
+" Next Todo Comment
+nmap ]t /\(TODO\|FIX\|HACK\|WARN\|PERF\|NOTE\|TEST\):<cr>
+
+" Eval
+nmap <leader>de <Action>(EvaluateExpression)
+vmap <leader>de <Action>(EvaluateExpression)
+" Dap UI
+nmap <leader>du <Action>(ActivateDebugToolWindow)
+
+" Run Last
+nmap <leader>tl <Action>(Run)
+" Show Output
+nmap <leader>to <Action>(ActivateRunToolWindow)
+" Toggle Output Panel
+nmap <leader>tO <Action>(ActivateRunToolWindow)
+" Run Nearest
+nmap <leader>tr <Action>(RunClass)
+" Toggle Summary
+nmap <leader>ts :echo 'Not yet implmented.'<cr>
+" Stop
+nmap <leader>tS <Action>(Stop)
+" Run File
+nmap <leader>tt <Action>(RunClass)
+
+" Debug Nearest
+nmap <leader>td <Action>(ChooseDebugConfiguration)
+
+" Increment / Decrement Selection
+sethandler <C-Space> n:vim v:vim i:ide
+nmap <C-Space> <Action>(EditorSelectWord)
+vmap <C-Space> <Action>(EditorSelectWord)
+vmap <BS> <Action>(EditorUnSelectWord)
+
+" Keep selection active after indenting in visual mode
+vnoremap > >gv
+vnoremap < <gv
+
+" Escape
+inoremap jj <Esc>
+
+" Paste
+nnoremap p "+p
+vnoremap p pgvy
+
+" https://github.com/JetBrains/ideavim/wiki/IdeaVim-Plugins
+
+Plug 'tpope/vim-commentary'
+
+Plug 'tpope/vim-surround'
+set g:surround_no_mappings = 1
+nmap gsa <Plug>YSurround
+xmap gsa <Plug>VSurround
+nmap gsr <Plug>CSurround
+nmap gsd <Plug>DSurround

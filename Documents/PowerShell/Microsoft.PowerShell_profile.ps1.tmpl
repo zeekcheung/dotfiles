@@ -1,0 +1,10 @@
+# chezmoi:template: left-delimiter="# [[" right-delimiter=]]
+
+# [[- template "PowerShell/profile.ps1" . -]]
+
+# Carapace
+$env:CARAPACE_BRIDGES = "zsh,fish,bash,inshellisense"
+Set-PSReadLineOption -Colors @{ "Selection" = "`e[7m" }
+Import-CachedInit carapace _carapace powershell
+
+# vim: foldmethod=marker ft=ps1

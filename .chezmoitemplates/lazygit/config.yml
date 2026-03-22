@@ -1,0 +1,17 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+gui:
+  language: "en"
+  nerdFontsVersion: "3"
+  scrollHeight: 8
+
+disableStartupPopups: true
+
+notARepository: skip
+
+keybinding:
+  universal:
+    scrollLeft: h
+    scrollRight: l
+    nextTab: L
+    prevTab: H

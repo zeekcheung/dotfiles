@@ -1,0 +1,9 @@
+{{ if eq .chezmoi.os "windows" }}
+
+{{ else }}
+
+AppData/*
+*.bat
+*.bat.tmpl
+
+{{ end }}

@@ -1,0 +1,61 @@
+# vim: ft=toml
+# chezmoi:template: left-delimiter="# [[" right-delimiter="]]"
+
+[tools]
+"aqua:starship/starship" = "latest"
+"aqua:carapace-sh/carapace-bin" = "latest"
+"aqua:sharkdp/bat" = "latest"
+"aqua:sharkdp/fd" = "latest"
+"aqua:eza-community/eza" = "latest"
+"aqua:ajeetdsouza/zoxide" = "latest"
+"aqua:BurntSushi/ripgrep" = "latest"
+"aqua:junegunn/fzf" = "latest"
+# [[if eq .chezmoi.os "windows" -]]
+# FIXME: [Keys are detected twice on Windows 10](https://github.com/jesseduffield/lazygit/issues/5344)
+"aqua:jesseduffield/lazygit" = { version = "0.57", os = "windows" }
+# [[- else -]]
+"aqua:jesseduffield/lazygit" = "latest"
+# [[- end]]
+"aqua:tree-sitter/tree-sitter" = "latest"
+# "core:zig" = "latest"
+# "aqua:zigtools/zls" = "latest"
+# "core:go" = "latest"
+# "aqua:mvdan/gofumpt" = "latest"
+# "go:golang.org/x/tools/cmd/goimports" = "latest"
+"core:python" = "latest"
+"aqua:astral-sh/uv" = "latest"
+"aqua:astral-sh/ty" = "latest"
+"aqua:astral-sh/ruff" = "latest"
+"core:node" = "latest"
+"core:bun" = "latest"
+"npm:@typescript/native-preview" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"npm:yaml-language-server" = "latest"
+"npm:@fsouza/prettierd" = "latest"
+# "npm:prettier" = "latest"
+"aqua:biomejs/biome" = "latest"
+"aqua:tombi-toml/tombi" = "latest"
+"aqua:LuaLS/lua-language-server" = "latest"
+"aqua:JohnnyMorganz/StyLua" = "latest"
+"npm:bash-language-server" = "latest"
+"aqua:mvdan/sh" = "latest"
+"github:zeekcheung/nufmt" = "latest"
+"github:rvben/rumdl" = "latest"
+
+[settings]
+experimental = true
+prefer_offline = true
+not_found_auto_install = true
+http_timeout = "180s"
+
+node.mirror_url = "https://mirrors.ustc.edu.cn/node/"
+npm.package_manager = "bun"
+
+url_replacements = { "https://github.com" = "https://v6.gh-proxy.org/https://github.com" }
+
+[tasks.setup-zig-mirrors]
+description = "Setup Zig community mirror list from official source"
+run = """
+  CACHE_DIR=$(mise cache path)
+  curl -fSL "https://ziglang.org/download/community-mirrors.txt" -o "${CACHE_DIR}/zig/community-mirrors.txt"
+"""
