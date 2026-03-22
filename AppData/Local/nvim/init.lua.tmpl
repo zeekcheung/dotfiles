@@ -1,0 +1,62 @@
+{{- template "nvim/init.lua" . -}}
+
+-- Windows ====================================================================
+
+-- Change default shell
+local shell = vim.env.SHELL
+
+if shell == "nu" then
+  vim.opt.shell = "nu"
+  vim.opt.shellcmdflag = "--stdin --no-newline -c"
+  vim.opt.shellredir = "out+err> %s"
+  vim.opt.shellxescape = ""
+  vim.opt.shellxquote = ""
+  vim.opt.shellquote = ""
+  vim.opt.shelltemp = false
+elseif shell == "pwsh" then
+  vim.opt.shell = "pwsh"
+  vim.opt.shellcmdflag =
+    "-NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSDefaultParameterValues['Out-File:Encoding']='utf8';"
+  vim.opt.shellredir = "2>&1 | %{ '$_' } | Out-File %s; exit $LastExitCode"
+  vim.opt.shellpipe = "2>&1 | %{ '$_' } | Tee-Object %s; exit $LastExitCode"
+  vim.opt.shellquote = ""
+  vim.opt.shellxquote = ""
+end
+
+-- Auto switch input method
+
+local ffi = require("ffi")
+ffi.cdef([[
+  typedef int BOOL;
+  typedef unsigned int UINT;
+  typedef void* HWND;
+  typedef intptr_t LONG_PTR;
+  typedef uint64_t UINT_PTR;
+  typedef UINT_PTR WPARAM;
+  typedef LONG_PTR LPARAM;
+
+  HWND GetForegroundWindow();
+  HWND ImmGetDefaultIMEWnd(HWND hWnd);
+  LONG_PTR SendMessageA(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+]])
+
+-- Load Imm32 for the IME window handle
+local imm32 = ffi.load("Imm32")
+
+-- Set Microsoft Pinyin to English mode
+vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained", "InsertLeave" }, {
+	pattern = "*",
+	callback = function()
+		local WM_IME_CONTROL = 0x0283
+		local IMC_SETCONVERSIONMODE = 0x0002
+		-- 0 is the value for "Alphanumeric/English" mode in Microsoft Pinyin
+		local MODE_ENGLISH = 0
+
+		local hwnd = ffi.C.GetForegroundWindow()
+		if hwnd ~= nil then
+			local ime_hwnd = imm32.ImmGetDefaultIMEWnd(hwnd)
+			ffi.C.SendMessageA(ime_hwnd, WM_IME_CONTROL, IMC_SETCONVERSIONMODE, MODE_ENGLISH)
+		end
+	end,
+	desc = "Set Microsoft Pinyin to English mode",
+})

@@ -1,0 +1,170 @@
+# vim: foldmethod=marker ft=sh
+# chezmoi:template: left-delimiter="# [[" right-delimiter="]]"
+
+# Environment {{{
+
+add_path() { export PATH="$1:$PATH"; }
+
+# [[- if eq .chezmoi.os "linux" ]]
+
+# XDG
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
+
+# Path
+add_path "$HOME/.local/bin"
+add_path "$XDG_DATA_HOME/mise/shims"
+
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+export MANPAGER="nvim +Man!"
+export MANROFFOPT="-c"
+
+# [[- end ]]
+
+# Misc {{{
+
+export EDITOR="nvim"
+export VISUAL="nvim"
+
+# }}}
+
+export FZF_DEFAULT_COMMAND="fd --type file --hidden"
+export FZF_DEFAULT_OPTS="--ansi --cycle --reverse --border=rounded --height=100% --preview='bat --color=always --theme=ansi --decorations=never {}' --preview-window='right,50%,border-left,<50(down,50%,border-up)' --color=bg:-1 --color=gutter:-1"
+export FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target --preview 'tree -C {}'"
+export FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort' --color header:italic --header 'Press CTRL-Y to copy command into clipboard' --preview 'echo {}' --preview-window='wrap'"
+
+# Ripgrep
+export RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
+
+# C/C++
+export CC="gcc"
+export CXX="g++"
+
+# Rust
+export RUSTUP_DIST_SERVER="https://rsproxy.cn"
+export RUSTUP_UPDATE_ROOT="https://rsproxy.cn/rustup"
+export CARGO_REGISTRIES_CRATES_IO_PROTOCOL="sparse"
+export CARGO_SOURCE_CRATES_IO_REPLACE_WITH="rsproxy"
+export CARGO_SOURCE_RSPROXY_REGISTRY="sparse+https://rsproxy.cn/index/"
+
+# Go
+export GOPROXY="https://goproxy.cn,direct"
+
+# Python
+export UV_DEFAULT_INDEX="https://pypi.tuna.tsinghua.edu.cn/simple"
+export PIP_INDEX_URL="https://pypi.tuna.tsinghua.edu.cn/simple"
+
+# Node
+export NPM_CONFIG_REGISTRY="https://registry.npmmirror.com"
+
+# Mise
+export DOT_HOME="$HOME/.local/share/chezmoi"
+export NOTE_HOME="$HOME/OneDrive/Notes"
+export PROJECT_HOME="$HOME/Projects"
+
+# }}}
+
+# Alias {{{
+
+# General
+alias du="du -h"
+alias ls="eza --color=always --sort=Name --group-directories-first"
+alias l="ls -la"
+alias la="ls -a"
+alias ll="ls -l"
+alias vi="nvim"
+alias diff="nvim -d"
+alias cat="bat -p"
+alias tree="eza --color=always --tree"
+alias grep="grep --color=always"
+alias py="python3"
+alias f="fzf"
+alias fetch="fastfetch"
+alias zed="zeditor"
+
+# Git
+alias ga="git add"
+alias gb="git branch"
+alias gc="git commit"
+alias gC="git commit --amend"
+alias gd="git diff"
+alias gf="git fetch"
+alias gl="git log"
+alias gp="git push"
+alias gP="git push --force"
+alias gr="git rebase"
+alias grc="git rebase --continue"
+alias gri="git rebase --interactive"
+alias gs="git stash"
+alias gt="git status"
+alias gu="git pull --rebase"
+alias gg="lazygit"
+
+# Chezmoi
+alias cz="chezmoi"
+alias cza="chezmoi apply"
+alias czc="chezmoi cd"
+alias czd="chezmoi destroy"
+alias cze="chezmoi edit"
+alias czu="chezmoi update"
+
+# [[- if eq .chezmoi.os "arch" ]]
+
+# Paru
+alias p="paru"
+alias pas="paru -S"
+alias par="paru -Rns"
+alias paq="paru -Q"
+alias pau="paru -Syyu"
+
+# [[- end ]]
+
+# }}}
+
+# Functions {{{
+
+dus() { du -h "${1:-.}" --max-depth=1 | sort -h; }
+
+# Fuzzy find a file and open it with vi
+vf() {
+  local target
+  target="$(pwd)/$1"
+  if [ -f "$target" ]; then
+    vi "$target"
+  elif [ -d "$target" ]; then
+    pushd "$target" || exit
+    local file
+    file="$(fzf)"
+    if [ -n "$file" ]; then
+      vi "$file"
+    fi
+    popd || exit
+  fi
+}
+
+# Fuzzy find a dotfile and open it with vi
+dot() {
+  pushd "$DOT_HOME" || exit
+  vf "$1"
+  popd || exit
+}
+
+# Fuzzy find a note file and open it with vi
+note() {
+  if [ -n "$1" ]; then
+    vi "$NOTE_HOME/$1"
+  else
+    pushd "$NOTE_HOME" || exit
+    vf "$1"
+    popd || exit
+  fi
+}
+
+# }}}

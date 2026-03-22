@@ -1,0 +1,65 @@
+# vim: foldmethod=marker ft=sh
+# chezmoi:template: left-delimiter="# [[" right-delimiter="]]"
+
+# Shared environment variables, aliases, and functions
+[ -f "$HOME/.profile" ] && source "$HOME/.profile"
+
+# Environment {{{
+
+HISTFILE="$HOME/.bash_history"
+HISTSIZE=10000
+
+# }}}
+
+# Bash {{{
+
+shopt -s autocd
+shopt -s cdable_vars
+shopt -s cmdhist
+shopt -s histappend
+
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on"
+bind 'set bell-style none'
+
+# }}}
+
+# Tools {{{
+
+# Cache the init scripts in the cache dir
+cache_dir="${XDG_CACHE_HOME:-$TEMP}/bash"
+mkdir -p "$cache_dir"
+
+# Init tool with cache: cache_init <command> [args...]
+cache_init() {
+  local tool="$1"
+  local init_path="$cache_dir/$tool.sh"
+
+  if [ ! -f "$init_path" ] || [ ! -s "$init_path" ]; then
+    "$@" >"$init_path" 2>/dev/null
+  fi
+
+  source "$init_path"
+}
+
+# [[- if eq .chezmoi.os "linux" -]]
+
+# Mise
+cache_init mise activate bash
+
+# [[- end ]]
+
+# Starship
+# cache_init starship init bash
+
+# Zoxide
+cache_init zoxide init bash
+
+# Fzf
+cache_init fzf --bash
+
+# Carapace
+# export CARAPACE_BRIDGES="zsh,fish,bash,inshellisense"
+# cache_init carapace _carapace
+
+# }}}
