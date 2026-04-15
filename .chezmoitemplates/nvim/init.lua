@@ -23,6 +23,17 @@ vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
+-- File names used to identify a root directory
+vim.g.root_patterns = {
+  ".git",
+  "Makefile",
+  "CMakeLists.txt",
+  "Cargo.toml",
+  "go.mod",
+  "package.json",
+  "pyproject.toml",
+}
+
 -- Helpers ====================================================================
 
 local map = vim.keymap.set
@@ -127,7 +138,7 @@ end
 -- Get path from env or fallback
 ---@param env_var string environment variable of path
 ---@param fallback string fallback path
-local function get_path_from_env(env_var, fallback)
+function GetPathFromEnv(env_var, fallback)
   local path = os.getenv(env_var)
   return path and resolve_path(path) or resolve_path(fallback)
 end
@@ -188,7 +199,6 @@ now(function()
   vim.opt.foldmethod = "indent"
   vim.opt.foldtext = "v:lua.FoldText()"
   vim.opt.foldopen:remove({ "hor", "search" })
-  vim.opt.statuscolumn = "%!v:lua.StatusColumn()"
   vim.opt.fillchars = {
     fold = " ",
     foldsep = " ",
@@ -207,65 +217,6 @@ now(function()
 
   function FoldText()
     return vim.fn.getline(vim.v.foldstart)
-  end
-
-  function ClickFold()
-    local pos = vim.fn.getmousepos()
-    vim.api.nvim_win_set_cursor(pos.winid, { pos.line, 1 })
-    vim.cmd("normal! za")
-  end
-
-  function StatusColumn()
-    local win = vim.g.statusline_winid
-    local buf = vim.api.nvim_win_get_buf(win)
-    local lnum = vim.v.lnum
-
-    -- Get sign extmarks
-    local extmarks = vim.api.nvim_buf_get_extmarks(buf, -1, { lnum - 1, 0 }, { lnum - 1, -1 }, {
-      details = true,
-      type = "sign",
-    })
-
-    -- Get signs
-    local signs = {}
-    for _, mark in ipairs(extmarks) do
-      local extmark_details = mark[4] or {}
-      local name = extmark_details.sign_hl_group or extmark_details.sign_name or ""
-      local kind = (name:find("GitSign") or name:find("MiniDiffSign")) and "git" or "sign"
-      if not signs[kind] or (extmark_details.priority or 0) > (signs[kind].priority or 0) then
-        signs[kind] = { text = extmark_details.sign_text, texthl = extmark_details.sign_hl_group }
-      end
-    end
-
-    -- Build left sign
-    local left = "  "
-    if signs.sign then
-      local text = vim.fn.strcharpart(signs.sign.text or "", 0, 2)
-      left = text .. string.rep(" ", 2 - vim.fn.strchars(text))
-      if signs.sign.texthl then
-        left = "%#" .. signs.sign.texthl .. "#" .. left .. "%*"
-      end
-    end
-
-    -- Build right sign (fold sign)
-    local fold_level = vim.fn.foldlevel(lnum)
-    local right = "  "
-    if fold_level > 0 then
-      if vim.fn.foldclosed(lnum) ~= -1 then
-        right = "%#Folded# %*"
-      elseif signs.git then
-        local text = vim.fn.strcharpart(signs.git.text or "", 0, 2)
-        right = text .. string.rep(" ", 2 - vim.fn.strchars(text))
-        if signs.git.texthl then
-          right = "%#" .. signs.git.texthl .. "#" .. right .. "%*"
-        end
-      end
-    end
-
-    -- Build line number
-    local num = (vim.wo[win].relativenumber and vim.v.relnum ~= 0) and vim.v.relnum or lnum
-
-    return left .. "%=" .. num .. " " .. "%@v:lua.ClickFold@" .. right .. "%T"
   end
 
   -- Hide the statusline on startup
@@ -352,9 +303,6 @@ now(function()
   map("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
   map("n", "<Leader>cl", vim.lsp.codelens.run, { desc = "Code Lens" })
   map("n", "<Leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
-  map("n", "<Leader>uh", function()
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-  end, { desc = "Toggle inlay hints" })
 
 	-- Quickfix/Location
 	-- stylua: ignore start
@@ -416,46 +364,6 @@ now(function()
     vim.notify("Deleted " .. #inactive .. " plugins.")
   end, { desc = "Delete Plugins" })
   map("n", "<Leader>pu", vim.pack.update, { desc = "Update Plugins" })
-
-  -- lazygit
-  if vim.fn.executable("lazygit") == 1 then
-    vim.keymap.set("n", "<Leader>gg", function()
-      -- Dimensions
-      local width = math.floor(vim.o.columns * 0.75)
-      local height = math.floor(vim.o.lines * 0.75)
-
-      -- Create an unlisted, scratch buffer for the terminal
-      local buf = vim.api.nvim_create_buf(false, true)
-
-      -- Open the floating window and switch focus to it
-      local win = vim.api.nvim_open_win(buf, true, {
-        relative = "editor",
-        width = width,
-        height = height,
-        col = math.floor((vim.o.columns - width) / 2),
-        row = math.floor((vim.o.lines - height) / 2),
-        style = "minimal",
-        border = "none",
-      })
-
-      -- Open lazygit inside the terminal buffer
-      vim.fn.jobstart("lazygit", {
-        term = true,
-        on_exit = function()
-          -- Automatically close the window and delete the buffer when lazygit exits
-          if vim.api.nvim_win_is_valid(win) then
-            vim.api.nvim_win_close(win, true)
-          end
-          if vim.api.nvim_buf_is_valid(buf) then
-            vim.api.nvim_buf_delete(buf, { force = true })
-          end
-        end,
-      })
-
-      -- Enter terminal mode immediately
-      vim.cmd("startinsert")
-    end, { desc = "LazyGit" })
-  end
 
   -- Autocmds =================================================================
 
@@ -528,16 +436,6 @@ now(function()
     end,
     "Close with q"
   )
-
-  -- Setup options for terminal windows
-  new_autocmd("TermOpen", "*", function()
-    vim.opt_local.statuscolumn = ""
-  end, "Terminal options")
-
-  -- Close terminal window on exit
-  new_autocmd("TermClose", "*", function()
-    vim.cmd("bd!")
-  end, "Close terminal")
 end)
 
 -- Miscellaneous small but useful functions
@@ -546,15 +444,7 @@ now(function()
   require("mini.misc").setup()
 
   -- Change current working directory based on the current file path
-  MiniMisc.setup_auto_root({
-    ".git",
-    "Makefile",
-    "CMakeLists.txt",
-    "Cargo.toml",
-    "go.mod",
-    "package.json",
-    "pyproject.toml",
-  })
+  MiniMisc.setup_auto_root(vim.g.root_patterns)
 
   -- Restore latest cursor position on file open
   MiniMisc.setup_restore_cursor()
@@ -589,6 +479,9 @@ now(function()
     },
     integrations = {
       mini = true,
+      snacks = true,
+      blink_cmp = true,
+      noice = true,
     },
   })
 
@@ -639,83 +532,6 @@ now(function()
 
   -- Add LSP kind icons
   MiniIcons.tweak_lsp_kind()
-end)
-
--- Notifications provider
-now(function()
-  require("mini.notify").setup({
-    lsp_progress = {
-      enable = false,
-    },
-    window = {
-      config = function()
-        local has_statusline = vim.o.laststatus > 0
-        local pad = vim.o.cmdheight + (has_statusline and 1 or 0)
-
-        return {
-          width = math.floor(vim.o.columns * 0.4),
-          anchor = "SE",
-          col = vim.o.columns,
-          row = vim.o.lines - pad,
-          border = "rounded",
-        }
-      end,
-      max_width_share = 0.5,
-      winblend = 25,
-    },
-  })
-end)
-
--- Start screen
-now(function()
-  local starter = require("mini.starter")
-
-  starter.setup({
-    evaluate_single = true,
-    items = {
-      { name = "Config", action = "Pick config", section = "" },
-      { name = "Dotfiles", action = "Pick dotfiles", section = "" },
-      { name = "Files", action = "Pick files", section = "" },
-      { name = "Grep", action = "Pick grep_live", section = "" },
-      { name = "Edit", action = "ene | startinsert", section = "" },
-      { name = "Notes", action = "Pick notes", section = "" },
-      { name = "Projects", action = "Pick projects", section = "" },
-      { name = "Recent", action = "Pick oldfiles", section = "" },
-      { name = "Sessions", action = [[lua MiniSessions.select("read")]], section = "" },
-      { name = "Xtensions", action = [[lua vim.pack.update()]], section = "" },
-      { name = "Quit", action = "qa", section = "" },
-    },
-    footer = "",
-    content_hooks = {
-      starter.gen_hook.adding_bullet(" "),
-      starter.gen_hook.aligning("center", "center"),
-    },
-
-    -- Need to use j/k to navigation so delete them from `query_updaters`
-    query_updaters = "abcdefghilmnopqrstuvwxyz0123456789_-.",
-    silent = true,
-  })
-
-  -- Use j/k to navigation
-  new_autocmd("FileType", "ministarter", function(args)
-    -- stylua: ignore start
-    map("n", "j", function() MiniStarter.update_current_item("next") end, { buffer = args.buf, silent = true })
-    map("n", "k", function() MiniStarter.update_current_item("prev") end, { buffer = args.buf, silent = true })
-    -- stylua: ignore end
-  end, "MiniStarter navigation")
-
-  -- Calculate startup time
-  vim.api.nvim_create_autocmd("VimEnter", {
-    desc = "Calculate startup time",
-    once = true,
-    callback = function()
-      if vim.bo.filetype == "ministarter" then
-        local ms = math.floor((vim.uv.hrtime() - _G.StartTime) / 1e6)
-        starter.config.footer = string.format("  Neovim started in %dms", ms)
-        pcall(starter.refresh)
-      end
-    end,
-  })
 end)
 
 -- Statusline
@@ -823,137 +639,308 @@ now(function()
   })
 end)
 
--- Tabline
+-- Bufferline
 now(function()
-  -- Click Handlers
-  _G.BufSwitch = function(buf, _, btn)
-    if btn == "l" then
-      vim.api.nvim_set_current_buf(buf)
-    end
-  end
-  _G.BufClose = function(buf, _, btn)
-    if btn == "l" then
-      _ = MiniBufremove and MiniBufremove.delete(buf, false) or pcall(vim.api.nvim_buf_delete, buf, {})
-    end
-  end
+  add({ { src = "https://github.com/akinsho/bufferline.nvim", name = "bufferline" } })
 
-  local last_click = 0
-  local timeout = 300
-
-  _G.BufNew = function()
-    local now_click = vim.uv.now()
-    if now_click - last_click < timeout then
-      vim.cmd("enew")
-    end
-    last_click = now_click
-  end
-
-  -- Tabline Builder
-  _G.MyTabline = function()
-    local s = ""
-    local cur = vim.api.nvim_get_current_buf()
-
-    for _, b in ipairs(vim.fn.getbufinfo({ buflisted = 1 })) do
-      local is_sel = b.bufnr == cur
-      local hl = (b.bufnr == cur) and "%#TabLineSel#" or "%#TabLine#"
-      local name = b.name ~= "" and vim.fn.fnamemodify(b.name, ":t") or "[No Name]"
-
-      -- Colorful file icon
-      local ic, h = MiniIcons.get("file", name)
-      local h_name = h .. "Tab"
-      set_hl(h_name, {
-        fg = get_hl({ name = h }).fg,
-        bg = get_hl({ name = is_sel and "Normal" or "TabLine" }).bg,
-      })
-      local icon, icon_hl = ic, "%#" .. h_name .. "#"
-
-      -- Close icon or colorized modification dot
-      local close = "󰅖"
-      local dot_hl = hl -- Default to normal tab text color
-      if b.changed == 1 then
-        close = "●"
-        dot_hl = "%#DiagnosticHint#"
-      end
-
-      -- Render tab
-      s = s
-        .. string.format(
-          "%%%d@v:lua.BufSwitch@%s  %s%s %s%s  %%%d@v:lua.BufClose@%s%s  %%X%%X",
-          b.bufnr,
-          hl,
-          icon_hl,
-          icon,
-          hl,
-          name,
-          b.bufnr,
-          dot_hl,
-          close
-        )
-    end
-
-    -- return s .. "%#TabLineFill#%="
-    return s .. "%@v:lua.BufNew@%#TabLineFill#%=%X"
-  end
-
-  -- Activation
-  vim.opt.showtabline = 2
-  vim.opt.tabline = "%!v:lua.MyTabline()"
-end)
-
--- Animation
-later(function()
-  local mouse_scrolled = false
-
-  for _, dir in ipairs({ "Up", "Down" }) do
-    local key = "<ScrollWheel" .. dir .. ">"
-    map({ "n", "i", "v" }, key, function()
-      mouse_scrolled = true
-      return key
-    end, { expr = true })
-  end
-
-  local animate = require("mini.animate")
-
-  animate.setup({
-    scroll = {
-      timing = animate.gen_timing.linear({ duration = 20, unit = "total" }),
-      subscroll = animate.gen_subscroll.equal({
-        predicate = function(total_scroll)
-          if mouse_scrolled then
-            mouse_scrolled = false
-            return false
-          end
-          return total_scroll > 1
-        end,
-      }),
-    },
-    cursor = { enable = false },
-    resize = { enable = false },
-    open = { enable = false },
-    close = { enable = false },
-  })
-
-  vim.g.minianimate_disable = true
-end)
-
--- Indent scope
-later(function()
-  require("mini.indentscope").setup({
-    symbol = "│",
+  require("bufferline").setup({
     options = {
-      try_as_border = true,
+      -- stylua: ignore
+      close_command = function(n) Snacks.bufdelete(n) end,
+      -- stylua: ignore
+      right_mouse_command = function(n) Snacks.bufdelete(n) end,
+      indicator = { style = "none" },
+      offsets = {
+        {
+          filetype = "snacks_layout_box",
+          text = "Snacks-explorer",
+          highlight = "Directory",
+          text_align = "left",
+        },
+      },
+      show_duplicate_prefix = false,
+      enforce_regular_tabs = true,
+      always_show_bufferline = true,
+      groups = {
+        items = {
+          require("bufferline.groups").builtin.pinned:with({ icon = "󰐃" }),
+        },
+      },
     },
   })
 
-  -- Disable Indentscope in MiniStarter
-  local function disable_indentscope()
-    vim.b.miniindentscope_disable = true
-  end
-  if vim.bo.filetype == "ministarter" then
-    disable_indentscope()
-  end
-  new_autocmd("FileType", "ministarter", disable_indentscope, "Disable Indentscope in MiniStarter")
+  map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next Buffer" })
+  map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev Buffer" })
+  map("n", "<S-h>", "<cmd>BufferLineMovePrev<cr>", { desc = "Move Buffer Prev" })
+  map("n", "<S-l>", "<cmd>BufferLineMoveNext<cr>", { desc = "Move Buffer Next" })
+  map("n", "<Leader>bb", "<cmd>BufferLinePick<cr>", { desc = "Pick Buffer" })
+  map("n", "<Leader>bl", "<Cmd>BufferLineCloseLeft<CR>", { desc = "Delete Left Buffers" })
+  map("n", "<Leader>br", "<Cmd>BufferLineCloseRight<CR>", { desc = "Delete Right Buffers" })
+  map("n", "<Leader>bs", "<Cmd>BufferLineSortByDirectory<CR>", { desc = "Sort Buffers by Directory" })
+  map("n", "<Leader>bp", "<Cmd>BufferLineTogglePin<CR>", { desc = "Toggle Pin" })
+  map("n", "<Leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", { desc = "Delete Non-Pinned Buffers" })
 end)
+
+-- A collection of small QoL plugins
+now(function()
+  add({ { src = "https://github.com/folke/snacks.nvim", name = "snacks" } })
+
+  require("snacks").setup({
+    bigfile = { enabled = true },
+    bufdelete = { enabled = true },
+    dashboard = {
+      preset = {
+        -- stylua: ignore
+        keys = {
+          { icon = " ", key = "d", desc = "Dotfiles", action = ":lua PickDotfiles()", },
+          { icon = " ", key = "n", desc = "Notes", action = ":lua PickNotes()", },
+          { icon = " ", key = "p", desc = "Projects", action = ":lua PickProjects()" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})", },
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          -- { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          { icon = " ", key = "s", desc = "Restore Session", action = ':lua MiniSessions.select("read")' },
+          { icon = " ", key = "x", desc = "Extras", action = ":lua vim.pack.update()" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
+      sections = {
+        { section = "header" },
+        { section = "keys", gap = 1, padding = 1 },
+        function()
+          local ms = math.floor((vim.uv.hrtime() - _G.StartTime) / 1e6)
+          local str = string.format("  Neovim started in %dms", ms)
+
+          return {
+            text = {
+              { str, hl = "SnacksDashboardFooter" },
+            },
+            align = "center",
+          }
+        end,
+      },
+    },
+    explorer = { enabled = true },
+    gitbrowse = { enabled = true },
+    image = { enabled = true },
+    indent = { enabled = true, only_scope = true },
+    input = { enabled = true },
+    lazygit = { enabled = true },
+    notifier = {
+      top_down = false,
+      -- Avoid icons cannot be rendered properly in the default "compact" style
+      icons = { error = "", warn = "", info = "", debug = "", trace = "" },
+    },
+    picker = {
+      -- default layout
+      layout = {
+        --- Use the default layout or vertical if the window is too narrow
+        preset = function()
+          return vim.o.columns >= (vim.o.lines * 2.67) and "default" or "vertical"
+        end,
+        -- override
+        layout = {
+          width = 0.8,
+          min_width = 70,
+          height = 0.8,
+          border = "none",
+        },
+      },
+      formatters = {
+        file = { filename_first = true },
+      },
+      win = {
+        input = {
+          keys = {
+            ["<Tab>"] = { "list_down", mode = { "i", "n" } },
+            ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+            ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+            ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+          },
+        },
+      },
+      sources = {
+        files = { hidden = true },
+        explorer = {
+          layout = {
+            layout = { width = 0.3 },
+            hidden = { "input", "preview" },
+            preview = "main",
+          },
+          win = {
+            list = {
+              keys = {
+                ["<f2>"] = "explorer_rename",
+                ["<LeftRelease>"] = "confirm",
+                ["<C-l>"] = { "<cmd>wincmd 2w<CR>", expr = true },
+                ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+                ["<S-Tab>"] = { "select_and_prev", mode = { "i", "n" } },
+              },
+            },
+          },
+          hidden = true,
+          exclude = { ".git" },
+          include = { "dist" },
+        },
+      },
+    },
+    quickfile = { enabled = true },
+    scope = { enabled = true },
+    scratch = { enabled = true },
+    scroll = {
+      animate = {
+        duration = { step = 5, total = 50 },
+      },
+      animate_repeat = {
+        delay = 100,
+        duration = { step = 3, total = 30 },
+      },
+    },
+    statuscolumn = { enabled = true },
+    terminal = { win = { wo = { winbar = "" } } },
+    util = { enabled = true },
+    win = {
+      width = 0.85,
+      height = 0.85,
+      -- border = "rounded",
+      -- backdrop = 100,
+    },
+    words = { enabled = true },
+  })
+
+  -- Close terminal window on exit
+  new_autocmd("TermClose", "*", function()
+    if vim.bo.ft ~= "snacks_terminal" then
+      Snacks.bufdelete()
+    end
+  end, "Close terminal")
+
+  function PickDotfiles()
+    Snacks.picker.files({ cwd = GetPathFromEnv("DOT_ROOT", "~/.local/share/chezmoi") })
+  end
+
+  function PickNotes()
+    Snacks.picker.files({ cwd = GetPathFromEnv("NOTE_ROOT", "~/OneDrive/Notes") })
+  end
+
+  function PickProjects()
+    Snacks.picker.projects({
+      dev = { "~/dev", GetPathFromEnv("PROJECT_ROOT", "~/Projects") },
+      patterns = vim.g.root_patterns,
+    })
+  end
+
+  -- stylua: ignore start
+  map("n", "<Leader><space>", function() Snacks.picker.smart() end, { desc = "Smart Find Files" })
+  map("n", "<Leader>,", function() Snacks.picker.buffers() end, { desc = "Find Buffers" })
+  map("n", "<Leader>:", function() Snacks.picker.command_history() end, { desc = "Command History" })
+  map("n", "<Leader>/", function() Snacks.picker.grep() end, { desc = "Search History" })
+  map("n", "<Leader>'", function() Snacks.picker.registers() end, { desc = "Registers" })
+  map("n", "<Leader>.", function() Snacks.scratch() end, { desc = "Toggle Scratch Buffer" })
+  map("n", "<Leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
+  map("n", "<Leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
+  map("n", "<Leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+  map("n", "<Leader>fb", function() Snacks.picker.buffers() end, { desc = "Find Buffers" })
+  map("n", "<Leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
+  map("n", "<Leader>ff", function() Snacks.picker.files() end , { desc = "Find Files" })
+  map("n", "<Leader>fg", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
+  map("n", "<Leader>fr", function() Snacks.picker.recent() end, { desc = "Find Recent Files" })
+  map("n", "<Leader>fd", PickDotfiles, { desc = "Find Dotfiles" })
+  map("n", "<Leader>fn", PickNotes, { desc = "Find Note File" })
+  map("n", "<Leader>fp", PickProjects, { desc = "Find Projects" })
+  map("n", "<Leader>gb", function() Snacks.picker.git_branches() end, { desc = "Git Branches" })
+  map("n", "<Leader>gB", function() Snacks.gitbrowse() end, { desc = "Git Browse" })
+  map("n", "<Leader>gg", function() Snacks.lazygit() end, { desc = "Lazygit" })
+  map("n", "<Leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
+  map("n", "<Leader>gL", function() Snacks.picker.git_log_line() end, { desc = "Git Log Line" })
+  map("n", "<Leader>sc", function() Snacks.picker.commands() end, { desc = "Command" })
+  map("n", "<Leader>sC", function() Snacks.picker.command_history() end, { desc = "Command History" })
+  map("n", "<Leader>sd", function() Snacks.picker.diagnostics_buffer() end, { desc = "Diagnostic (Buffer)" })
+  map("n", "<Leader>sD", function() Snacks.picker.diagnostics() end, { desc = "Diagnostic (Workspace)" })
+  map("n", "<Leader>sg", function() Snacks.picker.grep({ hidden = true }) end, { desc = "Grep" })
+  map("n", "<Leader>sh", function() Snacks.picker.help() end, { desc = "Help tags" })
+  map("n", "<Leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlight groups" })
+  map("n", "<Leader>sk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
+  map("n", "<Leader>sl", function() Snacks.picker.loclist() end, { desc = "Location List" })
+  map("n", "<Leader>sm", function() Snacks.picker.marks() end, { desc = "Marks" })
+  map("n", "<Leader>sn", function() Snacks.picker.notifications({ win = { preview = { wo = { wrap = true } } } }) end, { desc = "Notification History" })
+  map("n", "<Leader>sr", function() Snacks.picker.resume() end, { desc = "Resume" })
+  map("n", "<Leader>sR", function() Snacks.picker.registers() end, { desc = "Registers" })
+  map("n", "<Leader>ss", function() Snacks.picker.lsp_symbols() end, { desc = "Symbols (Document)" })
+  map("n", "<Leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "Symbols (Workspace)" })
+  map("n", "<Leader>sw", function() Snacks.picker.grep_word() end, { desc = "Grep Current Word" })
+  map("n", "<Leader>th", function() Snacks.terminal(nil, { win = { position = "bottom", height = 0.5, relative = "editor" } }) end, { desc = "Open terminal horizontally" })
+  map("n", "<Leader>tv", function() Snacks.terminal(nil, { win = { position = "right", width = 0.4, relative = "editor" } }) end, { desc = "Open terminal vertically" })
+  map("n", "<Leader>tf", function() Snacks.terminal(nil, { win = { position = "float", relative = "editor" } }) end, {desc = "Open terminal floating" })
+  map("n", "<Leader>uc", function() Snacks.picker.colorschemes() end, { desc = "Toggle colorschemes" })
+  map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = "Goto Definition" })
+  map("n", "gD", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto Type Definition" })
+  map("n", "gr", function() Snacks.picker.lsp_references() end, { desc = "References" })
+  map("n", "gi", function() Snacks.picker.lsp_implementations() end, { desc = "Goto Implementation" })
+  Snacks.toggle.option("showtabline", { on = 3, off = 0, global = true }):map("<Leader>ut")
+  Snacks.toggle.inlay_hints():map("<leader>uh")
+  -- stylua: ignore end
+end)
+
+-- Messages, cmdline and the popupmenu
+now(function()
+  add({
+    "https://github.com/folke/noice.nvim",
+    "https://github.com/MunifTanjim/nui.nvim",
+  })
+
+  require("noice").setup({
+    lsp = {
+      progress = { enabled = true },
+      hover = { enabled = true },
+      signature = { enabled = true },
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+      },
+    },
+    presets = {
+      bottom_search = true,
+      command_palette = true,
+      long_message_to_split = true,
+      lsp_doc_border = true,
+    },
+    popupmenu = { enabled = false },
+    views = {
+      hover = {
+        size = {
+          max_width = math.floor(vim.o.columns * 0.8),
+          max_height = math.floor(vim.o.lines * 0.8),
+        },
+        scrollbar = false,
+      },
+      cmdline_popup = {
+        size = { max_width = math.floor(vim.o.columns * 0.8) },
+      },
+    },
+    routes = {
+      { filter = { mode = "i" }, view = "mini", opts = { skip = true } },
+      { filter = { event = "notify", find = "No information available" }, opts = { skip = true } },
+      { filter = { event = "notify", find = "man.lua" }, opts = { skip = true } },
+      {
+        filter = {
+          event = "msg_show",
+          any = {
+            { find = "%d+L, %d+B" },
+            { find = "; after #%d+" },
+            { find = "; before #%d+" },
+            { find = "%d fewer lines" },
+            { find = "%d more lines" },
+            { find = "E21: Cannot make changes, 'modifiable' is off" },
+          },
+        },
+        opts = { skip = true },
+      },
+    },
+  })
+end)
+
 -- Highlight patterns in text
 later(function()
   local hipatterns = require("mini.hipatterns")
@@ -1004,174 +991,142 @@ later(function()
   })
 end)
 
--- Experimental builtin message + cmdline
-now(function()
-  require("vim._core.ui2").enable({
-    enable = true,
-    msg = {
-      cmd = { height = 0.4 },
-      dialog = { height = 0.4 },
-      msg = { height = 0.4, timeout = 4000 },
-      pager = { height = 1 },
-      targets = {
-        [""] = "msg",
-        empty = "cmd",
-        bufwrite = "msg",
-        confirm = "cmd",
-        emsg = "pager",
-        echo = "msg",
-        echomsg = "msg",
-        echoerr = "pager",
-        completion = "cmd",
-        list_cmd = "msg",
-        lua_error = "pager",
-        lua_print = "msg",
-        progress = "pager",
-        rpc_error = "pager",
-        quickfix = "msg",
-        search_count = "cmd",
-        shell_cmd = "pager",
-        shell_err = "pager",
-        shell_out = "pager",
-        shell_ret = "msg",
-        undo = "msg",
-        verbose = "pager",
-        wildmenu = "cmd",
-        wmsg = "msg",
-        cmdline = "msg",
-      },
-    },
-  })
-end)
-
--- Autohighlight word under cursor with a customizable delay
-later(function()
-  require("mini.cursorword").setup({
-    delay = 1000,
-  })
-
-  set_hl("MiniCursorword", { link = "LspReferenceText" })
-  set_hl("MiniCursorwordCurrent", { link = "LspReferenceText" })
-end)
-
 -- Coding =====================================================================
 
 -- Completion and signature help
 now_if_args(function()
-  require("mini.completion").setup({
-    -- Disable certain automatic actions (virtually) by setting very high delay time (like 10^7)
-    delay = { completion = 100, info = 10 ^ 7, signature = 50 },
-    lsp_completion = {
-      source_func = "omnifunc",
-      auto_setup = false,
-      process_items = function(items, base)
-        return MiniCompletion.default_process_items(items, base, {
-          -- Hide noisy text, prioritize snippets
-          kind_priority = { Snippet = 99, Text = -1 },
-        })
-      end,
-    },
+  add({
+    -- Keep on semver release. Do not use main/commit, otherwise prebuilt fuzzy binary may fail.
+    { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+    "https://github.com/rafamadriz/friendly-snippets",
   })
 
-  -- Customize info and signature windows
-  new_autocmd("User", { "MiniCompletionWindowOpen", "MiniCompletionWindowUpdate" }, function(args)
-    -- local kind = args.data.kind ---@type "info"|"signature"
-    local win_id = args.data.win_id
-
-    -- vim.wo[win_id].winblend = 25
-    local config = vim.api.nvim_win_get_config(win_id)
-    config.border = "rounded"
-    config.title = ""
-    vim.api.nvim_win_set_config(win_id, config)
-  end, "Customize info and signature windows")
-
-  -- Set 'omnifunc' for LSP completion only when an LSP attaches
-  new_autocmd("LspAttach", nil, function(ev)
-    vim.bo[ev.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-  end, "Set 'omnifunc' for LSP")
-
-  -- Tell LSP servers we support mini.completion features
-  vim.lsp.config("*", { capabilities = MiniCompletion.get_lsp_capabilities() })
-end)
-
--- Manage and expand snippets
-later(function()
-  add({ "https://github.com/rafamadriz/friendly-snippets" })
-
-  -- Define language patterns to work better with 'friendly-snippets'
-  local latex_patterns = { "latex/**/*.json", "**/latex.json" }
-  local lang_patterns = {
-    tex = latex_patterns,
-    plaintex = latex_patterns,
-    -- Recognize special injected language of markdown tree-sitter parser
-    markdown_inline = { "markdown.json" },
-  }
-
-  local snippets = require("mini.snippets")
-  local config_path = vim.fn.stdpath("config")
-
-  snippets.setup({
-    snippets = {
-      -- Always load 'snippets/global.json' from config directory
-      snippets.gen_loader.from_file(config_path .. "/snippets/global.json"),
-      -- Load from 'snippets/' directory of plugins, like 'friendly-snippets'
-      snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
+  require("blink.cmp").setup({
+    fuzzy = {
+      -- implementation = "lua",
+      sorts = { "exact", "score", "label" },
     },
-    mappings = { expand = "", jump_next = "", jump_prev = "", stop = "<esc>" },
-    expand = {
-      match = function(snips)
-        -- Do not match with whitespace to cursor's left
-        return snippets.default_match(snips, { pattern_fuzzy = "%S+" })
-      end,
-      insert = function(snippet)
-        return MiniSnippets.default_insert(snippet, {
-          empty_tabstop = "",
-          empty_tabstop_final = "",
-        })
-      end,
+    keymap = {
+      preset = "super-tab",
+      ["<CR>"] = {
+        function(cmp)
+          -- Directly enter new line without select_and_accept for some buffers
+          if vim.tbl_contains({ "markdown", "gitcommit" }, vim.bo.ft) then
+            return
+          end
+          if cmp.is_visible() then
+            return cmp.select_and_accept()
+          end
+        end,
+        "fallback",
+      },
+      ["<C-y>"] = { "select_and_accept", "fallback" },
+      ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+    },
+    completion = {
+      keyword = { range = "full" },
+      list = {
+        selection = {
+          preselect = false,
+          auto_insert = true,
+        },
+      },
+      ghost_text = { enabled = false },
+      menu = {
+        border = "none",
+        scrollbar = false,
+        draw = {
+          align_to = "label",
+          -- treesitter = { "lsp" },
+          columns = { { "kind_icon" }, { "label" } },
+          components = {
+            label = {
+              text = function(ctx)
+                return ctx.label
+              end,
+            },
+            label_detail = {
+              text = function(ctx)
+                return ctx.label_detail
+              end,
+            },
+            kind_icon = {
+              text = function(ctx)
+                local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                return kind_icon
+              end,
+              -- use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+            kind = {
+              -- use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+          },
+        },
+      },
+      documentation = {
+        auto_show = true,
+        auto_show_delay_ms = 200,
+        window = { border = "none" },
+      },
+    },
+    sources = {
+      default = { "lsp", "path", "snippets", "buffer" },
+      providers = {
+        snippets = {
+          score_offset = 0,
+        },
+        buffer = {
+          score_offset = -1,
+          opts = {
+            get_bufnrs = vim.api.nvim_list_bufs,
+          },
+          transform_items = function(_, items)
+            -- Filter CJK characters
+            return vim.tbl_filter(function(item)
+              return not item.label:match("[\u{4E00}-\u{9FFF}\u{3040}-\u{309F}\u{30A0}-\u{30FF}\u{AC00}-\u{D7AF}]")
+            end, items)
+          end,
+        },
+      },
+    },
+    signature = {
+      enabled = true,
+      window = { border = "rounded" },
+    },
+    cmdline = {
+      enabled = true,
+      keymap = {
+        -- preset = "inherit",
+        ["<CR>"] = {},
+        ["<Left>"] = false,
+        ["<Right>"] = false,
+        ["<Tab>"] = { "insert_next" },
+        ["<S-Tab>"] = { "insert_prev" },
+      },
+      completion = {
+        menu = {
+          auto_show = function(_)
+            return true
+          end,
+        },
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = true,
+          },
+        },
+      },
     },
   })
-
-  -- Show snippets as candidates in 'mini.completion' menu
-  MiniSnippets.start_lsp_server()
-
-  -- Clear hl for MiniSessions
-  for _, hl in ipairs({
-    "MiniSnippetsCurrent",
-    "MiniSnippetsCurrentReplace",
-    "MiniSnippetsFinal",
-    "MiniSnippetsUnvisited",
-    "MiniSnippetsVisited",
-  }) do
-    set_hl(hl, { underdouble = false })
-  end
-
-  -- Tab: Completion Menu Next > Snippet Jump Next > Literal Tab
-  map("i", "<Tab>", function()
-    if vim.fn.pumvisible() ~= 0 then
-      -- If completion menu is open, go to next item
-      return "<C-n>"
-    elseif MiniSnippets.session.get() ~= nil then
-      -- If a snippet is active, jump to next stop
-      MiniSnippets.session.jump("next")
-      return ""
-    else
-      -- Otherwise, insert a normal tab
-      return "<Tab>"
-    end
-  end, { expr = true, desc = "Smart Tab" })
-
-  -- S-Tab: Completion Menu Prev > Snippet Jump Prev > Literal S-Tab
-  map("i", "<S-Tab>", function()
-    if vim.fn.pumvisible() ~= 0 then
-      return "<C-p>"
-    elseif MiniSnippets.session.get() ~= nil then
-      MiniSnippets.session.jump("prev")
-      return ""
-    else
-      return "<S-Tab>"
-    end
-  end, { expr = true, desc = "Smart S-Tab" })
 end)
 
 -- Comment lines
@@ -1375,27 +1330,6 @@ end)
 
 -- Editor ===================================================================
 
--- Get user input
-now(function()
-  local input = require("mini.input")
-  input.setup({
-    handlers = {
-      view = input.gen_view.floatwin({
-        style = "TM",
-        adjust_config = function(_, config)
-          local width = math.floor(0.5 * vim.o.columns)
-
-          config.border = "rounded"
-          config.width = width
-          config.row = math.floor(0.15 * vim.o.lines)
-          config.col = math.floor(0.5 * (vim.o.columns - width))
-          return config
-        end,
-      }),
-    },
-  })
-end)
-
 -- Session management
 now(function()
   require("mini.sessions").setup()
@@ -1409,145 +1343,17 @@ now(function()
   -- stylua: ignore end
 end)
 
--- Navigate and manipulate file system
-now_if_args(function()
-  require("mini.files").setup({
-    mappings = {
-      go_in = "L",
-      go_in_plus = "l",
-      synchronize = "<CR>",
-    },
-    windows = { preview = true },
-  })
+-- Session management
+now(function()
+  require("mini.sessions").setup()
 
-  -- Customize MiniFiles windows
-  new_autocmd("User", "MiniFilesWindowOpen", function(args)
-    local win_id = args.data.win_id
-
-    -- vim.wo[win_id].winblend = 25
-    local config = vim.api.nvim_win_get_config(win_id)
-    config.border = "rounded"
-    vim.api.nvim_win_set_config(win_id, config)
-  end, "Customize MiniFiles windows")
-
-  map("n", "<Leader>e", function()
-    if not MiniFiles.close() then
-      MiniFiles.open()
-    end
-  end, { desc = "File Explorer (Root)" })
-
-  map("n", "<Leader>E", function()
-    local _ = MiniFiles.close() or MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-    vim.schedule(function()
-      MiniFiles.reveal_cwd()
-    end)
-  end, { desc = "File Explorer (CWD)" })
-end)
-
--- Track and reuse file system visits (Better oldfiles & Better marks)
-later(function()
-  require("mini.visits").setup()
-end)
-
--- Pick anything
-later(function()
-  require("mini.pick").setup({
-    options = { use_cache = true },
-    window = {
-      config = function()
-        local height = math.floor(0.618 * vim.o.lines)
-        local width = math.floor(0.618 * vim.o.columns)
-
-        return {
-          anchor = "NW",
-          height = height,
-          width = width,
-          row = math.floor(0.5 * (vim.o.lines - height)),
-          col = math.floor(0.5 * (vim.o.columns - width)),
-          border = "rounded",
-        }
-      end,
-    },
-  })
-
-  -- `:Pick files` with `cwd`
-  MiniPick.registry.files = function(local_opts)
-    local opts = { source = { cwd = local_opts.cwd } }
-    local_opts.cwd = nil
-    return MiniPick.builtin.files(local_opts, opts)
-  end
-
-  -- `:Pick config`
-  MiniPick.registry.config = function()
-    return MiniPick.builtin.files({ tool = "fd" }, {
-      source = { name = "Config", cwd = vim.fn.stdpath("config") },
-    })
-  end
-
-  -- `:Pick plugins`
-  MiniPick.registry.plugins = function()
-    return MiniExtra.pickers.explorer(
-      { cwd = resolve_path(vim.fn.stdpath("data") .. "/site/pack/core/opt") },
-      { source = { name = "Plugins" } }
-    )
-  end
-
-  -- `:Pick dotfiles`
-  MiniPick.registry.dotfiles = function()
-    return MiniPick.builtin.files(nil, {
-      source = { name = "Dotfiles", cwd = get_path_from_env("DOT_ROOT", "~/.local/share/chezmoi") },
-    })
-  end
-
-  -- `:Pick notes`
-  MiniPick.registry.notes = function()
-    return MiniPick.builtin.files(
-      nil,
-      { source = { name = "Notes", cwd = get_path_from_env("NOTE_ROOT", "~/OneDrive/Notes") } }
-    )
-  end
-
-  -- `:Pick projects`
-  MiniPick.registry.projects = function()
-    return MiniExtra.pickers.explorer(
-      { cwd = get_path_from_env("PROJECT_ROOT", "~/projects") },
-      { source = { name = "Projects" } }
-    )
-  end
-
-  map("n", "<Leader><space>", "<Cmd>Pick files<CR>", { desc = "Smart" })
-  map("n", "<Leader>:", '<Cmd>Pick history scope=":"<CR>', { desc = "Command History" })
-  map("n", "<Leader>/", '<Cmd>Pick history scope="/"<CR>', { desc = "Search History" })
-  map("n", "<Leader>fb", "<Cmd>Pick buffers<CR>", { desc = "Buffers" })
-  map("n", "<Leader>fc", "<Cmd>Pick config<CR>", { desc = "Config" })
-  map("n", "<Leader>fd", "<Cmd>Pick dotfiles<CR>", { desc = "Dotfiles" })
-  map("n", "<Leader>ff", "<Cmd>Pick files<CR>", { desc = "Files" })
-  map("n", "<Leader>fg", "<Cmd>Pick git_files<CR>", { desc = "Git Files" })
-  map("n", "<Leader>fn", "<Cmd>Pick notes<CR>", { desc = "Notes" })
-  map("n", "<Leader>fp", "<Cmd>Pick projects<CR>", { desc = "Projects" })
-  map("n", "<Leader>fr", "<Cmd>Pick oldfiles<CR>", { desc = "Oldfiles" })
-  map("n", "<Leader>gb", "<Cmd>Pick git_branches<CR>", { desc = "Git Branches" })
-  map("n", "<Leader>gh", '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', { desc = "Git Hunks (Buffer)" })
-  map("n", "<Leader>gH", '<Cmd>Pick git_hunks scope="staged"<CR>', { desc = "Git Hunks (All)" })
-  map("n", "<Leader>gm", '<Cmd>Pick git_commits path="%"<CR>', { desc = "Git Commits (Buffer)" })
-  map("n", "<Leader>gM", "<Cmd>Pick git_commits<CR>", { desc = "Git Commits (All)" })
-  map("n", "<Leader>sc", "<Cmd>Pick commands<CR>", { desc = "Commands" })
-  map("n", "<Leader>sC", '<Cmd>Pick history scope=":"<CR>', { desc = "Command History" })
-  map("n", "<Leader>sd", '<Cmd>Pick diagnostic scope="current"<CR>', { desc = "Diagnostic (Buffer)" })
-  map("n", "<Leader>sD", '<Cmd>Pick diagnostic scope="all"<CR>', { desc = "Diagnostic (Workspace)" })
-  map("n", "<Leader>sg", "<Cmd>Pick grep_live<CR>", { desc = "Grep live" })
-  map("n", "<Leader>sh", "<Cmd>Pick help<CR>", { desc = "Help tags" })
-  map("n", "<Leader>sH", "<Cmd>Pick hl_groups<CR>", { desc = "Highlight groups" })
-  map("n", "<Leader>sk", "<Cmd>Pick keymaps<CR>", { desc = "Keymaps" })
-  map("n", "<Leader>sl", '<Cmd>Pick buf_lines scope="current"<CR>', { desc = "Lines (Buffer)" })
-  map("n", "<Leader>sL", '<Cmd>Pick buf_lines scope="all"<CR>', { desc = "Lines (All)" })
-  map("n", "<Leader>sm", "<Cmd>Pick marks<CR>", { desc = "Marks" })
-  map("n", "<Leader>sr", "<Cmd>Pick registers<CR>", { desc = "Registers" })
-  map("n", "<Leader>sR", "<Cmd>Pick resume<CR>", { desc = "Resume" })
-  map("n", "<Leader>ss", '<Cmd>Pick lsp scope="document_symbol"<CR>', { desc = "Symbols (Document)" })
-  map("n", "<Leader>sS", '<Cmd>Pick lsp scope="workspace_symbol_live"<CR>', { desc = "Symbols (Workspace)" })
-  map("n", "<Leader>sw", '<Cmd>Pick grep pattern="<cword>"<CR>', { desc = "Grep Current Word" })
-  map("n", "<Leader>uc", "<Cmd>Pick colorschemes<CR>", { desc = "Toggle colorschemes" })
+	-- stylua: ignore start
+	map({ "n", "v", "x" }, "<Leader>qd", '<Cmd>lua MiniSessions.select("delete")<CR>', { desc = "Delete Session" })
+	map({ "n", "v", "x" }, "<Leader>qn", '<Cmd>lua MiniSessions.write(vim.fn.input("Session name: "))<CR>', { desc = "New Session" })
+	map({ "n", "v", "x" }, "<Leader>qs", '<Cmd>lua MiniSessions.select("read")<CR>', { desc = "Select Session" })
+	map({ "n", "v", "x" }, "<Leader>qW", '<Cmd>lua MiniSessions.write()<CR>', { desc = "Write Current" })
+	map({ "n", "v", "x" }, "<Leader>qr", '<Cmd>lua MiniSessions.restart()<CR>', { desc = "Restart Session" })
+  -- stylua: ignore end
 end)
 
 -- Diff hunks
@@ -1658,17 +1464,6 @@ later(function()
   })
 end)
 
--- Special key mappings
-later(function()
-  require("mini.keymap").setup()
-
-  -- On `<BS>` just try to account for pairs from 'mini.pairs'
-  MiniKeymap.map_multistep("i", "<BS>", { "minipairs_bs" })
-  -- On `<CR>` try to accept current completion item, fall back to accounting
-  -- for pairs from 'mini.pairs'
-  MiniKeymap.map_multistep("i", "<CR>", { "pmenu_accept", "minipairs_cr" })
-end)
-
 -- Go forward/backward with square brackets
 later(function()
   require("mini.bracketed").setup()
@@ -1678,30 +1473,6 @@ end)
 later(function()
   require("mini.jump").setup({
     silent = true,
-  })
-end)
-
--- Remove buffers
-later(function()
-  require("mini.bufremove").setup({
-    silent = true,
-  })
-
-  map("n", "<Leader>bd", "<Cmd>lua MiniBufremove.delete()<CR>", { desc = "Delete Buffer" })
-  map("n", "<Leader>bD", "<Cmd>lua MiniBufremove.delete(0, true)<CR>", { desc = "Delete Buffer (force)" })
-  map("n", "<Leader>bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", { desc = "Wipeout Buffer" })
-  map("n", "<Leader>bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", { desc = "Wipeout Buffer (force)" })
-  map("n", "<Leader>bn", function()
-    vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
-  end, { desc = "New Buffer (Scratch)" })
-end)
-
--- Command line tweaks
-later(function()
-  require("mini.cmdline").setup({
-    autocomplete = { enable = true, delay = 250 },
-    autocorrect = { enable = false },
-    autopeek = { enable = false },
   })
 end)
 
@@ -1760,7 +1531,7 @@ later(function()
       external_link_icon = {},
     },
     workspaces = {
-      { name = "Obsidian", path = get_path_from_env("NOTE_ROOT", "~/OneDrive/Notes") },
+      { name = "Obsidian", path = GetPathFromEnv("NOTE_ROOT", "~/OneDrive/Notes") },
     },
     new_notes_location = "current_dir",
     daily_notes = {
@@ -1894,6 +1665,7 @@ later(function()
             "vim", "MiniBufremove", "MiniCompletion", "MiniExtra", "MiniFiles",
             "MiniIcons", "MiniKeymap", "MiniMisc", "MiniPick", "MiniSessions",
             "MiniStarter", "MiniStatusline", "MiniSnippets", "MiniTabline",
+            "Snacks"
           },
         },
         telemetry = { enable = false },
@@ -2126,6 +1898,7 @@ end)
 
 if vim.g.neovide then
   vim.g.minianimate_disable = true
+  vim.g.snacks_animate = false
 
   vim.g.neovide_floating_corner_radius = 0.2
   vim.g.neovide_hide_mouse_when_typing = true
