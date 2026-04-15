@@ -100,6 +100,14 @@ local function resolve_path(path)
   return vim.fn.expand(path):gsub("\\", "/")
 end
 
+-- Get path from env or fallback
+---@param env_var string environment variable of path
+---@param fallback string fallback path
+function GetPathFromEnv(env_var, fallback)
+  local path = os.getenv(env_var)
+  return path and resolve_path(path) or resolve_path(fallback)
+end
+
 -- Basics =====================================================================
 
 -- Common configuration presets
@@ -370,11 +378,6 @@ now(function()
     "Close with q"
   )
 
-  -- Close terminal window on exit
-  new_autocmd("TermClose", "*", function()
-    vim.cmd("bd!")
-  end, "Close terminal")
-
   -- Run `chezmoi apply` whenever saving a dotfile
   new_autocmd("BufWritePost", resolve_path("~/.local/share/chezmoi/*"), function()
     local path = vim.fn.expand("%")
@@ -418,6 +421,11 @@ now(function()
         warnings = { "undercurl" },
         information = { "undercurl" },
       },
+    },
+    integrations = {
+      mini = true,
+      snacks = true,
+      blink_cmp = true,
     },
   })
 
@@ -463,137 +471,297 @@ now(function()
   MiniIcons.tweak_lsp_kind()
 end)
 
--- Notifications provider
+-- Bufferline
 now(function()
-  require("mini.notify").setup({
-    window = {
-      config = function()
-        local has_statusline = vim.o.laststatus > 0
-        local pad = vim.o.cmdheight + (has_statusline and 1 or 0)
+  add({ "https://github.com/akinsho/bufferline.nvim" })
 
-        return {
-          width = math.floor(vim.o.columns * 0.4),
-          anchor = "SE",
-          col = vim.o.columns,
-          row = vim.o.lines - pad,
-          border = "rounded",
-        }
-      end,
-      max_width_share = 0.5,
-      winblend = 25,
+  require("bufferline").setup({
+    options = {
+      -- mode = "tabs",
+      -- stylua: ignore
+      close_command = function(n) Snacks.bufdelete(n) end,
+      -- stylua: ignore
+      right_mouse_command = function(n) Snacks.bufdelete(n) end,
+      indicator = { style = "none" },
+      offsets = {
+        {
+          filetype = "snacks_layout_box",
+          text = "",
+          text_align = "center",
+          separator = true,
+        },
+      },
     },
   })
 end)
 
--- Start screen
-now(function()
-  require("mini.starter").setup({
-    evaluate_single = true,
-    items = {
-      { name = "Config files", action = "Pick config_files", section = "" },
-      { name = "Dotfiles", action = "Pick dotfiles", section = "" },
-      { name = "Extensions", action = [[lua vim.pack.update()]], section = "" },
-      { name = "Find files", action = "Pick files", section = "" },
-      { name = "Grep live", action = "Pick grep_live", section = "" },
-      { name = "New file", action = "ene | startinsert", section = "" },
-      { name = "Notes", action = "Pick notes", section = "" },
-      { name = "Projects", action = "Pick projects", section = "" },
-      { name = "Recent files", action = "Pick oldfiles", section = "" },
-      { name = "Sessions", action = [[lua MiniSessions.select("read")]], section = "" },
-      { name = "Quit", action = "qa", section = "" },
-    },
-
-    -- Need to use j/k to navigation so delete them from `query_updaters`
-    query_updaters = "abcdefghilmnopqrstuvwxyz0123456789_-.",
-    silent = true,
-  })
-
-  -- use j/k to navigation
-  new_autocmd("User", "MiniStarterOpened", function()
-    map("n", "j", '<Cmd>lua MiniStarter.update_current_item("next")<CR>', { buffer = true, silent = true })
-    map("n", "k", '<Cmd>lua MiniStarter.update_current_item("prev")<CR>', { buffer = true, silent = true })
-  end, "Navigation for Starter screen")
-end)
-
--- Statusline
+-- Statusline & Winbar
 now(function()
   vim.opt.laststatus = 3
 
-  require("mini.statusline").setup({
-    content = {
-      active = function()
-        local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
-        local git = MiniStatusline.section_git({ trunc_width = 40 })
-        local filename = MiniStatusline.section_filename({ trunc_width = 75 })
-        local diagnostics = MiniStatusline.section_diagnostics({
-          trunc_width = 75,
-          signs = { ERROR = " ", WARN = " ", INFO = " ", HINT = " " },
-        })
-        local diff = MiniStatusline.section_diff({ trunc_width = 75 })
-        local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
-        local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
-        local location = MiniStatusline.section_location({ trunc_width = 75 })
-        -- local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+  add({ "https://github.com/nvim-lualine/lualine.nvim" })
 
-        return MiniStatusline.combine_groups({
-          { hl = mode_hl, strings = { mode } },
-          { hl = "MiniStatuslineDevinfo", strings = { git } },
-          "%<", -- Mark general truncate point
-          { hl = "MiniStatuslineFilename", strings = { filename, diagnostics } },
-          "%=", -- End left alignment
-          -- { hl = "MiniStatuslineFilename", strings = { search } },
-          { hl = "MiniStatuslineDevinfo", strings = { diff, lsp, fileinfo } },
-          { hl = mode_hl, strings = { location } },
-        })
-      end,
+  local disabled_filetypes = { "ministarter", "snacks_dashboard" }
+
+  require("lualine").setup({
+    options = {
+      component_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
+      disabled_filetypes = {
+        statusline = disabled_filetypes,
+        winbar = disabled_filetypes,
+      },
+    },
+    sections = {
+      lualine_a = { "mode" },
+      lualine_b = { "branch" },
+      lualine_c = {
+        { "filetype", icon_only = true, padding = { left = 1, right = 0 } },
+        { "filename", path = 4, padding = { left = 0 } },
+        {
+          "diagnostics",
+          symbols = { error = " ", warn = " ", info = " ", hint = " " },
+          on_click = function()
+            Snacks.picker.diagnostics_buffer()
+          end,
+        },
+      },
+      lualine_x = {
+        {
+          "diff",
+          symbols = { added = " ", modified = " ", removed = " " },
+          source = function()
+            local diff = vim.b.minidiff_summary
+            if diff then
+              return { added = diff.add, modified = diff.change, removed = diff.delete }
+            end
+          end,
+          on_click = function()
+            Snacks.picker.git_status()
+          end,
+        },
+        {
+          "lsp_status",
+          symbols = { spinner = "", done = "" },
+          on_click = function()
+            vim.cmd("checkhealth vim.lsp")
+          end,
+        },
+        { "filetype" },
+        { "encoding" },
+        { "fileformat", padding = { left = 1, right = 2 } },
+      },
+      lualine_y = { "progress" },
+      lualine_z = { "location" },
     },
   })
 end)
 
--- Tabline
+-- A collection of small QoL plugins
 now(function()
-  require("mini.tabline").setup({
-    tabpage_section = "right",
-  })
-end)
+  add({ { src = "https://github.com/folke/snacks.nvim", name = "snacks" } })
 
--- Animation
-later(function()
-  local mouse_scrolled = false
-
-  for _, dir in ipairs({ "Up", "Down" }) do
-    local key = "<ScrollWheel" .. dir .. ">"
-    map({ "n", "i", "v" }, key, function()
-      mouse_scrolled = true
-      return key
-    end, { expr = true })
-  end
-
-  require("mini.animate").setup({
-    scroll = {
-      timing = require("mini.animate").gen_timing.linear({ duration = 50, unit = "total" }),
-      subscroll = require("mini.animate").gen_subscroll.equal({
-        predicate = function(total_scroll)
-          if mouse_scrolled then
-            mouse_scrolled = false
-            return false
-          end
-          return total_scroll > 1
-        end,
-      }),
+  require("snacks").setup({
+    bigfile = { enabled = true },
+    bufdelete = { enabled = true },
+    dashboard = {
+      preset = {
+        -- stylua: ignore
+        keys = {
+          { icon = " ", key = "d", desc = "Dotfiles", action = ':lua Snacks.picker.files({ cwd = GetPathFromEnv("DOT_ROOT", "~/dotfiles") })', },
+          { icon = " ", key = "n", desc = "Notes", action = ':lua Snacks.picker.files({ cwd = GetPathFromEnv("NOTE_ROOT", "~/notes") })', },
+          { icon = " ", key = "p", desc = "Projects", action = ":lua Snacks.picker.projects()" },
+          { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})", },
+          { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
+          -- { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+          { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
+          { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+          { icon = " ", key = "s", desc = "Restore Session", action = ':lua MiniSessions.select("read")' },
+          { icon = " ", key = "x", desc = "Extras", action = ":lua vim.pack.update()" },
+          { icon = " ", key = "q", desc = "Quit", action = ":qa" },
+        },
+      },
+      sections = {
+        { section = "header" },
+        { section = "keys", gap = 1, padding = 1 },
+      },
     },
-    cursor = { enable = false },
-    resize = { enable = false },
-    open = { enable = false },
-    close = { enable = false },
+    explorer = { enabled = false },
+    image = { enabled = true },
+    indent = { enabled = true, only_scope = true },
+    input = { enabled = true },
+    lazygit = { enabled = true },
+    notifier = { top_down = false },
+    picker = {
+      -- default layout
+      layout = {
+        --- Use the default layout or vertical if the window is too narrow
+        preset = function()
+          return vim.o.columns >= (vim.o.lines * 2.67) and "default" or "vertical"
+        end,
+        -- override
+        layout = {
+          width = 0.8,
+          min_width = 70,
+          height = 0.8,
+          border = "none",
+        },
+      },
+      formatters = {
+        file = { filename_first = true },
+      },
+      win = {
+        input = {
+          keys = {
+            ["<Tab>"] = { "list_down", mode = { "i", "n" } },
+            ["<S-Tab>"] = { "list_up", mode = { "i", "n" } },
+            ["<C-d>"] = { "preview_scroll_down", mode = { "i", "n" } },
+            ["<C-u>"] = { "preview_scroll_up", mode = { "i", "n" } },
+          },
+        },
+      },
+      sources = {
+        files = { hidden = true },
+        explorer = {
+          layout = {
+            layout = { width = 0.3 },
+            auto_hide = { "input" },
+            -- preview = "main",
+          },
+          win = {
+            list = {
+              keys = {
+                ["<f2>"] = "explorer_rename",
+                ["<LeftRelease>"] = "confirm",
+                ["<C-l>"] = { "<cmd>wincmd 2w<CR>", expr = true },
+                ["<Tab>"] = { "select_and_next", mode = { "i", "n" } },
+                ["<S-Tab>"] = { "select_and_prev", mode = { "i", "n" } },
+              },
+            },
+          },
+          hidden = true,
+          exclude = { ".git" },
+          include = {},
+        },
+      },
+    },
+    scope = { enabled = true },
+    scroll = {
+      animate = {
+        duration = { step = 5, total = 50 },
+      },
+      animate_repeat = {
+        delay = 100,
+        duration = { step = 3, total = 30 },
+      },
+    },
+    statuscolumn = { enabled = true },
+    terminal = { win = { wo = { winbar = "" } } },
+    util = { enabled = true },
+    win = {
+      width = 0.85,
+      height = 0.85,
+      -- border = "rounded",
+      -- backdrop = 100,
+    },
+    words = { enabled = true },
   })
+
+  -- Close terminal window on exit
+  new_autocmd("TermClose", "*", function()
+    if vim.bo.ft ~= "snacks_terminal" then
+      Snacks.bufdelete()
+    end
+  end, "Close terminal")
+
+  -- stylua: ignore start
+  map("n", "<leader><space>", function() Snacks.picker.smart() end, { desc = "Smart Find Files" })
+  map("n", "<leader>,", function() Snacks.picker.buffers() end, { desc = "Find Buffers" })
+  map("n", "<leader>:", function() Snacks.picker.command_history() end, { desc = "Command History" })
+  map("n", "<leader>/", function() Snacks.picker.grep() end, { desc = "Search History" })
+  map("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
+  map("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete Buffer" })
+  map("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete Other Buffers" })
+  map("n", "<leader>fb", function() Snacks.picker.buffers() end, { desc = "Find Buffers" })
+  map("n", "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
+  map("n", "<leader>fd", function() Snacks.picker.files({ cwd = GetPathFromEnv("DOT_ROOT", "~/dotfiles") }) end, { desc = "Find Dotfiles" })
+  map("n", "<leader>ff", function() Snacks.picker.files() end , { desc = "Find Files" })
+  map("n", "<leader>fg", function() Snacks.picker.git_files() end, { desc = "Find Git Files" })
+  map("n", "<leader>fn", function() Snacks.picker.files({ cwd = GetPathFromEnv("NOTE_ROOT", "~/notes") }) end, { desc = "Find Note File" })
+  map("n", "<leader>fp", function() Snacks.picker.projects() end, { desc = "Find Projects" })
+  map("n", "<leader>fr", function() Snacks.picker.recent() end, { desc = "Find Recent Files" })
+  map("n", "<leader>gb", function() Snacks.picker.git_branches() end, { desc = "Git Branches" })
+  map("n", "<leader>gg", function() Snacks.lazygit() end, { desc = "Lazygit" })
+  map("n", "<leader>gl", function() Snacks.picker.git_log() end, { desc = "Git Log" })
+  map("n", "<leader>gL", function() Snacks.picker.git_log_line() end, { desc = "Git Log Line" })
+  map("n", "<leader>sc", function() Snacks.picker.commands() end, { desc = "Command" })
+  map("n", "<leader>sC", function() Snacks.picker.command_history() end, { desc = "Command Hisotyr" })
+  map("n", "<leader>sd", function() Snacks.picker.diagnostics_buffer() end, { desc = "Diagnostic (Buffer)" })
+  map("n", "<leader>sD", function() Snacks.picker.diagnostics() end, { desc = "Diagnostic (Workspace)" })
+  map("n", "<leader>sg", function() Snacks.picker.grep() end, { desc = "Grep" })
+  map("n", "<leader>sh", function() Snacks.picker.help() end, { desc = "Help tags" })
+  map("n", "<leader>sH", function() Snacks.picker.highlights() end, { desc = "Highlight groups" })
+  map("n", "<leader>sk", function() Snacks.picker.keymaps() end, { desc = "Keymaps" })
+  map("n", "<leader>sl", function() Snacks.picker.loclist() end, { desc = "Location List" })
+  map("n", "<leader>sm", function() Snacks.picker.marks() end, { desc = "Marks" })
+  map("n", "<leader>sn", function() Snacks.picker.notifications({ win = { preview = { wo = { wrap = true } } } }) end, { desc = "Notification History" })
+  map("n", "<leader>sr", function() Snacks.picker.registers() end, { desc = "Registers" })
+  map("n", "<leader>sR", function() Snacks.picker.resume() end, { desc = "Resume" })
+  map("n", "<leader>ss", function() Snacks.picker.lsp_symbols() end, { desc = "Symbols (Document)" })
+  map("n", "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, { desc = "Symbols (Workspace)" })
+  map("n", "<leader>sw", function() Snacks.picker.grep_word() end, { desc = "Grep Current Word" })
+  map("n", "<leader>th", function() Snacks.terminal(nil, { win = { position = "bottom", height = 0.5, relative = "editor" } }) end, { desc = "Open terminal horizontally" })
+  map("n", "<leader>tv", function() Snacks.terminal(nil, { win = { position = "right", width = 0.4, relative = "editor" } }) end, { desc = "Open terminal vertically" })
+  map("n", "<leader>tf", function() Snacks.terminal(nil, { win = { position = "float", relative = "editor" } }) end, {desc = "Open terminal floating" })
+  map("n", "<leader>uc", function() Snacks.picker.colorschemes() end, { desc = "Toggle colorschemes" })
+  -- stylua: ignore end
 end)
 
--- Indent scope
-later(function()
-  require("mini.indentscope").setup({
-    symbol = "│",
-    options = { try_as_border = true },
+-- Messages, cmdline and the popupmenu
+now(function()
+  add({
+    "https://github.com/folke/noice.nvim",
+    "https://github.com/MunifTanjim/nui.nvim",
+  })
+
+  require("noice").setup({
+    presets = {
+      bottom_search = true,
+      command_palette = true,
+      long_message_to_split = true,
+      lsp_doc_border = true,
+    },
+    popupmenu = { enabled = false },
+    views = {
+      hover = {
+        size = {
+          max_width = math.floor(vim.o.columns * 0.8),
+          max_height = math.floor(vim.o.lines * 0.8),
+        },
+        scrollbar = false,
+      },
+      cmdline_popup = {
+        size = { max_width = math.floor(vim.o.columns * 0.8) },
+      },
+    },
+    routes = {
+      { filter = { mode = "i" }, view = "mini", opts = { skip = true } },
+      { filter = { event = "notify", find = "No information available" }, opts = { skip = true } },
+      { filter = { event = "notify", find = "man.lua" }, opts = { skip = true } },
+      {
+        filter = {
+          event = "msg_show",
+          any = {
+            { find = "%d+L, %d+B" },
+            { find = "; after #%d+" },
+            { find = "; before #%d+" },
+            { find = "%d fewer lines" },
+            { find = "%d more lines" },
+          },
+        },
+        opts = { skip = true },
+      },
+    },
   })
 end)
 
@@ -616,127 +784,107 @@ later(function()
   })
 end)
 
--- Experimental builtin message + cmdline
-now(function()
-  require("vim._core.ui2").enable({
-    enable = true,
-    msg = {
-      targets = "msg",
-      cmd = { height = 0.5 },
-      dialog = { height = 0.5 },
-      msg = { height = 0.5, timeout = 4000 },
-      pager = { height = 1 },
-    },
-  })
-end)
-
 -- Coding =====================================================================
 
 -- Completion and signature help
 now_if_args(function()
-  require("mini.completion").setup({
-    -- Disable certain automatic actions (virtually) by setting very high delay time (like 10^7)
-    delay = { completion = 100, info = 10 ^ 7, signature = 50 },
-    lsp_completion = {
-      source_func = "omnifunc",
-      auto_setup = false,
-      process_items = function(items, base)
-        return MiniCompletion.default_process_items(items, base, {
-          -- Hide noisy text, prioritize snippets
-          kind_priority = { Snippet = 99, Text = -1 },
-        })
-      end,
-    },
+  add({
+    { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("^1") },
+    "https://github.com/rafamadriz/friendly-snippets",
   })
 
-  -- Customize info and signature windows
-  new_autocmd("User", { "MiniCompletionWindowOpen", "MiniCompletionWindowUpdate" }, function(args)
-    -- local kind = args.data.kind ---@type "info"|"signature"
-    local win_id = args.data.win_id
-
-    -- vim.wo[win_id].winblend = 25
-    local config = vim.api.nvim_win_get_config(win_id)
-    config.border = "rounded"
-    config.title = ""
-    vim.api.nvim_win_set_config(win_id, config)
-  end, "Customize info and signature windows")
-
-  -- Set 'omnifunc' for LSP completion only when an LSP attaches
-  new_autocmd("LspAttach", nil, function(ev)
-    vim.bo[ev.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-  end, "Set 'omnifunc' for LSP")
-
-  -- Tell LSP servers we support mini.completion features
-  vim.lsp.config("*", { capabilities = MiniCompletion.get_lsp_capabilities() })
-end)
-
--- Manage and expand snippets
-later(function()
-  add({ "https://github.com/rafamadriz/friendly-snippets" })
-
-  -- Define language patterns to work better with 'friendly-snippets'
-  local latex_patterns = { "latex/**/*.json", "**/latex.json" }
-  local lang_patterns = {
-    tex = latex_patterns,
-    plaintex = latex_patterns,
-    -- Recognize special injected language of markdown tree-sitter parser
-    markdown_inline = { "markdown.json" },
-  }
-
-  local snippets = require("mini.snippets")
-  local config_path = vim.fn.stdpath("config")
-
-  snippets.setup({
-    snippets = {
-      -- Always load 'snippets/global.json' from config directory
-      snippets.gen_loader.from_file(config_path .. "/snippets/global.json"),
-      -- Load from 'snippets/' directory of plugins, like 'friendly-snippets'
-      snippets.gen_loader.from_lang({ lang_patterns = lang_patterns }),
+  require("blink.cmp").setup({
+    fuzzy = {
+      -- implementation = "lua",
+      sorts = {
+        "exact",
+        "score",
+        "sort_text",
+        "label",
+      },
     },
-    mappings = { expand = "", jump_next = "", jump_prev = "" },
-    expand = {
-      match = function(snips)
-        -- Do not match with whitespace to cursor's left
-        return snippets.default_match(snips, { pattern_fuzzy = "%S+" })
-      end,
-      insert = function(snippet)
-        return MiniSnippets.default_insert(snippet, {
-          empty_tabstop = "",
-          empty_tabstop_final = "",
-        })
-      end,
+    keymap = {
+      preset = "super-tab",
+      ["<CR>"] = { "select_and_accept", "fallback" },
+      ["<C-y>"] = { "select_and_accept", "fallback" },
+      ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+    },
+    completion = {
+      keyword = { range = "full" },
+      list = { selection = { preselect = false, auto_insert = true } },
+      ghost_text = { enabled = false },
+      menu = {
+        border = "none",
+        scrollbar = false,
+        draw = {
+          align_to = "label",
+          -- treesitter = { "lsp" },
+          columns = { { "kind_icon" }, { "label" } },
+          components = {
+            label = {
+              text = function(ctx)
+                return ctx.label
+              end,
+            },
+            label_detail = {
+              text = function(ctx)
+                return ctx.label_detail
+              end,
+            },
+            kind_icon = {
+              text = function(ctx)
+                local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                return kind_icon
+              end,
+              -- use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+            kind = {
+              -- use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+          },
+        },
+      },
+      documentation = { auto_show = false, window = { border = "none" } },
+    },
+    sources = {
+      providers = {
+        buffer = {
+          opts = {
+            get_bufnrs = vim.api.nvim_list_bufs,
+          },
+        },
+      },
+    },
+    signature = { window = { border = "none" } },
+    cmdline = {
+      enabled = true,
+      keymap = {
+        -- preset = "inherit",
+        ["<CR>"] = {},
+        ["<Left>"] = false,
+        ["<Right>"] = false,
+        ["<Tab>"] = { "insert_next" },
+        ["<S-Tab>"] = { "insert_prev" },
+      },
+      completion = {
+        menu = {
+          auto_show = function(_)
+            return true
+          end,
+        },
+        list = { selection = { preselect = false, auto_insert = true } },
+      },
     },
   })
-
-  -- Show snippets as candidates in 'mini.completion' menu
-  MiniSnippets.start_lsp_server()
-
-  -- Tab: Completion Menu Next > Snippet Jump Next > Literal Tab
-  map("i", "<Tab>", function()
-    if vim.fn.pumvisible() ~= 0 then
-      -- If completion menu is open, go to next item
-      return "<C-n>"
-    elseif MiniSnippets.session.get() ~= nil then
-      -- If a snippet is active, jump to next stop
-      MiniSnippets.session.jump("next")
-      return ""
-    else
-      -- Otherwise, insert a normal tab
-      return "<Tab>"
-    end
-  end, { expr = true, desc = "Smart Tab" })
-
-  -- S-Tab: Completion Menu Prev > Snippet Jump Prev > Literal S-Tab
-  map("i", "<S-Tab>", function()
-    if vim.fn.pumvisible() ~= 0 then
-      return "<C-p>"
-    elseif MiniSnippets.session.get() ~= nil then
-      MiniSnippets.session.jump("prev")
-      return ""
-    else
-      return "<S-Tab>"
-    end
-  end, { expr = true, desc = "Smart S-Tab" })
 end)
 
 -- Comment lines
@@ -929,19 +1077,6 @@ end)
 
 -- Editor ===================================================================
 
--- Session management
-now(function()
-  require("mini.sessions").setup()
-
-	-- stylua: ignore start
-	map({ "n", "v", "x" }, "<Leader>qd", '<Cmd>lua MiniSessions.select("delete")<CR>', { desc = "Delete Session" })
-	map({ "n", "v", "x" }, "<Leader>qn", '<Cmd>lua MiniSessions.write(vim.fn.input("Session name: "))<CR>', { desc = "New Session" })
-	map({ "n", "v", "x" }, "<Leader>qs", '<Cmd>lua MiniSessions.select("read")<CR>', { desc = "Select Session" })
-	map({ "n", "v", "x" }, "<Leader>qW", '<Cmd>lua MiniSessions.write()<CR>', { desc = "Write Current" })
-	map({ "n", "v", "x" }, "<Leader>qr", '<Cmd>lua MiniSessions.restart()<CR>', { desc = "Restart Session" })
-  -- stylua: ignore end
-end)
-
 -- Navigate and manipulate file system
 now_if_args(function()
   require("mini.files").setup({
@@ -970,116 +1105,17 @@ now_if_args(function()
   end, { desc = "File Explorer" })
 end)
 
--- Pick anything
-later(function()
-  require("mini.pick").setup({
-    options = { use_cache = true },
-    window = {
-      config = function()
-        local height = math.floor(0.618 * vim.o.lines)
-        local width = math.floor(0.618 * vim.o.columns)
+-- Session management
+now(function()
+  require("mini.sessions").setup()
 
-        return {
-          anchor = "NW",
-          height = height,
-          width = width,
-          row = math.floor(0.5 * (vim.o.lines - height)),
-          col = math.floor(0.5 * (vim.o.columns - width)),
-          border = "rounded",
-        }
-      end,
-    },
-  })
-
-  -- Get path from env or fallback
-  ---@param env_var string environment variable of path
-  ---@param fallback string fallback path
-  local function get_path_from_env(env_var, fallback)
-    local path = os.getenv(env_var)
-    return path and resolve_path(path) or resolve_path(fallback)
-  end
-
-  -- `:Pick files` with `fd`
-  MiniPick.registry.files = function(local_opts)
-    return MiniPick.builtin.cli({
-      -- Show hidden files
-      command = { "fd", "--type=f", "--no-follow", "--color=never", "--hidden" },
-      -- Make `:Pick files` accept `cwd`
-      spawn_opts = { cwd = resolve_path(local_opts.cwd or vim.fn.getcwd()) },
-    }, {
-      source = {
-        name = "Files (fd)",
-        show = function(buf_id, items, query)
-          return MiniPick.default_show(buf_id, items, query, { show_icons = true })
-        end,
-      },
-    })
-  end
-
-  -- `:Pick config_files`
-  MiniPick.registry.config_files = function()
-    MiniPick.builtin.files(nil, { source = { cwd = vim.fn.stdpath("config"), name = "config_files" } })
-  end
-
-  -- `:Pick plugins`
-  MiniPick.registry.plugins = function()
-    MiniExtra.pickers.explorer(
-      { cwd = resolve_path(vim.fn.stdpath("data") .. "/site/pack/core/opt") },
-      { source = { name = "plugins" } }
-    )
-  end
-
-  -- `:Pick dotfiles`
-  MiniPick.registry.dotfiles = function()
-    MiniPick.builtin.files(nil, { source = { cwd = get_path_from_env("DOT_HOME", "~/dotfiles"), name = "dotfiles" } })
-  end
-
-  -- `:Pick notes`
-  MiniPick.registry.notes = function()
-    MiniPick.builtin.files(nil, { source = { cwd = get_path_from_env("NOTE_HOME", "~/notes"), name = "notes" } })
-  end
-
-  -- `:Pick projects`
-  MiniPick.registry.projects = function()
-    MiniExtra.pickers.explorer(
-      { cwd = get_path_from_env("PROJECT_HOME", "~/projects") },
-      { source = { name = "projects" } }
-    )
-  end
-
-  map("n", "<Leader><space>", "<Cmd>Pick files<CR>", { desc = "Files" })
-  map("n", "<Leader>:", '<Cmd>Pick history scope=":"<CR>', { desc = "Command History" })
-  map("n", "<Leader>/", '<Cmd>Pick history scope="/"<CR>', { desc = "Search History" })
-  map("n", "<Leader>fb", "<Cmd>Pick buffers<CR>", { desc = "Buffers" })
-  map("n", "<Leader>fc", "<Cmd>Pick config_files<CR>", { desc = "Config Files" })
-  map("n", "<Leader>fd", "<Cmd>Pick dotfiles<CR>", { desc = "Dotfiles" })
-  map("n", "<Leader>ff", "<Cmd>Pick files<CR>", { desc = "Files" })
-  map("n", "<Leader>fg", "<Cmd>Pick git_files<CR>", { desc = "Git Files" })
-  map("n", "<Leader>fn", "<Cmd>Pick notes<CR>", { desc = "Notes" })
-  map("n", "<Leader>fp", "<Cmd>Pick projects<CR>", { desc = "Projects" })
-  map("n", "<Leader>fr", "<Cmd>Pick oldfiles<CR>", { desc = "Recent Files" })
-  map("n", "<Leader>gb", "<Cmd>Pick git_branches<CR>", { desc = "Git Branches" })
-  map("n", "<Leader>gh", '<Cmd>Pick git_hunks path="%" scope="staged"<CR>', { desc = "Git Hunks (Buffer)" })
-  map("n", "<Leader>gH", '<Cmd>Pick git_hunks scope="staged"<CR>', { desc = "Git Hunks (All)" })
-  map("n", "<Leader>gm", '<Cmd>Pick git_commits path="%"<CR>', { desc = "Git Commits (Buffer)" })
-  map("n", "<Leader>gM", "<Cmd>Pick git_commits<CR>", { desc = "Git Commits (All)" })
-  map("n", "<Leader>sc", "<Cmd>Pick commands<CR>", { desc = "Commands" })
-  map("n", "<Leader>sC", '<Cmd>Pick history scope=":"<CR>', { desc = "Command History" })
-  map("n", "<Leader>sd", '<Cmd>Pick diagnostic scope="current"<CR>', { desc = "Diagnostic (Buffer)" })
-  map("n", "<Leader>sD", '<Cmd>Pick diagnostic scope="all"<CR>', { desc = "Diagnostic (Workspace)" })
-  map("n", "<Leader>sg", "<Cmd>Pick grep_live<CR>", { desc = "Grep live" })
-  map("n", "<Leader>sh", "<Cmd>Pick help<CR>", { desc = "Help tags" })
-  map("n", "<Leader>sH", "<Cmd>Pick hl_groups<CR>", { desc = "Highlight groups" })
-  map("n", "<Leader>sk", "<Cmd>Pick keymaps<CR>", { desc = "Keymaps" })
-  map("n", "<Leader>sl", '<Cmd>Pick buf_lines scope="current"<CR>', { desc = "Lines (Buffer)" })
-  map("n", "<Leader>sL", '<Cmd>Pick buf_lines scope="all"<CR>', { desc = "Lines (All)" })
-  map("n", "<Leader>sm", "<Cmd>Pick marks<CR>", { desc = "Marks" })
-  map("n", "<Leader>sr", "<Cmd>Pick registers<CR>", { desc = "Registers" })
-  map("n", "<Leader>sR", "<Cmd>Pick resume<CR>", { desc = "Resume" })
-  map("n", "<Leader>ss", '<Cmd>Pick lsp scope="document_symbol"<CR>', { desc = "Symbols (Document)" })
-  map("n", "<Leader>sS", '<Cmd>Pick lsp scope="workspace_symbol_live"<CR>', { desc = "Symbols (Workspace)" })
-  map("n", "<Leader>sw", '<Cmd>Pick grep pattern="<cword>"<CR>', { desc = "Grep Current Word" })
-  map("n", "<Leader>uc", "<Cmd>Pick colorschemes<CR>", { desc = "Toggle colorschemes" })
+	-- stylua: ignore start
+	map({ "n", "v", "x" }, "<leader>qd", '<Cmd>lua MiniSessions.select("delete")<CR>', { desc = "Delete Session" })
+	map({ "n", "v", "x" }, "<leader>qn", '<Cmd>lua MiniSessions.write(vim.fn.input("Session name: "))<CR>', { desc = "New Session" })
+	map({ "n", "v", "x" }, "<leader>qs", '<Cmd>lua MiniSessions.select("read")<CR>', { desc = "Select Session" })
+	map({ "n", "v", "x" }, "<leader>qW", '<Cmd>lua MiniSessions.write()<CR>', { desc = "Write Current" })
+	map({ "n", "v", "x" }, "<leader>qr", '<Cmd>lua MiniSessions.restart()<CR>', { desc = "Restart Session" })
+  -- stylua: ignore end
 end)
 
 -- Diff hunks
@@ -1209,30 +1245,6 @@ end)
 later(function()
   require("mini.jump").setup({
     silent = true,
-  })
-end)
-
--- Remove buffers
-later(function()
-  require("mini.bufremove").setup({
-    silent = true,
-  })
-
-  map("n", "<Leader>bd", "<Cmd>lua MiniBufremove.delete()<CR>", { desc = "Delete Buffer" })
-  map("n", "<Leader>bD", "<Cmd>lua MiniBufremove.delete(0, true)<CR>", { desc = "Delete Buffer (force)" })
-  map("n", "<Leader>bw", "<Cmd>lua MiniBufremove.wipeout()<CR>", { desc = "Wipeout Buffer" })
-  map("n", "<Leader>bW", "<Cmd>lua MiniBufremove.wipeout(0, true)<CR>", { desc = "Wipeout Buffer (force)" })
-  map("n", "<Leader>bn", function()
-    vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(true, true))
-  end, { desc = "New Buffer (Scratch)" })
-end)
-
--- Command line tweaks
-later(function()
-  require("mini.cmdline").setup({
-    autocomplete = { enable = true, delay = 100 },
-    autocorrect = { enable = false },
-    autopeek = { enable = false },
   })
 end)
 
@@ -1405,6 +1417,7 @@ later(function()
               "MiniKeymap",
               "MiniPick",
               "MiniSnippets",
+              "Snacks",
             },
           },
           telemetry = { enable = false },
