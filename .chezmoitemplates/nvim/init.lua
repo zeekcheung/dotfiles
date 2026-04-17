@@ -1296,6 +1296,40 @@ later(function()
   })
 end)
 
+-- Obsidian 🤝 Neovim
+later(function()
+  add({ "https://github.com/obsidian-nvim/obsidian.nvim" })
+
+  require("obsidian").setup({
+    ui = {
+      enable = false,
+      checkbox = { order = {} },
+      bullets = {},
+      external_link_icon = {},
+    },
+    workspaces = {
+      { name = "Obsidian", path = "~/OneDrive/Notes" },
+    },
+    new_notes_location = "current_dir",
+    daily_notes = {
+      folder = "daily/journals",
+      date_format = "%Y-%m-%d",
+      template = "daily-journal.md",
+      default_tags = { "daily", "journal" },
+      workdays_only = false,
+    },
+    templates = {
+      folder = "templates",
+      date_format = "%Y-%m-%d",
+      time_format = "%H:%M",
+    },
+    footer = { enabled = false },
+    picker = { name = "snacks.pick" },
+    completion = { min_chars = 0, match_case = false },
+    legacy_commands = false,
+  })
+end)
+
 -- TreeSitter =================================================================
 
 now_if_args(function()
