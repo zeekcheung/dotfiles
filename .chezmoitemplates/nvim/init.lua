@@ -541,6 +541,33 @@ now(function()
           end,
         },
         {
+          function()
+            local symbols = {
+              status = {
+                [0] = "󰚩 ", -- Enabled
+                [1] = "󱚧 ", -- Disabled Globally
+                [2] = "󱙻 ", -- Disabled for Buffer
+                [3] = "󱙺 ", -- Disabled for Buffer filetype
+                [4] = "󱙺 ", -- Disabled for Buffer with enabled function
+                [5] = "󱚠 ", -- Disabled for Buffer encoding
+                [6] = "󱚠 ", -- Buffer is special type
+              },
+              server_status = {
+                [0] = "󰣺 ", -- Connected
+                [1] = "󰣻 ", -- Connecting
+                [2] = "󰣽 ", -- Disconnected
+              },
+            }
+
+            local status, server_status = require("neocodeium").get_status()
+
+            return symbols.status[status] .. symbols.server_status[server_status]
+          end,
+          cond = function()
+            return (pcall(require, "neocodeium"))
+          end,
+        },
+        {
           "lsp_status",
           symbols = { spinner = "", done = "" },
           on_click = function()
@@ -1323,6 +1350,34 @@ later(function()
     completion = { min_chars = 0, match_case = false },
     legacy_commands = false,
   })
+end)
+
+-- AI completion
+-- NOTE: The auth probably works only in Command Prompt (cmd) on Windows
+-- Remember to open nvim in cmd on Windows before running `Neocodeium auth`
+-- NOTE: The auth token can be found at `https://windsurf.com/vim-show-auth-token?state=a`
+later(function()
+  add({ "https://github.com/monkoose/neocodeium" })
+
+  local neocodeium = require("neocodeium")
+  neocodeium.setup({
+    silent = true,
+    show_label = false,
+  })
+
+  new_autocmd("User", { "NeoCodeiumServer", "NeoCodeium*Enabled", "NeoCodeium*Disabled" }, function()
+    require("lualine").refresh()
+    -- vim.cmd("redrawstatus")
+  end, "Refresh statusline")
+
+  -- stylua: ignore start
+  map("i", "<C-f>", function() require("neocodeium").accept() end)
+  map("i", "<C-g>", function() require("neocodeium").accept_word() end)
+  map("i", "<C-l>", function() require("neocodeium").accept_line() end)
+  map("i", "<C-'>", function() require("neocodeium").cycle_or_complete() end)
+  map("i", "<C-;>", function() require("neocodeium").cycle_or_complete(-1) end)
+  map("i", "<A-c>", function() require("neocodeium").clear() end)
+  -- stylua: ignore end
 end)
 
 -- TreeSitter =================================================================
