@@ -14,7 +14,7 @@
       "src": "https://github.com/catppuccin/nvim"
     },
     "conform.nvim": {
-      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
+      "rev": "dca1a190aa85f9065979ef35802fb77131911106",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "dial.nvim": {
@@ -30,7 +30,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.nvim": {
-      "rev": "29447d7b0e1fc9bc9d0384953e63be3fae816736",
+      "rev": "4f6f84a96b076747b736d100388a8d7844771d7d",
       "src": "https://github.com/nvim-mini/mini.nvim"
     },
     "neocodeium": {
@@ -46,7 +46,7 @@
       "src": "https://github.com/MunifTanjim/nui.nvim"
     },
     "nvim-lspconfig": {
-      "rev": "d10ce09e42bb0ca8600fd610c3bb58676e61208d",
+      "rev": "8fde495949782bb61c2605174e231d145a048d8c",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
@@ -60,11 +60,11 @@
       "version": "'main'"
     },
     "obsidian.nvim": {
-      "rev": "94871e4ba1d737709723d8ff7d38ba399c1b51d5",
+      "rev": "af9857e4993e0adddb897f09c2805b44a0d913ea",
       "src": "https://github.com/obsidian-nvim/obsidian.nvim"
     },
     "render-markdown.nvim": {
-      "rev": "0fd43fb4b1f073931c4b481f5f3b7cea3749e190",
+      "rev": "d67113f11384c0dad96fced2f7b91f1fc811e97f",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "snacks": {

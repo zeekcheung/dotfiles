@@ -1126,9 +1126,10 @@ now_if_args(function()
   end, "Customize MiniFiles windows")
 
   map("n", "<Leader>e", function()
-    if not MiniFiles.close() then
-      MiniFiles.open()
-    end
+    local _ = MiniFiles.close() or MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+    vim.schedule(function()
+      MiniFiles.reveal_cwd()
+    end)
   end, { desc = "File Explorer" })
 end)
 
