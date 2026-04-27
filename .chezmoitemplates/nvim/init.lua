@@ -1641,3 +1641,49 @@ later(function()
     desc = "Re-enable autoformat-on-save",
   })
 end)
+
+-- Neovide ====================================================================
+
+if vim.g.neovide then
+  vim.g.snacks_animate = false
+
+  vim.g.neovide_scale_factor = 1
+  vim.g.neovide_floating_corner_radius = 0.2
+  vim.g.neovide_hide_mouse_when_typing = true
+  -- vim.g.neovide_refresh_rate = 120
+  vim.g.neovide_confirm_quit = false
+
+  -- Title Bar color
+  vim.g.neovide_title_background_color =
+    string.format("%x", vim.api.nvim_get_hl(0, { id = vim.api.nvim_get_hl_id_by_name("Normal") }).bg)
+
+  -- VSCode like smooth cursor
+  vim.g.neovide_cursor_animation_length = 0.01
+  vim.g.neovide_cursor_short_animation_length = 0.15
+  vim.g.neovide_cursor_trail_size = 0
+  -- vim.g.neovide_cursor_vfx_mode = "torpedo"
+  vim.g.neovide_cursor_antialiasing = true
+  vim.g.neovide_cursor_smooth_blink = true
+
+  -- Shell
+  vim.env.SHELL = vim.fn.has("win32") == 1 and vim.fn.executable("nu") == 1 and "nu"
+    or vim.fn.executable("pwsh") == 1 and "pwsh"
+    or "powershell"
+
+  map("v", "<c-s-c>", '"+y', { desc = "Copy selection" })
+  map({ "n", "v" }, "<c-s-v>", '"+p', { desc = "Paste" })
+  map({ "c", "i" }, "<c-s-v>", "<c-r>+", { desc = "Paste" })
+
+  -- stylua: ignore start
+  local function change_scale_factor(delta) vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta end
+  map("n", "<c-=>", function() change_scale_factor(1.25) end, { desc = "Zoom in" })
+  map("n", "<c-->", function() change_scale_factor(1/1.25) end, { desc = "Zoom out" })
+  -- stylua: ignore end
+
+  new_autocmd("VimEnter", "*", function()
+    local args = vim.v.argv
+    if #args == 3 then
+      vim.api.nvim_set_current_dir(vim.env.HOME)
+    end
+  end, "Home directory on neovide startup")
+end

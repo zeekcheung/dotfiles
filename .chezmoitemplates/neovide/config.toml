@@ -1,0 +1,9 @@
+grid = "80x20"
+vsync = false
+
+[font]
+normal = ["Maple Mono NF", "FiraCode Nerd Font", "Cascadia Code"]
+edging = "subpixelantialias"
+hinting = "full"
+mode = "font-glyph"
+size = 16

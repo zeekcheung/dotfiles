@@ -3,6 +3,7 @@
 dot_config/bat/*
 dot_config/lazygit/*
 dot_config/mise/*
+dot_config/neovide/*
 dot_config/nushell/*
 dot_config/nvim/*
 dot_config/zed/*
