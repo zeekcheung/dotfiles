@@ -13,6 +13,7 @@ dot_local/share/fcitx5/*
 
 AppData/*
 Documents/PowerShell/*
+Documents/PowerToys/*
 Documents/WindowsPowerShell/*
 *.bat
 *.bat.tmpl
