@@ -30,6 +30,7 @@ set PACKAGES=^
   :: Nushell.Nushell
   :: Neovim.Neovim
   :: ZedIndustries.Zed
+  :: AutoHotkey.AutoHotkey
   :: Rime.Weasel
   :: 7zip.7zip
   :: GnuWin32.Gzip
