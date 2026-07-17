@@ -582,29 +582,13 @@ now(function()
     return " " .. table.concat(names, ", ")
   end
 
-  -- Helper for colorizing text
-  local function colorful_text(str, hl)
-    return string.format("%%#%s#%s", hl, str)
-  end
-
   require("mini.statusline").setup({
     content = {
       active = function()
         local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 0 })
         local git = MiniStatusline.section_git({ trunc_width = 40 })
         local devinfo_hl = get_devinfo_hl(mode_hl)
-
-        -- Diagnostics
-        local diagnostics = MiniStatusline.section_diagnostics({
-          trunc_width = 70,
-          icon = "",
-          signs = {
-            ERROR = colorful_text(" ", "DiagnosticError"),
-            WARN = colorful_text(" ", "DiagnosticWarn"),
-            INFO = colorful_text(" ", "DiagnosticInfo"),
-            HINT = colorful_text(" ", "DiagnosticHint"),
-          },
-        })
+        local diagnostics = vim.diagnostic.status()
 
         -- File Stats
         local ft = vim.bo.filetype
@@ -1806,6 +1790,13 @@ end)
 
 -- Use `later()` to avoid sourcing `vim.diagnostic` on startup
 later(function()
+  local severity_signs = {
+    [vim.diagnostic.severity.ERROR] = { sign = " ", hl = "DiagnosticSignError" },
+    [vim.diagnostic.severity.WARN] = { sign = " ", hl = "DiagnosticSignWarn" },
+    [vim.diagnostic.severity.HINT] = { sign = " ", hl = "DiagnosticSignHint" },
+    [vim.diagnostic.severity.INFO] = { sign = " ", hl = "DiagnosticSignInfo" },
+  }
+
   vim.diagnostic.config({
     underline = true,
     update_in_insert = false,
@@ -1817,12 +1808,24 @@ later(function()
     severity_sort = true,
     signs = {
       priority = 9999,
-      text = {
-        [vim.diagnostic.severity.ERROR] = " ",
-        [vim.diagnostic.severity.WARN] = " ",
-        [vim.diagnostic.severity.HINT] = " ",
-        [vim.diagnostic.severity.INFO] = " ",
-      },
+      text = vim.tbl_map(function(severity)
+        return severity.sign
+      end, severity_signs),
+    },
+    status = {
+      format = function(severity_counts)
+        local items = {}
+        for severity in ipairs(vim.diagnostic.severity) do
+          local count = severity_counts[severity]
+          if count and count ~= 0 then
+            table.insert(
+              items,
+              ("%%#%s#%s%s"):format(severity_signs[severity].hl, severity_signs[severity].sign, count)
+            )
+          end
+        end
+        return table.concat(items, " ")
+      end,
     },
     float = { border = "rounded" },
   })
