@@ -1536,6 +1536,16 @@ later(function()
     legacy_commands = false,
   })
 
+  new_autocmd("User", "ObsidianNoteEnter", function()
+    -- remove the default mappings
+    vim.keymap.del("n", "<C-a>", { buffer = true })
+    vim.keymap.del("n", "<C-x>", { buffer = true })
+
+    -- add new mappings
+    map("n", "<C-a>", require("dial.map").inc_normal(), { desc = "Increment", remap = true })
+    map("n", "<C-x>", require("dial.map").dec_normal(), { desc = "Decrement", remap = true })
+  end, "Remap default mapping")
+
   new_usercmd("Today", "Obsidian today", { desc = "Open today daily note", bang = true })
   new_usercmd("Tomorrow", "Obsidian tomorrow", { desc = "Open tomorrow daily note", bang = true })
   new_usercmd("Yesterday", "Obsidian yesterday", { desc = "Open yesterday daily note", bang = true })
